@@ -1,0 +1,37 @@
+{%- style -%}
+  .banner-image-section img {
+    width: 100%;
+  }
+{%- endstyle -%}
+<div class="banner-image-section">
+  {% if section.settings.image != blank %}
+    {{
+      section.settings.image
+      | image_url: width: section.settings.image.width
+      | image_tag: loading: 'lazy', fetchpriority: 'auto'
+    }}
+  {% else %}
+    <div class="banner-image-placeholder">
+      <span>Select a banner image in the theme editor</span>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Banner Image",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Image",
+      "category": "Uncategorized"
+    }
+  ]
+}
+{% endschema %}

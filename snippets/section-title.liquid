@@ -1,0 +1,21 @@
+{% comment %}
+  <h2 class="text-[26px] leading-[1.125] md:text-[62px]">
+    {{
+      section.settings.title
+      | replace: '<em>', '<span class="text-[var(--title-accent-color)]">'
+      | replace: '</em>', '</span>'
+      | replace: '|', '</span><span>'
+    }}
+  </h2>
+{% endcomment %}
+
+{% if section.settings.title != blank %}
+  <h2 class="text-h1 section-title capitalize">
+    {{
+      section.settings.title
+      | replace: '<em>', '<span class="">'
+      | replace: '</em>', '</span>'
+      | replace: '|', '</span><br><span>'
+    }}
+  </h2>
+{% endif %}

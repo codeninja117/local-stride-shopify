@@ -1,0 +1,284 @@
+{%- liquid
+  assign items_per_row = section.settings.items_per_row | default: 4
+  assign items_per_row_mobile = 2
+-%}
+
+{% style %}
+  .section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#e2e2e2' }};
+    /* --text-color: {{ section.settings.text_color | default: '#000000' }}; */
+     --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    /* background-color: {{ section.settings.background_color | default: '#FFFFFF' }}; */
+    /* color: {{ section.settings.text_color | default: '#000000' }}; */
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .feature-multicolumn__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 768px) {
+    .feature-multicolumn__grid {
+      grid-template-columns: repeat({{section.settings.items_per_row}}, minmax(0, 1fr));
+    }
+  }
+{% endstyle %}
+
+{% capture sizes %}
+  (min-width: 1536px) calc(1536px / {{ items_per_row }}),
+  (min-width: 1280px) calc(1280px / {{ items_per_row }}),
+  (min-width: 1024px) calc(1024px / {{ items_per_row }}),
+  (min-width: 768px) calc(100vw / {{ items_per_row_mobile }}),
+  calc(100vw / {{ items_per_row_mobile }})
+{% endcapture %}
+
+{% comment %}
+  {% capture sizes %}
+    (min-width: 1024px) calc(100vw / {{ section.settings.items_per_row }}),
+    calc(100vw / 2)
+  {% endcapture %}
+{% endcomment %}
+
+<div class="section-{{ section.id }} feature-multicolumn gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width flex flex-col gap-10 md:gap-20">
+    <div class="feature-multicolumn__header flex flex-col items-start justify-between gap-4 md:flex-row">
+      <h2 class="display-3 flex flex-col" data-animate="fade-up">
+        {{ section.settings.title | newline_to_br }}
+      </h2>
+
+      <p class="max-w-64" data-animate="fade-in" data-animate-delay="0.2">{{ section.settings.text }}</p>
+    </div>
+    <ul class="feature-multicolumn__grid grid gap-x-2 gap-y-8 md:gap-x-4 md:gap-y-8 xl:gap-[8vw]" data-animate>
+      {%- for block in section.blocks -%}
+        <li
+          data-cascade="{{ forloop.index | times: 0.15 }}"
+          {% comment %} data-cascade-order="{{ forloop.index }}" {% endcomment %}
+          {% comment %} data-cascade-delay="0.2" {% endcomment %}
+          {{ block.shopify_attributes }}
+        >
+          <div class="feature-multicolumn__item flex flex-col gap-2">
+            {%- if block.settings.image != blank -%}
+              <div class="feature-multicolumn__item-image overflow-hidden">
+                {{
+                  block.settings.image
+                  | image_url: width: 1280
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: sizes,
+                    widths: '640, 768, 1024, 1280',
+                    class: 'w-full h-auto aspect-square object-cover rounded-xl overflow-hidden',
+                    alt: block.settings.title,
+                    data-animate: 'scale-out'
+                }}
+              </div>
+            {%- endif -%}
+
+            <div class="feature-multicolumn__item-content flex flex-col gap-2">
+              <h3>{{ block.settings.title }}</h3>
+              <p class="text-sm opacity-40 lg:text-base">{{ block.settings.text }}</p>
+            </div>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if section.settings.footer_text != blank or section.settings.button_label != blank -%}
+      <div class="feature-multicolumn__footer flex justify-end">
+        {%- if section.settings.footer_text != blank -%}
+          <div class="feature-multicolumn__footer-text rte">
+            {{ section.settings.footer_text }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          {% render 'button',
+            tag: 'a',
+            text: section.settings.button_label,
+            url: section.settings.button_url,
+            variant: 'primary'
+          %}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature multicolumn",
+  "class": "section-feature-multicolumn",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Expert Craftsman and\nCraftmanship"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "All Stride orthotics are custom designed for you in Baden-Württemberg, German by our team of expert podiatrists."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Build my Strides"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "richtext",
+      "id": "footer_text",
+      "label": "Footer text"
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Items per row",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature multicolumn",
+      "category": "Uncategorized",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/4.jpg",
+            "title": "Hand Designed",
+            "text": "Every pair takes 8+ hours of design time in our CAD software to ensure a perfect fit."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/print-light.webp",
+            "title": "Sustainable Printing",
+            "text": "3D printed means 97% less waste and 30% lighter than traditional orthotics."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/strides.webp",
+            "title": "One-of-One",
+            "text": "Your Shoe Type, Pain Areas, and Conditions all influence the design of your custom product."
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/soccer.jpg",
+            "title": "Athlete Approved",
+            "text": "PGA Golfers, Bundesliga Soccer Players, NCAA Athletes."
+          }
+        }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3", "feature_4"],
+      "settings": {
+        "title": "Expert Craftsman and\nCraftmanship",
+        "text": "All Stride orthotics are custom designed for you in Baden-Württemberg, German by our team of expert podiatrists.",
+        "button_label": "Build my Strides",
+        "button_url": "",
+        "items_per_row": 4
+      }
+    }
+  ]
+}
+{% endschema %}

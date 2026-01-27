@@ -1,0 +1,318 @@
+<section id="{{ title_handle }}" class="grid gap-8 rounded-xl bg-white p-8 text-black">
+  <div class="phase-1__main pb-30">
+    <div class="grid gap-8 md:grid-cols-2">
+      {%- comment -%}column 1{%- endcomment -%}
+      <div class="flex flex-col gap-4 pr-60">
+        {{ 'icon-question.svg' | inline_asset_content }}
+
+        <div class="flex flex-grow flex-col justify-center gap-4">
+          <span class="text-muted uppercase">Phase {{ index }}</span>
+          <h2 class="display flex flex-col">
+            {{
+              block.settings.title
+              | replace: '<em>', '<span class="opacity-40">'
+              | replace: '</em>', '</span>'
+              | replace: '|', '</span><span>'
+            }}
+          </h2>
+          <p class="mt-8 text-xl">{{ block.settings.subtitle }}</p>
+        </div>
+      </div>
+      {%- comment -%}column 2{%- endcomment -%}
+      <div class="flex flex-col gap-10">
+        {%- if block.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 3840
+            | image_tag:
+              width: block.settings.image.width,
+              class: 'w-full h-auto',
+              sizes: '50vw',
+              widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+          }}
+        {%- else -%}
+          <div class="bg-slate/30 aspect-4/3 overflow-hidden rounded-xl"></div>
+        {%- endif -%}
+
+        <div class="flex flex-col gap-4">
+          <span class="text-muted uppercase">{{ block.settings.image_eyebrow_text }}</span>
+          <p class="text-2xl">{{ block.settings.image_text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-muted/40 h-px w-full"></div>
+  <div class="phase-1__footer">
+    <div class="grid gap-8 md:grid-cols-2">
+      <div class="flex flex-col gap-14">
+        <span class="text-muted uppercase">Your qualitative data inputs</span>
+
+        <ul class="flex flex-col gap-12">
+          <li class="flex flex-col gap-2">
+            <h3 class="text-3xl">Pain Area</h3>
+            <ul class="flex flex-nowrap gap-4 overflow-x-auto text-center">
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-foot.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Foot</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-ankle.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Ankle</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-knee.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Knee</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-back.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Back</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-lower-back.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Lower Back</p>
+              </li>
+            </ul>
+          </li>
+          <li class="flex flex-col gap-2">
+            <h3 class="text-3xl">Shoe Type</h3>
+            <ul class="flex flex-nowrap gap-4 overflow-x-auto text-center">
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-sneakers.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Sneakers</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-running-shoes.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Running Shoes</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-boots.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Boots</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-soccer-shoes.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Soccer Shoes</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-dress-shoes.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Dress Shoes</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-flats-slip-ons.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Flats & Slip-ons</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-ski-boots.png' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Ski Boots</p>
+              </li>
+            </ul>
+          </li>
+          <li class="flex flex-col gap-2">
+            <h3 class="text-3xl">Condition</h3>
+            <ul class="flex flex-nowrap gap-4 overflow-x-auto text-center">
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-flat-feet.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Flat Feet</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-plantar-fasciitis.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Plantar Fasciitis</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-achilles-tendonitis.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Achilles Tendonitis</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-back-pain.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Back Pain</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <img
+                  src="{{ 'icon-ankle-pronation-supination.svg' | asset_url }}"
+                  alt="Foot"
+                  width="86"
+                  height="86"
+                  class="h-20 w-20 object-contain"
+                >
+                <p class="text-sm">Ankle Pronation & Supination</p>
+              </li>
+            </ul>
+          </li>
+          <li class="flex flex-col gap-2">
+            <h3 class="text-3xl">Goals</h3>
+            <ul class="flex flex-nowrap gap-4 overflow-x-auto text-center">
+              <li class="flex min-h-20 min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <div class="text-slate flex h-10 w-20 items-center object-contain">
+                  {{ 'svg-logomark.svg' | inline_asset_content }}
+                </div>
+
+                <p class="text-sm">Pain Relief</p>
+              </li>
+              <li class="flex min-w-35 flex-col items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <div class="text-slate flex h-10 w-20 items-center object-contain">
+                  {{ 'svg-logomark.svg' | inline_asset_content }}
+                </div>
+                <p class="text-sm">Athletic Performance</p>
+              </li>
+              <li class="flex min-h-20 min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <div class="text-slate flex h-10 w-20 items-center object-contain">
+                  {{ 'svg-logomark.svg' | inline_asset_content }}
+                </div>
+                <p class="text-sm">Injury Prevention</p>
+              </li>
+              <li class="flex min-h-20 min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <div class="text-slate flex h-10 w-20 items-center object-contain">
+                  {{ 'svg-logomark.svg' | inline_asset_content }}
+                </div>
+                <p class="text-sm">Comfort</p>
+              </li>
+              <li class="flex min-h-20 min-w-35 flex-col items-center gap-2 overflow-hidden rounded-xl bg-[#f8f8f8] p-4">
+                <div class="text-slate flex h-10 w-20 items-center object-contain">
+                  {{ 'svg-logomark.svg' | inline_asset_content }}
+                </div>
+                <p class="text-sm">Posture Correction</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="relative">
+          {%- if block.settings.patient_banner_image != blank -%}
+            {{
+              section.settings.patient_banner_image
+              | image_url: width: 3840
+              | image_tag:
+                width: block.settings.patient_banner_image.width,
+                class: 'w-full h-auto',
+                sizes: '50vw',
+                widths: widths
+            }}
+          {%- else -%}
+            <div class="bg-slate/30 aspect-square overflow-hidden rounded-xl"></div>
+          {%- endif -%}
+
+          <div class="absolute right-0 bottom-0 left-0 flex bg-white/30 p-4 backdrop-blur-2xl">
+            <div class="flex w-1/2 gap-5">
+              {%- if block.settings.patient_image != blank -%}
+                {{
+                  section.settings.patient_image
+                  | image_url: width: 300
+                  | image_tag: width: block.settings.patient_banner_image.width, class: 'w-30 h-auto'
+                }}
+              {%- else -%}
+                <div class="bg-slate/30 aspect-square w-30 rounded-xl"></div>
+              {%- endif -%}
+              <div class="flex flex-col justify-between">
+                <span class="text-muted uppercase">Patient</span>
+                <div>
+                  <p class="text-xl">{{ block.settings.patient_name }}</p>
+                  <p class="text-muted uppercase">{{ block.settings.patient_age }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex w-1/2 flex-col gap-8">
+              <span class="text-muted uppercase">Patient notes</span>
+              <p class="">{{ block.settings.patient_notes }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

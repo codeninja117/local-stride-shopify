@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "blocks": {
+        "trending_post_9tzHpm": {
+          "type": "trending_post",
+          "settings": {
+            "article": "articles/how-to-get-orthotics-covered-by-insurance-a-detailed-guide"
+          }
+        },
+        "trending_post_npzqcB": {
+          "type": "trending_post",
+          "settings": {
+            "article": "articles/does-medicare-cover-custom-orthotics"
+          }
+        },
+        "trending_post_yjpAyA": {
+          "type": "trending_post",
+          "settings": {
+            "article": "articles/do-it-yourself-orthotics"
+          }
+        },
+        "trending_post_r7BgT4": {
+          "type": "trending_post",
+          "settings": {
+            "article": "articles/difference-between-flat-feet-and-fallen-arches"
+          }
+        },
+        "trending_post_MFt7Kq": {
+          "type": "trending_post",
+          "settings": {
+            "article": "articles/plantar-fasciitis-medication"
+          }
+        }
+      },
+      "block_order": [
+        "trending_post_9tzHpm",
+        "trending_post_npzqcB",
+        "trending_post_yjpAyA",
+        "trending_post_r7BgT4",
+        "trending_post_MFt7Kq"
+      ],
+      "settings": {
+        "pagination_limit": 8,
+        "featured_article": "articles/plantar-fasciitis-the-ultimate-guide",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

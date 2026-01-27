@@ -1,0 +1,7 @@
+# Ignore minified files
+*.min.js
+*.min.css
+
+# Specifically ignore Swiper bundles
+**/swiper-bundle.min.js
+**/swiper-bundle.min.css

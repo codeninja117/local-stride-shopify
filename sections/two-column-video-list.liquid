@@ -1,0 +1,305 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    {%- if section.settings.background_color != blank -%}
+      background-color: {{ section.settings.background_color }};
+    {%- endif -%}
+  }
+
+  #shopify-section-{{section.id }} .two-column-video-list__disclaimer p {
+    color: #525A63;
+  }
+
+  #shopify-section-{{section.id }} .two-column-video-list__subtitle p {
+    color: #525A63;
+  }
+
+
+
+
+
+
+
+
+
+  @media screen and (min-width: 1024px) {
+    .flex-5 {
+      flex: 5;
+    }
+
+    .flex-7 {
+      flex: 7;
+    }
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="two-column-video-list section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="flex flex-col gap-12 lg:flex-row lg:gap-16">
+      <!-- Left Column: Content -->
+      <div class="flex flex-5 flex-col gap-6 lg:gap-8">
+        <!-- Title -->
+        {%- if section.settings.title != blank -%}
+          <div class="two-column-video-list__title">
+            <h2 class="text-h1 text-black">
+              {{
+                section.settings.title
+                | replace: '<em>', '<span>'
+                | replace: '</em>', '</span>'
+                | replace: '|', '</span><span>'
+              }}
+            </h2>
+          </div>
+        {%- endif -%}
+
+        <!-- Subtitle -->
+        {%- if section.settings.subtitle != blank -%}
+          <div class="two-column-video-list__subtitle">
+            <p class="text-body-l font-semibold">{{ section.settings.subtitle }}</p>
+          </div>
+        {%- endif -%}
+
+        <!-- Mobile Video (Hidden on Desktop) -->
+        {%- if section.settings.video != blank -%}
+          <div class="two-column-video-list__video-mobile mb-0 lg:hidden">
+            <div class="overflow-hidden rounded-xl">
+              {{
+                section.settings.video
+                | video_tag: class: 'h-auto w-full', controls: true, autoplay: false, muted: false, loop: true
+              }}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Ordered List -->
+        {%- if section.blocks.size > 0 -%}
+          <div class="two-column-video-list__list">
+            <ol class="flex flex-col gap-6">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'list_item' -%}
+                    <li class="flex items-center gap-4" {{ block.shopify_attributes }}>
+                      <!-- Custom Number Marker -->
+                      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100 md:h-12 md:w-12">
+                        {%- if block.settings.number_image != blank -%}
+                          {{
+                            block.settings.number_image
+                            | image_url: width: block.settings.number_image_size
+                            | image_tag: class: 'object-contain', loading: 'lazy', alt: block.settings.number_image.alt
+                            | escape
+                          }}
+                        {%- else -%}
+                          <span class="text-sm font-bold text-gray-600 md:text-base">{{ forloop.index }}</span>
+                        {%- endif -%}
+                      </div>
+
+                      <!-- List Item Content -->
+                      <div class="flex-1">
+                        {%- if block.settings.title != blank -%}
+                          <h3 class="text-body-l mb-2 font-semibold text-black">{{ block.settings.title }}</h3>
+                        {%- endif -%}
+
+                        {%- if block.settings.text != blank -%}
+                          <div class=" text-body-m max-w-none text-black">
+                            {{ block.settings.text }}
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </li>
+                {%- endcase -%}
+              {%- endfor -%}
+            </ol>
+          </div>
+        {%- endif -%}
+
+        <!-- Disclaimer -->
+        {%- if section.settings.disclaimer != blank -%}
+          <div class="two-column-video-list__disclaimer">
+            <p class="text-body-s">{{ section.settings.disclaimer }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Right Column: Video (Hidden on Mobile) -->
+      <div class="hidden flex-7 flex-col justify-center lg:flex">
+        <div class="two-column-video-list__video">
+          {%- if section.settings.video != blank -%}
+            <div class="overflow-hidden rounded-xl">
+              {{
+                section.settings.video
+                | video_tag: class: 'h-auto w-full', controls: true, autoplay: true, muted: true, loop: true
+              }}
+            </div>
+          {%- else -%}
+            <div class="flex aspect-video items-center justify-center rounded-xl bg-gray-200">
+              <p class="text-gray-500">Video not set</p>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Two Column Video List",
+  "class": "section-two-column-video-list",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>How It</em> Works"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Simple steps to get your custom orthotics"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Results may vary. Consult with a healthcare professional."
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video file"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "info": "Overrides color scheme background if set"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list_item",
+      "name": "List Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "number_image",
+          "label": "Number marker image",
+          "info": "Custom image for the numbered marker"
+        },
+        {
+          "type": "range",
+          "id": "number_image_size",
+          "min": 16,
+          "max": 128,
+          "step": 8,
+          "unit": "px",
+          "label": "Number marker image size",
+          "default": 32,
+          "info": "Size in pixels for the number marker image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Step 1"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Describe this step in detail.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Column Video List",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "list_item",
+          "settings": {
+            "title": "Take the Assessment",
+            "text": "<p>Complete our 30-second foot assessment to understand your unique needs.</p>"
+          }
+        },
+        {
+          "type": "list_item",
+          "settings": {
+            "title": "Scan Your Feet",
+            "text": "<p>Use our app to scan your feet from home - no appointment needed.</p>"
+          }
+        },
+        {
+          "type": "list_item",
+          "settings": {
+            "title": "Receive Your Orthotics",
+            "text": "<p>Get your custom orthotics delivered to your door in 7-10 days.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,112 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
+  - picker_type: {String} type of picker to dispay
+
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+    block: block
+    picker_type: picker_type
+  %}
+{% endcomment %}
+{%- liquid
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
+
+{%- for value in option.values -%}
+  {%- liquid
+    assign option_name_handle = option.name | handleize
+
+    assign option_disabled = true
+    if value.available
+      assign option_disabled = false
+    endif
+  -%}
+
+  {%- capture input_id -%}
+    {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+  {%- endcapture -%}
+
+  {%- capture input_name -%}
+    {{ option.name }}-{{ option.position }}
+  {%- endcapture -%}
+
+  {%- capture input_dataset -%}
+    data-product-url="{{ value.product_url }}"
+    data-option-value-id="{{ value.id }}"
+  {%- endcapture -%}
+
+  {%- capture label_unavailable -%}
+    <span class="label-unavailable sr-only">
+      {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
+    </span>
+  {%- endcapture -%}
+
+  {%- case picker_type -%}
+    {%- when 'button' -%}
+      <div class="relative flex-1">
+        <input
+          type="radio"
+          id="{{ input_id }}"
+          name="{{ input_name | escape }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          {% if value.selected %}
+            checked
+          {% endif %}
+          class="peer sr-only {% if option_disabled %}disabled{% endif %}"
+
+          {{ input_dataset }}
+        >
+        <label
+          for="{{ input_id }}"
+          class="peer-checked:bg-human/10 peer-checked:border-human group inline-flex h-full w-full cursor-pointer flex-col items-center justify-start gap-1 rounded-md border border-[#E6E7E8] bg-transparent px-4 py-4 text-center text-black transition-colors duration-200 peer-checked:text-[#9C876D] md:py-3"
+        >
+          <span class="text-body-l font-bold variant-name">{{ value -}}</span>
+
+          {%- if option_name_handle == 'pairs' -%}
+            {%- liquid
+              # Find the variant price for this option
+              assign variant_price = null
+              for variant in product.variants
+                # Check if this variant matches the current option value
+                # NOTE: "Pairs" must be option1
+
+                if variant.option1 == value
+                  assign variant_price = variant.price
+                  break
+                endif
+              endfor
+
+              # Extract the number of pairs from the value string
+              assign pairs_text = value | strip
+              assign pairs_count = pairs_text | split: ' ' | first | plus: 0
+
+              # More precise calculation for unit price
+              assign price_in_cents = variant_price | times: 100
+              assign unit_price_in_cents = price_in_cents | divided_by: pairs_count
+              assign unit_price = unit_price_in_cents | times: 0.01 | round: 2
+            -%}
+            {% if variant_price != null and pairs_count > 1 %}
+              <span class="text-xs opacity-50 group-peer-checked:text-[#000000] group-peer-checked:opacity-100 xl:text-sm variant-price">
+                {{- unit_price | money }} / ea
+              </span>
+            {%- else -%}
+              <span class="text-xs opacity-50 group-peer-checked:text-[#000000] group-peer-checked:opacity-100 xl:text-sm variant-price">
+                {{- variant_price | money -}}
+              </span>
+            {% endif %}
+          {%- endif -%}
+          {{ label_unavailable }}
+        </label>
+      </div>
+    {%- else -%}
+  {%- endcase -%}
+{%- endfor -%}

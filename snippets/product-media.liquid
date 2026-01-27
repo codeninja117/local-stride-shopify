@@ -1,0 +1,76 @@
+{% comment %}
+  Renders a product media item.
+
+  Accepts:
+    - media: {Object} Product Media object
+    - media_count: {Number} Number of media objects
+    - position: {String} Position of the media. Used for accessible label.
+    - modal_id: {String} The product modal that will be shown by clicking the thumbnail
+    - autoplay: {Boolean} Autoplay the video
+
+  Usage:
+  {% render 'product-media',
+    media: media,
+    position: forloop.index,
+    modal_id: section.id
+  %}
+{% endcomment %}
+
+{%- liquid
+
+-%}
+
+{%- capture sizes -%}
+  (min-width: 768px) 25vw, 100vw
+{%- endcapture -%}
+
+{%- case media.media_type -%}
+  {%- when 'image' -%}
+    <modal-opener data-modal="#ProductModal-{{ modal_id }}" class="relative block">
+      <div class="relative aspect-square overflow-hidden rounded-xl bg-black/8">
+        {{
+          media
+          | image_url: width: 1946
+          | image_tag:
+            class: 'w-full h-full object-cover',
+            loading: lazy,
+            sizes: sizes,
+            widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+        }}
+      </div>
+      <button
+        class="product__media-toggle after:absolute after:inset-0 after:z-2 after:bg-black/50 after:opacity-0 after:transition-opacity after:duration-200 after:ease-in-out after:group-hover:opacity-100"
+        type="button"
+        aria-haspopup="dialog"
+        data-media-id="{{ media.id }}"
+        aria-label="Open media"
+      >
+        <span class="sr-only">
+          {{ 'products.product.media.open_media' | t: index: position }}
+        </span>
+      </button>
+    </modal-opener>
+  {%- when 'video' -%}
+    {{
+      media
+      | media_tag:
+        image_size: '768x',
+        autoplay: autoplay,
+        loop: loop,
+        controls: false,
+        preload: 'auto',
+        class: 'w-full h-full object-cover'
+    }}
+
+    <modal-opener
+      data-modal="#ProductModal-{{ modal_id }}"
+      class="absolute right-4 bottom-4 z-10 inline-flex items-center gap-2 rounded-md bg-white px-4 py-2"
+    >
+      <span class="svg-wrapper h-4 w-4">{{ 'icon-play.svg' | inline_asset_content }}</span>
+
+      <span class="inline">Watch</span>
+    </modal-opener>
+
+  {%- when 'external_video' -%}
+  {%- when 'model' -%}
+{%- endcase -%}

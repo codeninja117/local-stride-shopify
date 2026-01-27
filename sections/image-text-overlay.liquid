@@ -1,0 +1,137 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: white;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} page-width">
+  <div class="section__main flex flex-col gap-8">
+    <div class="section__header mx-auto max-w-3xl text-center">
+      {% render 'section-title', section: section %}
+    </div>
+    <div class="section__content md: relative flex min-h-150 items-center overflow-hidden rounded-xl p-4 text-center text-white md:p-8 md:text-left lg:p-16  ">
+      <div class="image-text-overlay__details z-2 grid gap-16 ">
+        <div class="image-text-overlay__block-header flex max-w-full flex-col gap-2 lg:w-xl">
+          {%- if section.settings.subtitle != blank -%}
+            <h3 class="text-4xl">{{ section.settings.subtitle }}</h3>
+          {%- endif -%}
+
+          {%- if section.settings.text != blank -%}
+            <p>{{ section.settings.text }}</p>
+          {%- endif -%}
+        </div>
+        <div class="image-text-overlay__actions inline-flex flex-col items-center justify-center gap-4 text-center md:w-fit">
+          {% render 'button',
+            type: 'a',
+            variant: 'primary',
+            text: section.settings.button_label,
+            url: section.settings.button_url
+          %}
+          <small class="inline-block">{{ section.settings.disclaimer }}</small>
+        </div>
+      </div>
+      <div
+        class="image-text-overlay__image-overlay absolute inset-0 z-1 bg-gradient-to-br from-black/100 to-black/40"
+      ></div>
+      <div class="image-text-overlay__media absolute top-0 right-0 bottom-0 left-0 ">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: section.settings.image.width
+            | image_tag: class: 'w-full h-full'
+          }}
+        {%- else -%}
+          <div class="h-full w-full bg-black/30"></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image text overlay",
+  "class": "section-image-text-overlay",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "If We Fail To Solve Your Pain Problem <em>We Will Give You Your Money Back</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "We will Solve Your Pain"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Stride Soles was founded because of our frustration with the cost, time needed, and quality of existing solutions. That’s why we’re committed to creating the best custom orthotics possible. If they don’t feel quite right, we’ll keep working with you for up to 180 days to get them just right. And if, after all that, they’re still not the right fit, we’ll give you your money back—no hassle, no fine print, just a promise to help you move with ease.</p>"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Limtied Time Offer"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image text overlay",
+      "category": "Uncategorized"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,35 @@
+<div class="flex flex-col gap-2">
+  {%- if eyebrow != blank -%}
+    <span class="before:bg-muted after:bg-muted relative mb-1 hidden w-fit rounded-4xl border border-[rgba(var(--color-foreground),0.2)] bg-[rgba(var(--color-foreground),0.06)] px-5 py-1 text-sm text-[rgba(var(--color-foreground),0.4)] before:absolute before:top-1/2 before:right-[calc(100%+0.5rem)] before:h-[1px] before:w-6 before:-translate-y-1/2 before:content-[''] after:absolute after:top-1/2 after:right-[calc(100%+.5rem)] after:h-2 after:w-2 after:-translate-y-1/2 after:rounded-full after:content-[''] md:inline-block md:text-lg xl:before:right-[calc(100%+1rem)] xl:before:w-8">
+      {{- eyebrow -}}
+    </span>
+  {%- endif -%}
+
+  {%- if title != blank -%}
+    <h2 class="text-h2 mb-1">
+      {{
+        title
+        | replace: '<em>', '<span class="text-[rgba(var(--color-foreground),0.3)]">'
+        | replace: '</em>', '</span>'
+        | replace: '|', '</span> <span>'
+      }}
+    </h2>
+  {%- endif -%}
+
+  {%- if subtitle != blank -%}
+    <p class="text-body-l mb-1">
+      {{
+        subtitle
+        | replace: '<em>', '<span class="text-[rgba(var(--color-foreground),0.3)]">'
+        | replace: '</em>', '</span>'
+        | replace: '|', '</span> <span>'
+      }}
+    </p>
+  {%- endif -%}
+
+  {%- if text != blank -%}
+    <div class="rte flex flex-col gap-4 opacity-80">
+      {{ text }}
+    </div>
+  {%- endif -%}
+</div>

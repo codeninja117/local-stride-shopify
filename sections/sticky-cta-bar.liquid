@@ -1,0 +1,107 @@
+{% comment %}
+  Sticky CTA Bar Section - Fixed to bottom of page
+{% endcomment %}
+
+{% style %}
+  #shopify-section-{{ section.id }} .sticky-cta-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 50;
+    background-color: {{ section.settings.cta_background_color }};
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  #shopify-section-{{ section.id }} .sticky-cta-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  #shopify-section-{{ section.id }} .btn-primary__inner {
+    background-color: {{ section.settings.button_background_color }};
+  }
+
+  #shopify-section-{{ section.id }} .btn-primary {
+    border-color: {{ section.settings.button_background_color }};
+  }
+
+  #shopify-section-{{ section.id }} .btn-primary__text {
+    color: {{ section.settings.button_text_color }};
+  }
+
+  /* Add padding to body to prevent content from being hidden behind fixed bar */
+  body {
+    padding-bottom: 80px;
+  }
+{% endstyle %}
+
+{%- if section.settings.button_label != blank -%}
+  <div class="sticky-cta-bar">
+    <div class="page-width">
+      <div class="sticky-cta-content">
+        <a href="{{ section.settings.button_url }}" class="btn-primary">
+          <div class="btn-primary__inner">
+            <div class="btn-primary__text-wrapper">
+              <div class="btn-primary__text">{{ section.settings.button_label }}</div>
+              <div class="btn-primary__text">{{ section.settings.button_label }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Sticky CTA Bar",
+  "class": "section-sticky-cta-bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Get 40% OFF your first Stride Soles Pair"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "CTA Bar Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button Background Color",
+      "default": "#4a00e0"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky CTA Bar",
+      "category": "Uncategorized",
+      "settings": {
+        "button_label": "Get 40% OFF your first Stride Soles Pair"
+      }
+    }
+  ]
+}
+{% endschema %}

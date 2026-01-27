@@ -1,0 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-cart-alt",
+      "blocks": {
+        "promo_BTC9ee": {
+          "type": "promo",
+          "settings": {
+            "icon": "shopify://shop_images/svg-lightning.svg",
+            "icon_size": 16,
+            "title": "180 Day Money-Back Guarantee",
+            "bg_color": "#f4e5d1",
+            "text_color": "#000000",
+            "display": "inline",
+            "alignment": "center"
+          }
+        },
+        "discount_HVxN73": {
+          "type": "discount",
+          "settings": {
+            "title": "75% OFF SUMMER SALE",
+            "subtitle": "Discount Auto-applied",
+            "savings": "Savings $451 (75% OFF)"
+          }
+        },
+        "order_summary_kBqyHV": {
+          "type": "order_summary",
+          "settings": {}
+        },
+        "subtotal_and_checkout_F3Gbtg": {
+          "type": "subtotal_and_checkout",
+          "settings": {}
+        },
+        "premium_add_on_PpTYC6": {
+          "type": "premium-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "custom-engraving",
+            "subtitle": ""
+          }
+        },
+        "premium_add_on_crD6Lb": {
+          "type": "premium-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "stride-x-fuelme-copper-compression-socks",
+            "subtitle": ""
+          }
+        },
+        "recommended_add_on_zTdMgN": {
+          "type": "recommended-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "custom-orthotics-for-high-arches",
+            "subtitle": ""
+          }
+        },
+        "recommended_add_on_CEzbEk": {
+          "type": "recommended-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "custom-orthotics-for-high-arches",
+            "subtitle": ""
+          }
+        }
+      },
+      "block_order": [
+        "promo_BTC9ee",
+        "discount_HVxN73",
+        "order_summary_kBqyHV",
+        "subtotal_and_checkout_F3Gbtg",
+        "premium_add_on_PpTYC6",
+        "premium_add_on_crD6Lb",
+        "recommended_add_on_zTdMgN",
+        "recommended_add_on_CEzbEk"
+      ],
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "hide_cart_header": false,
+        "compare_savings_label": "50% OFF JULY SALE (Auto-Applied)"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,313 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+     --gap: 3rem;
+    overflow: hidden;
+    min-height: {{ section.settings.height }}px;
+    position: relative;
+
+  }
+
+  #shopify-section-{{ section.id }} .banner-stats__content-container {
+    height: 100%;
+    min-height: {{ section.settings.height }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+
+    @media screen and (min-width: 768px) {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+   #shopify-section-{{ section.id }} .banner-stats__media-container {
+    height: 100%;
+    min-height: {{ section.settings.height }}px;
+  }
+
+
+
+  .banner-stats__content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    max-width: 100%;
+    width: {{ section.settings.container_width }}px;
+
+    @media screen and (min-width: 768px) {
+      gap: 4rem;
+    }
+  }
+
+
+  #shopify-section-{{section.id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0, {{ section.settings.overlay_opacity | divided_by: 100.00 }});
+    z-index: 1;
+  }
+
+  .banner-stats__statslist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--gap) / 1.5);
+    justify-content: center;
+
+    @media (min-width: 768px) {
+      gap: var(--gap);
+    }
+  }
+
+  .banner-stats__stat {
+    flex: 0 0 calc(33.333% - (var(--gap) * 2 / 3));
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  /* Mobile: single column */
+  @media (max-width: 768px) {
+    .banner-stats__stat {
+      flex: 0 0 100%;
+      min-width: auto;
+    }
+  }
+
+  .banner-stats__stat-title {
+    color: rgb(var(--color-accent));
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round
+  assign fetchpriority = 'auto'
+  assign loading = 'lazy'
+  assign preload = false
+  if section.index == 1
+    assign fetchpriority = 'high'
+    assign loading = 'eager'
+    assign preload = true
+  endif
+
+  assign bg_image_alt = section.settings.image.alt | default: 'Stride Custom Othotics'
+-%}
+
+<div class="gradient color-{{ section.settings.color_scheme }} relative">
+  <div class="banner-stats__media-container absolute inset-0 z-1">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1920
+        | image_tag:
+          class: 'w-full h-full object-cover banner-stats__image-el',
+          widths: '640, 768, 1024, 1280, 1536, 1920',
+          sizes: '100vw',
+          height: section.settings.min_height_px,
+          alt: bg_image_alt,
+          loading: loading,
+          fetchpriority: fetchpriority,
+          preload: preload,
+          data-animate: 'scale-out'
+      }}
+    {%- else -%}
+      <div class="h-full w-full bg-white/20"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="banner-stats__content-container relative z-2 flex items-center justify-center p-4 text-{{ section.settings.text_alignment }}">
+    <div class="banner-stats__content-inner">
+      {%- if section.settings.caption != blank -%}
+        <h2 data-animate="fade-up">{{ section.settings.caption }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+        <div class="banner-stats__header section-header text-center ">
+          {%- if section.settings.title != blank -%}
+            <h2 class="text-h1 section-title capitalize">
+              {{
+                section.settings.title
+                | replace: '<em>', '<span class="">'
+                | replace: '</em>', '</span>'
+                | replace: '|', '</span><br><span>'
+              }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.subtitle != blank -%}
+            <p class="text-body-l mt-2">{{ section.settings.subtitle }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="banner-stats__statslist">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'stat' -%}
+              <div class="banner-stats__stat">
+                <div class="banner-stats__stat-title text-h1 font-medium">{{ block.settings.title }}</div>
+                <div class="banner-stats__stat-subtitle">{{ block.settings.subtitle }}</div>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.button_label != blank or section.settings.disclaimer != blank -%}
+        <div class="banner-stats__footer flex flex-col items-center gap-4">
+          {%- if section.settings.button_label != blank -%}
+            {% render 'button',
+              tag: 'a',
+              text: section.settings.button_label,
+              url: section.settings.button_url,
+              variant: 'primary'
+            %}
+          {%- endif -%}
+
+          {%- if section.settings.disclaimer != blank -%}
+            <h2>{{ section.settings.disclaimer }}</h2>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banner stats",
+  "class": "section-banner-stats",
+  "settings": [
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Some title here"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Stride brings clinical-level care to your doorstep with custom orthotics designed by award winning German Podiatrists."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Satisfaction Guarantee"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Min height",
+      "default": 460
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 420,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Container width",
+      "default": 580
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Stat",
+          "default": "95%"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Improved Heel Pain in the First Week"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner stats",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

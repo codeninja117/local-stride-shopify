@@ -1,0 +1,116 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    overflow: hidden;
+    height: {{ section.settings.height }}px;
+    position: relative;
+  }
+
+  /* .hero-image-text__image-el {
+    margin-top: {{ section.settings.image_margin }}px;
+  } */
+
+  #shopify-section-{{ section.id }} .banner-with-caption__media-container {
+    height: {{ section.settings.height }}px;
+  }
+
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round
+  assign fetchpriority = 'auto'
+  assign loading = 'lazy'
+  assign preload = false
+  if section.index == 1
+    assign fetchpriority = 'high'
+    assign loading = 'eager'
+    assign preload = true
+  endif
+
+  assign bg_image_alt = section.settings.image.alt | default: 'Stride Custom Othotics'
+-%}
+
+<div class="gradient color-{{ section.settings.color_scheme }} relative">
+  <div class="banner-with-caption__media-container">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1920
+        | image_tag:
+          class: 'w-full h-full object-cover banner-with-caption__image-el',
+          widths: '640, 768, 1024, 1280, 1536, 1920',
+          sizes: '100vw',
+          height: section.settings.min_height_px,
+          alt: bg_image_alt,
+          loading: loading,
+          fetchpriority: fetchpriority,
+          preload: preload,
+          data-animate: 'scale-out'
+      }}
+    {%- else -%}
+      <div class="h-full w-full bg-white/20"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="banner-with-caption__content-container absolute inset-0 z-1 flex items-end justify-start p-4">
+    <div class="banner-with-caption__content-inner">
+      {%- if section.settings.caption != blank -%}
+        <h2 data-animate="fade-up">{{ section.settings.caption }}</h2>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banner with caption",
+  "class": "section-banner-with-caption",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "caption",
+      "label": "Caption",
+      "default": "Orthotics getting finished at the factory."
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 460
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner with caption",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

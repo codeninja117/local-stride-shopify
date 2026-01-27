@@ -1,0 +1,713 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: white;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {% for block in section.blocks %}
+    .product__block-{{ block.id }} {
+      background-color: {{ block.settings.bg_color | default: 'currentColor' }};
+      color: {{ block.settings.text_color | default: 'currentColor' }};
+  }
+  {% endfor %}
+
+  .product__details square-placement {
+    margin-top: -8px !important;
+  }
+
+  .loox-rating-content {
+    font-size: 14px;
+    white-space: pre;
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src'
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
+
+<product-info
+  id="MainProduct-{{ section.id }}"
+  class="block section-{{ section.id }}"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+  <div class="page-width">
+    <div class="product__main flex flex-col gap-4 md:flex-row md:gap-8 lg:gap-12">
+      <div class="product__gallery min-w-0 flex-1 flex-shrink-0">
+        {% render 'product-media-gallery', variant_image: variant_images, modal_id: section.id %}
+      </div>
+      <div class="product__details flex-1">
+        <div class="grid gap-6 md:gap-8">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+              {%- when 'promo' -%}
+                {%- liquid
+                  case block.settings.alignment
+                    when 'left'
+                      assign text_alignment = 'text-left'
+                    when 'center'
+                      assign text_alignment = 'text-center'
+                    when 'right'
+                      assign text_alignment = 'text-right'
+                  endcase
+
+                  case block.settings.display
+                    when 'inline'
+                      assign display = 'inline'
+                    when 'column'
+                      assign display = 'block'
+                  endcase
+                -%}
+
+                <div
+                  class="product__promo product__block-{{ block.id }} {{ text_alignment }} {% if block.settings.display == 'inline' %}space-x-3{% else %}space-y-3{% endif %} rounded-lg p-2 leading-normal md:p-4"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if block.settings.icon != blank -%}
+                    {{
+                      block.settings.icon
+                      | image_url: width: 48
+                      | image_tag: class: 'product__promo-icon inline align-middle'
+                    }}
+                  {%- endif -%}
+                  <span class="align-middle">
+                    {{- block.settings.block_title -}}
+                  </span>
+
+                  {%- if block.settings.button_label != blank -%}
+                    <a
+                      href="{{ block.settings.button_url }}"
+                      class="hover:bg-peach inline-block rounded-4xl bg-black px-6 py-2 align-middle text-xs text-white transition-colors duration-200 ease-in-out"
+                    >
+                      {{- block.settings.button_label -}}
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- when 'product_info' -%}
+                <div
+                  class="product__info  flex flex-col gap-6"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="product__header border-slate/20 flex flex-col gap-4 border-b pb-6 md:gap-3">
+                    <h1 class="product-title text-h2 leading-none font-semibold">
+                      {{ product.title | escape }}
+                    </h1>
+
+                    <div class="product__price-rating flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
+                      <div class="product__price flex flex-col gap-2 align-middle leading-[1]">
+                        <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+                          {%- render 'price',
+                            product: product,
+                            use_variant: true,
+                            show_badges: false,
+                            price_class: 'price--large'
+                          -%}
+                        </div>
+
+                        <div class="shop-pay-messaging text-xs">
+                          {%- liquid
+                            assign installment_form_id = 'product-form-installment-' | append: section.id
+                          -%}
+                          {% form 'product', product, id: installment_form_id %}
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+                            {{ form | payment_terms }}
+                          {% endform %}
+                        </div>
+                      </div>
+
+                      {% if shop.metafields.loox.global_stats %}
+                        <div class="pdp-loox-reviews--desktop">
+                          {% assign looxstats = shop.metafields.loox.global_stats | split: ',' %}
+                          <style>
+                            .loox-rating-label {
+                              position: relative;
+                              text-decoration: none;
+                            }
+                            .loox-rating-label::after {
+                              content: '';
+                              position: absolute;
+                              left: 4px; /* Skip the nbsp space */
+                              bottom: 0;
+                              width: calc(100% - 4px);
+                              height: 1px;
+                              background-color: currentColor;
+                            }
+                            .loox-rating-content {
+                              font-size: 14px;
+                              white-space: pre;
+                            }
+                          </style>
+                          <a href="#looxReviews">
+                            <div
+                              class="loox-rating loox-rating-hp"
+                              data-rating="{{ looxstats[0] }}"
+                              data-raters="{{ looxstats[1] }}"
+                              data-pattern="[count] Reviews"
+                            ></div>
+                          </a>
+                        </div>
+                      {% else %}
+                        <!-- Start of Judge.me code -->
+                        <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+                          {{ product.metafields.judgeme.badge }}
+                        </div>
+                        <!-- End of Judge.me code -->
+                      {% endif %}
+                    </div>
+                  </div>
+                  <!-- start frontrowhealth badge -->
+                  <div id="frontrow-badge">
+                    {% if request.path contains '/products' %}
+                      <script
+                        async
+                        type="text/javascript"
+                        src="https://app.thefrontrowhealth.com/api/widgets/script?presentation_type=quant&product_id=2425"
+                      ></script>
+                      <iframe
+                        class="iframe-frontrow"
+                        id="iframe-frontrow-quant"
+                        frameborder="0"
+                        src="https://app.thefrontrowhealth.com/api/widgets?presentation_type=quant&product_id=2425"
+                      ></iframe>
+                    {% else %}
+                      <style>
+                        #frontrow-badge {
+                          display: none !important;
+                        }
+                      </style>
+                    {% endif %}
+                  </div>
+                  <style>
+                    #iframe-frontrow-quant {
+                      height: 0px;
+                    }
+                    #frontrow-badge {
+                      position: relative;
+                      display: flex;
+                    }
+                    .iframe-frontrow {
+                      width: 100%;
+                      margin: 0;
+                    }
+                    .iframe-modal-frontrow {
+                      display: none;
+                      position: fixed;
+                      z-index: 99999999;
+                      left: 0;
+                      top: 0;
+                      right: 0;
+                      bottom: 0;
+                      width: 100%;
+                      height: 100%;
+                      overflow: hidden;
+                    }
+                  </style>
+                  <!-- end frontrowhealth badge -->
+                  <div class="product__description text-sm opacity-70 md:text-base">
+                    {{ product.description }}
+                  </div>
+                </div>
+              {%- when 'variant_picker' -%}
+                <div class="product__variant-picker" {{ block.shopify_attributes }}>
+                  {% render 'product-variant-picker',
+                    product: product,
+                    block: block,
+                    product_form_id: product_form_id
+                  %}
+                </div>
+
+              {%- when 'buy_buttons' -%}
+                <div
+                  class="product__buy-buttons flex flex-col gap-3 text-center md:gap-3"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if block.settings.text_above_button != blank -%}
+                    <div class="">{{ block.settings.text_above_button }}</div>
+                  {%- endif -%}
+
+                  {%- case product.metafields.custom.use_default_add_to_cart_button -%}
+                    {%- when true -%}
+                      {%- render 'buy-buttons',
+                        block: block,
+                        product: product,
+                        product_form_id: product_form_id,
+                        section_id: section.id,
+                        show_pickup_availability: true
+                      -%}
+                    {%- else -%}
+                      {%- liquid
+                        assign quiz_url = block.settings.quiz_url | strip | append: '?variant=' | append: product.selected_or_first_available_variant.id
+                      -%}
+
+                      <add-to-cart-button
+                        class=""
+                        data-quiz-base="{{ quiz_url }}"
+                        data-checkout-base="{{ routes.cart_url }}"
+                        data-variant="{{ product.selected_or_first_available_variant.id }}"
+                        data-cart-count="{{ cart.item_count }}"
+                      >
+                        <div class="add-to-cart-button__quiz">
+                          {% render 'button-sandals',
+                            tag: 'a',
+                            text: 'Take The Quiz',
+                            url: quiz_url,
+                            variant: 'primary'
+                          %}
+                        </div>
+
+                        <div class="add-to-cart-button__checkout hidden">
+                          {% render 'button-sandals',
+                            tag: 'button',
+                            text: 'Buy Now',
+                            variant: 'primary',
+                            type: 'button'
+                          %}
+                        </div>
+
+                        <!-- Optional error message container -->
+                        <div class="error-message hidden" style="color: red; margin-top: 8px; font-size: 14px;"></div>
+                      </add-to-cart-button>
+                  {%- endcase -%}
+                </div>
+              {%- when 'callouts' -%}
+                <ul
+                  class="product__callouts divide-slate/20 flex flex-col divide-y text-sm md:text-base lg:flex-row lg:divide-x lg:divide-y-0 lg:text-center"
+                  {{ block.shopify_attributes }}
+                >
+                  <li class="flex flex-1 flex-row items-center gap-4 py-4 lg:flex-col lg:py-0 xl:px-8">
+                    {%- if block.settings.icon != blank -%}
+                      {{
+                        block.settings.icon
+                        | image_url: width: 54
+                        | image_tag: class: 'w-8 h-8 lg:w-[54px] lg:h-[54px] inline'
+                      }}
+                    {%- endif -%}
+                    {%- if block.settings.block_title != blank -%}
+                      <p>{{ block.settings.block_title }}</p>
+                    {%- endif -%}
+                  </li>
+                  <li class="flex flex-1 flex-row items-center gap-4 py-4 lg:flex-col lg:py-0 xl:px-8">
+                    {%- if block.settings.icon_2 != blank -%}
+                      {{
+                        block.settings.icon_2
+                        | image_url: width: 54
+                        | image_tag: class: 'w-8 h-8 lg:w-[54px] lg:h-[54px] inline'
+                      }}
+                    {%- endif -%}
+
+                    {%- if block.settings.block_title_2 != blank -%}
+                      <p>{{ block.settings.block_title_2 }}</p>
+                    {%- endif -%}
+                  </li>
+                  <li class="flex flex-1 flex-row items-center gap-4 py-4 lg:flex-col lg:py-0 xl:px-8">
+                    {%- if block.settings.icon_3 != blank -%}
+                      {{
+                        block.settings.icon_3
+                        | image_url: width: 54
+                        | image_tag: class: 'w-8 h-8 lg:w-[54px] lg:h-[54px] inline'
+                      }}
+                    {%- endif -%}
+
+                    {%- if block.settings.block_title_3 != blank -%}
+                      <p>{{ block.settings.block_title_3 }}</p>
+                    {%- endif -%}
+                  </li>
+                </ul>
+              {%- when 'accordions' -%}
+                <div class="product__accordions flex flex-col gap-4" {{ block.shopify_attributes }}>
+                  <ui-accordion
+                    data-single-open="true"
+                    class="block overflow-hidden rounded-xl bg-[rgba(245,246,249,1)]"
+                  >
+                    <details class="">
+                      <summary class="ui-accordion__toggle flex cursor-pointer list-none items-center justify-between p-4 text-sm font-semibold md:px-6 md:py-4 md:text-lg">
+                        {{ block.settings.block_title }}
+
+                        <span class="ui-accordion__toggle-icon flex h-6 w-6 items-center justify-center rounded-full bg-white p-0.5 md:h-9 md:w-9">
+                          {{- 'icon-chevron-down.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      <div class="ui-accordion__content text-white">
+                        <div class="px-4 pb-6 md:px-6">{{ block.settings.block_text }}</div>
+                      </div>
+                    </details>
+                  </ui-accordion>
+                  <ui-accordion
+                    data-single-open="true"
+                    class="block overflow-hidden rounded-xl bg-[rgba(245,246,249,1)]"
+                  >
+                    <details class="">
+                      <summary class="ui-accordion__toggle flex cursor-pointer list-none items-center justify-between p-4 py-4 text-sm font-semibold md:px-6 md:py-4 md:text-lg">
+                        {{ block.settings.block_title_2 }}
+
+                        <span class="ui-accordion__toggle-icon flex h-6 w-6 items-center justify-center rounded-full bg-white p-0.5 md:h-9 md:w-9">
+                          {{- 'icon-chevron-down.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      <div class="ui-accordion__content text-white">
+                        <div class="px-4 pb-6 md:px-6">{{ block.settings.block_text_2 }}</div>
+                      </div>
+                    </details>
+                  </ui-accordion>
+                  <ui-accordion
+                    data-single-open="true"
+                    class="block overflow-hidden rounded-xl bg-[rgba(245,246,249,1)]"
+                  >
+                    <details class="">
+                      <summary class="ui-accordion__toggle flex cursor-pointer list-none items-center justify-between p-4 text-sm font-semibold md:px-6 md:py-4 md:text-lg">
+                        {{ block.settings.block_title_3 }}
+
+                        <span class="ui-accordion__toggle-icon flex h-6 w-6 items-center justify-center rounded-full bg-white p-0.5 md:h-9 md:w-9">
+                          {{- 'icon-chevron-down.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      <div class="ui-accordion__content text-white">
+                        <div class="px-4 pb-6 md:px-6">{{ block.settings.block_text_3 }}</div>
+                      </div>
+                    </details>
+                  </ui-accordion>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% render 'product-media-modal', variant_images: variant_images, modal_id: section.id %}
+
+  {%- if product.media.size > 0 -%}
+    <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+</product-info>
+
+{% schema %}
+{
+  "name": "Product",
+  "class": "section-main-product",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "media_gallery_layout",
+      "label": "Media gallery layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slideshow",
+          "label": "Slideshow"
+        }
+      ],
+      "default": "grid",
+      "info": "For desktop only"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "promo",
+      "name": "Promo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "SVG preferred"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_title",
+          "label": "Title",
+          "default": "Flash sale, up to 50% off — Ends 1/25"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#EACBA4"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Buttons"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "select",
+          "id": "button_type",
+          "label": "Button type",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "secondary",
+              "label": "secondary"
+            }
+          ],
+          "default": "primary"
+        },
+        {
+          "type": "header",
+          "content": "Display settings"
+        },
+        {
+          "type": "select",
+          "id": "display",
+          "label": "Display",
+          "options": [
+            {
+              "value": "column",
+              "label": "Column"
+            },
+            {
+              "value": "inline",
+              "label": "Inline"
+            }
+          ],
+          "default": "inline"
+        },
+        {
+          "type": "text_alignment",
+          "id": "alignment",
+          "label": "Text alignment",
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "font_size",
+          "label": "Font size",
+          "options": [
+            {
+              "value": "xs",
+              "label": "xs"
+            },
+            {
+              "value": "sm",
+              "label": "sm"
+            },
+            {
+              "value": "base",
+              "label": "base"
+            },
+            {
+              "value": "lg",
+              "label": "lg"
+            },
+            {
+              "value": "xl",
+              "label": "xl"
+            },
+            {
+              "value": "2xl",
+              "label": "2xl"
+            }
+          ],
+          "default": "base"
+        }
+      ]
+    },
+    {
+      "type": "product_info",
+      "name": "Product info",
+      "settings": []
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "settings": []
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text_above_button",
+          "label": "Text above button",
+          "default": "Step Into Comfort Below"
+        },
+        {
+          "type": "text",
+          "id": "quiz_url",
+          "label": "Quiz URL",
+          "default": "https://stridesoles.typeform.com/to/RxCzose5"
+        }
+      ]
+    },
+    {
+      "type": "callouts",
+      "name": "Callouts",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Callout #1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_title",
+          "label": "Title",
+          "default": "180-day money-back guarantee"
+        },
+
+        {
+          "type": "header",
+          "content": "Callout #2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_title_2",
+          "label": "Title",
+          "default": "Free shipment on all orders"
+        },
+
+        {
+          "type": "header",
+          "content": "Callout #3"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3",
+          "label": "Icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_title_3",
+          "label": "Title",
+          "default": "HSA/FSA eligibility guaranteed"
+        }
+      ]
+    },
+    {
+      "type": "accordions",
+      "name": "Accordions",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Accordion #1"
+        },
+
+        {
+          "type": "inline_richtext",
+          "id": "block_title",
+          "label": "Title",
+          "default": "Product Details"
+        },
+        {
+          "type": "richtext",
+          "id": "block_text",
+          "label": "Text",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+
+        {
+          "type": "header",
+          "content": "Accordion #2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_title_2",
+          "label": "Title",
+          "default": "180-Day Money-Back Guarantee"
+        },
+        {
+          "type": "richtext",
+          "id": "block_text_2",
+          "label": "Text",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Accordion #3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_title_3",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "richtext",
+          "id": "block_text_3",
+          "label": "Text",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

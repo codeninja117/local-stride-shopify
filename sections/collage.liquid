@@ -1,0 +1,216 @@
+{%- liquid
+  assign lazy_load = 'lazy'
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign lazy_load = 'auto'
+    assign fetch_priority = 'high'
+  endif
+
+  if section.settings.aspect_ratio == 'adapt'
+    assign aspect_padding_bottom = 1 | divided_by: section.settings.image.aspect_ratio | times: 100 | append: '%'
+  else
+    assign aspect_padding_bottom = section.settings.aspect_ratio
+    assign mobile_aspect_padding_bottom = section.settings.mobile_aspect_ratio
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+
+  #shopify-section-{{section.id }} .aspect-ratio-container {
+    padding-bottom: {{ mobile_aspect_padding_bottom }};
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    #shopify-section-{{ section.id }} .image-text-row__media-container {
+      width: {{ section.settings.media_width }}%;
+    }
+    #shopify-section-{{section.id }} .aspect-ratio-container {
+      padding-bottom: {{ aspect_padding_bottom }};
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
+  <div class="section__main page-width {%  if section.settings.container_size == 'narrow' %}md:max-w-screen-lg{% endif %}">
+    {% if section.settings.title != blank %}
+      <div class="section__header w-[700px] max-w-full">
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><br><span>'
+          }}
+        </h2>
+        <p>{{ section.settings.subtitle }}</p>
+      </div>
+    {% endif %}
+    <div
+      class="collage__blocks grid grid-cols-12 gap-4 lg:gap-8"
+    >
+      {%- for block in section.blocks -%}
+        <style>
+          .collage__item-{{ section.id }}-{{ block.id }} {
+            grid-column: span 12;
+            height: {{ section.settings.image_height | times: 0.6 }}px;
+            @media screen and (min-width: 768px) {
+              grid-column: span 6;
+              height: {{ section.settings.image_height | times: 0.8 }}px;
+            }
+            @media screen and (min-width: 1024px) {
+              grid-column: span {{ block.settings.column_span }};
+              height: {{ section.settings.image_height }}px;
+            }
+          }
+        </style>
+        <div
+          class="collage__item collage__item-{{ section.id }}-{{ block.id }} overflow-hidden rounded-lg"
+        >
+          {%- if block.settings.image != blank -%}
+            {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+            {%- assign img_alt = block.settings.image.alt | default: shop.name -%}
+            {%- capture sizes -%}
+            (min-width: 1536px) 1024px,
+            (min-width: 750px) calc((100vw) / 2), calc((100vw) / 2)
+          {%- endcapture -%}
+
+            <div
+              class="image-text-review__media-inner relative h-full w-full"
+            >
+              {{
+                block.settings.image
+                | image_url: width: block.settings.image.width
+                | image_tag:
+                  class: 'w-full h-full object-cover',
+                  sizes: sizes,
+                  widths: widths,
+                  loading: lazy_load,
+                  alt: img_alt,
+                  fetchpriority: fetch_priority
+              }}
+            </div>
+
+          {%- else -%}
+            <div class="h-80 w-full rounded-xl bg-black/20 p-16">Image not set</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collage",
+  "class": "section-collage",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "In fact, clinicians use the same scanning technology not only for feet, but it's used for everything from treating shoulder deformity at <strong>Stanford University</strong> to custom helmets for babies."
+    },
+    {
+      "type": "header",
+      "content": "Block settings"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 250,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Image height",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "column_span",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Column span",
+          "default": 6,
+          "info": "Number of columns the image will span"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collage",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

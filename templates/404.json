@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "disabled": true,
+      "settings": {}
+    },
+    "hero_text_overlay_6mLxXb": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_HiNyyf": {
+          "type": "title",
+          "settings": {
+            "title": "<em>404</em>",
+            "title_font_size": "text-display-l"
+          }
+        },
+        "title_9xXKPg": {
+          "type": "title",
+          "settings": {
+            "title": "Page not found",
+            "title_font_size": "text-display-xl"
+          }
+        },
+        "text_WmbtCm": {
+          "type": "text",
+          "settings": {
+            "text": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
+          }
+        },
+        "buttons_yx8Fdi": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Go back home",
+            "button_url": "/",
+            "button_label_2": "Take The Quiz",
+            "button_url_2": "shopify://pages/quiz"
+          }
+        },
+        "features_JdwUfD": {
+          "type": "features",
+          "disabled": true,
+          "settings": {
+            "feature_icon": "shopify://shop_images/icon__moneyback.png",
+            "feature_title": "365-day money-back guarantee",
+            "feature_icon_2": "shopify://shop_images/icon__medicallyapproved.png",
+            "feature_title_2": "100% Medically Approved"
+          }
+        }
+      },
+      "block_order": [
+        "title_HiNyyf",
+        "title_9xXKPg",
+        "text_WmbtCm",
+        "buttons_yx8Fdi",
+        "features_JdwUfD"
+      ],
+      "name": "Hero text overlay",
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/home-hero-bg.jpg",
+        "layout": "overlay",
+        "overlay_opacity": 0,
+        "min_height": 100,
+        "min_height_px": 700,
+        "vertical_alignment": "items-center",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 120
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_text_overlay_6mLxXb"
+  ]
+}

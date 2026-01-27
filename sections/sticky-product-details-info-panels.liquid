@@ -1,0 +1,773 @@
+{% comment %}
+  Sticky Image Scroll Section - With Smooth Animations
+{% endcomment %}
+
+{%- style -%}
+{%- endstyle -%}
+
+{%- liquid
+  assign image = section.settings.image
+  assign panels_count = 0
+  assign sticky_image_id = 'sticky-image-' | append: section.id
+
+  for block in section.blocks
+    if block.type == 'info_panel'
+      assign panels_count = panels_count | plus: 1
+    endif
+  endfor
+-%}
+
+<!-- Mobile Carousel Layout -->
+<div class="sticky-scroll-mobile block lg:hidden">
+  <!-- Mobile Section Title -->
+  {%- if section.settings.title != blank -%}
+    <div class="mobile-section-title mb-8 text-center">
+      <h2 class="text-h1 leading-tight font-light">
+        {{
+          section.settings.title
+          | replace: '<em>', '<span class="font-normal">'
+          | replace: '</em>', '</span>'
+          | replace: '|', '</span><br><span>'
+        }}
+      </h2>
+    </div>
+  {%- endif -%}
+
+  <div class="mobile-carousel-wrapper">
+    <!-- Mobile Carousel -->
+    <div class="mobile-carousel swiper" data-pagination="fraction" data-navigation>
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'info_panel' -%}
+              <div class="swiper-slide" {{ block.shopify_attributes }}>
+                <div class="mobile-panel">
+                  <!-- Panel Image -->
+                  {%- if block.settings.panel_image != blank -%}
+                    <div class="mobile-panel-image mb-6">
+                      <img
+                        src="{{ block.settings.panel_image | image_url: width: 400 }}"
+                        alt="{{ block.settings.panel_image.alt | escape }}"
+                        class="h-auto w-full rounded-lg"
+                        loading="lazy"
+                        width="400"
+                        height="400"
+                      >
+                    </div>
+                  {%- endif -%}
+
+                  <!-- Panel Content -->
+                  <div
+                    class="mobile-panel-content"
+                    style="background-color: {{ section.settings.panel_background_color | default: '#f8f9fa' }};"
+                  >
+                    {%- if block.settings.icon_image != blank -%}
+                      <div class="mobile-panel-icon mb-4">
+                        <img
+                          src="{{ block.settings.icon_image | image_url: width: 80 }}"
+                          alt="{{ block.settings.icon_image.alt | escape }}"
+                          width="50"
+                          height="50"
+                          loading="lazy"
+                          class=""
+                        >
+                      </div>
+                    {%- endif -%}
+
+                    {%- if block.settings.text != blank -%}
+                      <div class="mobile-panel-text">
+                        <p class="text-body-l leading-relaxed font-medium font-medium text-black">
+                          {{ block.settings.text }}
+                        </p>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      <!-- Mobile Navigation -->
+      <div class="mobile-carousel-navigation mt-6 flex flex-col items-center gap-4">
+        <!-- Pagination Dots -->
+        <div class="mobile-carousel-pagination flex gap-2">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'info_panel' -%}
+              <button
+                class="mobile-carousel-dot h-3 w-3 rounded-full transition-colors {% if forloop.first %}bg-black{% else %}bg-gray-300{% endif %}"
+                data-index="{{ forloop.index0 }}"
+              ></button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center gap-4">
+          <button class="mobile-carousel-prev flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white text-black transition-colors hover:bg-black hover:text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </button>
+
+          <button class="mobile-carousel-next flex h-12 w-12 items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-gray-800">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Desktop Sticky Scroll Layout -->
+<div class="sticky-scroll-wrapper hidden lg:flex" style="--panels-count: {{ panels_count }};">
+  <!-- Desktop Section Title -->
+  {%- if section.settings.title != blank -%}
+    <div class="desktop-section-title mb-12 w-full text-center">
+      <h2 class="text-h1 leading-tight font-light text-black">
+        {{
+          section.settings.title
+          | replace: '<em>', '<span class="font-normal">'
+          | replace: '</em>', '</span>'
+          | replace: '|', '</span><br><span>'
+        }}
+      </h2>
+    </div>
+  {%- endif -%}
+
+  <!-- Left Image Column -->
+  <div class="sticky-scroll-image-column">
+    <div class="sticky-scroll-image-wrapper">
+      {%- if image -%}
+        <img
+          src="{{ image | image_url: width: 3200 }}"
+          loading="lazy"
+          class="sticky-scroll-image"
+          alt="{{ image.alt | escape }}"
+          id="{{ sticky_image_id }}"
+          width="3200"
+          height="3200"
+        >
+      {%- else -%}
+        <div class="sticky-scroll-placeholder" id="{{ sticky_image_id }}">
+          <svg viewBox="0 0 400 600" fill="none">
+            <rect width="400" height="600" fill="#f3f4f6"/>
+            <text x="200" y="300" text-anchor="middle" fill="#9ca3af" font-size="16">Add Image</text>
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Right Content Column -->
+  <div class="sticky-scroll-content-column">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'info_panel' -%}
+          <div
+            class="sticky-scroll-panel"
+            {{ block.shopify_attributes }}
+            data-animation-x="{{ block.settings.animation_x | default: 0 }}"
+            data-animation-y="{{ block.settings.animation_y | default: 0 }}"
+            data-animation-scale="{{ block.settings.animation_scale | default: 100 }}"
+            data-animation-rotation="{{ block.settings.animation_rotation | default: 0 }}"
+            data-panel-index="{{ forloop.index0 }}"
+          >
+            <div
+              class="panel-content"
+              style="background-color: {{ section.settings.panel_background_color | default: '#f8f9fa' }};"
+            >
+              {%- if block.settings.icon_image != blank -%}
+                <div class="panel-icon">
+                  <img
+                    src="{{ block.settings.icon_image | image_url: width: 80 }}"
+                    alt="{{ block.settings.icon_image.alt | escape }}"
+                    width="80"
+                    height="80"
+                    loading="lazy"
+                  >
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.text != blank -%}
+                <div class="text-body-l font-medium text-black">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+  .sticky-scroll-wrapper {
+    display: flex;
+    min-height: calc(100vh + (var(--panels-count, 3) - 1) * 100vh);
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    padding-top: 120px; /* Make room for the title */
+  }
+
+  /* Left Image Column */
+  .sticky-scroll-image-column {
+    flex: 0 0 62.5%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 50vh;
+  }
+
+  .sticky-scroll-image-wrapper {
+    position: sticky;
+    top: 50vh;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+  }
+
+  .sticky-scroll-image,
+  .sticky-scroll-placeholder {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center center;
+  }
+
+  .sticky-scroll-placeholder svg {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  /* Right Content Column */
+  .sticky-scroll-content-column {
+    flex: 1;
+    padding-left: 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sticky-scroll-panel {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 60px 0;
+  }
+
+  .sticky-scroll-panel:last-child {
+    height: auto;
+    min-height: 50vh;
+  }
+
+  .panel-content {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    border-radius: 16px;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .sticky-scroll-panel.in-view .panel-content {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .panel-icon {
+    margin-bottom: 20px;
+  }
+
+  .panel-icon img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .panel-text {
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 500;
+    margin: 0;
+    color: #1f2937;
+    max-width: 420px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sticky-scroll-wrapper {
+      flex-direction: column;
+      min-height: auto;
+      padding: 0 15px;
+    }
+
+    .sticky-scroll-image-column {
+      flex: none;
+      height: 50vh;
+      margin-bottom: 40px;
+    }
+
+    .sticky-scroll-image-wrapper {
+      position: relative;
+      top: auto;
+      transform: none;
+      max-width: 300px;
+    }
+
+    .sticky-scroll-content-column {
+      padding-left: 0;
+    }
+
+    .sticky-scroll-panel {
+      height: auto;
+      padding: 30px 0;
+      margin-bottom: 20px;
+    }
+
+    .panel-content {
+      padding: 30px;
+    }
+
+    .panel-text {
+      font-size: 16px;
+    }
+
+    .panel-icon img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  /* Mobile Carousel Styles */
+  .sticky-scroll-mobile {
+    padding: 20px 20px 40px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .mobile-section-title {
+    margin-bottom: 32px;
+  }
+
+  .mobile-section-title h2 {
+    color: #111827;
+    line-height: 1.2;
+  }
+
+  .mobile-section-title h2 p {
+    font-weight: 200;
+    margin: 0;
+  }
+  .mobile-section-title h2 strong {
+    font-weight: 400;
+  }
+
+  .mobile-section-title h2 span {
+    display: inline;
+  }
+
+  .mobile-carousel-wrapper {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .mobile-panel {
+    padding: 0;
+    background: white;
+    border-radius: 16px;
+  }
+
+  .mobile-panel-image {
+    margin-bottom: 4px;
+  }
+
+  .mobile-panel-content {
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .mobile-panel-icon {
+    margin-bottom: 16px;
+  }
+
+  .mobile-panel-text p {
+    margin: 0;
+    color: #374151;
+    line-height: 1.25;
+  }
+
+  /* Mobile Navigation */
+  .mobile-carousel-navigation {
+    margin-top: 24px;
+  }
+
+  .mobile-carousel-pagination {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .mobile-carousel-dot {
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background-color: #d3d7db !important;
+    border: 1px solid #67717b !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+  }
+
+  .mobile-carousel-dot:hover {
+    transform: scale(1.2);
+  }
+
+  .mobile-carousel-dot.swiper-pagination-bullet-active {
+    background-color: #292d31 !important;
+    border: 1px solid #292d31 !important;
+  }
+
+  .mobile-carousel-dot:not(.active) {
+  }
+
+  /* Hide mobile layout on desktop */
+  @media (min-width: 1024px) {
+    .sticky-scroll-mobile {
+      display: none;
+    }
+  }
+
+  /* Hide desktop layout on mobile */
+  @media (max-width: 1023px) {
+    .sticky-scroll-wrapper {
+      display: none;
+    }
+  }
+
+  /* Desktop Section Title */
+  .desktop-section-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 40px 20px 0;
+  }
+
+  .desktop-section-title h2 strong {
+    font-weight: 500;
+  }
+
+  .desktop-section-title h2 span {
+    display: inline;
+  }
+</style>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js" defer></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js" defer></script>
+
+<!-- Swiper CSS and JS for mobile carousel -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js" defer></script>
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('🚀 Initializing sticky scroll sections...');
+
+    // Initialize mobile carousel
+    const mobileCarousel = document.querySelector('.mobile-carousel');
+    if (mobileCarousel) {
+      console.log('📱 Initializing mobile carousel...');
+
+      // Initialize Swiper
+      const swiper = new Swiper(mobileCarousel, {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: false,
+        pagination: {
+          el: '.mobile-carousel-pagination',
+          clickable: true,
+          renderBullet: function (index, className) {
+            return (
+              '<button class="' +
+              className +
+              ' mobile-carousel-dot w-3 h-3 rounded-full transition-colors" data-index="' +
+              index +
+              '"></button>'
+            );
+          },
+        },
+        navigation: {
+          nextEl: '.mobile-carousel-next',
+          prevEl: '.mobile-carousel-prev',
+        },
+        on: {
+          slideChange: function () {
+            // Update pagination dots
+            const dots = mobileCarousel.querySelectorAll('.mobile-carousel-dot');
+            dots.forEach((dot, index) => {
+              if (index === this.activeIndex) {
+                dot.classList.remove('bg-gray-300');
+                dot.classList.add('bg-black');
+              } else {
+                dot.classList.remove('bg-black');
+                dot.classList.add('bg-gray-300');
+              }
+            });
+          },
+        },
+      });
+
+      // Add click functionality to pagination dots
+      const dots = mobileCarousel.querySelectorAll('.mobile-carousel-dot');
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', function () {
+          swiper.slideTo(index);
+        });
+      });
+
+      console.log('✅ Mobile carousel initialized');
+    }
+
+    const sections = document.querySelectorAll('.sticky-scroll-wrapper');
+    console.log(`📊 Found ${sections.length} sticky scroll sections`);
+
+    sections.forEach((section, sectionIndex) => {
+      console.log(`🔧 Setting up section ${sectionIndex + 1}...`);
+
+      const stickyImage = section.querySelector('.sticky-scroll-image, .sticky-scroll-placeholder');
+      const panels = section.querySelectorAll('.sticky-scroll-panel');
+
+      if (!stickyImage || panels.length === 0) {
+        console.log(`⚠️ Section ${sectionIndex + 1} missing required elements, skipping...`);
+        return;
+      }
+
+      console.log(`📋 Section ${sectionIndex + 1} has ${panels.length} panels`);
+
+      // Create ScrollMagic controller
+      const controller = new ScrollMagic.Controller();
+
+      // Create scene for each panel
+      panels.forEach((panel, panelIndex) => {
+        const animationX = parseFloat(panel.dataset.animationX || 0);
+        const animationY = parseFloat(panel.dataset.animationY || 0);
+        const animationScale = parseFloat(panel.dataset.animationScale || 100) / 100;
+        const animationRotation = parseFloat(panel.dataset.animationRotation || 0);
+
+        const scene = new ScrollMagic.Scene({
+          triggerElement: panel,
+          triggerHook: 0.5,
+          duration: '100%',
+        })
+          .on('enter', function () {
+            console.log(`🎬 Panel ${panelIndex + 1} entered viewport`);
+
+            const transforms = [];
+            transforms.push(`translateX(${animationX}%)`);
+            transforms.push(`translateY(${animationY}%)`);
+            transforms.push(`scale(${animationScale})`);
+            transforms.push(`rotate(${animationRotation}deg)`);
+
+            const transformString = transforms.join(' ');
+            console.log(`🎯 Applying transform:`, transformString);
+
+            stickyImage.style.transform = transformString;
+          })
+          .on('leave', function () {
+            console.log(`👋 Panel ${panelIndex + 1} left viewport`);
+          })
+          .addTo(controller);
+      });
+
+      // Reset to first panel animation on load
+      if (panels.length > 0) {
+        console.log(`🔄 Resetting to first panel animation on load`);
+
+        const firstPanel = panels[0];
+        const animationX = parseFloat(firstPanel.dataset.animationX || 0);
+        const animationY = parseFloat(firstPanel.dataset.animationY || 0);
+        const animationScale = parseFloat(firstPanel.dataset.animationScale || 100) / 100;
+        const animationRotation = parseFloat(firstPanel.dataset.animationRotation || 0);
+
+        const transforms = [];
+        transforms.push(`translateX(${animationX}%)`);
+        transforms.push(`translateY(${animationY}%)`);
+        transforms.push(`scale(${animationScale})`);
+        transforms.push(`rotate(${animationRotation}deg)`);
+
+        const initialTransform = transforms.join(' ');
+        console.log(`🎯 Initial transform applied:`, initialTransform);
+
+        stickyImage.style.transform = initialTransform;
+      }
+
+      console.log(`✅ Section ${sectionIndex + 1} setup complete`);
+    });
+
+    console.log('🏁 All sticky scroll sections initialized');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Sticky Image Scroll",
+  "class": "sticky-scroll-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Section Title",
+      "default": "<p>Product <strong>Features</strong><br>That Make a <strong>Difference</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Sticky Image"
+    },
+    {
+      "type": "color",
+      "id": "panel_background_color",
+      "label": "Panel Background Color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "info_panel",
+      "name": "Info Panel",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description Text",
+          "default": "Add compelling information about your product feature or benefit."
+        },
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Panel Image"
+        },
+        {
+          "type": "header",
+          "content": "Image Animation"
+        },
+        {
+          "type": "range",
+          "id": "animation_x",
+          "label": "X Position (%)",
+          "min": -50,
+          "max": 50,
+          "step": 1,
+          "default": 0,
+          "info": "Horizontal position offset. 0 = center, negative = left, positive = right"
+        },
+        {
+          "type": "range",
+          "id": "animation_y",
+          "label": "Y Position (%)",
+          "min": -50,
+          "max": 50,
+          "step": 1,
+          "default": 0,
+          "info": "Vertical position offset. 0 = center, negative = up, positive = down"
+        },
+        {
+          "type": "range",
+          "id": "animation_scale",
+          "label": "Scale (%)",
+          "min": 10,
+          "max": 500,
+          "step": 5,
+          "default": 100,
+          "info": "Image scale. 100 = normal size, 50 = half size, 200 = double size"
+        },
+        {
+          "type": "range",
+          "id": "animation_rotation",
+          "label": "Rotation (degrees)",
+          "min": -180,
+          "max": 180,
+          "step": 5,
+          "default": 0,
+          "info": "Image rotation in degrees. 0 = normal, negative = counter-clockwise, positive = clockwise"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Image Scroll",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "info_panel",
+          "settings": {
+            "text": "Sweat resistant vegan leather top layer for cool, dry comfort"
+          }
+        },
+        {
+          "type": "info_panel",
+          "settings": {
+            "text": "Advanced cushioning technology provides all-day support and comfort",
+            "animation_scale": 120,
+            "animation_x": 10
+          }
+        },
+        {
+          "type": "info_panel",
+          "settings": {
+            "text": "Eco-friendly materials sourced from sustainable suppliers worldwide",
+            "animation_rotation": 5,
+            "animation_y": -10
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

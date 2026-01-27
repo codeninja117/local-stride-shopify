@@ -1,0 +1,300 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    --faq-gap: 2rem;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .faq-itemslist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--faq-gap) / 2);
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+   .faq-itemslist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: calc(var(--faq-gap) / 1.5);
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .faq-itemslist {
+      gap: calc(var(--faq-gap) );
+    }
+  }
+
+  .faq-item {
+    flex: 0 0 calc(33.333% - (var(--faq-gap) * 2 / 3));
+    min-width: 280px;
+    max-width: 400px;
+  }
+
+  /* Responsive: 2 columns on medium screens */
+  @media (max-width: 1200px) and (min-width: 769px) {
+    .faq-item {
+      flex: 0 0 calc(50% - (var(--faq-gap) / 2));
+    }
+  }
+
+  /* Mobile: single column */
+  @media (max-width: 768px) {
+    .faq-item {
+      flex: 0 0 100%;
+      min-width: auto;
+    }
+  }
+
+  /* FAQ item styling */
+  .faq-item {
+    background: rgb(var(--color-alternate-background));
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: fit-content;
+  }
+
+  .faq-item__header {
+    margin-bottom: 1rem;
+  }
+
+  .faq-item__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .faq-item__content {
+    color: var(--color-text);
+  }
+
+  .faq-item__answer {
+    line-height: 1.5;
+  }
+
+  .faq-item__answer p {
+    margin: 0;
+  }
+
+  .faq-item__answer p + p {
+    margin-top: 0.75rem;
+  }
+{%- endstyle -%}
+
+<div class="faq-cols section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width page-width--narrow flex flex-col gap-16">
+    <div class="faq-cols__header section-header text-center ">
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><br><span>'
+          }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="text-body-l mt-2">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="section__main">
+      <div class="faq-itemslist">
+        {%- for block in section.blocks -%}
+          <div class="faq-item">
+            <div class="faq-item__header">
+              <h3 class="faq-item__title">{{ block.settings.title }}</h3>
+            </div>
+            <div class="faq-item__content">
+              <div class="faq-item__answer">
+                {{
+                  block.settings.answer
+                  | replace: '<em>', '<span class="opacity-60">'
+                  | replace: '</em>', '</span>'
+                  | replace: '|', '</span> <span>'
+                }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="faq-cols__footer flex flex-col gap-6">
+      <div class="flex flex-col items-center justify-center gap-4 md:flex-row">
+        {%- if section.settings.button_label != blank -%}
+          {% render 'button',
+            tag: 'a',
+            text: section.settings.button_label,
+            url: section.settings.button_link,
+            variant: 'primary'
+          %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ cols",
+  "class": "section-faq-cols",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Frequently Asked|<strong>Questions</strong>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Just like a clinic, Just at home"
+    },
+
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take the Quiz"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "A question for the customers"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>This is the first answer sentence.</p><p>This is the second answer sentence.</p><p>This is the third answer sentence.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ cols",
+      "category": "Uncategorized",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "title": "How are they different?",
+            "answer": "<p>Doctor-guided, custom-fit support vs. generic store-bought insoles.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "Do I need a clinic visit?",
+            "answer": "<p>No — our iOS + Android App captures all the data we need.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "Will they help heel pain?",
+            "answer": "<p>Yes — designed to relieve plantar fascia strain and cushion your heel.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "How long do they last?",
+            "answer": "<p>2–5 years with daily use.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "What if they don’t fit?",
+            "answer": "<p>Free adjustments until they’re perfect. Free Returns up to 180 days.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "Can they fit all shoes?",
+            "answer": "<p>Yes — styles for sneakers, boots, dress shoes, and more.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "How long is the process?",
+            "answer": "<p>About 10 days from kit to delivery.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.stridesoles.com/#organization",
+  "name": "Stride Soles",
+  "alternateName": "Stride",
+  "url": "https://www.stridesoles.com/",
+  "logo": "https://www.stridesoles.com/cdn/shop/files/Stride_Logo_5db41f51-8e31-4468-a757-1f897201cac4.png?v=1738288164",
+  "description": "Custom orthotics and insoles ordered from home, powered by 3D scanning and gait analysis. Podiatrist-designed, made in Germany, with free shipping and a 180-day money-back guarantee.",
+  "slogan": "Think Outside The (Foam) Box",
+  "email": "team@stridesoles.com",
+  "sameAs": [
+    "https://www.instagram.com/stride__soles",
+    "https://www.youtube.com/channel/UCpYJ_A6JV_X9XsTH5FPuhsQ"
+  ],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "team@stridesoles.com",
+      "availableLanguage": ["en"]
+    }
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "ISO 9001:2015 Quality Management Certification (DEKRA)"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "DEKRA Certified"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "Made in Germany"
+    }
+  ]
+}
+</script>
+
+
+{% if template contains 'collection' and collection.products_count > 0 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": {{ collection.title | json }},
+    "url": {{ collection.url | json }},
+    "itemListElement": [
+      {% assign counter = 0 %}
+      {% for product in collection.products %}
+        {% if counter == 15 %}{% break %}{% endif %}
+        {% assign counter = counter | plus: 1 %}
+        {
+          "@type": "Product",
+          "position": {{ counter }},
+          "name": {{ product.title | json }},
+          "description": {{ product.description | strip_html | truncate: 160 | json }},
+          "url": {{ product.url | json }},
+          "image": {{ product.featured_image | image_url: '800x' | json }},
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "{{ shop.currency }}",
+            "price": {{ product.price | divided_by: 100.0 | remove: ','  }},
+            "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+          }
+          {% if product.metafields.reviews.rating.value and product.metafields.reviews.rating_count.value and product.metafields.reviews.rating_count.value > 0 %},
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ product.metafields.reviews.rating.value }}",
+            "reviewCount": "{{ product.metafields.reviews.rating_count.value }}"
+          }
+          {% endif %}
+        }{% unless counter == 15 or forloop.last or counter == collection.products_count %},{% endunless %}
+      {% endfor %}
+    ]
+  }
+  </script>
+{% endif %}

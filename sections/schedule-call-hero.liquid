@@ -1,0 +1,104 @@
+{% if section.settings.image != blank and section.index == 1 %}
+  {{ section.settings.image | asset_url | preload_tag: as: 'image' }}
+{% endif %}
+
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+
+    }
+  }
+{%- endstyle -%}
+
+<div class="schedule-call-hero relative flex min-h-[70dvh] items-end overflow-hidden py-4 text-white">
+  <div class="schedule-call-hero__content page-width z-2 flex w-full flex-col items-end justify-between gap-6 pt-40 md:flex-row lg:pt-50">
+    <div class="lg:w-6/10">
+      <div class="flex flex-col gap-20">
+        <h2 class="text-display-l flex flex-col">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="opacity-40">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><span>'
+          }}
+        </h2>
+
+        <p class="text-body-l">{{ section.settings.subtitle }}</p>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <div>
+        {% render 'button', tag: 'a', text: 'Order Now', url: section.settings.button_url, variant: 'secondary' %}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image.width,
+        sizes: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+        alt: section.settings.title,
+        class: 'absolute inset-0 w-full h-full object-cover object-center scale-out-in',
+        fetchpriority: fetch_priority
+    }}
+  {%- endif -%}
+
+  <div class="absolute inset-0 z-1 bg-black/50"></div>
+</div>
+
+{% schema %}
+{
+  "name": "schedule-call hero",
+  "class": "section-schedule-call-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "Want to discuss something?"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Talk to a</em>|Podiatrist.",
+      "info": "Italic to lower opacity, | for line-break"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Have a question about your foot pain? Not sure what to do? Schedule a <strong>complimentary call.</strong>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "schedule-call hero",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

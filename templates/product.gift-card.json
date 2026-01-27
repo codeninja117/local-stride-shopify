@@ -1,0 +1,130 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "promo": {
+          "type": "promo",
+          "disabled": true,
+          "settings": {
+            "icon": "shopify://shop_images/svg-lightning.svg",
+            "block_title": "<strong>50% OFF BEGINNING OF SUMMER SALE</strong>",
+            "bg_color": "#f4e4d1",
+            "text_color": "#000000",
+            "button_url": "",
+            "button_label": "",
+            "button_type": "primary",
+            "display": "inline",
+            "alignment": "center",
+            "font_size": "base"
+          }
+        },
+        "product_info": {
+          "type": "product_info",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "text_above_button": "Purchase Gift Card Below!"
+          }
+        },
+        "accordions": {
+          "type": "accordions",
+          "disabled": true,
+          "settings": {
+            "block_title": "Product Details",
+            "block_text": "{{ product.metafields.custom.product_details | metafield_tag }}",
+            "block_title_2": "180-Day Money-Back Guarantee",
+            "block_text_2": "<p>Your satisfaction is our number one priority. If we are not helping you reach your goals, simply contact us and we will work with you to create a new custom orthotic. We will continue working with you for up to 6 months until you are satisfied. If we still don’t meet your needs, just let us know and we will refund your order.</p>",
+            "block_title_3": "Free Shipping",
+            "block_text_3": "<p>All orders in the USA include free shipping. Additional rates apply for nternational and expedited orders</p><h2></h2>"
+          }
+        }
+      },
+      "block_order": [
+        "promo",
+        "product_info",
+        "variant_picker",
+        "buy_buttons",
+        "accordions"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "feature_multicolumn_row_EBehmk": {
+      "type": "feature-multicolumn-row",
+      "blocks": {
+        "feature_xFqxUb": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-clock_0eddc2bf-7257-4f56-9f56-3842951d4003.svg",
+            "title": "Reduces Pain",
+            "text": "From flat feet to plantar fasciitis, our master podiatrists have seen it all"
+          }
+        },
+        "feature_XQp87H": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-discount_0b405d85-50ec-40ec-b048-3541d13a8bf7.svg",
+            "title": "Strengthens feet",
+            "text": "Sensorimotor orthotics stimulate muscles through targeted proprioception"
+          }
+        },
+        "feature_gPm4Ef": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-money.svg",
+            "title": "Prevent Injury",
+            "text": "With less strain on your vulnerable knees and ankles"
+          }
+        },
+        "feature_VqEK7c": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-truck_43626673-258b-4eb3-a721-44ceb8345f5f.svg",
+            "title": "Improve Posture",
+            "text": "Stand in a more neutral stance and walk with less over/under pronation"
+          }
+        }
+      },
+      "block_order": [
+        "feature_xFqxUb",
+        "feature_XQp87H",
+        "feature_gPm4Ef",
+        "feature_VqEK7c"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "How Stride <strong>Helps</strong>",
+        "button_url": "",
+        "button_label": "",
+        "disclaimer": "",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "title_accent_color": "#9d9fa9",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "feature_multicolumn_row_EBehmk"
+  ]
+}

@@ -1,0 +1,319 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay_bQifbF": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_wwJc96": {
+          "type": "title",
+          "settings": {
+            "title": "Your Phone  is a |<em><strong> </strong></em><em>Is a Medical Grade Scanner</em>",
+            "title_font_size": "text-display-l",
+            "inline_title": false
+          }
+        },
+        "text_3YjMrb": {
+          "type": "text",
+          "settings": {
+            "text": "Phone scanning is already used by top medical clinics – with Stride its available from home"
+          }
+        },
+        "buttons_MamCAm": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Take The Quiz",
+            "button_url": "/pages/quiz",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_wwJc96",
+        "text_3YjMrb",
+        "buttons_MamCAm"
+      ],
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/StrideSoles_May2025-66.jpg",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 50,
+        "min_height": 80,
+        "min_height_px": 700,
+        "vertical_alignment": "items-end",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "hero_image_text": {
+      "type": "hero-image-text",
+      "disabled": true,
+      "settings": {
+        "reverse_columns": true,
+        "disable_container": false,
+        "image": "shopify://shop_images/comparison_hero.jpg",
+        "media_width": 55,
+        "title": "Your Phone | <strong>Is a Medical Grade </strong>| <strong>Scanner</strong>",
+        "title_font_size": "text-display-m",
+        "subtitle": "Phone scanning is already used by top medical clinics – with Stride its available from home",
+        "vertical_alignment": "items-center",
+        "color_scheme": "",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "image_text_row_AyKj9W": {
+      "type": "image-text-row",
+      "blocks": {
+        "title_irdtb3": {
+          "type": "title",
+          "settings": {
+            "title": "How Does The |<strong> Scanner Work?</strong>",
+            "font_size": "text-h1"
+          }
+        },
+        "spacer_e89W4f": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 16,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "richtext_P7yAxC": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p>Our smartphone 3D scanner creates a dot map across the surface of your foot with over 30,000 nodes. That means we  capture sub-millimeter level detail in just a few seconds. But that's just part 1.</p><p>With advanced AI, we then adjust the foot in post processing to be in subtalar neutral, the gold standard position for orthosis modeling.</p>",
+            "font_size": "text-body-m"
+          }
+        }
+      },
+      "block_order": [
+        "title_irdtb3",
+        "spacer_e89W4f",
+        "richtext_P7yAxC"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 749px) {.image-text-row__content {flex-direction: column-reverse; }}"
+      ],
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/phone_transparent.png",
+        "image_caption": "",
+        "aspect_ratio": "adapt",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-contain",
+        "media_width": 25,
+        "color_scheme": "scheme-510e4a9e-f0e0-435b-aa34-795106ccfe84",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collage_ADWKGT": {
+      "type": "collage",
+      "blocks": {
+        "image_yJthMk": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/compare_1.png",
+            "column_span": 5
+          }
+        },
+        "image_fPRm4W": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/compare_2.png",
+            "column_span": 7
+          }
+        }
+      },
+      "block_order": [
+        "image_yJthMk",
+        "image_fPRm4W"
+      ],
+      "custom_css": [
+        "p {margin-top: 20px;}"
+      ],
+      "settings": {
+        "title": "Who Uses | <strong>3D Scanning</strong>",
+        "subtitle": "In fact, clinicians use the same scanning technology not only for feet, but it's used for everything from treating shoulder deformity at <strong>Stanford University</strong> to custom helmets for babies.",
+        "image_height": 400,
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_7Y7ayH": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_jJRVpW": {
+          "type": "text",
+          "settings": {
+            "text": "<em>When I first experienced the Stride process, I was blown away. The questions asked in their intake form, the scanner, the gait analysis - it all mirrored what I was doing in clinic. I can now remotely offer my patients orthotics that adhere to full podiatry standards.</em>",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_Cwejby": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_xJrwYJ": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Stephanie Kane, DPM",
+            "font_size": "text-h2"
+          }
+        },
+        "text_yHg8Eb": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Foot & Ankle Surgeon</strong>",
+            "font_size": "text-body-l",
+            "text_color": "text-muted"
+          }
+        }
+      },
+      "block_order": [
+        "text_jJRVpW",
+        "spacer_Cwejby",
+        "title_xJrwYJ",
+        "text_yHg8Eb"
+      ],
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/Dr._Stephanie_Kane_DPM.png",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 40,
+        "color_scheme": "scheme-e6b0860f-fb86-4188-90a7-33e919db9b84",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "foambox_vs_scanner_NBCNDT": {
+      "type": "foambox-vs-scanner",
+      "blocks": {
+        "feature_iztEje": {
+          "type": "Feature",
+          "settings": {
+            "title": "Accuracy",
+            "stride_feature": "High precision digital capture, sub-millimeter accuracy",
+            "other_feature": "Prone to deformation, inconsistent depth"
+          }
+        },
+        "feature_yEHVeM": {
+          "type": "Feature",
+          "settings": {
+            "title": "Patient Comfort",
+            "stride_feature": "Quick, clean, non-contact, no physical pressure",
+            "other_feature": "Uncomfortable, messy, risk of misalignment"
+          }
+        },
+        "feature_NW8zHq": {
+          "type": "Feature",
+          "settings": {
+            "title": "Consistency",
+            "stride_feature": "Standardized digital process ensures repeatability",
+            "other_feature": "Results vary with technique & operator"
+          }
+        },
+        "feature_pMBxP4": {
+          "type": "Feature",
+          "settings": {
+            "title": "Speed",
+            "stride_feature": "Instant digital capture and file transfer",
+            "other_feature": "Slow — takes time to mold, ship, and digitize"
+          }
+        },
+        "feature_XLfAb9": {
+          "type": "Feature",
+          "settings": {
+            "title": "Durability of Model",
+            "stride_feature": "Permanent, re-usable digital files",
+            "other_feature": "Breaks, distorts, & degrades (and gets lost in shipment)"
+          }
+        },
+        "feature_KJLANj": {
+          "type": "Feature",
+          "settings": {
+            "title": "Remote Collaboration",
+            "stride_feature": "Instant digital file sharing with labs and clinicians",
+            "other_feature": "Requires physical shipping of molds"
+          }
+        },
+        "feature_PtgbkF": {
+          "type": "Feature",
+          "settings": {
+            "title": "Environmentally Friendly",
+            "stride_feature": "Zero waste, sustainable digital process",
+            "other_feature": "Disposable foam waste ends up in landfill"
+          }
+        }
+      },
+      "block_order": [
+        "feature_iztEje",
+        "feature_yEHVeM",
+        "feature_NW8zHq",
+        "feature_pMBxP4",
+        "feature_XLfAb9",
+        "feature_KJLANj",
+        "feature_PtgbkF"
+      ],
+      "settings": {
+        "page_width_size": "",
+        "title": "Compare | <strong>Foambox vs. Scanner</strong>",
+        "subtitle": "Top clinics across the country have moved away from foam boxes, and Stride Soles is no different.",
+        "disclaimer": "",
+        "text_alignment": "center",
+        "button_label": "",
+        "button_url": "",
+        "other_feature": "Stride 3D Scanner",
+        "stride_image": "shopify://shop_images/stride__3d.jpg",
+        "stride_color_scheme": "",
+        "other_title": "Foam Box",
+        "other_image": "shopify://shop_images/foambox.png",
+        "other_color_scheme": "",
+        "table_header_title": "Feature",
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay_bQifbF",
+    "hero_image_text",
+    "image_text_row_AyKj9W",
+    "collage_ADWKGT",
+    "image_text_row_7Y7ayH",
+    "foambox_vs_scanner_NBCNDT"
+  ]
+}

@@ -1,0 +1,135 @@
+{% if section.settings.image != blank and section.index == 1 %}
+  {{ section.settings.image | asset_url | preload_tag: as: 'image' }}
+{% endif %}
+
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: #000000;
+    --text-color: #FFFFFF;
+  }
+{% endstyle %}
+
+<div class="about-hero relative flex min-h-[70dvh] items-end overflow-hidden py-4 pt-40 text-white">
+  <div class="about-hero__content z-2 flex w-full flex-col gap-12 px-4 md:px-8 lg:p-16 xl:flex-row xl:items-end xl:justify-between xl:gap-16">
+    <div class="">
+      <div class="flex max-w-110 flex-col gap-4 lg:gap-20">
+        <h2 class="display display-1 flex flex-col">
+          {% assign title_parts = section.settings.title | newline_to_br | split: '<br />' %}
+          {% for part in title_parts %}
+            <span>{{ part }}</span>
+          {% endfor %}
+        </h2>
+
+        <p class="text-lg md:text-xl lg:text-2xl">{{ section.settings.subtitle }}</p>
+      </div>
+    </div>
+
+    <div class=" flex flex-1 flex-col items-end gap-6 md:gap-12 xl:flex-row xl:justify-end">
+      <div class="w-3/4 opacity-70 md:w-120 ">
+        <p class="flex justify-center text-base md:text-lg">{{ section.settings.subtitle_2 }}</p>
+      </div>
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="flex">
+          <div>
+            {% render 'button',
+              tag: 'a',
+              text: section.settings.button_label,
+              url: section.settings.button_url,
+              variant: 'secondary'
+            %}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image.width,
+        height: section.settings.image.height,
+        sizes: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+        alt: section.settings.title,
+        class: 'absolute inset-0 w-full h-full object-cover object-center scale-out-in',
+        fetchpriority: fetch_priority
+    }}
+  {%- endif -%}
+
+  <div class="absolute inset-0 z-1 bg-black/50"></div>
+</div>
+
+{% schema %}
+{
+  "name": "About hero",
+  "class": "section-about-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "About\nStride"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "At Stride, we fuse cutting-edge technology with clinical compassion to make healthcare accessible and convenient for all."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle_2",
+      "label": "Subtitle 2",
+      "default": "Our solutions empower people to live life to the fullest, helping them overcome their pain and grow into the very best versions of themselves."
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take our Quiz"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About hero",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

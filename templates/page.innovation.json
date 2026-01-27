@@ -1,0 +1,420 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_image_text": {
+      "type": "hero-image-text",
+      "settings": {
+        "reverse_columns": false,
+        "disable_container": true,
+        "image": "shopify://shop_images/innovation_hero.jpg",
+        "media_width": 50,
+        "title": "The Craftsmanship | <strong>Behind Your Orthotics</strong>",
+        "title_font_size": "text-display-m",
+        "subtitle": "We believe in transparency – We want you to know exactly who and where your orthotics come from.",
+        "vertical_alignment": "items-center",
+        "color_scheme": "",
+        "padding_top": 100,
+        "padding_bottom": 120
+      }
+    },
+    "mosaic_gallery": {
+      "type": "mosaic-gallery",
+      "blocks": {
+        "image_hJTRWV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223810.jpg",
+            "column_position": "1"
+          }
+        },
+        "image_pNjFkh": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223817.jpg",
+            "column_position": "1"
+          }
+        },
+        "image_n8eUBh": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223811.jpg",
+            "column_position": "2"
+          }
+        },
+        "image_yKAktw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223812.jpg",
+            "column_position": "2"
+          }
+        },
+        "image_BQeyT4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223813.png",
+            "column_position": "3"
+          }
+        },
+        "image_xwqrpw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223816.jpg",
+            "column_position": "3"
+          }
+        },
+        "image_bMVwAC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223814.jpg",
+            "column_position": "4"
+          }
+        },
+        "image_8mbqJq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223815.jpg",
+            "column_position": "4"
+          }
+        },
+        "image_6G4WdM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223818.png",
+            "column_position": "4"
+          }
+        }
+      },
+      "block_order": [
+        "image_hJTRWV",
+        "image_pNjFkh",
+        "image_n8eUBh",
+        "image_yKAktw",
+        "image_BQeyT4",
+        "image_xwqrpw",
+        "image_bMVwAC",
+        "image_8mbqJq",
+        "image_6G4WdM"
+      ],
+      "settings": {
+        "title": "",
+        "title_font_size": "text-h4",
+        "subtitle": "All orthotics are custom designed for you by our award winning team in Obberkochen, Germany. We have designed over 90,000 pairs of orthotics, including those made for PGA Golfers, World Cup soccer players, Ironman athletes, and even F1 drivers.",
+        "subtitle_font_size": "text-body-l",
+        "make_subtitle_color_primary": true,
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "banner_with_caption_XwYwPn": {
+      "type": "banner-with-caption",
+      "settings": {
+        "image": "shopify://shop_images/innnovation_banner.png",
+        "caption": "Orthotics getting finished at the factory.",
+        "height": 460,
+        "color_scheme": "scheme-3"
+      }
+    },
+    "image_text_row_tGaEzW": {
+      "type": "image-text-row",
+      "blocks": {
+        "eyebrow_FcmEf7": {
+          "type": "eyebrow",
+          "settings": {
+            "eyebrow_text": "This is an eyebrow"
+          }
+        },
+        "title_jrx7kY": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Dietmar Walter",
+            "font_size": "text-h2"
+          }
+        },
+        "text_crDaK3": {
+          "type": "text",
+          "settings": {
+            "text": "Head of Podiatry",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_846FYi": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 50,
+            "fill_height": false
+          }
+        },
+        "text_BMPJWC": {
+          "type": "text",
+          "settings": {
+            "text": "At the helm of our medical team is Dr. Dietmar Walter, Our Head of Podiatry, Master Podiatrist, and world renowned Innovator in the podiatry space. Dietmar is a leader in orthotics design and has won numerous awards including the prestigious Innovation German Industry Award.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_gybQVq": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 50,
+            "fill_height": false
+          }
+        },
+        "image_Bb6kgT": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/innovation_doc_awards.png",
+            "image_width": 250
+          }
+        },
+        "buttons_byY4yz": {
+          "type": "buttons",
+          "settings": {}
+        },
+        "spacer_tD7eAn": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 50,
+            "fill_height": false
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_FcmEf7",
+        "title_jrx7kY",
+        "text_crDaK3",
+        "spacer_846FYi",
+        "text_BMPJWC",
+        "spacer_gybQVq",
+        "image_Bb6kgT",
+        "buttons_byY4yz",
+        "spacer_tD7eAn"
+      ],
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "",
+        "image": "shopify://shop_images/innovation_dr.png",
+        "aspect_ratio": "150%",
+        "mobile_aspect_ratio": "125%",
+        "object_fit": "object-cover",
+        "media_width": 35,
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_AygAmq": {
+      "type": "image-text-row",
+      "blocks": {
+        "title_YNFKCM": {
+          "type": "title",
+          "settings": {
+            "title": "Dominik Walter",
+            "font_size": "text-h2"
+          }
+        },
+        "text_f6wbfA": {
+          "type": "text",
+          "settings": {
+            "text": "Director of Design",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_iYfNwb": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "richtext_HcydLJ": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p>Dominik has been engineering custom orthotics for over a decade. His research focuses on the relationship between orthotic design and gait physiology.</p>",
+            "font_size": "text-body-l"
+          }
+        },
+        "spacer_iXBPYD": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "card_YCcpgU": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/innovationcard.png",
+            "badge_icon": "shopify://shop_images/badge_icon_0f1e915b-fa0d-40fd-86c0-e1817a2f3367.svg",
+            "badge_title": "Our History",
+            "text": "The Walter family patriarch, Berhard, was the last remaining Orthopedic Shoe Maker in the region as most craftsmen got replaced by overseas knockoffs."
+          }
+        }
+      },
+      "block_order": [
+        "title_YNFKCM",
+        "text_f6wbfA",
+        "spacer_iYfNwb",
+        "richtext_HcydLJ",
+        "spacer_iXBPYD",
+        "card_YCcpgU"
+      ],
+      "settings": {
+        "reverse_columns": true,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "",
+        "image": "shopify://shop_images/innovaiton_otherdoc.png",
+        "aspect_ratio": "150%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 35,
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_R6XeGG": {
+      "type": "image-text-row",
+      "blocks": {
+        "title_Tb3cWq": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Zac Cartun, M.D.",
+            "font_size": "text-h2"
+          }
+        },
+        "text_xWB8QP": {
+          "type": "text",
+          "settings": {
+            "text": "Chief Medical Officer",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_zJyzAk": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "richtext_TYXKJy": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p>Co-founder and Chief Medical Officer, Dr. Zac Cartun MD, combines clinical experience with his passion for patient-centric medicine to make foot health accessible through a medically rigorous yet user-friendly orthotic ordering experience.</p><p>His previous work includes developing an at-home pre-natal ultrasound process for expectant mothers, overseeing health system telehealth integrations, and designing clinical decision support tools for cardiology patients.</p>",
+            "font_size": "text-body-l"
+          }
+        }
+      },
+      "block_order": [
+        "title_Tb3cWq",
+        "text_xWB8QP",
+        "spacer_zJyzAk",
+        "richtext_TYXKJy"
+      ],
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "",
+        "image": "shopify://shop_images/ZachAttack-68.jpg",
+        "aspect_ratio": "150%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 35,
+        "color_scheme": "scheme-e76f7d37-521d-41f8-9da6-4c04e5612c74",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "call_to_action_fNnHFU": {
+      "type": "call-to-action",
+      "blocks": {
+        "icon_jzzdip": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-check-circle.svg",
+            "icon_size": 82
+          }
+        },
+        "title_8e79ae": {
+          "type": "title",
+          "settings": {
+            "title": "6 free months to fall in love with your custom insoles - worry-free!",
+            "title_font_size": "text-h2"
+          }
+        },
+        "text_xHCMwp": {
+          "type": "text",
+          "settings": {
+            "text": "Not fitting well? Need adjustments? No problem! We’ll adjust your custom insoles to fit like a dream so you can get back to enjoying life pain-free."
+          }
+        },
+        "image_PXXqKY": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/factory_collage.png"
+          }
+        },
+        "button_GxftiJ": {
+          "type": "button",
+          "settings": {
+            "button_url": "shopify://pages/quiz",
+            "button_label": "Take the Quiz",
+            "disclaimer": "180 Return Policy",
+            "button_type": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_jzzdip",
+        "title_8e79ae",
+        "text_xHCMwp",
+        "image_PXXqKY",
+        "button_GxftiJ"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "inner_color_scheme": "",
+        "enable_wrapper": false,
+        "enable_border_radius": true,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "hero_image_text",
+    "mosaic_gallery",
+    "banner_with_caption_XwYwPn",
+    "image_text_row_tGaEzW",
+    "image_text_row_AygAmq",
+    "image_text_row_R6XeGG",
+    "call_to_action_fNnHFU"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-quiz",
+      "settings": {
+        "typeform_id": "01K2KD1Z1V1X75E9P0315PPZ93",
+        "default_variant_id": "40606957371456"
+      }
+    }
+  },
+  "order": ["main"]
+}

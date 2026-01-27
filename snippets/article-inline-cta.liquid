@@ -1,0 +1,35 @@
+<div class="article-inline-cta flex flex-wrap items-start gap-5 rounded-xl bg-black/5 p-5">
+  {%- if cta.image != blank -%}
+    {{
+      cta.image
+      | image_url: width: 180, height: 180
+      | image_tag: class: 'h-23 w-23 rounded-xl object-cover !my-0', loading: 'lazy'
+    }}
+  {%- else -%}
+    <div class="h-12 w-12 rounded-full bg-black/20"></div>
+  {%- endif -%}
+  <div class="flex-1">
+    {%- if cta.title != blank -%}
+      <p class="mt-0 mb-1 text-xl font-bold">{{ cta.title }}</p>
+    {%- endif -%}
+
+    {%- if cta.description != blank -%}
+      <div>{{ cta.description | metafield_tag }}</div>
+    {%- endif -%}
+  </div>
+  {%- if cta.button_label != blank -%}
+    {% render 'button', tag: 'a', text: cta.button_label, url: cta.button_link, variant: 'primary' %}
+  {%- endif -%}
+</div>
+
+<style>
+  .article-inline-cta .metafield-rich_text_field {
+    font-size: 16px;
+  }
+  .article-inline-cta .metafield-rich_text_field > *:first-child {
+    margin-top: 0;
+  }
+  .article-inline-cta .metafield-rich_text_field > *:last-child {
+    margin-bottom: 0;
+  }
+</style>

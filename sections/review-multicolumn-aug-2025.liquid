@@ -1,0 +1,177 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --text-color: rgb(0,0,0);
+    background-color: {{ section.settings.background_color | default: '#F5F6F9' }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 1024px) {
+  #shopify-section-{{ section.id }} {
+    padding-top: 40px;
+    padding-bottom: 24px;
+  }
+  }
+  .section-review-multicolumn {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  {% if section.settings.review_font_size_mobile != blank %}
+    .section-review-multicolumn .review-text {
+      font-size: {{ section.settings.review_font_size_mobile }};
+    }
+  {% endif %}
+
+  @media screen and (min-width: 1024px) {
+    {% if section.settings.review_font_size_desktop != blank %}
+      .section-review-multicolumn .review-text {
+        font-size: {{ section.settings.review_font_size_desktop }};
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="review-multicolumn {% if section.settings.enable_wrapper %}page-width {% else %}px-4{% endif %}">
+  <div class="rounded-xl bg-white px-6 py-6 md:px-10 md:py-10">
+    <review-multicolumn-carousel class="swiper relative" data-pagination="bullets">
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign logo_width = block.settings.logo_width
+            assign logo_width2x = logo_width | times: 2.00
+          -%}
+
+          {% style %}
+            .review-multicolumn__logo-el {
+              width: {{ logo_width }}px;
+            }
+          {% endstyle %}
+          <div class="swiper-slide">
+            <div class="review-multicolumn__review flex flex-col gap-6">
+              <p class="review-text flex-1">{{ block.settings.review }}</p>
+              {{
+                block.settings.logo
+                | image_url: width: logo_width2x
+                | image_tag: alt: block.settings.title, class: 'h-auto review-multicolumn__logo-el', loading: 'lazy'
+              }}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="swiper-pagination mt-4 justify-end md:justify-center"></div>
+    </review-multicolumn-carousel>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review multicolumn Aug25",
+  "class": "section-review-multicolumn js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_wrapper",
+      "label": "Enable wrapper",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5F6F9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "text",
+      "id": "review_font_size_mobile",
+      "label": "Review text font size (mobile)",
+      "info": "e.g., 1rem, 16px, 1.2em"
+    },
+    {
+      "type": "text",
+      "id": "review_font_size_desktop",
+      "label": "Review text font size (desktop)",
+      "info": "e.g., 1.125rem, 18px, 1.4em"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Reviewer name"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "review",
+          "label": "Review"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "min": 50,
+          "max": 300,
+          "step": 10,
+          "unit": "px",
+          "label": "Logo width",
+          "default": 150
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review multicolumn Aug25",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

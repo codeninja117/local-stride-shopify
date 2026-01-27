@@ -1,0 +1,279 @@
+{%- liquid
+  if section.settings.default_variant_id != blank
+    assign default_variant_id = section.settings.default_variant_id
+  else
+    assign default_variant_id = '40606957371456'
+  endif
+
+  if section.settings.typeform_id != blank
+    assign typeform_id = section.settings.typeform_id
+  else
+    assign typeform_id = '01KEAZNTY82JBXT4Z6AKR9HE2B'
+  endif
+-%}
+
+{% style %}
+  .header-group {
+    display: none;
+  }
+
+  .shopify-section-group-footer-group {
+    display: none;
+  }
+{% endstyle %}
+
+<!-- Load the Typeform SDK first -->
+<script src="https://embed.typeform.com/next/embed.js"></script>
+
+{% comment %}
+  <div
+    id="typeform-quiz"
+    data-tf-live="01JNMMMZJR147TR3G3GQ1623W9"
+    data-tf-inline-on-mobile
+    data-tf-hidden="variant={{ default_variant_id }}"
+  ></div>
+{% endcomment %}
+
+<div
+  id="typeform-quiz"
+  data-tf-live="{{ typeform_id }}"
+  data-tf-inline-on-mobile
+  data-tf-hidden="variant={{ default_variant_id }}"
+></div>
+
+<script>
+  // Get variant ID from URL parameters (priority) or default from section settings
+  const urlParams = new URLSearchParams(window.location.search);
+  const variantId = urlParams.get('variant') || '{{ default_variant_id }}';
+
+  // localStorage functions
+  function setQuizState(key, value) {
+    localStorage.setItem(key, value);
+    console.log(`localStorage set: ${key}=${value}`);
+  }
+
+  function getQuizState(key) {
+    return localStorage.getItem(key);
+  }
+
+  function clearQuizState() {
+    localStorage.removeItem('quiz_started');
+    localStorage.removeItem('quiz_completed');
+    localStorage.removeItem('quiz_variant');
+    localStorage.removeItem('quiz_timestamp');
+    console.log('Quiz localStorage cleared');
+  }
+
+  // Function to redirect to checkout directly
+  function redirectToCheckout(variantId) {
+    if (!variantId) {
+      console.error('No variant ID available for checkout');
+      return;
+    }
+
+    console.log(`Redirecting to direct checkout with variant: ${variantId}`);
+
+    // Create the direct checkout URL
+    const checkoutUrl = `/cart/${variantId}:1`;
+
+    // Redirect to checkout
+    window.location.href = checkoutUrl;
+  }
+
+
+// Setup dynamic preselection attributes
+function setupDynamicAttributes() {
+  const typeformDiv = document.getElementById('typeform-quiz');
+  
+  // Build hidden fields with ALL the preselected values
+  const hiddenFields = [];
+  
+  // Start with the variant ID
+  hiddenFields.push(`variant=${variantId}`);
+  
+  // Standard tracking fields
+  hiddenFields.push('source=website');
+  hiddenFields.push(`timestamp=${Date.now()}`);
+  
+  // Pass through pairs parameter
+  if (urlParams.get('pairs')) {
+      hiddenFields.push(`pairs=${urlParams.get('pairs')}`);
+  }
+  
+  // Add preselected answers as hidden fields with answers- prefix
+  // URL parameters already contain the UUIDs, so use them directly
+  const reasonValue = urlParams.get('reason');
+  if (reasonValue) {
+      hiddenFields.push(`answers-main_reason=${reasonValue}`);
+      console.log('🎯 Hidden field: main_reason =', reasonValue);
+  }
+  
+  const archValue = urlParams.get('arch');
+  if (archValue) {
+      hiddenFields.push(`answers-arch_height=${archValue}`);
+      console.log('🎯 Hidden field: arch_height =', archValue);
+  }
+  
+  const painValue = urlParams.get('pain_freq');
+  if (painValue) {
+      hiddenFields.push(`answers-pain_frequency=${painValue}`);
+      console.log('🎯 Hidden field: pain_frequency =', painValue);
+  }
+  
+  const conditionValue = urlParams.get('condition');
+  if (conditionValue) {
+      hiddenFields.push(`answers-conditions=${conditionValue}`);
+      console.log('🎯 Hidden field: conditions =', conditionValue);
+  }
+  
+  const genderValue = urlParams.get('gender');
+  if (genderValue) {
+      hiddenFields.push(`answers-gender=${genderValue}`);
+      console.log('🎯 Hidden field: gender =', genderValue);
+  }
+  
+  const shoeValue = urlParams.get('shoe');
+  if (shoeValue) {
+      hiddenFields.push(`answers-shoe_type=${shoeValue}`);
+      console.log('🎯 Hidden field: shoe_type =', shoeValue);
+  }
+  
+  // Set the hidden fields
+  typeformDiv.setAttribute('data-tf-hidden', hiddenFields.join(','));
+  console.log('🔒 All hidden fields:', hiddenFields.join(','));
+  
+  // Also try preselect for the first question
+  if (archValue) {
+      typeformDiv.setAttribute('data-tf-preselect', `arch_height=${archValue}`);
+      console.log('📋 Also set preselect for arch');
+  }
+}
+
+
+  // Listen for all messages from Typeform iframe
+  window.addEventListener('message', function (event) {
+    console.log('Message received:', event.data);
+
+    // Check if the message is from Typeform
+    if (event.data && typeof event.data === 'object') {
+      // Log all event types for debugging
+      if (event.data.type) {
+        console.log('Typeform event type:', event.data.type);
+      }
+
+      // Check for form started events (multiple possible event types)
+      if (
+        event.data.type === 'form-ready' ||
+        event.data.type === 'typeform-ready' ||
+        event.data.type === 'ready' ||
+        event.data.type === 'load'
+      ) {
+        console.log('Quiz started event detected');
+
+        // Set started state in localStorage
+        setQuizState('quiz_started', 'true');
+        setQuizState('quiz_timestamp', Date.now().toString());
+
+        // Store the variant ID in localStorage
+        if (variantId) {
+          setQuizState('quiz_variant', variantId);
+        }
+      }
+
+      // Check for form submit
+      if (event.data.type === 'form-submit' || event.data.type === 'typeform-submit' || event.data.type === 'submit') {
+        console.log('Quiz completed event detected');
+        setQuizState('quiz_completed', 'true');
+
+        // Redirect to checkout with the variant ID
+        //  *** Uncomment the line below to redirect to checkout ***
+        {% comment %} redirectToCheckout(variantId); {% endcomment %}
+      }
+    }
+  });
+
+  // Additional initialization to ensure we can debug
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('Quiz script loaded');
+    console.log('Using variant ID:', variantId);
+
+    // Log existing quiz state for debugging
+    console.log('Existing quiz state:', {
+      started: getQuizState('quiz_started'),
+      completed: getQuizState('quiz_completed'),
+      variant: getQuizState('quiz_variant'),
+      timestamp: getQuizState('quiz_timestamp')
+    });
+
+    // Set up dynamic preselection attributes BEFORE Typeform loads
+    setupDynamicAttributes();
+
+    // Log URL parameters for debugging
+    console.log('🔍 URL params:', Object.fromEntries(urlParams));
+
+    // Check if Typeform's SDK is available
+    if (window.tf) {
+      console.log('Typeform SDK loaded successfully');
+    } else {
+      console.error('Typeform SDK not loaded');
+    }
+
+    // Update the Typeform hidden field with the variant ID from URL if available
+    const typeformElement = document.getElementById('typeform-quiz');
+    
+
+    // Add manual event logger to Typeform element
+    if (typeformElement) {
+      console.log('Typeform element found in DOM');
+
+      // Create a MutationObserver to detect when the iframe is added
+      const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          if (mutation.addedNodes.length) {
+            console.log('Typeform iframe added to DOM');
+
+            // Look for iframe
+            const iframe = typeformElement.querySelector('iframe');
+            if (iframe) {
+              console.log('Typeform iframe found, src:', iframe.src);
+            }
+          }
+        });
+      });
+
+      // Start observing
+      observer.observe(typeformElement, { childList: true, subtree: true });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Quiz",
+  "class": "section-main-quiz",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Set default product that typeform will add to checkout. Go to `settings/quiz settings` to change."
+    },
+    {
+      "type": "paragraph",
+      "content": "To pass in a custom variant, append `?variant={variant_id}` to the URL. Example: `/pages/quiz?variant=123`"
+    },
+    {
+      "type": "text",
+      "id": "typeform_id",
+      "label": "Typeform ID",
+      "default": "01KEAZNTY82JBXT4Z6AKR9HE2B",
+      "info": "data-tf-live=\"{{ section.settings.typeform_id }}\""
+    },
+    {
+      "type": "text",
+      "id": "default_variant_id",
+      "label": "Default variant ID",
+      "default": "40606957371456"
+    }
+  ]
+}
+{% endschema %}

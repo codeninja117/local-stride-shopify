@@ -1,0 +1,241 @@
+{% comment %}
+  Renders a product media gallery.
+
+  Accepts:
+  - product: {Object} Product liquid object
+  - variant_images: {Array} Product images associated with a variant
+  - limit: {Number} (optional) When passed, limits the number of media items to render
+
+  Usage:
+  {% render 'product-media-gallery' %}œz
+{% endcomment %}
+
+{%- liquid
+  assign media_count = product.media.size
+  if section.settings.hide_variants and media_count > 1 and variant_images.size > 0
+    assign media_count = media_count | minus: variant_images.size | plus: 1
+  endif
+-%}
+
+{%- capture sizes -%}
+  (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | times: 0.5 | divided_by: 2.0 | round }}px, (min-width: 990px) calc({{ 0.5 | times: 100 | divided_by: 2.0 }}vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / {{ 1 }} - 4rem)
+{%- endcapture -%}
+
+{%- case section.settings.media_gallery_layout -%}
+  {%- when 'grid' -%}
+    <media-gallery
+      id="MediaGallery-{{ section.id }}"
+      class="relative -mx-4 block md:mx-0"
+      role="region"
+      aria-label="Product media gallery"
+    >
+      <ul class="scrollbar-hide scrollbar-hide relative flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-4 overflow-x-auto scroll-smooth after:w-0 after:pl-4 md:grid md:grid-cols-2 md:overflow-hidden">
+        {%- for media in product.media -%}
+          <li class="relative aspect-square w-[calc(100%-2rem)] md:w-full{% if forloop.first %} ml-4 md:ml-0 md:col-span-2{% else %}{% endif %} flex-shrink-0 snap-start overflow-hidden rounded-lg">
+            {% comment %}
+              {%- if forloop.first -%}
+                <div class="made-in-germany-badge absolute top-2 left-2">
+                  <div class="made-in-germany-badge__flag"></div>
+                  MADE IN GERMANY
+                </div>
+              {%- endif -%}
+            {% endcomment %}
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                <modal-opener data-modal="#ProductModal-{{ modal_id }}" class="block h-full w-full">
+                  {{
+                    media
+                    | image_url: width: 1946
+                    | image_tag:
+                      class: 'w-full h-full object-cover absolute inset-0',
+                      loading: lazy,
+                      sizes: '100vw',
+                      widths: '640, 768, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                      fetch_priority: 'high',
+                      alt: media.alt,
+                      loading: 'auto',
+                      width: 640,
+                      height: 640
+                  }}
+                  <button
+                    class="product__media-toggle after:absolute after:inset-0 after:z-2 after:bg-black/50 after:opacity-0 after:transition-opacity after:duration-200 after:ease-in-out after:group-hover:opacity-100"
+                    type="button"
+                    aria-haspopup="dialog"
+                    data-media-id="{{ media.id }}"
+                  >
+                    <span class="sr-only">
+                      {{ 'products.product.media.open_media' | t: index: position }}
+                    </span>
+                  </button>
+                </modal-opener>
+              {% when 'video' %}
+                {{
+                  media
+                  | media_tag:
+                    image_size: '768x',
+                    autoplay: true,
+                    loop: true,
+                    preload: 'auto',
+                    class: 'w-full h-full object-cover',
+                    playsinline: true,
+                    muted: true,
+                    controls: false
+                }}
+
+                <modal-opener
+                  data-modal="#ProductModal-{{ modal_id }}"
+                  class="absolute right-2 bottom-2 z-10 inline-flex w-fit items-center gap-2 rounded-md"
+                  style="--color-secondary-button: 255,255,255;"
+                >
+                  <button class="btn-video h-14 w-14" aria-haspopup="dialog" data-media-id="{{ media.id }}">
+                    <div class="btn-video__inner">
+                      <div class="btn-video__text-wrapper">
+                        <span class="btn-video__text">
+                          <span class="svg-wrapper text-human pointer-events-none h-4 w-4 md:h-4 md:w-4">
+                            {{- 'icon-play.svg' | inline_asset_content -}}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                </modal-opener>
+            {%- endcase -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <media-gallery-pagination class="mt-2 flex justify-center md:hidden">
+        {%- for media in product.media -%}
+          <button
+            class="flex h-[26px] w-[26px] items-center justify-center"
+            aria-label="Pagination button {{ forloop.index }}"
+            data-index="{{ forloop.index }}"
+          >
+            <div class="h-2 w-2 rounded-full bg-[#C2C2C2]"></div>
+          </button>
+        {%- endfor -%}
+      </media-gallery-pagination>
+    </media-gallery>
+  {%- when 'slideshow' -%}
+    <thumbnail-gallery class="sticky top-4">
+      <!-- Main Gallery -->
+      <div class="main-gallery swiper overflow-hidden rounded-lg" data-js="main-gallery">
+        <div class="swiper-wrapper">
+          {%- for media in product.media -%}
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                <div class="swiper-slide">
+                  {{
+                    media
+                    | image_url: width: 1946
+                    | image_tag:
+                      class: 'w-full h-full object-cover aspect-square',
+                      loading: lazy,
+                      sizes: '100vw',
+                      widths: '640, 768, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                      fetch_priority: 'high',
+                      alt: media.alt,
+                      loading: 'auto',
+                      width: 640,
+                      height: 640
+                  }}
+                </div>
+              {%- when 'video' -%}
+                <div class="swiper-slide">
+                  {{
+                    media
+                    | media_tag:
+                      image_size: '768x',
+                      autoplay: true,
+                      loop: true,
+                      preload: 'auto',
+                      class: 'w-full h-full object-cover aspect-square',
+                      playsinline: true,
+                      muted: true,
+                      controls: false
+                  }}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+
+      <!-- Thumbnail Gallery -->
+      <div class="thumbs-gallery swiper mt-2" data-js="thumbs">
+        <div class="swiper-wrapper">
+          {%- for media in product.media -%}
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                <div class="swiper-slide">
+                  {{
+                    media
+                    | image_url: width: 1946
+                    | image_tag:
+                      class: 'w-full h-full object-cover aspect-square rounded-lg overflow-hidden',
+                      loading: lazy,
+                      sizes: '100vw',
+                      widths: '640, 768, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                      fetch_priority: 'high',
+                      alt: media.alt,
+                      loading: 'auto',
+                      width: 640,
+                      height: 640
+                  }}
+                </div>
+              {%- when 'video' -%}
+                <div class="swiper-slide">
+                  {{
+                    media
+                    | media_tag:
+                      image_size: '768x',
+                      autoplay: true,
+                      loop: true,
+                      preload: 'auto',
+                      class: 'w-full h-full object-cover aspect-square rounded-lg overflow-hidden',
+                      playsinline: true,
+                      muted: true,
+                      controls: false
+                  }}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </thumbnail-gallery>
+
+    <style>
+      .main-gallery {
+        --swiper-navigation-size: 16px;
+      }
+      .main-gallery .swiper-button-next,
+      .swiper-button-prev {
+        width: 40px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.6);
+        transition: background-color 0.3s ease-in-out;
+      }
+      .main-gallery .swiper-button-next:hover,
+      .swiper-button-prev:hover {
+        background-color: rgba(255, 255, 255, 1);
+      }
+      .main-gallery .swiper-button-next {
+        right: 0;
+        border-radius: 12px 0 0 12px;
+      }
+      .main-gallery .swiper-button-prev {
+        left: 0;
+        border-radius: 0 12px 12px 0;
+      }
+      .thumbs-gallery .swiper-slide.swiper-slide-thumb-active > *:first-child {
+        border: 1px solid black;
+      }
+
+      .main-gallery .swiper-button-next.swiper-button-disabled,
+      .swiper-button-prev.swiper-button-disabled {
+        opacity: 0;
+      }
+    </style>
+{%- endcase -%}

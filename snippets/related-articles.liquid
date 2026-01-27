@@ -1,0 +1,107 @@
+{% comment %}
+  Simple Random Related Articles:
+  Selects random articles (excluding current) up to the specified limit
+
+  Set debug_mode to true to see debug information
+{% endcomment %}
+
+{%- assign related_article_limit = 3 -%}
+{%- assign debug_mode = false -%}
+
+{%- capture current_article_id -%}{{ article.id }}{%- endcapture -%}
+
+{% comment %} Create a string to store handles, then split into array {% endcomment %}
+{%- assign handle_string = '' -%}
+{%- assign handle_separator = ',' -%}
+
+{%- if debug_mode -%}
+  <div class="related-articles-debug" style="border:1px solid #ccc; padding:15px; margin-bottom:20px;">
+    <h3>Debug Information</h3>
+    <p><strong>Current Article:</strong> {{ article.title }} (ID: {{ article.id }})</p>
+{%- endif -%}
+
+{% comment %} === RANDOM SELECTION === {% endcomment %}
+{%- assign time_now = 'now' | date: '%s' | plus: 0 -%}
+{%- assign found_count = 0 -%}
+
+{%- if debug_mode -%}
+  <p>Looking for {{ related_article_limit }} random articles</p>
+  <p>Using time seed: {{ time_now }}</p>
+{%- endif -%}
+
+{%- assign total_articles = blog.articles.size -%}
+{%- assign starting_index = time_now | modulo: total_articles -%}
+
+{%- for i in (1..total_articles) -%}
+  {%- if found_count >= related_article_limit -%}
+    {%- break -%}
+  {%- endif -%}
+
+  {%- assign index = starting_index | plus: i | modulo: total_articles -%}
+  {%- assign random_article = blog.articles[index] -%}
+
+  {%- if random_article -%}
+    {%- capture random_id -%}{{ random_article.id }}{%- endcapture -%}
+
+    {%- if random_id != current_article_id -%}
+      {% comment %} Check if already added {% endcomment %}
+      {%- if handle_string contains random_article.handle -%}
+        {% comment %} Skip if already added {% endcomment %}
+      {%- else -%}
+        {% comment %} Add handle to our string {% endcomment %}
+        {%- if handle_string != '' -%}
+          {%- assign handle_string = handle_string | append: handle_separator -%}
+        {%- endif -%}
+        {%- assign handle_string = handle_string | append: random_article.handle -%}
+        {%- assign found_count = found_count | plus: 1 -%}
+
+        {%- if debug_mode -%}
+          <p>
+            Added article ({{ found_count }}/{{ related_article_limit }}): {{ random_article.title }} (Handle:
+            {{ random_article.handle }})
+          </p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% comment %} Split handles into an array {% endcomment %}
+{%- assign related_handles = handle_string | split: handle_separator -%}
+
+{%- if debug_mode -%}
+  <hr style="margin:10px 0;">
+  <p><strong>Selected Articles:</strong> {{ found_count }}</p>
+  <p>Handle string: {{ handle_string }}</p>
+  <p>Handle array: {{ related_handles | join: ', ' }}</p>
+
+  <p><strong>Selected Article Details:</strong></p>
+  <ul>
+    {%- for handle in related_handles -%}
+      {%- assign related_article = articles[handle] -%}
+      <li>{{ related_article.title }} (ID: {{ related_article.id }}, Handle: {{ related_article.handle }})</li>
+    {%- endfor -%}
+  </ul>
+  </div>
+{%- endif -%}
+
+{% comment %} === RENDER SECTION === {% endcomment %}
+{%- if found_count > 0 -%}
+  <div class="related-articles flex flex-col gap-8  py-[60px] ">
+    <div class="related-articles__header ">
+      <h2 class="mb-4 text-[26px] lg:text-[62px]"><span class="text-[#9D9FA9]">Related</span> Post</h2>
+    </div>
+
+    <div class="related-articles__grid grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+      {%- for handle in related_handles -%}
+        {%- assign related_article = articles[handle] -%}
+
+        {% render 'article-card', article: related_article %}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- else -%}
+  {%- if debug_mode -%}
+    <div style="color:orange; border:1px solid orange; padding:10px; margin:20px 0;">No related articles found</div>
+  {%- endif -%}
+{%- endif -%}

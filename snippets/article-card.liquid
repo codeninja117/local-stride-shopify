@@ -1,0 +1,100 @@
+<a href="{{ article.url }}" aria-label="{{ article.title }}">
+  <article class="article-card flex h-full flex-col gap-4 " aria-label="{{ article.title }}">
+    <div class="article-card__media">
+      {%- if article.image != blank -%}
+        {%- assign article_image_alt = article.image.alt | default: shop.name -%}
+        {{
+          article.image
+          | image_url: width: 1024
+          | image_tag:
+            class: 'article-card__image rounded-xl overflow-hidden aspect-video object-cover w-full',
+            widths: '640, 750',
+            sizes: '(min-width: 750px) 33.33vw, 100vw',
+            alt: article_image_alt
+        }}
+
+      {%- else -%}
+        <div class="article-card__image aspect-video w-full overflow-hidden rounded-xl bg-black/10 object-cover"></div>
+      {%- endif -%}
+    </div>
+
+    <div class="article-card__content flex flex-1 flex-col">
+      <div class="article-card__pre-meta mb-4 flex justify-between gap-2 text-xs">
+        {% if article.tags.size > 0 %}
+          {% assign first_tag = article.tags | first %}
+          {% comment %} {% assign first_tag_handle = first_tag | handle %} {% endcomment %}
+          <span
+            class="rounded-[2px] bg-black/5 px-2 py-0.5 text-xs text-black"
+          >
+            {{- first_tag -}}
+          </span>
+        {% endif %}
+
+        <div>
+          <time class="text-xs text-black/60" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            {{ article.published_at | date: '%B %d, %Y' }}
+          </time>
+
+          {% assign word_count = article.content | strip_html | split: ' ' | size %}
+          {% assign reading_time = word_count | divided_by: 225.0 %}
+
+          {% if reading_time < 1 %}
+            {% assign reading_time_text = 'Less than a minute' %}
+          {% else %}
+            {% assign reading_time_minutes = reading_time | round %}
+            {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+          {% endif %}
+          <span class="text-xs text-black/60">•</span>
+          <span class="article-reading-time text-xs text-black/60">{{ reading_time_text }}</span>
+        </div>
+      </div>
+      <div class="article-card__details  flex flex-1 flex-col gap-2">
+        <h3 class="text-h3 font-extrabold ">{{ article.title | escape }}</h3>
+
+        {%- if article.excerpt.size > 0 or article.content.size > 0 -%}
+          <p class="article-card__excerpt rte-width">
+            {%- if article.excerpt.size > 0 -%}
+              {{ article.excerpt | strip_html | truncatewords: 30 }}
+            {%- else -%}
+              {{ article.content | strip_html | truncatewords: 30 }}
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      </div>
+
+      <div class="mt-2 flex items-center gap-4">
+        <div class="featured-article__meta mt-6 flex items-center gap-2 text-sm text-gray-600">
+          <div class="flex items-center gap-2">
+            {%- if article.metafields.custom.author.value.image != blank -%}
+              {%- assign author_image_alt = article.metafields.custom.author.value.image.alt | default: shop.name -%}
+              {{
+                article.metafields.custom.author.value.image
+                | image_url: width: 88, height: 88
+                | image_tag: class: 'h-11 w-11 rounded-[5px] object-cover', alt: author_image_alt, loading: 'lazy'
+              }}
+            {%- else -%}
+              <div class="h-11 w-11 rounded-[5px] bg-black/20"></div>
+            {%- endif -%}
+
+            <div>
+              <p class="text-base font-extrabold">
+                {%- if article.metafields.custom.author.value.name != blank -%}
+                  {{ article.metafields.custom.author.value.name }}
+                {%- else -%}
+                  Admin
+                {%- endif -%}
+              </p>
+              <span class="text-sm text-black/60">
+                {%- if article.metafields.custom.author.value.title != blank -%}
+                  {{ article.metafields.custom.author.value.title }}
+                {%- else -%}
+                  Social Media & Community Expert
+                {%- endif -%}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</a>

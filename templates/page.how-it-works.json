@@ -1,0 +1,464 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay_rqfGBR": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_Qyzehm": {
+          "type": "title",
+          "settings": {
+            "title": "<em>A Digital Podiatry Clinic</em> | <strong>For the 21st Century</strong>",
+            "title_font_size": "text-display-l",
+            "inline_title": false
+          }
+        },
+        "text_DyzM3e": {
+          "type": "text",
+          "settings": {
+            "text": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
+          }
+        },
+        "buttons_w4MDCn": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Take The Quiz",
+            "button_url": "/pages/quiz?pairs=1",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "",
+            "button_url_2": "",
+            "button_video_url": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4"
+          }
+        }
+      },
+      "block_order": [
+        "title_Qyzehm",
+        "text_DyzM3e",
+        "buttons_w4MDCn"
+      ],
+      "settings": {
+        "media_selector": "video",
+        "image": "shopify://shop_images/about_bg_new.jpg",
+        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 10,
+        "min_height": 70,
+        "min_height_px": 700,
+        "vertical_alignment": "items-end",
+        "color_scheme": "scheme-3",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "steps": {
+      "type": "how-it-works-steps",
+      "blocks": {
+        "step_with_data_points_TqkqKm": {
+          "type": "step_with_data_points",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/image.png",
+            "eyebrow_text": "Step 1",
+            "title": "Intake Quiz",
+            "text": "<p>Our award-winning team of podiatrists asks you the same questions online as they do in-clinic… Just this time it’s from home and takes one minute! </p><p>Our team is paying acute attention to key data points like:</p>",
+            "button_url": "shopify://pages/quiz",
+            "button_label": "Take The Quiz",
+            "disclaimer": "180 Day Return Policy",
+            "callout_image": "shopify://shop_images/Frame_2147224562.png",
+            "callout_title": "Shoe Type",
+            "callout_2_image": "shopify://shop_images/Frame_2147224565quiz5.png",
+            "callout_2_title": "Pain Areas",
+            "callout_3_image": "shopify://shop_images/Frame_2147224563quiz3.png",
+            "callout_3_title": "Foot Conditions",
+            "callout_4_image": "shopify://shop_images/Frame_2147224561quiz4.png",
+            "callout_4_title": "Arch Height",
+            "callout_5_image": "shopify://shop_images/Frame_2147224562quiz_2.png",
+            "callout_5_title": "Goals",
+            "callout_6_image": "shopify://shop_images/Frame_2147224562quiz_2.png",
+            "callout_6_title": "Medical History",
+            "color_scheme": "",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "step_2": {
+          "type": "step_with_callouts",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/imagestep_2.jpg",
+            "eyebrow_text": "Step 2",
+            "title": "3D Foot Scan",
+            "text": "<p>Delivering unmatched precision for the perfect custom fit</p>",
+            "alert_pill_color_scheme": "",
+            "alert_pill_title": "",
+            "button_url": "",
+            "button_label": "",
+            "disclaimer": "",
+            "button_type": "foam_box",
+            "callout_title": "Easy to Use",
+            "callout_text": "Effortlessly scan your feet in seconds.",
+            "callout_2_title": "World-Class Tech",
+            "callout_2_text": "Leverage the same 3D scanning tech used by the world’s top doctors and podiatrists in the U.S. and abroad.",
+            "callout_3_title": "The Perfect Position",
+            "callout_3_text": "Our AI software virtually adjusts your model into a subtalar neutral position - the gold standard for orthotic casting.",
+            "color_scheme": "",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/imagestep_3.jpg",
+            "eyebrow_text": "Step 3",
+            "title": "Gait Analysis",
+            "subtitle": "",
+            "text": "<p>By observingseeing how your entire kinetic chain functions, we are able to build corrections and micro adjustments to correct for common conditions like knee instabilityheel pain, overpronation, and even limbleg length discrepancydiscrepanciyes. </p><p>A skilled clinician knows movement is key to proper orthotic design. Without a gait analysis, they’re working with an incomplete picture. You wouldn’t trust a doctor who skips the exam—why should your orthotic be any different?</p>",
+            "button_url": "",
+            "button_label": "",
+            "disclaimer": "",
+            "video_button_label": "",
+            "color_scheme": "",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "step_VzGVkY": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/imagestep_1.jpg",
+            "eyebrow_text": "Step 1",
+            "title": "Podiatrist-Designed Questionnaire",
+            "subtitle": "The same questions our podiatrists ask in clinic",
+            "text": "<p>Designed by our award-winning team of podiatrists, the intake quiz mirrors our in-person evaluation to gather info on your pain areas, foot conditions, shoe preferences, and activity goals.</p>",
+            "button_url": "/pages/quiz?pairs=1",
+            "button_label": "Take our Quiz",
+            "disclaimer": "180 Day Return Policy",
+            "video_button_label": "",
+            "color_scheme": "scheme-1",
+            "padding_top": 36,
+            "padding_bottom": 36
+          }
+        },
+        "step_BKNF4W": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/imagestep_2.jpg",
+            "eyebrow_text": "Step 2",
+            "title": "3D Foot Scanner",
+            "subtitle": "An orthotic is only as effective as the foot scan is accurate",
+            "text": "<p>Simply hover your foot over your phone. Our 3D scanning system maps the micro-contours of your foot down to the sub-millimeter level, matching clinic-level scanning precision. The resulting 3D model serves as the skeleton for your orthotic design.</p><p>Unlike the foam impression box, 3D scanning is faster, more accurate, and less wasteful. Building a foam box and shipping it back and forth is expensive – we pass those savings onto you!</p>",
+            "button_url": "shopify://pages/comparison",
+            "button_label": "Compare Versus Foam Box",
+            "disclaimer": "",
+            "video_button_label": "",
+            "color_scheme": "scheme-1",
+            "padding_top": 36,
+            "padding_bottom": 36
+          }
+        },
+        "step_cYz3GJ": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/imagestep_3.jpg",
+            "eyebrow_text": "Step 3",
+            "title": "Gait Video Upload",
+            "subtitle": "Revealing underlying causes of pain",
+            "text": "<p>It’s impossible to properly design orthotics without understanding how you move. Our clinicians measure the angle of your ankles, knees, and hips to correct your posture and enable pain free movement. We also observe your arches and how they compress throughout the gait cycle.</p>",
+            "button_url": "",
+            "button_label": "",
+            "disclaimer": "",
+            "video_button_label": "Watch Video Explanation",
+            "video": "shopify://files/videos/Stride_CustomOrthotics_Draft_2 (1) (1).mp4",
+            "color_scheme": "scheme-1",
+            "padding_top": 36,
+            "padding_bottom": 24
+          }
+        }
+      },
+      "block_order": [
+        "step_with_data_points_TqkqKm",
+        "step_2",
+        "step_3",
+        "step_VzGVkY",
+        "step_BKNF4W",
+        "step_cYz3GJ"
+      ],
+      "settings": {
+        "show_steps_indicator": true,
+        "title": "Phase 1: <strong>Data Input</strong>",
+        "subtitle": "Clinical intake in just 1 minute",
+        "button_url": "",
+        "button_label": "Take our Quiz",
+        "timeline_color": "#cccccc",
+        "step_indicator_color": "#333333",
+        "step_indicator_active_color": "#000000",
+        "color_scheme": "",
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "gap": 0
+      }
+    },
+    "details": {
+      "type": "how-it-works-steps",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/imagestep_4.jpg",
+            "eyebrow_text": "",
+            "title": "Designed to eliminate pain",
+            "subtitle": "",
+            "text": "<p>No one pair is alike. With CAD Software award winning podiatrists customize your orthotic shape, density, level of cushion, based on the data you’ve provided. <br/><br/>With over 100,000 made, we know exactly how to construct the best custom orthotic to relieve your pain. <br/></p>",
+            "button_url": "shopify://pages/quiz",
+            "button_label": "Take our Quiz",
+            "disclaimer": "180 Day Return Policy",
+            "video_button_label": "",
+            "color_scheme": "scheme-2",
+            "padding_top": 52,
+            "padding_bottom": 52
+          }
+        },
+        "step_2": {
+          "type": "step_with_callouts",
+          "settings": {
+            "image": "shopify://shop_images/imagestep_5.jpg",
+            "eyebrow_text": "",
+            "title": "Delivery That’s <em>4X Faster Than Industry Standard</em>",
+            "text": "<p>Stride Soles are custom-built in just 5-7 days after you submit your data, with rush delivery available in 2-3 days. That’s up to 35 days faster than the average turnaround from podiatrists and other online providers!</p><p>How are we so much faster without cutting corners?</p>",
+            "alert_pill_color_scheme": "",
+            "alert_pill_title": "Why we are the best from the foam box",
+            "button_url": "shopify://pages/quiz",
+            "button_label": "Compare versus foam box",
+            "disclaimer": "180 Day Return Policy",
+            "button_type": "normal",
+            "callout_title": "100% Digital Workflow",
+            "callout_text": "Without the need to ship foam boxes back and forth, we cut down on unnecessary shipment time. ",
+            "callout_2_title": "3D Printing",
+            "callout_2_text": "3D printed orthotics are built print faster and more precisely., Our suite of international printing centers translate your orthotic design into reality close to home.",
+            "callout_3_title": "",
+            "callout_3_text": "",
+            "color_scheme": "scheme-4",
+            "padding_top": 52,
+            "padding_bottom": 52
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/imagestep_6.jpg",
+            "eyebrow_text": "",
+            "title": "Satisfaction Guaranteed",
+            "subtitle": "",
+            "text": "<p>Although 98% of our customers report increased comfort immediately, if you’re still uncomfortable after two weeks (the ‘break-in’ time), we’ll iterate your design at no cost until you’re completely satisfied. That means redesign, rebuild, and re-ship - free of charge.</p><p>If you still aren’t satisfied, we will refund your purchase - no questions asked.</p>",
+            "button_url": "",
+            "button_label": "Take our Quiz",
+            "disclaimer": "180 Day Return Policy",
+            "video_button_label": "",
+            "color_scheme": "",
+            "padding_top": 52,
+            "padding_bottom": 52
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "disabled": true,
+      "settings": {
+        "show_steps_indicator": false,
+        "title": "Phase 2: We get to work",
+        "subtitle": "",
+        "button_url": "",
+        "button_label": "Take our Quiz",
+        "timeline_color": "#cccccc",
+        "step_indicator_color": "#333333",
+        "step_indicator_active_color": "#000000",
+        "color_scheme": "scheme-2",
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "gap": 0
+      }
+    },
+    "about_timeline_jaPmi3": {
+      "type": "about-timeline",
+      "blocks": {
+        "timeline_item_JfTCY7": {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": true,
+            "image": "shopify://shop_images/phase2_1.jpg",
+            "image_caption": "",
+            "title": "Expert Medical <strong>Design</strong>",
+            "subtitle": "Hand designed in Germany by our podiatry team",
+            "content": "<p>Our <a href=\"/pages/team\" title=\"Innovation\"><strong>award winning podiatrists</strong></a> customize every orthotic with CAD software, adjusting shape, density, & cushioning down to the millimeter. </p><p>With over 200,000 orthotics made over 3 generations, we leverage unmatched experience to construct your orthotics to address your unique needs. </p>"
+          }
+        },
+        "timeline_item_eytdEP": {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": false,
+            "image": "shopify://shop_images/phase2_2.jpg",
+            "image_caption": "",
+            "title": "Engineered <strong>Materials</strong>",
+            "subtitle": "Lasts 3-4 years - Feels great from day one",
+            "content": "<p>Stride orthotics are composed only of industry leading materials. Your insoles will be printed with durable TPU in our proprietary multi-density lattice, then finished with a foam mid-layer and odor—resistant vegan leather lining.</p>"
+          }
+        },
+        "timeline_item_pfUBpU": {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": true,
+            "image": "shopify://shop_images/phse3_3.jpg",
+            "image_caption": "",
+            "title": "Rapid <strong>Delivery</strong>",
+            "subtitle": "Built and shipped in a week",
+            "content": "<p>We know you need relief. That’s why we’ve spent millions of dollars streamlining our build process, designed to ensure you get premium custom orthotics at retail speeds. </p><p>With expedited ordering, your custom orthotics will arrive in days, not months (compare us to at-home foam impression kits or local podiatrists). </p>"
+          }
+        }
+      },
+      "block_order": [
+        "timeline_item_JfTCY7",
+        "timeline_item_eytdEP",
+        "timeline_item_pfUBpU"
+      ],
+      "settings": {
+        "hide_timeline": true,
+        "title": "Phase 2: <strong>Orthotics Production</strong>",
+        "subtitle": "14-hours of design and build go into every pair",
+        "text_alignment": "center",
+        "header_underline_width": 280,
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_with_text_Dqc3QB": {
+      "type": "image-with-text",
+      "settings": {
+        "reverse_columns": false,
+        "title": "Satisfaction <strong>Guaranteed</strong>",
+        "subtitle": "Comfort or your money back - no questions asked.",
+        "content": "<p>98% of our customers find immediate pain relief. But if you’re still uncomfortable after two weeks, we’ll redesign and re-ship your orthotics for free. Still not satisfied? We’ll refund you 100%. Simple as that.</p>",
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "image": "shopify://shop_images/satisfaction_imag.jpg",
+        "image_height": 500,
+        "enable_image_overlay": false,
+        "image_title": "",
+        "image_text": "",
+        "color_scheme": "scheme-714af606-013c-47d0-bc50-5a006a6edff3",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "compare_stride_ByMkd6": {
+      "type": "compare-stride",
+      "blocks": {
+        "header_bBiVgB": {
+          "type": "header",
+          "settings": {
+            "feature_1": "Talk to Clinicians",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "3D Imaging",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$137",
+            "shipping_time": "Delivery Time"
+          }
+        },
+        "others_3drwqq": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Upstep",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": false,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": false,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": false,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$250+",
+            "shipping_time": "30-40 Days"
+          }
+        },
+        "stride_8mcRpn": {
+          "type": "stride",
+          "settings": {
+            "color_scheme": "scheme-5",
+            "logo": "shopify://shop_images/Stride_Logo_1.svg",
+            "title": "Stride",
+            "feature_1": "Talk to Clinicians",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "3D imaging",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$199",
+            "shipping_time": "15-20 Days"
+          }
+        },
+        "others_WJGFUA": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Podiatrist",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "Award Winning <em>(Sometimes)</em>",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": false,
+            "price": "$400-1000",
+            "shipping_time": "20-60 Days"
+          }
+        }
+      },
+      "block_order": [
+        "header_bBiVgB",
+        "others_3drwqq",
+        "stride_8mcRpn",
+        "others_WJGFUA"
+      ],
+      "settings": {
+        "title": "<em>Stride's Superior Solution Offers</em>|<strong>The Best Of Both Worlds</strong>",
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "mobile_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay_rqfGBR",
+    "steps",
+    "details",
+    "about_timeline_jaPmi3",
+    "image_with_text_Dqc3QB",
+    "compare_stride_ByMkd6"
+  ]
+}

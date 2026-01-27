@@ -1,0 +1,459 @@
+{% style %}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    overflow: hidden;
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-main .swiper-pagination-bullet {
+    border: 1px solid rgba(255,255,255, 1);
+    background-color: rgba(255,255,255, 1);
+    height: 10px;
+    width: 10px;
+    opacity: 1;
+  }
+
+  .section-{{ section.id }}-main .section-subtitle {
+    max-width: 100%;
+    width: 475px;
+  }
+
+  .section-{{ section.id }}-main .swiper-pagination-bullet-active {
+    width: 18px;
+    height: 18px;
+    background-color: rgba(255,255,255, 0);
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="section__main page-width flex flex-col">
+    <div class="section__header flex flex-1 flex-col gap-4">
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><br><span>'
+          }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <p class="section-subtitle opacity-80">
+          {{ section.settings.text }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="section__content">
+      <reviews-carousel-text
+        class="swiper !overflow-visible"
+        data-slides-per-view="{{ section.settings.slides_per_view | default: 4 }}"
+        data-centered-slides="false"
+        data-navigation
+      >
+        <div class="swiper-wrapper">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign has_images = false
+              if block.settings.image_1 != blank or block.settings.image_2 != blank or block.settings.image_3 != blank or block.settings.image_4 != blank
+                assign has_images = true
+              endif
+            -%}
+
+            <div class="swiper-slide gradient color-{{ section.settings.slide_color_scheme }} relative overflow-hidden rounded-xl p-4">
+              {%- if has_images -%}
+                <ui-carousel class="swiper " data-space-between="0" data-effect="fade" data-pagination="bullets">
+                  <div class="swiper-wrapper">
+                    {%- if block.settings.image_1 != blank -%}
+                      <div class="swiper-slide">
+                        <div class="relative aspect-square bg-[rgba(var(--color-foreground),0.3)]">
+                          {{
+                            block.settings.image_1
+                            | image_url: width: 1024
+                            | image_tag:
+                              alt: block.settings.title,
+                              class: 'h-full w-full object-cover object-center',
+                              loading: 'lazy'
+                          }}
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {%- if block.settings.image_2 != blank -%}
+                      <div class="swiper-slide">
+                        <div class="relative aspect-square bg-[rgba(var(--color-foreground),0.3)]">
+                          {{
+                            block.settings.image_2
+                            | image_url: width: 1024
+                            | image_tag:
+                              alt: block.settings.title,
+                              class: 'h-full w-full object-cover object-center',
+                              loading: 'lazy'
+                          }}
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {%- if block.settings.image_3 != blank -%}
+                      <div class="swiper-slide">
+                        <div class="relative aspect-square bg-[rgba(var(--color-foreground),0.3)]">
+                          {{
+                            block.settings.image_3
+                            | image_url: width: 1024
+                            | image_tag:
+                              alt: block.settings.title,
+                              class: 'h-full w-full object-cover object-center',
+                              loading: 'lazy'
+                          }}
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {%- if block.settings.image_4 != blank -%}
+                      <div class="swiper-slide">
+                        <div class="relative aspect-square bg-[rgba(var(--color-foreground),0.3)]">
+                          {{
+                            block.settings.image_4
+                            | image_url: width: 1024
+                            | image_tag:
+                              alt: block.settings.title,
+                              class: 'h-full w-full object-cover object-center',
+                              loading: 'lazy'
+                          }}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  <div
+                    class="swiper-pagination !absolute !right-0 !bottom-4 !left-0 z-2 items-center justify-center"
+                  ></div>
+                </ui-carousel>
+              {%- else -%}
+                <div class="aspect-square bg-[rgba(var(--color-foreground),0.3)]"></div>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank
+                or block.settings.subtitle != blank
+                or block.settings.text != blank
+              -%}
+                <div class="mt-4 flex flex-col gap-0.5">
+                  {%- if block.settings.title != blank -%}
+                    <h3 class="text-2xl font-bold">{{ block.settings.title }}</h3>
+                  {%- endif -%}
+
+                  {%- if block.settings.subtitle != blank -%}
+                    <p class="text-lg text-[rgba(var(--color-foreground),0.8)]">{{ block.settings.subtitle }}</p>
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <p class="text-muted text-base">{{ block.settings.text }}</p>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="ui-carousel-controls mt-6 flex items-center justify-center gap-4 justify-self-center md:mt-16">
+          <div class="ui-carousel-prev reviews-carousel-nav-item cursor-pointer border-[rgba(var(--color-carousel-navigation-background),1)] transition-colors duration-300 ease-in-out hover:bg-[rgba(var(--color-carousel-navigation-background),1)] hover:text-[rgba(var(--color-foreground),1)]">
+            {% render 'svg-arrow', type: 'left', class: 'ui-carousel-arrow' %}
+          </div>
+          <div class="ui-carousel-next reviews-carousel-nav-item cursor-pointer transition-colors duration-300 ease-in-out hover:bg-[rgba(var(--color-carousel-navigation-background),1)] hover:text-[rgba(var(--color-foreground),1)]">
+            {% render 'svg-arrow', type: 'right', class: 'ui-carousel-arrow' %}
+          </div>
+        </div>
+      </reviews-carousel-text>
+    </div>
+
+    {%- if section.settings.button_label != blank or section.settings.disclaimer != blank -%}
+      <div class="section__footer flex flex-col items-center gap-2">
+        {%- if section.settings.button_label != blank -%}
+          {% render 'button',
+            type: 'a',
+            variant: 'primary',
+            text: section.settings.button_label,
+            url: section.settings.button_url
+          %}
+        {%- endif -%}
+        {%- if section.settings.disclaimer != blank -%}
+          <span class="inline-block text-lg text-[rgba(var(--color-foreground),0.6)]">
+            {{- section.settings.disclaimer -}}
+          </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Carousel within Carousel",
+  "class": "section-carousel-within-carousel  js-section-color",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italics to highlight a word or phrase."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Athletes who <em>Move with Stride</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "Stride orthotics aren't just for everyday comfort—they're built to perform at the highest level. That's why elite athletes across different sports trust Stride to support their movement, endurance, and recovery."
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Carousel settings"
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view",
+      "min": 0.1,
+      "max": 10,
+      "step": 0.1,
+      "label": "Sldies per view",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "color_scheme",
+      "id": "slide_color_scheme",
+      "label": "Slide color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Add up to 4 images for the carousel within the slide"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "image_1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "image_2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "image_3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "image_4"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Jane Austen"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Athlete"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carousel within Carousel",
+      "category": "Uncategorized",
+      "blocks": {
+        "slide_64wdqU": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/46f4eac3e3b60c5287bef52c519f7d5f.png",
+            "image_2": "shopify://shop_images/61f688bdee11384fecd01075dcbdce42.png",
+            "image_3": "shopify://shop_images/cf206bda6cab8ebe1dbbfb51b3d874eb.png",
+            "image_4": "shopify://shop_images/Frame_2147223815.png",
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_DwgmxT": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/3bfa9558ba565aad659275c7cc1f63e5.jpg",
+            "image_2": "shopify://shop_images/cf206bda6cab8ebe1dbbfb51b3d874eb.png",
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_PiB3mM": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/078e1e82fb79c3452f297ba19dfcf7ae.jpg",
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_LzM7Mp": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/ef83e8a7e6f3ba8ff409c6ad6ddd9685.jpg",
+            "image_2": "shopify://shop_images/Frame_2147223818.png",
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_miLejt": {
+          "type": "slide",
+          "settings": {
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_TKKYwG": {
+          "type": "slide",
+          "settings": {
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_ftCpAR": {
+          "type": "slide",
+          "settings": {
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        },
+        "slide_GEgrw7": {
+          "type": "slide",
+          "settings": {
+            "title": "Jane Austen",
+            "subtitle": "Athlete",
+            "text": "As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!"
+          }
+        }
+      },
+      "block_order": [
+        "slide_64wdqU",
+        "slide_DwgmxT",
+        "slide_PiB3mM",
+        "slide_LzM7Mp",
+        "slide_miLejt",
+        "slide_TKKYwG",
+        "slide_ftCpAR",
+        "slide_GEgrw7"
+      ],
+      "settings": {
+        "title": "Athletes who <em>Move with Stride</em>",
+        "text": "Stride orthotics aren't just for everyday comfort—they're built to perform at the highest level. That's why elite athletes across different sports trust Stride to support their movement, endurance, and recovery.",
+        "button_url": "",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "slides_per_view": 4,
+        "color_scheme": "scheme-2",
+        "slide_color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  ]
+}
+{% endschema %}

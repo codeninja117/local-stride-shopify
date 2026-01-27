@@ -1,0 +1,157 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#F5F6F9' }};
+    --text-color: {{ section.settings.text_color | default: '#FFFFFF' }};
+    background-color: {{ section.settings.background_color | default: '#F5F6F9' }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .section-review-multicolumn { background-color: var(--color-background); color: var(--color-foreground); }
+{% endstyle %}
+
+<div class="proven-trusted text-white">
+  <div class="{% if section.settings.enable_wrapper %}page-width {% else %}px-4{% endif %}">
+    <div class="proven-trusted__list flex flex-col gap-3 md:flex-row">
+      {%- for block in section.blocks -%}
+        <div class="proven-trusted__item group relative grid min-h-120 overflow-hidden rounded-xl px-6 py-10 after:absolute after:inset-0 after:bg-black after:opacity-50 md:w-1/2 md:transition-all md:duration-300 md:ease-out md:hover:w-[55%]">
+          <div class="proven-trusted__item-content relative z-1 flex h-full flex-col justify-between">
+            <span class="proven-trusted__item-eyebrow max-w-full text-xs tracking-wider uppercase ">
+              {{- block.settings.eyebrow_text -}}
+            </span>
+            <div>
+              {%- if block.settings.title != blank -%}
+                <h2 class="proven-trusted__item-title text-display-l mb-2 leading-none font-semibold">
+                  {{ block.settings.title }}
+                </h2>
+              {%- endif -%}
+
+              {%- if block.settings.subtitle != blank -%}
+                <p class="proven-trusted__item-subtitle text-xl">{{ block.settings.subtitle }}</p>
+              {%- endif -%}
+            </div>
+
+            <p class="proven-trusted__item-text">
+              {{
+                block.settings.text
+                | replace: '<i>', '<span class="opacity-60">'
+                | replace: '</i>', '</span>'
+                | replace: '<em>', '<span class="opacity-60">'
+                | replace: '</em>', '</span>'
+              }}
+            </p>
+          </div>
+          {%- assign animation_delay = '0.' | append: forloop.index0 -%}
+          {{
+            block.settings.image
+            | image_url: width: 1024
+            | image_tag:
+              alt: block.settings.title,
+              class: 'h-auto absolute inset-0 object-cover w-full h-full object-center',
+              data-animate: 'scale-out',
+              data-animate-delay: animation_delay,
+              loading: 'lazy'
+          }}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Proven & trusted",
+  "class": "section-proven-trusted js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_wrapper",
+      "label": "Enable wrapper",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "backgound_color",
+      "label": "Background color",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "eyebrow_text",
+          "label": "Eyebrow text"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "info": "Use italics to emphasize the text. Applys opacity to the text."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proven & trusted",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

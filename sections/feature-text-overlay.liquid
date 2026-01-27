@@ -1,0 +1,196 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    --title-accent-color: {{ section.settings.title_accent_color | default: 'rgba(255,255,255,0.4)' }};
+    --border-color: rgba(255,255,255,0.6);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }} .feature-text-overlay__image-overlay {
+    background: {{ section.settings.overlay_background }};
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
+  <div class="section__main page-width flex flex-col gap-8 md:gap-14">
+    <div class="section__header mx-auto w-5xl max-w-full text-center">
+      {% render 'section-title', section: section %}
+    </div>
+    <div class="section__content gradient relative flex flex-col gap-8 overflow-hidden rounded-xl px-6 py-8 text-white md:gap-12 md:px-8 lg:gap-16 lg:px-12 color-{{ section.settings.content_box_color_scheme }}">
+      <div class="feature-text-overlay__details z-2 grid gap-6 md:grid-cols-2 md:gap-8 lg:gap-16">
+        <div class="feature-text-overlay__block-header flex max-w-full flex-col gap-2 text-center sm:w-sm md:text-left">
+          {%- if section.settings.subtitle != blank -%}
+            <h3 class="text-h2 section-title font-semibold capitalize">{{ section.settings.subtitle }}</h3>
+          {%- endif -%}
+
+          {%- if section.settings.text != blank -%}
+            <div class="text-body-m">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+        <div class="feature-text-overlay__block-features text-body-m">
+          <ul class="flex flex-col gap-2 md:gap-4">
+            {%- for block in section.blocks -%}
+              {% comment %} <li class="flex items-start gap-2"> {% endcomment %}
+              <li class="flex gap-2 md:gap-3">
+                <span class="mt-1 inline-block h-[30px] w-[30px] flex-shrink-0 md:mt-[-0.03rem]">
+                  {{ 'icon-circle-checkmark-solid.svg' | inline_asset_content }}
+                </span>
+                <span>{{ block.settings.title }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+
+      <div class="image-text-overlay__actions z-2 inline-flex w-full flex-col items-center justify-center gap-3 self-center text-center md:w-fit">
+        {% render 'button',
+          type: 'a',
+          variant: 'primary',
+          text: section.settings.button_label,
+          url: section.settings.button_url
+        %}
+        <span class="inline-block text-sm md:text-xl">{{ section.settings.disclaimer }}</span>
+      </div>
+
+      <div
+        class="feature-text-overlay__image-overlay absolute inset-0 z-1 "
+      ></div>
+      <div class="feature-text-overlay__media absolute top-0 right-0 bottom-0 left-0 ">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: section.settings.image.width
+            | image_tag: class: 'w-full h-full object-cover'
+          }}
+        {%- else -%}
+          <div class="h-full w-full bg-black/30"></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature text overlay",
+  "class": "section-feature-text-overlay",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "A Faster & More Precise <em>Custom Orthotics Experience</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Our Precision 3D scanner"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>We leverage the same 3D scanning tech used by the world’s top doctors and podiatrists to create a perfect mold for your orthotic.</p>"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "content_box_color_scheme",
+      "label": "Content box color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color_background",
+      "id": "overlay_background",
+      "label": "Overlay background"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature text overlay",
+      "category": "Uncategorized"
+    }
+  ]
+}
+{% endschema %}

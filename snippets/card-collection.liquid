@@ -1,0 +1,38 @@
+{% comment %}
+  Renders a product card
+{% endcomment %}
+
+<div class="collection-card border-slate/20 hover:border-slate/80 h-full flex-1 rounded-lg border bg-white p-3 transition-colors duration-300 ease-in-out">
+  {%- if collection.featured_image -%}
+    {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+    <a href="{{ collection.url }}">
+      <img
+        srcset="
+          {%- if collection.featured_image.width >= 165 -%}{{ collection.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
+          {%- if collection.featured_image.width >= 360 -%}{{ collection.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+          {%- if collection.featured_image.width >= 533 -%}{{ collection.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+          {%- if collection.featured_image.width >= 720 -%}{{ collection.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+          {%- if collection.featured_image.width >= 940 -%}{{ collection.featured_image | image_url: width: 940 }} 940w,{%- endif -%}
+          {%- if collection.featured_image.width >= 1066 -%}{{ collection.featured_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+          {{ collection.featured_image | image_url }} {{ collection.featured_image.width }}w
+        "
+        src="{{ collection.featured_image | image_url: width: 533 }}"
+        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+        alt="{{ collection.featured_image.alt | escape }}"
+        class="motion-reduce aspect-square rounded-lg object-cover"
+        {% unless lazy_load == false %}
+          loading="lazy"
+        {% endunless %}
+        width="{{ collection.featured_image.width }}"
+        height="{{ collection.featured_image.height }}"
+      >
+    </a>
+    {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+  {%- endif -%}
+
+  <div class="product-card__details mt-2 flex flex-col gap-2">
+    <div class="flex flex-col gap-1">
+      <a href="{{ collection.url  }}" class="text-body-m font-semibold">{{ collection.title | escape }}</a>
+      
+  </div>
+</div>

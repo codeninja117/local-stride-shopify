@@ -1,0 +1,290 @@
+{%- style -%}
+    .section-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    padding: 32px 0;
+  }
+
+  @media (max-width: 900px) {
+    .testimonials-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      padding: 0;
+    }
+  }
+
+  .testimonial-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(60, 72, 88, 0.06);
+    padding: 24px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 340px;
+    transition: box-shadow 0.2s;
+  }
+
+  .testimonial-card:hover {
+    box-shadow: 0 8px 32px rgba(60, 72, 88, 0.12);
+  }
+
+  .testimonial-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .testimonial-logo img {
+    object-fit: contain;
+    display: block;
+  }
+
+  .testimonial-quote {
+    margin-bottom: 15%;
+  }
+
+  .testimonial-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .testimonial-user-img {
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+  }
+
+  .testimonial-user-name {
+    font-weight: 600;
+    color: #222;
+    font-size: 1rem;
+  }
+
+  .testimonial-user-role {
+    font-size: 0.95rem;
+    color: #888;
+  }
+
+  .testimonial-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .testimonial-meta a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .testimonial-meta a:hover {
+    text-decoration: underline;
+  }
+
+  .partner-desc {
+    max-width: 722px;
+    margin: 0 auto;
+  }
+    .svg-wrapper svg {
+        height: 20px;
+        width: 20px;
+        display: inline;
+        vertical-align: sub;
+    }
+    @media screen and (min-width: 768px) {
+        .section-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+    }
+{%- endstyle -%}
+<div class="section-{{ section.id }}">
+  <div class="section__main page-width">
+    {% if section.settings.block_description != blank %}
+      <div class="section__header partner-desc text-center">
+        <p class="text-body-l">
+          {{ section.settings.block_description }}
+        </p>
+      </div>
+    {% endif %}
+    <div class="testimonials-grid">
+      {%- assign image_class = 'w-full h-full inset-0 contain' -%}
+
+      {% for block in section.blocks %}
+        <div class="testimonial-card color-{{ block.settings.color_scheme }}">
+          {% if block.settings.logo != blank %}
+            <div class="testimonial-logo">
+              {{
+                block.settings.logo
+                | image_url: width: 354
+                | image_tag:
+                  class: image_class,
+                  loading: 'lazy',
+                  alt: block.settings.company_name,
+                  fetchpriority: 'auto'
+              }}
+            </div>
+          {% endif %}
+          <div class="testimonial-quote">
+            <p class="text-body-m">
+              {{ block.settings.quote }}
+            </p>
+          </div>
+          <div class="testimonial-user">
+            {% if block.settings.user_image != blank %}
+              {{
+                block.settings.user_image
+                | image_url: width: 73
+                | image_tag:
+                  class: 'testimonial-user-img',
+                  loading: 'lazy',
+                  alt: block.settings.name,
+                  fetchpriority: 'auto'
+              }}
+            {% endif %}
+            <div>
+              <div class="testimonial-user-name text-body-m">{{ block.settings.name }}</div>
+              <div class="testimonial-user-role text-body-m text-muted">{{ block.settings.role }}</div>
+            </div>
+          </div>
+          <div class="testimonial-meta">
+            <span class="text-body-m"
+              ><span class="svg-wrapper">{{ 'icon-location.svg' | inline_asset_content }}</span>
+              {{- block.settings.location -}}
+            </span>
+            {% if block.settings.website != blank %}
+              <a href="{{ block.settings.website }}" target="_blank" class="text-body-m"
+                ><span class="svg-wrapper">{{ 'icon-internet.svg' | inline_asset_content }}</span> Website
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "block_description",
+      "label": "Section Description"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Company Logo"
+        },
+        {
+          "type": "text",
+          "id": "company_name",
+          "label": "Company Name"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote"
+        },
+        {
+          "type": "image_picker",
+          "id": "user_image",
+          "label": "User Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location"
+        },
+        {
+          "type": "url",
+          "id": "website",
+          "label": "Website"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-6"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Grid",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

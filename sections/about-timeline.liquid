@@ -1,0 +1,410 @@
+{% style %}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section__header-underline {
+    width: {{ section.settings.header_underline_width }}px;
+  }
+
+  .text-center .section__header-underline {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .text-left .section__header-underline {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .text-right .section__header-underline {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  /* Timeline styles */
+  .timeline-container {
+    position: relative;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    border-left: 2px dashed rgba(var(--color-foreground), 0.2);
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  .timeline-indicator {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    background-color: var(--color-background);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (min-width: 768px) {
+      top: 50%;
+    }
+  }
+
+  .timeline-indicator.hidden {
+    display: none;
+  }
+
+  .timeline-indicator svg,
+  .timeline-indicator img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .timeline-card {
+    position: relative;
+    margin-bottom: 100px;
+  }
+
+  .timeline-card:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .timeline-line {
+      left: 20px;
+    }
+
+    .timeline-indicator {
+      left: 20px;
+    }
+
+    /* .timeline-card {
+      padding-left: 60px;
+    } */
+
+    .timeline-card__image,
+    .timeline-card__content {
+      width: 100%;
+    }
+
+    .timeline-card {
+      flex-direction: column !important;
+    }
+  }
+{% endstyle %}
+
+{%- liquid
+  assign lazy_load = 'lazy'
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign lazy_load = 'auto'
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+<div class="section-{{ section.id }}">
+  <div class="section__main page-width flex flex-col">
+    <div class="section__header flex flex-1 flex-col gap-4 text-{{ section.settings.text_alignment }}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><br><span>'
+          }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="section-subtitle opacity-80">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.header_underline != blank -%}
+        <div class="section__header-underline">
+          {{
+            section.settings.header_underline
+            | image_url: width: section.settings.header_underline_width
+            | image_tag: class: 'w-full h-auto object-cover'
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="section__content timeline-container relative">
+      <!-- Timeline vertical line -->
+      <div class="timeline-line {% if section.settings.hide_timeline %}hidden{% endif %}"></div>
+
+      {%- for block in section.blocks -%}
+        <div
+          class="timeline-card flex gap-6{% if section.settings.hide_timeline %} md:gap-12{% else %} pl-14 md:gap-40{% endif %} {% if block.settings.reverse_columns %}flex-row-reverse{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="timeline-card__image flex-1">
+            {%- if block.settings.image != blank -%}
+              {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+              {%- assign img_alt = block.settings.image.alt | default: shop.name -%}
+              {%- capture sizes -%}
+                (min-width: 1536px) 1024px,
+                (min-width: 750px) calc((100vw) / 2), calc((100vw) / 2)
+              {%- endcapture -%}
+
+              <div class="relative aspect-4/3 max-w-full overflow-hidden rounded-lg">
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    class: 'w-full h-full absolute inset-0 object-cover',
+                    sizes: sizes,
+                    widths: widths,
+                    loading: lazy_load,
+                    alt: img_alt,
+                    fetchpriority: fetch_priority
+                }}
+              </div>
+            {%- else -%}
+              <div class="aspect-4/3 rounded-xl bg-black/20 p-16">Image not set</div>
+            {%- endif -%}
+
+            {%- if block.settings.image_caption != blank -%}
+              <div class="text-muted mt-2 text-sm">{{ block.settings.image_caption }}</div>
+            {%- endif -%}
+          </div>
+
+          <div class="timeline-card__content flex flex-1 flex-col gap-4 md:gap-6">
+            {%- if block.settings.title != blank -%}
+              <h3 class="text-h2 section-title capitalize">
+                {{
+                  block.settings.title
+                  | replace: '<em>', '<span class="">'
+                  | replace: '</em>', '</span>'
+                  | replace: '|', '</span><br><span>'
+                }}
+              </h3>
+            {%- endif -%}
+
+            {%- if block.settings.subtitle != blank -%}
+              <p class="text-body-l -mt-4 opacity-80">
+                {{ block.settings.subtitle }}
+              </p>
+            {%- endif -%}
+
+            {%- if block.settings.content != blank -%}
+              <div class="flex flex-col gap-4">
+                {{ block.settings.content }}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <!-- Timeline indicator image -->
+          <div class="timeline-indicator {% if section.settings.hide_timeline %}hidden{% endif %}">
+            {%- if block.settings.Timeline_indicator != blank -%}
+              {{
+                block.settings.Timeline_indicator
+                | image_url: width: 50
+                | image_tag: class: 'w-full h-full object-contain', alt: ''
+              }}
+            {%- else -%}
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
+              </svg>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About timeline",
+  "class": "section-about-timeline",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_timeline",
+      "label": "Hide timeline",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Our Story | <strong>Frustration to Innovation</strong>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "center"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_underline",
+      "label": "Header underline image"
+    },
+    {
+      "type": "range",
+      "id": "header_underline_width",
+      "min": 20,
+      "max": 480,
+      "step": 20,
+      "unit": "px",
+      "label": "Header underline width",
+      "default": 280
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "timeline_item",
+      "name": "Timeline item",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "reverse_columns",
+          "label": "Reverse columns",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "Timeline_indicator",
+          "label": "Timeline indicator"
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "image_caption",
+          "label": "Image caption",
+          "default": "Greg Gerla - Founder & CEO"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Pushing <strong>Through</strong>"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>For as long as I can remember, I've had flat feet. Like many, I tried stretching, exercises, and countless over-the-counter insoles—but \"pushing through\" was just a reality of life.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About timeline",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Pushing <strong>Through</strong>",
+            "image_caption": "Greg Gerla - Founder & CEO"
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": true,
+            "title": "A Lightbulb <strong>Moment</strong>",
+            "image_caption": "Greg Gerla - CEO & Dr. Zac Cartun, MD - CMO"
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "A Legacy of <strong>Craftsmanship</strong>",
+            "image_caption": "Dr. Dietmar Walter - Chief Podiatrist & Dominik Walter - Head of Design"
+          }
+        }
+      ],
+      "settings": {
+        "title": "Our Story | <strong>Frustration to Innovation</strong>"
+      }
+    }
+  ]
+}
+{% endschema %}

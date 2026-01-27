@@ -1,0 +1,162 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#e2e2e2' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+    background-color: {{ section.settings.background_color | default: '#FFFFFF' }};
+    color: {{ section.settings.text_color | default: '#000000' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="how-it-works-hero-split__main page-width flex flex-col items-center gap-8 lg:flex-row lg:gap-[80px]">
+  <div class="how-it-works-hero-split__content flex flex-1 lg:w-1/2">
+    <div class="flex flex-col gap-5 md:gap-10 md:text-center  lg:text-left">
+      {%- if section.settings.eyebrow_icon != blank -%}
+        <span class="uppercase">{{ section.settings.eyebrow_text }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="display display-2 flex flex-col font-medium lg:text-[70px]">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="opacity-40">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><span>'
+          }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="text-xl lg:text-2xl">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div>
+          {% render 'button',
+            tag: 'a',
+            text: section.settings.button_label,
+            url: section.settings.button_url,
+            variant: 'primary'
+          %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="how-it-works-hero-split__media lg:w-1/2">
+    <div class="how-it-works-hero-split__video-wrapper relative aspect-square overflow-hidden rounded-xl">
+      {%- if section.settings.video != blank -%}
+        {{
+          section.settings.video
+          | video_tag:
+            autoplay: true,
+            loop: true,
+            controls: false,
+            playsinline: true,
+            class: 'h-full w-full object-cover object-center'
+        }}
+      {%- else -%}
+        <div class="aspect-video rounded-xl bg-black/20"></div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How it works hero split",
+  "class": "section-how-it-works-hero-split",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_cover_image",
+      "label": "Video cover image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "A Digital Podiatry Clinic for the 21st Century",
+      "info": "Italic to lower opacity, | for line-break"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Stride Soles brings the in-clinic experience to the comfort of your home."
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take our Quiz"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works hero split",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

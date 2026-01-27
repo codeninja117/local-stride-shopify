@@ -1,0 +1,125 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "sidebar_three_subsections_QiWiU8": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "sidebar_cta": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": ["sidebar_three_subsections_QiWiU8", "sidebar_cta"],
+      "disabled": true,
+      "settings": {}
+    },
+    "main_article_compare_generic_kxwDEb": {
+      "type": "main-article-compare-generic",
+      "blocks": {
+        "gallery_whUMhg": {
+          "type": "gallery",
+          "settings": {
+            "use_content_images": true
+          }
+        },
+        "pros_cons_9Hq9r4": {
+          "type": "pros_cons",
+          "settings": {
+            "product_name": "Our Verdict",
+            "product_description": "<p>Superfeet Green is over-charging at $50-$60 for non-custom insoles which offer little arch support and a flat plastic shell.  If you have a known condition like Flat Feet, Plantar Fasciitis, or Heel Spurs, we would recommend an orthotic with a bit more strength throughout (like Powerstep). However, if you have strong arches, are athletic, and are just looking for a bit of extra padding, Superfeet is a good option.</p>",
+            "pros_list": "60 day money back guarantee if you are unhappy\nLight insole (54G)\nWell designed deep heel cup to prevent slipping\nStrong lateral strength to prevent overpronation\nHigh Energy return for athletic performance",
+            "cons_list": "$54 is on the higher end of a OTC insole\nNo real arch support outside of foam top layer\nOrthotic is only 2/3rd length, leaving no correction for toe area\nPlastic Bottom is completely flat with no arch and tiny met pad\nMicrofiber top layer has poor moisture wicking properties\nLacks durability past 6-12 months of use",
+            "with_border": false
+          }
+        },
+        "comparison_table_7VFFGL": {
+          "type": "comparison_table",
+          "settings": {
+            "heading": "Comparison",
+            "features_column_title": "",
+            "product_1_title": "Superfeet",
+            "product_1_image": "shopify://shop_images/deconstructed_superfeet.jpg",
+            "product_1_highlight": false,
+            "product_2_title": "Bilt Labs",
+            "product_2_image": "shopify://shop_images/bilt.jpg",
+            "product_3_title": "",
+            "product_4_title": "",
+            "section_1_data": "General Stats | Superfeet | Bilt Labs\nShoe Type | Non-Custom OTC Insole | Custom Foot Impression Orthotics  \nShipping Time | 3 Day (Amazon) | 1 week\nWeight | 30 grams | 48 grams\nPrice | $40-$60 | $200\nLength | Full length | Full length\nDurability | 6-12 months | 2-5 years\nComfort | Light (50 Grams) | Medium (80gm)",
+            "section_2_data": "Components | Superfeet | Bilt Labs\nLayer Count | 2 | 3\nTop Layer | Microfiber | Synthetic Leather\nCushioning | EVA Foam (5mm) | EVA Foam (8mm)\nBottom Shell | Plastic | Polypropylene Plastic\nFootbed | Flat | Flat\nDesign Type | Standard | Custom\nArch Strength | Low | High\nMetatarsal Pad | None | None\nHeel Pad | Low (1mm) | Low (1mm)",
+            "section_3_data": "Performance | Superfeet | Bilt Labs\nShock Absorption | Low (110 SA) | Low (115 SA)\nEnergy Return | Low | Low\nHardness | High (SH A 80) | High (SH A 65)\nStiffness | High | Medium\nStain Resistance | High | High\nMoisture Wicking | Low (19g H2O/V) | High (32g H2O/V)\nBreathability | None | None",
+            "show_expand_button": true,
+            "initial_rows": 5,
+            "expand_button_text": "See More",
+            "collapse_button_text": "See Less"
+          }
+        },
+        "table_of_contents_MYaxzz": {
+          "type": "table_of_contents",
+          "settings": {}
+        },
+        "sidebar_cta_aUNLyL": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": "scheme-5"
+          }
+        },
+        "sidebar_three_subsections_4aN3if": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "article_content_iFTxCV": {
+          "type": "article_content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "gallery_whUMhg",
+        "pros_cons_9Hq9r4",
+        "comparison_table_7VFFGL",
+        "table_of_contents_MYaxzz",
+        "sidebar_cta_aUNLyL",
+        "sidebar_three_subsections_4aN3if",
+        "article_content_iFTxCV"
+      ],
+      "name": "Main article w/comparison",
+      "settings": {}
+    }
+  },
+  "order": ["main", "main_article_compare_generic_kxwDEb"]
+}

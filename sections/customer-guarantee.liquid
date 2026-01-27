@@ -1,0 +1,297 @@
+{%- style -%}
+  #shopify-section-{{section.id }},
+  #shopify-section-{{section.id }} .customer-guarantee {
+    {%- if section.settings.background_color != blank -%}
+      background-color: {{ section.settings.background_color }};
+    {%- endif -%}
+  }
+
+  #shopify-section-{{section.id }} .customer-guarantee__content {
+    {%- if section.settings.content_max_width != blank -%}
+      max-width: {{ section.settings.content_max_width }};
+    {%- endif -%}
+  }
+
+  #shopify-section-{{section.id }} .section-title {
+    font-size: {{ section.settings.title_font_size_mobile | default: section.settings.title_font_size }}px;
+    line-height: 1.1;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{section.id }} .guarantee__text {
+    font-size: {{ section.settings.text_font_size_mobile | default: section.settings.text_font_size }}px;
+    line-height: 1.6;
+    color: #525A63;
+  }
+
+  #shopify-section-{{section.id }} .guarantee__final-text {
+    color: #3E444A;
+  }
+
+  #shopify-section-{{section.id }} .customer-guarantee__final-text p {
+    color: #3E444A;
+  }
+
+
+
+  @media screen and (min-width: 1024px) {
+    #shopify-section-{{section.id }} .section-title {
+      font-size: {{ section.settings.title_font_size }}px;
+      line-height: 1.1;
+    }
+
+    #shopify-section-{{section.id }} .guarantee__text {
+      font-size: {{ section.settings.text_font_size }}px;
+      line-height: 1.6;
+    }
+
+
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 1 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 1 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="customer-guarantee section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="customer-guarantee__content flex max-w-2xl flex-col items-center gap-2">
+        <!-- Icon -->
+        {%- if section.settings.icon != blank -%}
+          <div class="customer-guarantee__icon mb-4 md:mb-6">
+            {{
+              section.settings.icon
+              | image_url: width: 120
+              | image_tag: class: 'h-20 w-20 md:h-20 md:w-20', loading: 'lazy', alt: section.settings.icon.alt
+              | escape
+            }}
+          </div>
+        {%- endif -%}
+
+        <!-- Heading -->
+        {%- if section.settings.heading != blank -%}
+          <div class="customer-guarantee__heading mb-4">
+            <h2 class="text-h2 section-title text-black">
+              {{
+                section.settings.heading
+                | replace: '<em>', '<span>'
+                | replace: '</em>', '</span>'
+                | replace: '|', '</span><span>'
+              }}
+            </h2>
+          </div>
+        {%- endif -%}
+
+        <!-- Subheading -->
+        {%- if section.settings.subheading != blank -%}
+          <div class="customer-guarantee__subheading mb-4">
+            <h3 class="text-xl font-semibold md:text-2xl">{{ section.settings.subheading }}</h3>
+          </div>
+        {%- endif -%}
+
+        <!-- Text -->
+        {%- if section.settings.text != blank -%}
+          <div class="customer-guarantee__text mb-4 md:mb-6">
+            <div class="prose prose-lg guarantee__text max-w-none">
+              {{ section.settings.text }}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Button -->
+        {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
+          <div class="customer-guarantee__button mb-2 md:mb-0">
+            <a href="{{ section.settings.button_url }}" class="btn-primary">
+              <div class="btn-primary__inner">
+                <div class="btn-primary__text-wrapper">
+                  <div class="btn-primary__text">{{ section.settings.button_label }}</div>
+                  <div class="btn-primary__text">{{ section.settings.button_label }}</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {%- endif -%}
+
+        <!-- Final Text (Eyelash) -->
+        {%- if section.settings.final_text != blank -%}
+          <div class="customer-guarantee__final-text">
+            <p class="text-body-m">{{ section.settings.final_text }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Guarantee",
+  "class": "section-customer-guarantee",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon",
+      "info": "Recommended: 120x120px PNG or SVG"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<em>Our</em> Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We stand behind our products"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>We're confident you'll love your custom orthotics. If you're not completely satisfied, we offer a 180-day return policy with no questions asked.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "final_text",
+      "label": "Final text",
+      "default": "Your satisfaction is our priority"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "text",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "default": "32rem",
+      "info": "e.g., 32rem, 600px, 50vw, 800px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "info": "Overrides color scheme background if set"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Section title font size (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "min": 20,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "label": "Section title font size (Mobile)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Guarantee text font size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "text_font_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Guarantee text font size (Mobile)",
+      "default": 16
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Guarantee",
+      "category": "Uncategorized",
+      "settings": {
+        "heading": "<em>180-Day</em> Guarantee",
+        "subheading": "Your satisfaction is guaranteed",
+        "text": "<p>We're confident you'll love your custom orthotics. If you're not completely satisfied within 180 days, we'll provide a full refund or replacement - no questions asked.</p>",
+        "button_label": "View Our Policy",
+        "final_text": "Join thousands of satisfied customers"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,343 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    --grid-gap: {{ section.settings.grid_gap }}rem;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }} .section-blocklist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--grid-gap);
+  }
+
+  @media screen and (min-width: 1024px) {
+    .section-{{ section.id }} .section-blocklist {
+      gap: var(--grid-gap);
+      padding: 1rem;
+    }
+  }
+
+  .section-{{ section.id }} .section-block__item {
+    display: flex;
+    gap: 1rem;
+    width: calc((100% - 2rem));
+    padding: 1rem;
+    border-radius: 1rem;
+    flex-direction: column;
+  }
+
+  .section-{{ section.id }} .section-block__item .best-orthotics__item-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .section-{{ section.id }} .section-block__item .best-orthotics__item-inner > * {
+    flex: 1;
+  }
+
+  .best-orthotics__item-header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .best-orthotics__item-number {
+    border-radius: 100%;
+    background-color: rgb(var(--color-alternate-background));
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(var(--color-foreground));
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }} .section-block__item {
+      width: calc((100% - 4rem) / 2);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .section-{{ section.id }} .section-block__item {
+      width: calc((100% - (3rem * ({{ section.settings.items_per_row }} - 1))) / {{ section.settings.items_per_row }});
+    }
+
+    .section-{{ section.id }} .section-block__item .best-orthotics__item-inner {
+      flex-direction: row;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }} section-{{ section.id }}"
+>
+  <div class="page-width {{ section.settings.page_width }} flex flex-col gap-16" data-animate>
+    <div class="section-header flex flex-col gap-4 text-{{ section.settings.title_text_alignment }}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="section-title text-h2" data-cascade="0">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="section-description page-width page-width--md" data-cascade="0.15">
+          {{ section.settings.description }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="section-blocklist text-{{ section.settings.block_text_alignment }}">
+        {%- for block in section.blocks -%}
+          <div
+            class="section-block__item gradient color-{{ section.settings.color_scheme_blocks }} best-orthotics__item"
+            data-cascade="{{ forloop.index | times: 0.15 }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="best-orthotics__item-header">
+              {%- if block.settings.show_number -%}
+                <div class="best-orthotics__item-number">
+                  {{ forloop.index }}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <h3 class="section-title font-bold">
+                  {{ block.settings.title }}
+                </h3>
+              {%- endif -%}
+            </div>
+            <div class="best-orthotics__item-inner">
+              {%- if block.settings.image != blank -%}
+                <div class="best-orthotics__item-image overflow-hidden">
+                  {{
+                    block.settings.image
+                    | image_url: width: block.settings.image.width
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '400, 800, 1200',
+                      class: 'w-full h-auto object-cover rounded-xl overflow-hidden',
+                      alt: block.settings.title,
+                      data-animate: 'scale-out'
+                  }}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <div class="best-orthotics__item-content">
+                  {%- if block.settings.description != blank -%}
+                    <div class="section-description rte text-sm">
+                      {{ block.settings.description }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footer_text != blank -%}
+      <div class="section-description page-width page-width--md" data-cascade="0.30">
+        {{ section.settings.footer_text }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Best Orthotics",
+  "class": "section section--best-orthotics",
+  "settings": [
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Page width",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "page-width--sm",
+          "label": "Small"
+        },
+        {
+          "value": "page-width--md",
+          "label": "Medium"
+        },
+        {
+          "value": "page-width--lg",
+          "label": "Large"
+        },
+        {
+          "value": "page-width--xl",
+          "label": "Extra Large"
+        }
+      ],
+      "default": "page-width--md"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<strong>Best Custom Orthotics for</strong> Plantar Fasciitis (2025)"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>A proper plantar fasciitis orthotic should include:</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "footer_text",
+      "label": "Footer text"
+    },
+
+    {
+      "type": "text_alignment",
+      "id": "title_text_alignment",
+      "label": "Title text alignment",
+      "default": "center"
+    },
+    {
+      "type": "text_alignment",
+      "id": "block_text_alignment",
+      "label": "Block text alignment",
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items / row",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0.2,
+      "max": 4,
+      "step": 0.2,
+      "label": "Grid gap (rem)",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_blocks",
+      "label": "Color scheme (blocks)"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column_item",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_number",
+          "label": "Show number",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Column title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<ul><li>Running shoes with firm heel counters</li><li>Walking shoes with structured midsoles</li></ul>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Orthotics",
+      "category": "STRIDE",
+      "settings": {
+        "title": "<strong>Best Custom Orthotics for</strong> Plantar Fasciitis (2025)",
+        "description": "<p>A proper plantar fasciitis orthotic should include:</p>",
+        "color_scheme_blocks": ""
+      },
+      "blocks": [
+        {
+          "type": "column_item",
+          "settings": {
+            "image": "shopify://shop_images/yn-1.png",
+            "title": "✅  Best Shoe Types",
+            "description": "<ul><li>Running shoes with firm heel counters</li><li>Walking shoes with structured midsoles</li><li>Work boots with rigid shanks</li><li>Cross-trainers with minimal twisting</li></ul>"
+          }
+        },
+        {
+          "type": "column_item",
+          "settings": {
+            "image": "shopify://shop_images/yn2.png",
+            "title": "❌  Avoid",
+            "description": "<ul><li>Soft memory-foam shoes</li><li>Flat slip-ons</li><li>Flip flops</li><li>Barefoot/minimal shoes during flare-ups</li></ul>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

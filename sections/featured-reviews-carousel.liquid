@@ -1,0 +1,185 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#e2e2e2' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+  }
+{% endstyle %}
+
+<div class="featured-reviews-carousel bg-[#e2e2e2] py-16 text-[#202020]">
+  <div class="page-width">
+    <div class="featured-reviews-carousel__content flex flex-col gap-20 lg:flex-row">
+      <div class="featured-reviews-carousel__header flex flex-col items-center  justify-around gap-10 text-center md:w-1/3 md:items-start md:text-left">
+        <h2 class="display flex flex-col text-5xl lg:text-7xl">
+          {% assign title_parts = section.settings.title | newline_to_br | split: '<br />' %}
+          {% for part in title_parts %}
+            <span>{{ part }}</span>
+          {% endfor %}
+        </h2>
+
+        <div class="flex flex-col items-center gap-1 text-center">
+          <p class="font-bold lg:text-2xl">5.0</p>
+          <div class="flex">
+            {%- render 'svg-star', height: 28, width: 28 -%}
+            {%- render 'svg-star', height: 28, width: 28 -%}
+            {%- render 'svg-star', height: 28, width: 28 -%}
+            {%- render 'svg-star', height: 28, width: 28 -%}
+            {%- render 'svg-star', height: 28, width: 28 %}
+          </div>
+          <p class="lg:text-lg">Based on 357 reviews</p>
+        </div>
+
+        {% render 'button',
+          tag: 'a',
+          text: section.settings.button_label,
+          url: section.settings.button_url,
+          variant: 'secondary'
+        %}
+      </div>
+
+      <div class="featured-reviews-carousel__carousel flex-1  overflow-hidden rounded-xl bg-white px-4 pt-8 pb-8 md:px-14 md:pt-30 md:pb-14">
+        <ui-carousel class="swiper" data-pagination="fraction" data-navigation>
+          <div class="swiper-wrapper">
+            {%- for block in section.blocks -%}
+              {% # theme-check-disable %}
+              {%- assign is_even = forloop.index0 | modulo: 2 -%}
+              {%- if is_even == 0 -%}
+                <div class="swiper-slide">
+                  <div class="featured-reviews-carousel__review flex flex-col gap-16">
+              {%- endif -%}
+              {% # theme-check-enable %}
+
+              <div class="featured-reviews-carousel__review-content flex flex-col gap-6">
+                <h3 class="text-lg lg:text-2xl">‟{{ block.settings.review }}”</h3>
+
+                <div class="flex items-center gap-5">
+                  {%- if block.settings.image != blank -%}
+                    <div class="featured-reviews-carousel__review-image overflow-hidden rounded-full">
+                      {{ block.settings.image | image_url: width: 70 | image_tag: alt: block.settings.title }}
+                    </div>
+                  {%- else -%}
+                    <div class="featured-reviews-carousel__review-image h-16 w-16 rounded-full bg-black/20"></div>
+                  {%- endif -%}
+
+                  <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-6">
+                      <div class="featured-reviews-carousel__review-stars flex flex-nowrap">
+                        {%- render 'svg-star', height: 20, width: 20 -%}
+                        {%- render 'svg-star', height: 20, width: 20 -%}
+                        {%- render 'svg-star', height: 20, width: 20 -%}
+                        {%- render 'svg-star', height: 20, width: 20 -%}
+                        {%- render 'svg-star', height: 20, width: 20 %}
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span>{% render 'svg-verified-check' %}</span> Verified
+                      </div>
+                    </div>
+                    <p class="opacity-40">{{ block.settings.title }}</p>
+                  </div>
+                </div>
+              </div>
+
+              {% # theme-check-disable %}
+              {%- assign is_end_or_last = forloop.index | modulo: 2 -%}
+              {%- if is_end_or_last == 0 or forloop.last -%}
+                </div>
+                </div>
+              {%- endif -%}
+              {% # theme-check-enable %}
+            {%- endfor -%}
+          </div>
+
+          <div class="ui-carousel-controls inline-flex items-center justify-start gap-4 md:mt-16">
+            <div class="ui-carousel-prev btn-primary-fade">
+              <div class="btn-primary-fade__inner">
+                <div class="btn-primary-fade__text-wrapper">
+                  {% render 'svg-arrow', type: 'left', class: 'ui-carousel-arrow' %}
+                </div>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="ui-carousel-next btn-primary-fade">
+              <div class="btn-primary-fade__inner">
+                <div class="btn-primary-fade__text-wrapper">
+                  {% render 'svg-arrow', type: 'right', class: 'ui-carousel-arrow' %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ui-carousel>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured reviews carousel",
+  "class": "section-featured-reviews-carousel",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "What Our\nCustomers say"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Read All Reviews"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "review",
+          "label": "Review"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured reviews carousel",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

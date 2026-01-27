@@ -1,0 +1,456 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    background-color: white;
+  }
+{%- endstyle -%}
+
+{% assign useSeoTitle = false %}
+{% assign blog_url = blog.url %}
+{% assign blog_url_slash = blog.url | append: '/' %}
+{% assign current_url = request.path %}
+
+{% assign page_title = blog.title %}
+
+{%- for tag in blog.all_tags -%}
+  {% assign tag_handle = tag | handle %}
+  {% assign tag_url = blog.url | append: '/tagged/' | append: tag_handle %}
+  {% assign tag_url_slash = tag_url | append: '/' %}
+
+  {% if current_url == tag_url or current_url == tag_url_slash %}
+    {% assign page_title = tag | capitalize %}
+    {% assign current_page_tag = tag %}
+
+    {% for metaobject in shop.metaobjects.blog_tag_seo_info.values %}
+      {% if metaobject.tag.value == current_page_tag %}
+        {% assign seo_title = metaobject.title_in_page.value %}
+        {% assign seo_description = metaobject.description_in_page.value %}
+        {% assign seo_meta_description = metaobject.meta_description.value %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{%- endfor -%}
+
+<!-- DEBUG: Current tag is: {{ current_page_tag }} -->
+<!-- DEBUG: Found SEO title: {{ seo_title }} -->
+<!-- DEBUG: Found SEO description: {{ seo_description }} -->
+<!-- DEBUG: Found meta description: {{ seo_meta_description }} -->
+<!-- useSeoTitle: {{ useSeoTitle }} -->
+{% if current_page_tag == blank %}
+{% endif %}
+{% assign grid_layout = true %}
+
+<div class="article__header pt-6 pb-16 {% unless grid_layout %} md:text-center {% endunless %} featured-section page-width max-w-screen-2xl lg:pb-22 {% if current_page_tag == blank %} main-blog-index-header {% endif %}">
+  {%- if seo_title != blank and useSeoTitle -%}
+    <h1 class="text-display-m mx-0 capitalize">{{ seo_title }}</h1>
+  {%- else -%}
+    {% if current_page_tag == blank %}
+      <h1 class="text-display-m blog-index-title mx-0 capitalize">Stride Blog</h1>
+    {% else %}
+      <h1 class="text-display-m blog-index-title mx-0 capitalize">{{ page_title }}</h1>
+    {% endif %}
+  {%- endif -%}
+
+  {% comment %} {% render 'blog-search' %} {% endcomment %}
+
+  <div class="relative mt-6 w-full overflow-hidden {% if current_page_tag == blank %} main-blog-index-header-tag-wrapper {% endif %}">
+    {%- unless grid_layout -%}
+      <!-- Left gradient overlay -->
+      <div
+        class="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-white to-transparent lg:w-12"
+      ></div>
+
+      <!-- Right gradient overlay -->
+      <div
+        class="pointer-events-none absolute top-0 right-0 z-10 h-full w-8 bg-gradient-to-l from-white to-transparent lg:w-12"
+      ></div>
+    {%- endunless -%}
+    {% if grid_layout %}
+      <div class="grid-layout-nav-container">
+        <h4 class="text-h4 blog-tag-box-title mb-0">Categories</h4>
+    {% endif %}
+    <!-- Navigation with snap scrolling -->
+    <nav
+      class="scrollbar-hide flex snap-x snap-mandatory justify-start gap-3 overflow-x-auto{%- unless grid_layout -%} px-6{% endunless %} py-4 md:justify-center lg:-mx-4 {% if grid_layout %} grid-layout-nav{% endif %}"
+      id="scroll-nav"
+    >
+      {%- unless grid_layout -%}
+        <a
+          href="{{ blog.url }}"
+          aria-label="All articles"
+          class="flex-shrink-0 snap-start scroll-ml-4 rounded-full px-4 py-2 pl-4 whitespace-nowrap capitalize transition-all {% if current_url == blog_url or current_url == blog_url_slash %}bg-black text-white{% else %}bg-transparent text-[#9D9FA9] border border-black/30 hover:border-black/60{% endif %}"
+        >
+          All
+        </a>
+      {%- endunless -%}
+      {%- for tag in blog.all_tags -%}
+        {% assign tag_handle = tag | handle %}
+        {% assign tag_url = blog.url | append: '/tagged/' | append: tag_handle %}
+        {% assign tag_url_slash = tag_url | append: '/' %}
+
+        {%- if grid_layout -%}
+          <a
+            href="{{ tag_url }}"
+            aria-label="{{ tag }}"
+            class="flex-shrink-0 snap-start rounded-full  px-4 py-2 whitespace-nowrap capitalize transition-all  {% if current_url == tag_url or current_url == tag_url_slash %} blog-tag-active {% else %}bg-transparent text-[#9D9FA9] border border-black/30 hover:border-black/60{% endif %} {% if forloop.last %}pr-4 scroll-mr-4{% endif %}"
+          >
+            {{- tag -}}
+          </a>
+        {%- else -%}
+          <a
+            href="{{ tag_url }}"
+            aria-label="{{ tag }}"
+            class="flex-shrink-0 snap-start rounded-full  px-4 py-2 whitespace-nowrap capitalize transition-all  {% if current_url == tag_url or current_url == tag_url_slash %}bg-black text-white{% else %}bg-transparent text-[#9D9FA9] border border-black/30 hover:border-black/60{% endif %} {% if forloop.last %}pr-4 scroll-mr-4{% endif %}"
+          >
+            {{- tag -}}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+    {% if grid_layout %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% paginate blog.articles by 8 %}
+  {% comment %} Only show on the main blog page (not tags or pagination) {% endcomment %}
+  {% assign is_main_blog_page = true %}
+
+  {% comment %} Check if we're on a tag page {% endcomment %}
+  {% if current_tags.size > 0 %}
+    {% assign is_main_blog_page = false %}
+  {% endif %}
+
+  {% comment %} Check if we're on a pagination page {% endcomment %}
+  {% if paginate.current_page > 1 %}
+    {% assign is_main_blog_page = false %}
+  {% endif %}
+
+  {% comment %} Alternatively, you can check the specific URL {% endcomment %}
+  {% assign current_url = request.path %}
+  {% assign blog_url = blog.url | append: '/' %}
+  {% if current_url != blog_url and current_url != blog.url %}
+    {% assign is_main_blog_page = false %}
+  {% endif %}
+
+  {% if is_main_blog_page %}
+    <div class="featured-section page-width mb-16 grid max-w-screen-2xl grid-cols-1 gap-6 md:grid-cols-12 md:gap-20">
+      {% assign featured_article = section.settings.featured_article %}
+      <div class="featured-article md:col-span-6">
+        <h2 class="sr-only mb-4 text-[62px]"><span class="text-[#9D9FA9]">Latest</span> Post</h2>
+
+        {%- if featured_article != blank -%}
+          <a href="{{ featured_article.url }}" aria-label="{{ featured_article.title }}">
+            <div class="featured-article__image mb-4 aspect-[3/2] overflow-hidden rounded-[12px]">
+              {% if featured_article.image %}
+                {%- assign featured_article_alt = featured_article.image.alt | default: shop.name -%}
+                {{
+                  featured_article.image
+                  | image_url: width: 768
+                  | image_tag: class: 'w-full h-full object-cover', alt: featured_article_alt
+                }}
+              {% else %}
+                <div class="aspect-video bg-black/10"></div>
+              {% endif %}
+            </div>
+
+            {%- if featured_article.title != blank -%}
+              <h3 class="text-h3 font-semibold">{{ featured_article.title }}</h3>
+            {%- endif -%}
+          </a>
+
+          {%- if featured_article.excerpt_or_content != blank -%}
+            <div class="featured-article__excerpt mt-2 text-black/60">
+              <p>{{ featured_article.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+            </div>
+          {%- endif -%}
+          <div class="featured-article__meta mt-6 flex flex-wrap items-center gap-2 text-sm whitespace-nowrap">
+            {%- if featured_article.metafields.custom.author.value.image != blank -%}
+              {%- assign featured_article_author_alt = featured_article.metafields.custom.author.value.image.alt
+                | default: shop.name
+              -%}
+              {{
+                featured_article.metafields.custom.author.value.image
+                | image_url: width: 56, height: 56
+                | image_tag:
+                  class: 'h-7 w-7 rounded-[5px] object-cover',
+                  alt: featured_article.metafields.custom.author.value.image.alt,
+                  loading: 'lazy',
+                  fetchpriority: 'high',
+                  alt: featured_article_author_alt
+              }}
+            {%- else -%}
+              <div class="h-7 w-7 rounded-[5px] bg-black/20"></div>
+            {%- endif -%}
+
+            <p class="text-base font-extrabold">
+              {%- if featured_article.metafields.custom.author.value.name != blank -%}
+                {{ featured_article.metafields.custom.author.value.name }}
+              {%- else -%}
+                Admin
+              {%- endif -%}
+            </p>
+            <span class="text-sm text-black/60">
+              {%- if featured_article.metafields.custom.author.value.title != blank -%}
+                {{ featured_article.metafields.custom.author.value.title }}
+              {%- else -%}
+                Social Media & Community Expert
+              {%- endif -%}
+            </span>
+            <time class="text-sm text-black/60" datetime="{{ featured_article.published_at | date: '%Y-%m-%d' }}">
+              {{ featured_article.published_at | date: '%B %d, %Y' }}
+            </time>
+
+            {% assign word_count = featured_article.content | strip_html | split: ' ' | size %}
+            {% assign reading_time = word_count | divided_by: 225.0 %}
+
+            {% if reading_time < 1 %}
+              {% assign reading_time_text = 'Less than a minute' %}
+            {% else %}
+              {% assign reading_time_minutes = reading_time | round %}
+              {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+            {% endif %}
+            <span class="text-sm text-black/60">•</span>
+            <span class="article-reading-time text-sm text-black/60">{{ reading_time_text }}</span>
+          </div>
+        {%- else -%}
+          <div>
+            <div class="featured-article__image mb-4 aspect-video overflow-hidden rounded-[12px]">
+              <div class="aspect-video bg-black/10"></div>
+            </div>
+            <h3 class="text-h4 font-semibold">This is an example of a featured article</h3>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="trending-posts md:col-span-6">
+        <h2 class="text-h2 mb-12"><span class="text-[#9D9FA9]">Trending</span> Posts</h2>
+
+        <div class="trending-posts__list flex flex-col gap-4">
+          {%- for block in section.blocks -%}
+            <div class="trending-post flex items-center gap-4">
+              <a
+                href="{{ block.settings.article.url }}"
+                class="trending-post__image aspect-video w-32 flex-shrink-0 overflow-hidden rounded-[12px]"
+              >
+                {% if block.settings.article.image %}
+                  {%- assign trending_img_alt = block.settings.article.title | default: shop.name -%}
+                  {{
+                    block.settings.article.image
+                    | image_url: width: 325
+                    | image_tag: class: 'w-full h-full object-cover', alt: trending_img_alt
+                  }}
+                {% else %}
+                  <div class="h-full w-full bg-gray-200"></div>
+                {% endif %}
+              </a>
+              <div class="trending-post__content flex flex-col gap-2">
+                {% if block.settings.article.tags.size > 0 %}
+                  {% assign first_tag = block.settings.article.tags | first %}
+                  {% assign first_tag_handle = first_tag | handle %}
+                  <span class="w-fit rounded-3xl bg-black/5 px-3 py-0.5 text-xs text-black">
+                    {{- first_tag -}}
+                  </span>
+                {% endif %}
+
+                <h3 class="trending-post__title leading-[1.2] font-semibold">
+                  <a href="{{ block.settings.article.url }}" aria-label="{{ block.settings.article.title }}">
+                    {{- block.settings.article.title | truncate: 50, '...' -}}
+                  </a>
+                </h3>
+                <div class="trending-post__meta whitespace-nowrapmt-1 flex flex-wrap items-center gap-2 text-xs text-black/60">
+                  <time datetime="{{ block.settings.article.published_at | date: '%Y-%m-%d' }}">
+                    {{ block.settings.article.published_at | date: '%B %d, %Y' }}
+                  </time>
+
+                  {% assign word_count = block.settings.article.content | strip_html | split: ' ' | size %}
+                  {% assign reading_time = word_count | divided_by: 225.0 %}
+
+                  {% if reading_time < 1 %}
+                    {% assign reading_time_text = 'Less than a minute' %}
+                  {% else %}
+                    {% assign reading_time_minutes = reading_time | round %}
+                    {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+                  {% endif %}
+                  <span class="text-xs text-black/60">•</span>
+                  <span class="article-reading-time text-xs text-black/60">{{ reading_time_text }}</span>
+                </div>
+              </div>
+            </div>
+            {%- unless forloop.last -%}
+              <div class="border-b border-b-black/20"></div>
+            {%- endunless -%}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="section-{{ section.id }} main-blog ">
+    <!-- Latest Articles Section -->
+    <div class="latest-articles  bg-black/5 py-[60px] lg:py-[120px]">
+      <div class="page-width max-w-screen-2xl">
+        <div class="flex justify-between">
+          <h2 class="text-h1 mb-4 lg:mb-8"><span class="text-[#9D9FA9]">Latest</span> Posts</h2>
+        </div>
+        <ul class="grid gap-6 md:grid-cols-3">
+          {% for article in blog.articles %}
+            <li class="{% if forloop.index == 1 %}order-1{% else %}order-3{% endif %}">
+              {% render 'article-card', article: article %}
+            </li>
+          {% endfor %}
+          <li class="order-2">
+            <aside class="newsletter-signup bg-peach flex flex-col items-center justify-center rounded-lg p-6 text-center text-black lg:p-8">
+              <span class="mb-7 inline-block w-14 lg:w-16"> {{ 'icon-newsletter.svg' | inline_asset_content }}</span>
+              <h3 class="mb-2 text-2xl leading-[1.24] font-extrabold lg:text-[32px]">Never miss another article</h3>
+              <p class="lg:text-lg">Highly curated content, case studies, Stride updates, and more.</p>
+              <!-- Newsletter form content -->
+
+              {% form 'customer', class: 'mt-4' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+
+                <div class="flex w-full max-w-md items-center overflow-hidden rounded-full bg-white">
+                  <!-- Input field -->
+                  <input
+                    id="NewsletterForm--{{ section.id }}"
+                    type="email"
+                    name="contact[email]"
+                    class="w-full max-w-full flex-1 border-none bg-transparent px-6 py-4 text-black placeholder-black/60 placeholder:text-sm focus:outline-none"
+                    value="{{ form.email }}"
+                    aria-required="true"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    autocomplete="email"
+                    {% if form.errors %}
+                      autofocus
+                      aria-invalid="true"
+                      aria-describedby="Newsletter-error--{{ section.id }}"
+                    {% elsif form.posted_successfully? %}
+                      aria-describedby="Newsletter-success--{{ section.id }}"
+                    {% endif %}
+                    placeholder="Enter your email"
+                    required
+                  >
+
+                  <!-- Submit button with outer dotted border -->
+                  <div class="relative mx-2">
+                    <!-- Dotted border container -->
+                    <div class="absolute -inset-1 rounded-full border border-dashed border-black/30"></div>
+
+                    <!-- Actual button -->
+                    <button
+                      type="submit"
+                      class="relative rounded-full bg-black px-6 py-1.5 text-white transition-all duration-300 ease-in-out hover:bg-black/20 hover:text-black"
+                      name="commit"
+                      id="Subscribe"
+                      aria-label="{{ 'newsletter.button_label' | t }}"
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+
+                {% if form.errors %}
+                  <div class="mt-3 text-sm" id="Newsletter-error--{{ section.id }}">
+                    <span class="mr-2 inline-block">
+                      {{- 'icon-error.svg' | inline_asset_content -}}
+                    </span>
+                    {{- form.errors.translated_fields.email | capitalize }}
+                    {{ form.errors.messages.email -}}
+                  </div>
+                {% endif %}
+
+                {% if form.posted_successfully? %}
+                  <div class="mt-3 text-sm text-green-500" id="Newsletter-success--{{ section.id }}">
+                    <span class="mr-2 inline-block">
+                      {{- 'icon-success.svg' | inline_asset_content -}}
+                    </span>
+                    {{- 'newsletter.success' | t }}
+                  </div>
+                {% endif %}
+              {% endform %}
+            </aside>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="featured-section page-width  max-w-screen-2xl pt-16 pb-16 lg:pb-22 ">
+      {%- if seo_description != blank -%}
+        <p class="text-body-m tagged-blog-description mx-0">{{ seo_description | newline_to_br }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="page-width mb-10">
+      {%- if paginate.pages > 1 -%}
+        {% render 'pagination', paginate: paginate, anchor: '' %}
+      {%- endif -%}
+    </div>
+  </div>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Blog",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "pagination_limit",
+      "min": 3,
+      "max": 24,
+      "step": 1,
+      "label": "Pagination limit",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Featured article"
+    },
+    {
+      "type": "article",
+      "id": "featured_article",
+      "label": "Featured article"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trending_post",
+      "name": "Trending post",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Article"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

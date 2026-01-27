@@ -1,0 +1,131 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "sidebar_three_subsections_QiWiU8": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "sidebar_cta": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "sidebar_three_subsections_QiWiU8",
+        "sidebar_cta"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "main_article_compare_generic_kxwDEb": {
+      "type": "main-article-compare-generic",
+      "blocks": {
+        "gallery_whUMhg": {
+          "type": "gallery",
+          "settings": {
+            "use_content_images": true
+          }
+        },
+        "pros_cons_9Hq9r4": {
+          "type": "pros_cons",
+          "settings": {
+            "product_name": "Our Verdict",
+            "product_description": "<p>We believe Bilt Lab’s quality does not justify the $260 price point given similar foam impression kit companies run between $200-225. Like these other manufacturers, Bilt Labs orthotic insoles demonstrate customization only in the arch where a milled piece of plastic is contoured using the impression kit. The insoles do not have any customized parts in the forefoot or toes. That said, the three component design of the milled plastic arch, foam top liner, and felt bottom liner are of superior quality and can support larger individuals comfortably and consistently in a variety of activities.</p>",
+            "pros_list": "180 day money back guarantee if you are unhappy\nStrong shell with lifetime warranty\nPremium top layer with breathable lining",
+            "cons_list": "$260 is on the extreme high end of online custom insoles\nLimited customization (only the arch portion is customized)\nOrthotic is only 2/3rd length, leaving no correction for toe area\n5+ week turnaround from order to arrival\nLimited information (online) regarding durability",
+            "with_border": false
+          }
+        },
+        "comparison_table_7VFFGL": {
+          "type": "comparison_table",
+          "settings": {
+            "heading": "Comparison",
+            "features_column_title": "",
+            "product_1_title": "Bilt Labs",
+            "product_1_image": "shopify://shop_images/bilt.jpg",
+            "product_1_highlight": false,
+            "product_2_title": "",
+            "product_2_image": "shopify://shop_images/bilt.jpg",
+            "product_3_title": "",
+            "product_4_title": "",
+            "section_1_data": "General Stats| |\nType|Custom Foam Impression Orthotics\nShipping Time|5 weeks\nWarranty|180 Days\nPrice|$260\nLength|full length\nLife-span |2-3 years\nWeight |Medium (85 grams)",
+            "section_2_data": "Components| |\nLayer Count|4\nTop Layer |Synthetic Leather\nCushioning |EVA Foam (2mm)\nOrthotic Shell|Polypropenine Plastic\nToe Corrections|None\nArch Height|18mm\nArch Strength|High\nMetarsal Pad|None\nHeel Pad|Low (1cm)",
+            "section_3_data": "Performance| |\nShock Absorbsion |Low (115 SA)\nEnergy Return|Medium\nHardness|High (SH A 65)\nStiffness|High\nStain Resistance|High\nMoisture Wicking|High (45 mins)\nBreathability|None",
+            "show_expand_button": true,
+            "initial_rows": 5,
+            "expand_button_text": "See More",
+            "collapse_button_text": "See Less"
+          }
+        },
+        "table_of_contents_MYaxzz": {
+          "type": "table_of_contents",
+          "settings": {}
+        },
+        "sidebar_cta_aUNLyL": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": "scheme-5"
+          }
+        },
+        "sidebar_three_subsections_4aN3if": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "article_content_iFTxCV": {
+          "type": "article_content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "gallery_whUMhg",
+        "pros_cons_9Hq9r4",
+        "comparison_table_7VFFGL",
+        "table_of_contents_MYaxzz",
+        "sidebar_cta_aUNLyL",
+        "sidebar_three_subsections_4aN3if",
+        "article_content_iFTxCV"
+      ],
+      "name": "Main article w/comparison",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "main_article_compare_generic_kxwDEb"
+  ]
+}

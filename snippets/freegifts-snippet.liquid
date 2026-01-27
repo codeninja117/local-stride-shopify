@@ -1,0 +1,40 @@
+<script>
+document.addEventListener("fg-gifts:gift-icon", async (e) => {
+  e.detail.gifts.forEach(function(gift){
+    let items = document.querySelectorAll('.glider.fg-gift-thumbnail-offer-slider .product-item')
+    if(items){
+      items.forEach((productItemEl)=>{
+        const price = window.FGSECOMAPP.helper.formatter.format(gift.variants[0].original_price);
+        const lastHref = productItemEl.querySelector(".gift-original-url")?.getAttribute("href")?.split("/")
+        const isAddCustomEl = lastHref[lastHref.length - 1] == gift.handle;
+        if (isAddCustomEl) {
+          productItemEl.innerHTML += '<div class="sca-thumb-custom"><span class="sca-thumb-title">'+ gift.title +'</span></br><span class="sca-thumb-org-price">'+ price +'</span>&nbsp;&nbsp;<span class="sca-thumb-price">FREE </span></div>';
+        }
+      })
+    }
+  });
+}); 
+</script>
+
+<style>
+
+  .fg-gift-thumbnail-offer-slider{
+    background-color: unset !important;
+  }
+  span.sca-thumb-org-price {
+    text-decoration: line-through;
+    font-weight: bold;
+}
+  .sca-thumb-custom {
+    margin-left: 15px;
+}
+  .fg-gift-thumbnail-offer-title {
+    font-size: 18px;
+}
+  .fg-gift-thumbnail-container .product-item {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: column;
+  }
+
+</style>

@@ -1,0 +1,48 @@
+{% comment %}
+  Renders a product card
+{% endcomment %}
+
+<div class="product-card border-slate/20 hover:border-slate/80 h-full flex-1 rounded-lg border bg-white p-3 transition-colors duration-300 ease-in-out">
+  {%- if product.featured_media -%}
+    {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+    <a href="{{ product.url }}">
+      <img
+        srcset="
+          {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+          {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+          {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+          {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+          {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+          {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+          {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+        "
+        src="{{ product.featured_media | image_url: width: 533 }}"
+        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+        alt="{{ product.featured_media.alt | escape }}"
+        class="motion-reduce aspect-square rounded-lg object-cover"
+        {% unless lazy_load == false %}
+          loading="lazy"
+        {% endunless %}
+        width="{{ product.featured_media.width }}"
+        height="{{ product.featured_media.height }}"
+      >
+    </a>
+    {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+  {%- endif -%}
+
+  <div class="product-card__details mt-2 flex flex-col gap-2">
+    <div class="flex flex-col gap-1">
+      <a href="{{ product.url  }}" class="text-body-m font-semibold">{{ product.title | escape }}</a>
+      <div class="product__price-rating flex flex-col gap-2">
+        <div class="product__price inline-flex items-center gap-2 align-middle leading-[1]">
+          <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+            {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--large' -%}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+      {{ product.metafields.judgeme.badge }}
+    </div>
+  </div>
+</div>

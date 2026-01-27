@@ -1,0 +1,9 @@
+MatchingTranslations:
+  enabled: false
+TemplateLength:
+  enabled: false
+
+# Paths to ignore (don't lint those!)
+ignore:
+  - 'node_modules/**'
+  - 'src/**'

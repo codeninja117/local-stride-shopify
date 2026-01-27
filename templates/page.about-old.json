@@ -1,0 +1,73 @@
+{
+  "sections": {
+    "about_hero": {
+      "type": "about-hero",
+      "settings": {
+        "image": "shopify://shop_images/StrideSoleAnimationHomepage-1-1.jpg",
+        "title": "About\nStride",
+        "subtitle": "At Stride, we fuse cutting-edge technology with clinical compassion to make healthcare accessible and convenient for all.",
+        "subtitle_2": "Our solutions empower people to live life to the fullest, helping them overcome their pain and grow into the very best versions of themselves.",
+        "button_url": "",
+        "button_label": "Take our Quiz"
+      }
+    },
+    "about_section_1_n9jC6x": {
+      "type": "about-section-1",
+      "blocks": {
+        "block_1_HPfUxg": {
+          "type": "block_1",
+          "settings": {
+            "eyebrow_text": "Stride isn’t just innovative",
+            "title": "We’re completely redefining the orthotic design experience to emphasize customer convenience and clinical quality.",
+            "text": "Our team of award-winning podiatrists factor hundreds of thousands of your data points into your remarkably personalized pair of orthotics.",
+            "video": "shopify://files/videos/about-video.mp4"
+          }
+        },
+        "block_2_b9y9LQ": {
+          "type": "block_2",
+          "settings": {
+            "eyebrow_icon": "shopify://shop_images/icon-medical.svg",
+            "title": "Personalized Care,\nLasting Solutions",
+            "text": "Stride isn’t customized in the conventional sense –we help you overcome your problems permanently, enabling you to live happy, healthy, pain-free livesthrough exceptional, convenient healthcare solutions.",
+            "button_url": "",
+            "button_label": "Take our Quiz",
+            "image": "shopify://shop_images/matore-2-1.png",
+            "image_2": "shopify://shop_images/Rectangle-64-1.png"
+          }
+        }
+      },
+      "block_order": ["block_1_HPfUxg", "block_2_b9y9LQ"],
+      "settings": {
+        "title": "Innovative Orthotics,\nRedefined Experience"
+      }
+    },
+    "about_section_2_hfK6b3": {
+      "type": "about-section-2",
+      "settings": {
+        "eyebrow_icon": "shopify://shop_images/icon-eyebrow-footsteps.svg",
+        "title": "Our Story -\nThe Search for the\nUltimate Orthotic",
+        "text": "<p>As far back as I can remember, I’ve had flat feet. Despite stretching, exercises, and buying over-the-counter insoles, I consistently had pain after walking just a few minutes. Three years ago, I decided to take matters into my own hands and go see a Podiatrist in anticipation of a exchange trip aboard. Nine hundred dollars, and two weeks later, my order was finally placed. <em>Sadly, despite my repeated requests for rush delivery, I didn’t receive my orthotics in the 8 weeks leading up to the trip. Frustrated and in pain, I spent the next two months hobbling around France, wondering if there was a better system for ordering orthotics.</em></p>",
+        "name": "Gregory Gerla",
+        "position": "CEO",
+        "image": "shopify://shop_images/gergory-gerla.png"
+      }
+    },
+    "about_section_3_8qgz7n": {
+      "type": "about-section-3",
+      "settings": {
+        "eyebrow_icon": "shopify://shop_images/icon-eyebrow-lightbulb.svg",
+        "title": "Inspired Innovation",
+        "text": "<p>While in France, I met Dr. Zac Cartun, a physician with a passion for leveraging technology to improve patient care. <em>Inspired by the forward-thinking clinics we visited in Europe, we discovered an opportunity to combine smartphone imaging and the latest additive printing technology to enable a more convenient, cheaper, and ultimately better orthotic.</em></p><p>The last step was finding our master craftsman. That year long search led us to a Oberlaken, Germany where Dominik and his father Dietmar Walter were designing orthotics with exceptional quality. I saw the hours they put into every pair, painstakingly designing based on the individual patients’ pains, conditions, and foot type. After I got my first pair from the Walters, I knew they were our guys.</p><p><em>Combining the Walter craftsmanship with our technology is what makes Stride special. I have seen these orthotics work wonders for my own flat foot pain. I am now able to compete in Ironman competitions which would have been impossible a few short years ago. I hope you are inspired by the Stride orthotics as I am.</em></p>",
+        "image": "shopify://shop_images/dr-dominik-walter.webp",
+        "image_title": "Dr. Dominik and Dietmar Walter",
+        "image_subtitle": "Chief Designers for Stride",
+        "large_image": "shopify://shop_images/stride-wide.png"
+      }
+    },
+    "join_the_movement": {
+      "type": "join-the-movement",
+      "settings": {}
+    }
+  },
+  "order": ["about_hero", "about_section_1_n9jC6x", "about_section_2_hfK6b3", "about_section_3_8qgz7n", "join_the_movement"]
+}

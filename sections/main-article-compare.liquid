@@ -1,0 +1,648 @@
+{% style %}
+  /* Adjust 100px based on your header height */
+  h2[id] {
+    scroll-margin-top: 200px;
+  }
+  .sidebar-three-subsections {
+    background-color: #f8eee1;
+  }
+  .simple-image-block {
+    margin: 2rem 0;
+  }
+
+  .simple-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+{% endstyle %}
+
+<article class="main-article-1 pt-18 lg:pt-36">
+  <div class="{% render 'article-body-classes' %}">
+    {%- comment -%} TOC Sidebar {%- endcomment -%}
+    <aside>
+      <div class="sticky top-4 z-100">
+        {% render 'toc-scroll-highlighting' %}
+      </div>
+    </aside>
+    <div class="{% render 'article-content-classes' %}">
+      {% render 'snippet-breadcrumbs' %}
+
+      <header class="-mt-2">
+        <div class="space-y-2">
+          <h1 class="">{{ article.title }}</h1>
+
+          {%- if article.excerpt != blank -%}
+            <div class="text-body-m mb-4 opacity-60 ">{{ article.excerpt | strip_html }}</div>
+          {%- endif -%}
+
+          <div class="article__meta mt-4 flex flex-wrap items-center gap-4 text-sm whitespace-nowrap">
+            <div class="flex items-center gap-4">
+              {%- if article.metafields.custom.author.value.image != blank -%}
+                {%- assign article_author_image_alt = article.metafields.custom.author.value.image.alt
+                  | default: shop.name
+                -%}
+                {{
+                  article.metafields.custom.author.value.image
+                  | image_url: width: 56, height: 56
+                  | image_tag:
+                    class: 'h-13 w-13 rounded-[5px] object-cover',
+                    alt: article.metafields.custom.author.value.image.alt,
+                    loading: 'lazy',
+                    alt: article_author_image_alt
+                }}
+              {%- else -%}
+                <div class="h-7 w-7 rounded-[5px] bg-black/20"></div>
+              {%- endif -%}
+              <div>
+                <p class="text-base font-extrabold">
+                  {%- if article.metafields.custom.author.value.name != blank -%}
+                    {{ article.metafields.custom.author.value.name }}
+                  {%- else -%}
+                    Admin
+                  {%- endif -%}
+                </p>
+                <span class="text-sm text-black/60">
+                  {%- if article.metafields.custom.author.value.title != blank -%}
+                    {{ article.metafields.custom.author.value.title }}
+                  {%- else -%}
+                    Social Media & Community Expert
+                  {%- endif -%}
+                </span>
+              </div>
+            </div>
+
+            <span class="text-sm text-black/60">•</span>
+
+            <div class="flex flex-col">
+              <time class="text-sm text-black/60" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                {{ article.published_at | date: '%B %d, %Y' }}
+              </time>
+
+              {% assign word_count = article.content | strip_html | split: ' ' | size %}
+              {% assign reading_time = word_count | divided_by: 225.0 %}
+
+              {% if reading_time < 1 %}
+                {% assign reading_time_text = 'Less than a minute' %}
+              {% else %}
+                {% assign reading_time_minutes = reading_time | round %}
+                {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+              {% endif %}
+
+              <span class="article-reading-time text-sm text-black/60">{{ reading_time_text }}</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'gallery' -%}
+            {% render 'article-content-gallery' %}
+
+          {%- when 'pros_cons' -%}
+            {% render 'article-pros-cons', block: block %}
+
+          {%- when 'comparison_table' -%}
+            {% render 'article-comparison-table', block: block %}
+
+          {%- when 'simple_image' -%}
+            {%- if block.settings.image != blank -%}
+              <div class="simple-image-block">
+                <img
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.alt_text | default: block.settings.image.alt | default: '' }}"
+                  class="simple-image"
+                  style="border-radius: {{ block.settings.border_radius }}px;"
+                  loading="lazy"
+                  width="800"
+                  height="auto"
+                >
+              </div>
+            {%- endif -%}
+
+          {%- when 'text_content' -%}
+            <div class="rte">
+              {%- if block.settings.heading != blank -%}
+                <h2>{{ block.settings.heading }}</h2>
+              {%- endif -%}
+              {%- if block.settings.content != blank -%}
+                {{ block.settings.content }}
+              {%- endif -%}
+            </div>
+
+          {%- when 'article_content' -%}
+            {% comment %} Adding captions to images and videos if they have alt text {% endcomment %}
+            <div class="article-content-block rte">
+              {%- liquid
+                assign article_content = article.content
+
+                # First, process images with alt tags to add captions
+                assign img_segments = article_content | split: '<img'
+                assign img_processed_content = ''
+
+                for img_segment in img_segments
+                  if forloop.first
+                    assign img_processed_content = img_segment
+                  else
+                    if img_segment contains '>'
+                      # Find the end of the img tag
+                      assign img_parts = img_segment | split: '>'
+                      assign img_attrs = img_parts.first
+                      assign img_remainder = img_segment | remove_first: img_attrs | remove_first: '>'
+
+                      # Check if img has alt attribute
+                      if img_attrs contains 'alt='
+                        # Extract alt text
+                        assign alt_start = img_attrs | split: 'alt="' | last
+                        assign alt_text = alt_start | split: '"' | first
+
+                        # Only add caption if alt text is not empty
+                        if alt_text != '' and alt_text != ' '
+                          # Create caption wrapper
+                          assign img_with_caption = '<figure class="image-with-caption"><img ' | append: img_attrs | append: '><figcaption class="image-caption text-sm text-gray-600 italic text-left">' | append: alt_text | append: '</figcaption></figure>' | append: img_remainder
+                          assign img_processed_content = img_processed_content | append: img_with_caption
+                        else
+                          # No alt text, keep original
+                          assign img_processed_content = img_processed_content | append: '<img' | append: img_segment
+                        endif
+                      else
+                        # No alt attribute, keep original
+                        assign img_processed_content = img_processed_content | append: '<img' | append: img_segment
+                      endif
+                    else
+                      # Malformed img tag, keep original
+                      assign img_processed_content = img_processed_content | append: '<img' | append: img_segment
+                    endif
+                  endif
+                endfor
+
+                # Now process videos with alt/title attributes for captions
+                assign video_segments = img_processed_content | split: '<video'
+                assign video_processed_content = ''
+
+                for video_segment in video_segments
+                  if forloop.first
+                    assign video_processed_content = video_segment
+                  else
+                    if video_segment contains '</video>'
+                      # Find the video tag and its closing tag
+                      assign video_full = '<video' | append: video_segment
+                      assign video_end = video_full | split: '</video>' | first | append: '</video>'
+                      assign video_remainder = video_segment | remove_first: video_end | remove_first: '<video'
+
+                      # Extract attributes from opening tag
+                      assign video_parts = video_segment | split: '>'
+                      assign video_attrs = video_parts.first
+
+                      # Check for title or alt attribute for caption
+                      assign caption_text = ''
+                      if video_attrs contains 'title='
+                        assign title_start = video_attrs | split: 'title="' | last
+                        assign caption_text = title_start | split: '"' | first
+                      elsif video_attrs contains 'alt='
+                        assign alt_start = video_attrs | split: 'alt="' | last
+                        assign caption_text = alt_start | split: '"' | first
+                      endif
+
+                      # Only add caption if text is not empty
+                      if caption_text != '' and caption_text != ' '
+                        assign video_with_caption = '<figure class="video-with-caption">' | append: video_end | append: '<figcaption class="video-caption text-sm text-gray-600 italic  text-left">' | append: caption_text | append: '</figcaption></figure>' | append: video_remainder
+                        assign video_processed_content = video_processed_content | append: video_with_caption
+                      else
+                        # No caption text, keep original
+                        assign video_processed_content = video_processed_content | append: '<video' | append: video_segment
+                      endif
+                    else
+                      # No closing video tag, keep original
+                      assign video_processed_content = video_processed_content | append: '<video' | append: video_segment
+                    endif
+                  endif
+                endfor
+
+                # Now process H2 tags as before
+                assign h2_segments = video_processed_content | split: '<h2'
+                assign processed_content = ''
+
+                # Process each segment to add IDs to H2 tags
+                for segment in h2_segments
+                  if forloop.first
+                    assign processed_content = segment
+                  else
+                    if segment contains '</h2>'
+                      # Split the segment into parts
+                      assign h2_parts = segment | split: '>'
+                      assign h2_attrs = h2_parts.first
+                      assign h2_remainder = segment | remove_first: h2_attrs | remove_first: '>'
+
+                      # Extract clean text from between H2 tags
+                      assign h2_content = h2_remainder | split: '</h2>' | first
+                      assign h2_text = h2_content | strip_html | strip
+
+                      # Check if H2 has the "in-compare-template" class and skip it
+                      assign should_skip = false
+                      if h2_attrs contains 'class=' and h2_attrs contains 'in-compare-template'
+                        assign should_skip = true
+                      endif
+
+                      if h2_text != '' and should_skip == false
+                        # Create ID from text
+                        assign h2_id = h2_text | handleize | prepend: 'toc-'
+
+                        # Rebuild H2 with ID while preserving existing attributes
+                        assign new_h2 = '<h2 id="' | append: h2_id | append: '" ' | append: h2_attrs | append: '>' | append: h2_remainder
+                        assign processed_content = processed_content | append: new_h2
+                      else
+                        # If no text found or should skip, just rebuild original H2
+                        assign processed_content = processed_content | append: '<h2' | append: segment
+                      endif
+                    else
+                      # If no closing H2 tag, just rebuild original
+                      assign processed_content = processed_content | append: '<h2' | append: segment
+                    endif
+                  endif
+                endfor
+              -%}
+              {{ processed_content }}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    <aside>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'table_of_contents' -%}
+            {% comment %} {% include 'compare-article-toc' %} {% endcomment %}
+
+          {%- when 'sidebar_cta' -%}
+            <div class="newsletter-signup gradient not-sticky top-[200px] mt-2 mb-6 flex flex-col items-center justify-center rounded-lg p-5 text-center lg:p-8 color-{{ block.settings.color_scheme }}">
+              {% render 'svg-logomark', class: 'w-24 mb-8' %}
+
+              {%- if block.settings.sidebar_cta_title != blank -%}
+                <h3 class="mb-2 text-2xl leading-[1.24] font-extrabold">{{ block.settings.sidebar_cta_title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="relative mx-2 mt-6">
+                  {% render 'button',
+                    tag: 'a',
+                    text: block.settings.button_label,
+                    url: block.settings.button_link,
+                    variant: 'primary'
+                  %}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- when 'sidebar_three_subsections' -%}
+            <div class="sidebar-three-subsections gradient sticky flex flex-col gap-2 rounded-lg p-5 text-left lg:p-8 color-{{ block.settings.color_scheme }}">
+              <div class="flex flex-col gap-6">
+                <div class="article-sidebar-section">
+                  {%- if block.settings.first_subsection_title != blank -%}
+                    <h3 class="mb-2 text-lg font-bold">{{ block.settings.first_subsection_title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.first_subsection_tag != blank -%}
+                    <ul class="blog-sidebar-links">
+                      {%- for product in collections.all.products -%}
+                        {%- if product.tags contains block.settings.first_subsection_tag -%}
+                          <li>
+                            <a href="{{ product.url }}">
+                              {{-
+                                product.title
+                                | replace: 'Custom Orthotic Insoles for ', ''
+                                | replace: 'Custom Foot Orthotics for ', ''
+                                | replace: 'Custom Orthotics for ', ''
+                                | replace: 'Orthotics for ', ''
+                              -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+                <div class="article-sidebar-section">
+                  {%- if block.settings.second_subsection_title != blank -%}
+                    <h3 class="mb-2 text-lg font-bold">{{ block.settings.second_subsection_title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.second_subsection_tag != blank -%}
+                    <ul class="blog-sidebar-links">
+                      {%- for product in collections.all.products -%}
+                        {%- if product.tags contains block.settings.second_subsection_tag -%}
+                          <li>
+                            <a href="{{ product.url }}">
+                              {{-
+                                product.title
+                                | replace: 'Custom Orthotic Insoles for ', ''
+                                | replace: 'Custom Foot Orthotics for ', ''
+                                | replace: 'Custom Orthotics for ', ''
+                                | replace: 'Orthotics for ', ''
+                              -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+                <div class="article-sidebar-section article-sidebar-section--image">
+                  {%- if block.settings.third_subsection_image != blank -%}
+                    <div class="mb-2">
+                      <img
+                        src="{{ block.settings.third_subsection_image | image_url: width: 400, height: 300 }}"
+                        alt="Sidebar image"
+                        class="h-auto w-full rounded-md"
+                        loading="lazy"
+                        width="400"
+                        height="300"
+                      >
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.third_subsection_richtext != blank -%}
+                    {%- assign richtext = block.settings.third_subsection_richtext | strip -%}
+                    {%- if richtext contains '|' -%}
+                      {%- assign richtext_stripped = richtext | strip_html -%}
+                      {%- assign parts = richtext_stripped | split: '|' -%}
+                      <div class="rte sidebar-blurb max-w-none">
+                        <p>
+                          <span>{{ parts[0] | strip }}</span>
+                          <span>{{ parts[1] | strip }}</span>
+                        </p>
+                      </div>
+                    {%- else -%}
+                      <div class="rte max-w-none">{{ richtext }}</div>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </aside>
+  </div>
+
+  <div class="article__related mx-auto mt-16 bg-black/5">
+    <div class="page-width">
+      {% render 'related-articles', article: article %}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Main article w/comparison",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "enabled_on": {
+    "templates": ["article"]
+  },
+  "presets": [
+    {
+      "name": "Main article w/comparison",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "gallery",
+          "settings": {}
+        },
+        {
+          "type": "text_content",
+          "settings": {
+            "heading": "Introduction",
+            "content": "<p>Start your article with an engaging introduction that captures your readers' attention and sets the stage for what's to come.</p>"
+          }
+        },
+        {
+          "type": "pros_cons",
+          "settings": {}
+        },
+        {
+          "type": "comparison_table",
+          "settings": {}
+        },
+        {
+          "type": "table_of_contents"
+        },
+        {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Ready to get started?",
+            "button_label": "Learn More",
+            "button_link": "/products",
+            "color_scheme": "scheme-5"
+          }
+        },
+        {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Related Products",
+            "first_subsection_tag": "orthotics",
+            "second_subsection_title": "Popular Solutions",
+            "second_subsection_tag": "foot-pain",
+            "third_subsection_richtext": "<p>Get personalized recommendations based on your specific needs and preferences.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_content",
+      "name": "Text Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading (Optional)"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "article_content",
+      "name": "Article Content",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block displays the full article content as entered in the article editor. No additional configuration needed."
+        }
+      ]
+    },
+    {
+      "type": "table_of_contents",
+      "name": "Table of Contents",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Automatically generates a table of contents from H2 headings in the article content. No additional configuration needed."
+        }
+      ]
+    },
+    {
+      "type": "simple_image",
+      "name": "Simple Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text (Optional)",
+          "info": "Describe the image for accessibility"
+        },
+        {
+          "type": "range",
+          "id": "border_radius",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Border Radius",
+          "default": 8
+        }
+      ]
+    },
+    {
+      "type": "gallery",
+      "name": "Product Gallery",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Will auto-extract images from article content"
+        }
+      ]
+    },
+    {
+      "type": "pros_cons",
+      "name": "Pros & Cons",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Auto generated from pros/cons metafields on article."
+        }
+      ]
+    },
+    {
+      "type": "comparison_table",
+      "name": "Comparison Table",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Table data will be auto-generated from metafields on article."
+        },
+        {
+          "type": "header",
+          "content": "Expand/Collapse Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_expand_button",
+          "label": "Show Expand Button",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "initial_rows",
+          "label": "Initial Visible Rows",
+          "min": 3,
+          "max": 10,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "expand_button_text",
+          "label": "Expand Button Text",
+          "default": "See More"
+        },
+        {
+          "type": "text",
+          "id": "collapse_button_text",
+          "label": "Collapse Button Text",
+          "default": "See Less"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_cta",
+      "name": "Sidebar CTA",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "sidebar_cta_title",
+          "label": "Title",
+          "default": "Do you experience foot pain? Take our free quiz, try our orthotics, and start a pain-free life."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take The Quiz"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_three_subsections",
+      "name": "Product Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "first_subsection_title",
+          "label": "First Subsection Title"
+        },
+        {
+          "type": "text",
+          "id": "first_subsection_tag",
+          "label": "First Subsection Tag",
+          "info": "Type in the tag for products to display in the first subsection"
+        },
+        {
+          "type": "text",
+          "id": "second_subsection_title",
+          "label": "Second Subsection Title"
+        },
+        {
+          "type": "text",
+          "id": "second_subsection_tag",
+          "label": "Second Subsection Tag",
+          "info": "Type in the tag for products to display in the second subsection"
+        },
+        {
+          "type": "image_picker",
+          "id": "third_subsection_image",
+          "label": "Third Subsection Image"
+        },
+        {
+          "type": "richtext",
+          "id": "third_subsection_richtext",
+          "label": "Third Subsection Rich Text"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

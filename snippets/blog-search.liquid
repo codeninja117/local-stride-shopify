@@ -1,0 +1,155 @@
+{% comment %}
+  <predictive-search class="w-full" data-loading-text="{{ 'accessibility.loading' | t }}" data-resouce-types="articles">
+    <!-- Search form -->
+    <form action="{{ routes.search_url }}" method="get" role="search" class="relative w-full">
+      <div class="relative">
+        <input
+          class="peer transition-border w-full border-0 border-b border-black bg-transparent px-2 py-4 text-black placeholder-black/0 transition-colors duration-200 focus:border-b focus:border-black focus:placeholder-black/60 focus:ring-0 focus:outline-none focus:placeholder:opacity-0 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden [&::-webkit-search-results-button]:hidden [&::-webkit-search-results-decoration]:hidden"
+          id="Search-In-Modal"
+          type="search"
+          name="q"
+          value=""
+          placeholder="Search"
+          aria-expanded="false"
+          aria-activedescendant=""
+          role="combobox"
+          aria-owns="predictive-search-results"
+          aria-controls="predictive-search-results"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+          autocorrect="off"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+        <label
+          for="Search-In-Modal"
+          class="absolute top-1/2 left-2 -translate-y-1/2 text-black/60 transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-black peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-black"
+        >
+          Search
+        </label>
+        <input type="hidden" name="options[prefix]" value="last">
+
+        <!-- Search icon (left side) -->
+        <button
+          type="submit"
+          class="absolute top-1/2 left-0 -translate-y-1/2 text-black/70"
+          aria-label="Search"
+        >
+          <span class="inline-flex h-5 w-5">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </span>
+        </button>
+
+        <!-- Reset button (right side) -->
+        <button
+          type="reset"
+          class="absolute top-1/2 right-0 hidden -translate-y-1/2 text-black/70"
+          aria-label="Clear search"
+        >
+          <span class="hidden h-5 w-5">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
+
+      <div class="fixed flex items-center justify-center bg-black text-white">
+        <div
+          class="predictive-search predictive-search--header max-h-0 w-full overflow-hidden  transition-all duration-300"
+          tabindex="-1"
+          data-predictive-search
+        >
+          {%- render 'loading-spinner', class: 'mx-auto w-5 h-5 predictive-search__loading-state' -%}
+        </div>
+
+        <span class="predictive-search-status sr-only" role="status" aria-hidden="true"></span>
+      </div>
+    </form>
+  </predictive-search>
+{% endcomment %}
+
+<predictive-search class="w-full" data-loading-text="{{ 'accessibility.loading' | t }}" data-resouce-types="articles">
+  <!-- Search form -->
+  <form action="{{ routes.search_url }}" method="get" role="search" class="relative w-full">
+    <div class="flex w-full max-w-md items-center overflow-hidden rounded-full bg-black/6">
+      <!-- Hidden but functional reset button that JS needs -->
+      <button
+        type="reset"
+        class="hidden"
+        aria-label="Clear search"
+      >
+        <span class="h-5 w-5">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+
+      <!-- Input field with required attributes -->
+      <input
+        class="peer w-full max-w-full flex-1 border-none bg-transparent px-12 py-4 text-black placeholder-black/60 placeholder:text-sm focus:outline-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden [&::-webkit-search-results-button]:hidden [&::-webkit-search-results-decoration]:hidden"
+        id="Search-In-Modal"
+        type="search"
+        name="q"
+        value=""
+        placeholder="Search"
+        aria-expanded="false"
+        aria-activedescendant=""
+        role="combobox"
+        aria-owns="predictive-search-results"
+        aria-controls="predictive-search-results"
+        aria-haspopup="listbox"
+        aria-autocomplete="list"
+        autocorrect="off"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+
+      <!-- The label remains but visually hidden -->
+      <label
+        for="Search-In-Modal"
+        class="sr-only"
+      >
+        Search
+      </label>
+
+      <input type="hidden" name="options[prefix]" value="last">
+
+      <!-- Search icon (left side) -->
+      <button
+        type="submit"
+        class="absolute top-1/2 left-4 -translate-y-1/2 text-black/70"
+        aria-label="Search"
+      >
+        <span class="inline-flex h-5 w-5">
+          {{- 'icon-search.svg' | inline_asset_content -}}
+        </span>
+      </button>
+
+      <!-- Submit button with outer dotted border -->
+      <div class="relative mr-2">
+        <!-- Dotted border container -->
+        <div class="absolute -inset-1 rounded-full border border-dashed border-black/30"></div>
+
+        <!-- Actual button -->
+        <button
+          type="submit"
+          class="relative rounded-full bg-black px-6 py-1.5 text-white transition-all duration-300 ease-in-out hover:bg-black/20 hover:text-black"
+          aria-label="Search"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div class="predictive-search-wrapper">
+      <div
+        class="predictive-search predictive-search--header max-h-0 w-full overflow-hidden transition-all duration-300"
+        tabindex="-1"
+        data-predictive-search
+      >
+        {%- render 'loading-spinner', class: 'mx-auto w-5 h-5 predictive-search__loading-state' -%}
+      </div>
+      <span class="predictive-search-status sr-only" role="status" aria-hidden="true"></span>
+    </div>
+  </form>
+</predictive-search>

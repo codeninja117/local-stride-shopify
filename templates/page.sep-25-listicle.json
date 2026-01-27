@@ -1,0 +1,372 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "portrait_image_carousel_eYdx8g": {
+      "type": "portrait-image-carousel",
+      "blocks": {
+        "image_hRnabn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/reasons1.jpg"
+          }
+        },
+        "image_8QeYxU": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/reasons2.jpg"
+          }
+        },
+        "image_cpLDyw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/reasons3.jpg"
+          }
+        },
+        "image_BTpYma": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/reasons4.jpg"
+          }
+        },
+        "image_PqQPbF": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/reasons5.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_hRnabn",
+        "image_8QeYxU",
+        "image_cpLDyw",
+        "image_BTpYma",
+        "image_PqQPbF"
+      ],
+      "custom_css": [
+        ".portrait-carousel__container .flex {justify-content: space-between;}"
+      ],
+      "name": "Portrait Image Carousel",
+      "settings": {
+        "heading": "<h1>5 Reasons Plantar Fasciitis<br/>Sufferers Choose <strong>StrideSoles<br/>Over $800 Podiatrists</strong></h1>",
+        "heading_max_width": 800,
+        "color_scheme": "",
+        "padding_top": 56,
+        "padding_bottom": 32
+      }
+    },
+    "sticky_cta_bar_GcT7aR": {
+      "type": "sticky-cta-bar",
+      "name": "Sticky CTA Bar",
+      "settings": {
+        "button_label": "Get 50% OFF your first Stride Soles Pair",
+        "button_url": "shopify://pages/quiz",
+        "cta_background_color": "#f8eee1",
+        "button_background_color": "#4a00e0",
+        "button_text_color": "#ffffff"
+      }
+    },
+    "rich_text_content_gj3my4": {
+      "type": "rich-text-content",
+      "name": "Rich Text Content",
+      "settings": {
+        "rich_text": "<p>Thousands are ditching expensive clinic visits for this German-engineered solution that costs 75% less</p><p>If you're dealing with that brutal morning heel pain, you're not alone. Over 2 million Americans suffer from plantar fasciitis every year—and most are trapped paying $400-800 for custom orthotics that barely work.<br/><br/>But smart patients are discovering StrideSoles: German-engineered custom orthotics that deliver the same results as expensive clinic versions, for just $199.<br/><br/>Here's why they're making the switch:</p>",
+        "content_max_width": 800,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 16
+      }
+    },
+    "image_content_rows_8LMgQt": {
+      "type": "image-content-rows",
+      "blocks": {
+        "row_fK3A3M": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/listicle01.jpg",
+            "heading": "No More \"Walking on Broken Glass\" Every Morning",
+            "content": "<p><strong>\"Those first steps out of bed used to be agony. Now I wake up pain-free.\" – Charlotte H.</strong><br/><br/><strong>The problem</strong>: That stabbing heel pain happens because your plantar fascia tightens overnight, then tears when you suddenly stand up. Generic drugstore insoles can't prevent this.<br/><br/><strong>The StrideSoles solution</strong>: Custom 3D-engineered support maintains proper arch alignment even during sleep, preventing those painful morning micro-tears.<br/><br/><strong>Bottom line</strong>: 94% of users report significant morning pain reduction within 2 weeks.</p>"
+          }
+        },
+        "row_bWq7RQ": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/listicle02.jpg",
+            "heading": "The Best German Quality, 75% Less Cost",
+            "content": "<p><strong>\"My podiatrist wanted $600. Stride Soles gave me identical quality for $199.\" – Michael R.</strong><br/><br/><strong>The reality</strong>: Your podiatrist charges $400-800 for orthotics that cost them $80-140 to make. You're paying clinic markup, not medical quality.<br/><br/><strong>The insider secret</strong>: Stride Soles uses the same award-winning German lab (Dr. Dietmar Walter's facility) that supplies high-end medical clinics—but sells direct to patients.<br/><br/><strong>Bottom line</strong>: Same materials, same craftsmanship, same results. Just without the 400% markup.</p>"
+          }
+        },
+        "row_dMpziq": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/listicle03.jpg",
+            "heading": "No Painful Clinic Visits While You're Suffering",
+            "content": "<p><strong>\"I dreaded driving to appointments when I could barely walk. This was so much easier.\" – James H.</strong><br/><br/><strong>Traditional process</strong>: Multiple painful trips to the podiatrist, waiting rooms, 2-3 weeks of scheduling around your worst pain days.<br/><br/><strong>Stride Soles process</strong>: 5-minute smartphone assessment from home. Advanced 3D scanning and gait analysis delivered to your door in 2-3 weeks.<br/><br/><strong>Bottom line</strong>: More thorough diagnosis than most clinic visits, with zero hassle.</p>"
+          }
+        },
+        "row_iCBzHU": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/listicle04.jpg",
+            "heading": "Fixes the Root Cause, Not Just Symptoms",
+            "content": "<p><strong>\"These actually corrected my foot structure instead of just masking pain.\" – Mary V.</strong><br/><br/><strong>Most treatments fail because</strong>: Ice, stretching, and shots only treat symptoms. The underlying arch collapse keeps causing tissue damage.<br/><br/><strong>Stride Soles approach</strong>: German engineering focuses on corrective support that rebuilds your natural arch and realigns your walking pattern over time.<br/><br/><strong>Bottom line</strong>: Many users \"graduate\" from needing orthotics within 6-12 months as their foot structure improves.</p>"
+          }
+        },
+        "row_T8rTr7": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/listicle05.jpg",
+            "heading": "Space-Age Technology Your Doctor Doesn't Have",
+            "content": "<p><strong>\"I couldn't believe such detailed foot analysis came from my phone.\" – Sarah M.</strong><br/><br/><strong>Most podiatrists use</strong>: Outdated foam impression boxes from the 1990s that miss crucial walking pattern details.<br/><br/><strong>Stride Soles uses</strong>: Sub-millimeter 3D scanning, dynamic gait analysis, AI-powered customization processing thousands of data points.<br/><br/><strong>Bottom line</strong>: More advanced diagnostic technology than most medical clinics, included free with your order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_fK3A3M",
+        "row_bWq7RQ",
+        "row_dMpziq",
+        "row_iCBzHU",
+        "row_T8rTr7"
+      ],
+      "name": "Image Content Rows",
+      "settings": {
+        "color_scheme": "",
+        "padding_top": 32,
+        "padding_bottom": 80
+      }
+    },
+    "banner_stats_NLPtYc": {
+      "type": "banner-stats",
+      "blocks": {
+        "stat_FkjWHL": {
+          "type": "stat",
+          "settings": {
+            "title": "98%",
+            "subtitle": "Experience pain relief within first month"
+          }
+        },
+        "stat_QyGE48": {
+          "type": "stat",
+          "settings": {
+            "title": "94%",
+            "subtitle": "Report improved morning pain in 2 weeks"
+          }
+        },
+        "stat_NkARnt": {
+          "type": "stat",
+          "settings": {
+            "title": "4.8/5",
+            "subtitle": "Average rating from 47,000+ customers"
+          }
+        }
+      },
+      "block_order": [
+        "stat_FkjWHL",
+        "stat_QyGE48",
+        "stat_NkARnt"
+      ],
+      "custom_css": [
+        "@media (max-width: 768px) {.banner-stats__stat {align-items: center; }}"
+      ],
+      "name": "Banner stats",
+      "settings": {
+        "text_alignment": "left",
+        "title": "The Numbers <strong>Don't Lie</strong>",
+        "subtitle": "",
+        "button_label": "",
+        "button_url": "",
+        "disclaimer": "",
+        "height": 300,
+        "container_width": 760,
+        "overlay_opacity": 50,
+        "color_scheme": "scheme-3",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "promotional_offer_listicle_awjtDL": {
+      "type": "promotional-offer-listicle",
+      "custom_css": [
+        ".bottom-headline h1 {font-weight: 400;}"
+      ],
+      "name": "Listicle Promotional",
+      "settings": {
+        "main_heading": "<h2><strong>Limited Time: </strong><br/>50% Off for Plantar Fasciitis Sufferers</h2>",
+        "subheading": "Special offer for readers dealing with heel pain:",
+        "benefit_1": "50% off (limited time offer)",
+        "benefit_2": "Final Price: Just $199",
+        "benefit_3": "Free Shipping + FSA/HSA Eligible",
+        "benefit_4": "6-Month Pain-Free Guarantee",
+        "benefit_5": "",
+        "cta_title": "Get Stridesoles for $199",
+        "cta_code_text": "Coupon applies automatically at checkout.",
+        "button_label": "Get a Pair",
+        "button_url": "shopify://pages/quiz",
+        "cta_background_color": "#f8eee1",
+        "button_color": "#6417ff",
+        "button_text_color": "#ffffff",
+        "time_sensitive_text": "<p><strong>Don't let another morning start with stabbing heel pain.</strong> </p><p>Join the 47,000+ people who chose German engineering over clinic markup.</p>",
+        "wallet_text": "",
+        "doctor_info": "",
+        "five_star_image": "shopify://shop_images/5star.png",
+        "testimonial_text": "<p><strong>\"These have been a lifesaver for my feet. I can finally walk without limping, and mornings are no longer torture.\"</strong><br/>– Charlotte H, Verified Purchase</p>",
+        "ps_text": "",
+        "pps_text": "",
+        "final_cta": "",
+        "bottom_headline": "<h2>Your pain-free mornings are just 2-3 weeks away</h2>",
+        "endorsement_background_color": "#f9fafb",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "headline_max_width": 800
+      }
+    },
+    "review_carousel_new_gfNFgW": {
+      "type": "review-carousel-new",
+      "blocks": {
+        "video_review_TDHpVD": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Gabriel Kalen.mp4",
+            "video_poster": "shopify://shop_images/g.png",
+            "review": "StrideSoles have really helped me out, they are really affordable compared to what Iused to get at the doctors office. I was really impressed with how accurate thescan was, it molded to my feet pretty perfectly I would say… When I wear them,compared to normal insoles, I don't feel any pain when walking.",
+            "title": "Alex Franks",
+            "review_date": "June 23 2024"
+          }
+        },
+        "video_review_mCGfxW": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Snapinsta.app_video_AQMEYMYEv7mbimeBwJkDji3o7NkSU2RaxAcTbMY_56c0SF57VWa_McQZj98xg8HEg11eYg_zxH-kxAgnEWiba8maUzmMIbDGtrE7-78.mp4",
+            "video_poster": "shopify://shop_images/d.png",
+            "review": "I have been using the Stride Soles custom orthotics for about 2 months now in my Brooks running shoes. They customize everything... I selected my shoe type, sport, injuries, and my shoes types and they are perfect for my feet. I brought them by my physio therapist and they said it was exactly what I need to help with my low arch.",
+            "title": "Elliott Hall",
+            "review_date": "July 13, 2023"
+          }
+        },
+        "video_review_QjXkAp": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/lady.mp4",
+            "video_poster": "shopify://shop_images/ss.png",
+            "review": "It's been about a year now so I figure it's time for a review! I wear my Stride's in all of my shoes and love how supported my feet feel. I can walk, run, play tennis, and everything without my normal heel pain. I'm glad I found you guys!!!",
+            "title": "Janice Simon",
+            "review_date": "February 9, 2023"
+          }
+        },
+        "video_review_pY88mN": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Video_1.mov",
+            "video_poster": "shopify://shop_images/naid.png",
+            "review": "I have been competing for 28 years and began using Stride for a performance boost. They are very easy to order, that is the #1 best thing about them... A nice little touch is they have 'Nadia' on the back.",
+            "title": "Nadia Ruiz",
+            "review_date": "May 5, 2025"
+          }
+        },
+        "video_review_9q33eJ": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Stride2 (1).mp4",
+            "video_poster": "shopify://shop_images/1.png",
+            "review": "Before Stride Soles, I used to feel like a dog walking on a treadmill! Now I'm able to be on the treadmill, or my bike without pain. In fact, I'm getting ready to purchase another pair today.",
+            "title": "Jorge V",
+            "review_date": "June 14, 2024"
+          }
+        },
+        "video_review_P8W97t": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Copy of Snapinsta.app_video_FC4932D5F4A4D54162E12A4F6BE8E1AD_video_dashinit.mp4",
+            "video_poster": "shopify://shop_images/b.png",
+            "review": "As a podiatrist with years of experience I have always advocated for my patients. I'm glad toendorse and prescribe Stride Soles for my patients. The scanner is extremelyaccurate, and that's why I even use it in-clinic. It's remarkable they've beenable to translate this experience to an at-home model.",
+            "title": "Dr. Stephanie Kane",
+            "review_date": "July 9, 2023"
+          }
+        },
+        "video_review_GRr4Dn": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Lucas Simon.mov",
+            "video_poster": "shopify://shop_images/22.png",
+            "review": "My Stride Soles inserts are absolutely amazing...A lot of my hip, knee, back pain, is relieved so I absolutely love them. I can't emphasize that enough. If you haven't gotten them already, go get them!",
+            "title": "Lucas Simon",
+            "review_date": "March 3, 2025"
+          }
+        }
+      },
+      "block_order": [
+        "video_review_TDHpVD",
+        "video_review_mCGfxW",
+        "video_review_QjXkAp",
+        "video_review_pY88mN",
+        "video_review_9q33eJ",
+        "video_review_P8W97t",
+        "video_review_GRr4Dn"
+      ],
+      "name": "Review carousel new",
+      "settings": {
+        "title": "What Our <em><strong>Customers Say</strong></em>",
+        "subtitle": "What will you achieve with Stride Soles?",
+        "trust_pilot_url": "",
+        "frontrowmd_snippet": "",
+        "slides_per_view": 3.6,
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "17594269136cd01aa7": {
+      "type": "apps",
+      "blocks": {
+        "loox_reviews_loox_agg_section_f6tipA": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "hide_thumbnails": false,
+            "product_handle": "",
+            "aggregated": true,
+            "data-limit": 20,
+            "maxwidth": 1080,
+            "is_sample": true
+          }
+        }
+      },
+      "block_order": [
+        "loox_reviews_loox_agg_section_f6tipA"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "portrait_image_carousel_eYdx8g",
+    "sticky_cta_bar_GcT7aR",
+    "rich_text_content_gj3my4",
+    "image_content_rows_8LMgQt",
+    "banner_stats_NLPtYc",
+    "promotional_offer_listicle_awjtDL",
+    "review_carousel_new_gfNFgW",
+    "17594269136cd01aa7"
+  ]
+}

@@ -1,0 +1,290 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #shopify-section-{{ section.id }} .image-text-review__supporting-image-el {
+    height: {{ section.settings.supporting_image_height }}px;
+    width: auto;
+    margin-right: auto;
+  }
+
+
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    #shopify-section-{{ section.id }} .image-text-review__image-container {
+      height: {{ section.settings.image_height }}px;
+      width: auto;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign lazy_load = 'lazy'
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign lazy_load = 'auto'
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+<div class="section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="section__main page-width {%  if section.settings.container_size == 'narrow' %}md:max-w-screen-lg{% endif %}">
+    <div class="section__header text-center">
+      {% if section.settings.title != blank %}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><br><span>'
+          }}
+        </h2>
+      {% endif %}
+    </div>
+    <div class="section__content grid flex-col items-center gap-8 md:flex {% if section.settings.reverse_columns %}md:flex-row-reverse{% else %} md:flex-row{% endif %}">
+      <div class="section__item flex-1">
+        {%- if section.settings.image != blank -%}
+          {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+          {%- assign img_alt = section.settings.image.alt | default: shop.name -%}
+          {%- capture sizes -%}
+            (min-width: 1536px) 1024px,
+            (min-width: 750px) calc((100vw) / 2), calc((100vw) / 2)
+          {%- endcapture -%}
+
+          <div class="image-text-review__image-container relative max-w-full overflow-hidden rounded-lg pb-[100%] md:pb-0">
+            {{
+              section.settings.image
+              | image_url: width: section.settings.image.width
+              | image_tag:
+                class: 'w-full h-full absolute inset-0 object-cover',
+                sizes: sizes,
+                widths: widths,
+                loading: lazy_load,
+                alt: img_alt,
+                fetchpriority: fetch_priority
+            }}
+          </div>
+
+        {%- else -%}
+          <div class="aspect-square rounded-xl bg-black/20 p-16">Image not set</div>
+        {%- endif -%}
+      </div>
+      <div class="section__item flex flex-1 flex-col gap-4">
+        <div class="section__content flex flex-col gap-1">
+          <h3 class="text-2xl md:text-[32px]">{{ section.settings.review_title }}</h3>
+          <p class="text-body-l font-semibold opacity-60">
+            {{ section.settings.review_subtitle }}
+          </p>
+        </div>
+
+        {%- if section.settings.review_text != blank -%}
+          <p class="text-lg text-[rgba(var(--color-foreground-muted),1)]">{{ section.settings.review_text }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.supporting_image != blank -%}
+          {{
+            section.settings.supporting_image
+            | image_url: width: 640
+            | image_tag: class: 'image-text-review__supporting-image-el'
+          }}
+        {%- endif -%}
+
+        <div class="section__footer flex flex-col items-center gap-2 text-center md:w-fit md:items-start">
+          {%- if section.settings.button_label != blank -%}
+            {% render 'button',
+              tag: 'a',
+              variant: 'primary',
+              text: section.settings.button_label,
+              url: section.settings.button_url
+            %}
+          {%- endif -%}
+
+          {%- if section.settings.disclaimer != blank -%}
+            <span class="inline-block w-full text-sm text-[rgba(var(--color-foreground),0.6)]">
+              {{- section.settings.disclaimer -}}
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image text review",
+  "class": "section-image-review js-section-color",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "reverse_columns",
+      "label": "Reverse columns",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "container_size",
+      "label": "Container size",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "narrow",
+          "label": "narrow"
+        }
+      ],
+      "default": "narrow"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "paragraph",
+      "content": "To accent a word or phrase, wrap it in italics."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Professional</em> Trust"
+    },
+    {
+      "type": "header",
+      "content": "Review"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "review_title",
+      "label": "Review title",
+      "default": "Dr. Dietmar Walter"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "review_subtitle",
+      "label": "Review subtitle",
+      "default": "Head of Podiatry, Stride Soles"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "review_text",
+      "label": "Review text",
+      "default": "All orthotics are custom designed in Germany by Dr. Dietmar Walter and his team of master pedorthists. Dietmar is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science."
+    },
+    {
+      "type": "image_picker",
+      "id": "supporting_image",
+      "label": "Supporting image"
+    },
+    {
+      "type": "range",
+      "id": "supporting_image_height",
+      "min": 50,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Supporting image height",
+      "default": 200
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Supporting image height (desktop only)",
+      "default": 440
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image text review",
+      "category": "STRIDE",
+      "settings": {
+        "image": "shopify://shop_images/dr-dietmar-walter.webp",
+        "title": "<em>Professional</em> Trust",
+        "review_title": "Dr. Dietmar Walter",
+        "review_subtitle": "Head of Podiatry, Stride Soles",
+        "review_text": "Each orthotic is custom designed in Germany by <a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Dr. Dietmar Walter</strong></span></a> and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
+        "button_url": "/pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  ]
+}
+{% endschema %}

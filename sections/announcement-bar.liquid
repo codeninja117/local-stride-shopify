@@ -1,0 +1,628 @@
+{% comment %}
+Announcement Bar Section with Swiper
+{% endcomment %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    position: relative;
+    z-index: 10;
+  }
+
+  #shopify-section-{{ section.id }} .announcement {
+    font-family: var(--font-body-family);
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  #shopify-section-{{ section.id }} .announcement__block {
+    width: 100%;
+    padding:8px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .announcement__message {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .announcement__scale {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .announcement__text {
+    {% if section.settings.enable_ticker_animation %}
+      white-space: nowrap;
+    {% else %}
+      white-space: normal;
+      word-wrap: break-word;
+    {% endif %}
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .announcement__text.ticker__comparitor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+  }
+
+  /* Only animate if text is wider than container */
+  #shopify-section-{{ section.id }} .announcement__text.ticker-animated {
+    /*animation: ticker {{ section.settings.ticker_speed }}s linear infinite;*/
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translate3d(100%, 0, 0);
+    }
+    100% {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+
+  #shopify-section-{{ section.id }} .announcement__text.ticker-animated:hover {
+    animation-play-state: paused;
+  }
+  #shopify-section-{{ section.id }} .announcement__cta {
+    text-decoration: underline;
+    font-weight: 600;
+    margin-left: 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  /* Swiper Styles */
+  #shopify-section-{{ section.id }} .swiper-button-next::after,
+  #shopify-section-{{ section.id }} .swiper-button-prev::after {
+    display: none;
+  }
+  #shopify-section-{{ section.id }} .swiper-button-next,
+  #shopify-section-{{ section.id }} .swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transform: translateY(-50%);
+    margin-top: 0!important;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section.id }} .swiper-button-next:hover,
+  #shopify-section-{{ section.id }} .swiper-button-prev:hover {
+    background: transparent;
+  }
+
+  #shopify-section-{{ section.id }} .swiper-button-prev {
+    left: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .swiper-button-next {
+    right: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .swiper-button-icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  #shopify-section-{{ section.id }} .swiper-button-next svg,
+  #shopify-section-{{ section.id }} .swiper-button-prev svg {
+    stroke: {{ section.settings.arrow_color | default: '#ffffff' }};
+    fill: {{ section.settings.arrow_color | default: '#ffffff' }};
+  }
+
+  /* Override global disabled opacity for announcement bar arrows */
+  #shopify-section-{{ section.id }} .ui-carousel-prev[aria-disabled='true'], 
+  #shopify-section-{{ section.id }} .ui-carousel-next[aria-disabled='true'] {
+    opacity: 1 !important;
+  }
+
+  #shopify-section-{{ section.id }} .swiper-button-disabled {
+    opacity: 0.3;
+    cursor: auto;
+  }
+
+  /* Hide arrows if setting is disabled */
+  {% unless section.settings.show_arrows %}
+    #shopify-section-{{ section.id }} .swiper-button-next,
+    #shopify-section-{{ section.id }} .swiper-button-prev {
+      display: none;
+    }
+  {% endunless %}
+{% endstyle %}
+
+<div class="announcement font-body" data-announcement>
+  {%- if section.blocks.size == 1 or template contains 'cart' -%}
+    {%- assign block = section.blocks.first -%}
+    {%- liquid
+      assign show_announcement = true
+      if template contains 'cart'
+        assign current_title = section.settings.cart_title_override
+        assign current_title_mobile = section.settings.cart_title_override_mobile
+        assign current_cta_text = ''
+        assign current_cta_url = ''
+        if block.settings.cart_title == blank and block.settings.cart_cta_text == blank
+          assign show_announcement = false
+        endif
+      else
+        assign current_title = block.settings.title
+        assign current_title_mobile = block.settings.title_mobile
+        assign current_cta_text = block.settings.cta_text
+        assign current_cta_url = block.settings.cta_url
+      endif
+
+      assign url = current_cta_url
+      assign text = current_cta_text
+      assign final_url = url
+      assign final_text = text
+
+      if url contains 'pages/quiz' and cart.item_count > 0
+        assign final_url = block.settings.cart_filled_cta_url
+        assign final_text = block.settings.cart_filled_cta_text
+      elsif url == '/pages/quiz'
+        assign final_url = url | append: '?pairs=1'
+        assign final_text = text
+      else
+        assign final_url = url
+        assign final_text = text
+      endif
+    -%}
+    
+      {% if show_announcement %}
+        <div class="announcement__block" {{ block.shopify_attributes }}>
+          <div data-ticker-frame class="announcement__message">
+            <div data-ticker-scale class="announcement__scale">
+              <div data-ticker-text class="announcement__text">
+                <span class="announcement__title hidden text-sm md:inline">{{ current_title }}</span>
+                <span class="announcement__title text-sm md:hidden">{{ current_title_mobile }}</span>
+                {% if final_text != blank %}
+                  {% if final_url != blank %}
+                    <a href="{{ final_url }}" class="announcement__cta text-sm">{{ final_text }}</a>
+                  {% else %}
+                    <span class="announcement__cta text-sm">{{ final_text }}</span>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+  {%- else -%} 
+    <announcement-carousel 
+      class="swiper" 
+      data-navigation="{{ section.settings.show_arrows }}"
+      data-slides-per-view="1"
+      data-centered-slides="true"
+      data-loop="true"
+      data-autoplay="{{ section.settings.autoplay_speed | times: 1000 }}"
+    >
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+        {%- liquid
+          assign show_announcement = true
+          if template contains 'cart'
+            assign current_title = block.settings.cart_title
+            assign current_title_mobile = block.settings.cart_title_mobile
+            assign current_cta_text = ''
+            assign current_cta_url = ''
+            if block.settings.cart_title == blank and block.settings.cart_cta_text == blank
+              assign show_announcement = false
+            endif
+          else
+            assign current_title = block.settings.title
+            assign current_title_mobile = block.settings.title_mobile
+            assign current_cta_text = block.settings.cta_text
+            assign current_cta_url = block.settings.cta_url
+          endif
+
+          assign url = current_cta_url
+          assign text = current_cta_text
+          assign final_url = url
+          assign final_text = text
+
+          if url contains 'pages/quiz' and cart.item_count > 0
+            assign final_url = block.settings.cart_filled_cta_url
+            assign final_text = block.settings.cart_filled_cta_text
+          elsif url == '/pages/quiz'
+            assign final_url = url | append: '?pairs=1'
+            assign final_text = text
+          else
+            assign final_url = url
+            assign final_text = text
+          endif
+        -%}
+        
+        {% if show_announcement %}
+          <div class="swiper-slide announcement__block" {{ block.shopify_attributes }}>
+            <div data-ticker-frame class="announcement__message">
+              <div data-ticker-scale class="announcement__scale">
+                <div data-ticker-text class="announcement__text">
+                  <span class="announcement__title hidden text-sm md:inline">{{ current_title }}</span>
+                  <span class="announcement__title text-sm md:hidden">{{ current_title_mobile }}</span>
+                  {% if final_text != blank %}
+                    {% if final_url != blank %}
+                      <a href="{{ final_url }}" class="announcement__cta text-sm">{{ final_text }}</a>
+                    {% else %}
+                      <span class="announcement__cta text-sm">{{ final_text }}</span>
+                    {% endif %}
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Ticker comparitor elements for width calculation -->
+              <div data-ticker-text class="announcement__text ticker__comparitor">
+                <span class="announcement__title hidden text-sm md:inline">{{ current_title }}</span>
+                <span class="announcement__title text-sm md:hidden">{{ current_title_mobile }}</span>
+                {% if final_text != blank %}
+                  {% if final_url != blank %}
+                    <a href="{{ final_url }}" class="announcement__cta text-sm">{{ final_text }}</a>
+                  {% else %}
+                    <span class="announcement__cta text-sm">{{ final_text }}</span>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <style>
+            #shopify-section-{{ section.id }} .swiper-slide[data-block-id="{{ block.id }}"] {
+              display: none;
+            }
+          </style>
+        {% endif %}
+        {%- endfor -%}
+      </div>
+      
+      {%- if section.settings.show_arrows -%}
+        <div class="ui-carousel-prev swiper-button-prev">
+          <svg class="flickity-button-icon" viewBox="0 0 100 100" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M 15,50 L 55,90 L 60,85 L 25,50 L 60,15 L 55,10 Z" class="arrow"></path>
+          </svg>
+        </div>
+        <div class="ui-carousel-next swiper-button-next">
+          <svg class="flickity-button-icon" viewBox="0 0 100 100" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M 15,50 L 55,90 L 60,85 L 25,50 L 60,15 L 55,10 Z" class="arrow" transform="translate(100, 100) rotate(180)"></path>
+          </svg>
+        </div>
+      {%- endif -%}
+    </announcement-carousel>
+  {%- endif -%}
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const selectors = {
+    announcement: '[data-announcement]',
+    frame: '[data-ticker-frame]',
+    tickerScale: '[data-ticker-scale]',
+    tickerText: '[data-ticker-text]',
+    textHighlight: '.text-highlight__break'
+  };
+
+  const classes = {
+    tickerAnimated: 'ticker-animated',
+    isVisible: 'is-visible'
+  };
+
+  class Ticker {
+    constructor(frame, stopClone = false) {
+      this.frame = frame;
+      this.scale = this.frame.querySelector(selectors.tickerScale);
+      this.text = this.frame.querySelector(selectors.tickerText);
+      this.comparitor = this.frame.querySelector(`${selectors.tickerText}.ticker__comparitor`);
+      this.stopClone = stopClone;
+      
+      this.checkWidth();
+    }
+
+    checkWidth() {
+      if (!this.text || !this.comparitor) return;
+      
+      const textWidth = this.text.offsetWidth;
+      const frameWidth = this.frame.offsetWidth;
+      
+      if (textWidth > frameWidth && !this.stopClone) {
+        this.text.classList.add(classes.tickerAnimated);
+      } else {
+        this.text.classList.remove(classes.tickerAnimated);
+      }
+    }
+
+    unload() {
+      // Cleanup if needed
+    }
+  }
+
+  class AnnouncementBar {
+    constructor(container) {
+      this.barHolder = container;
+      this.tickers = [];
+      this.carousel = this.barHolder.querySelector('ui-carousel');
+
+      this.init();
+    }
+
+    init() {
+      this.initTickers();
+      this.tickerAnimationPause();
+    }
+
+    initTickers(stopClone = false) {
+      const frames = this.barHolder.querySelectorAll(selectors.frame);
+
+      // Clear existing tickers
+      this.tickers.forEach(ticker => ticker.unload());
+      this.tickers = [];
+
+      frames.forEach((element) => {
+        const ticker = new Ticker(element, stopClone);
+        this.tickers.push(ticker);
+      });
+    }
+
+    tickerAnimationPause() {
+      let hoverTimer = 0;
+      let isHovered = false;
+
+      this.barHolder.addEventListener('mouseenter', () => {
+        isHovered = true;
+
+        hoverTimer = setTimeout(() => {
+          if (isHovered) {
+            this.barHolder.querySelectorAll(selectors.tickerText).forEach((element) => {
+              element.style.animationPlayState = 'paused';
+            });
+          }
+          clearTimeout(hoverTimer);
+        }, 500);
+      });
+
+      this.barHolder.addEventListener('mouseleave', () => {
+        isHovered = false;
+
+        this.barHolder.querySelectorAll(selectors.tickerText).forEach((element) => {
+          element.style.animationPlayState = 'running';
+        });
+      });
+    }
+
+    onBlockSelect(evt) {
+      const index = parseInt([...evt.target.parentNode.children].indexOf(evt.target));
+
+      if (this.carousel && this.carousel.swiper) {
+        this.carousel.swiper.slideTo(index);
+        this.carousel.swiper.autoplay.stop();
+      }
+    }
+
+    onBlockDeselect(evt) {
+      if (this.carousel && this.carousel.swiper) {
+        this.carousel.swiper.autoplay.start();
+      }
+    }
+
+    onUnload() {
+      if (this.tickers.length > 0) {
+        this.tickers.forEach((ticker) => {
+          ticker.unload();
+        });
+      }
+    }
+  }
+
+  // Initialize when DOM is ready
+  function initAnnouncementBar() {
+    const container = document.querySelector(`#shopify-section-{{ section.id }} ${selectors.announcement}`);
+    if (container) {
+      const announcementBar = new AnnouncementBar(container);
+      
+      // Store instance for Shopify theme editor
+      window.AnnouncementBar_{{ section.id | replace: '-', '_' }} = announcementBar;
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnnouncementBar);
+  } else {
+    initAnnouncementBar();
+  }
+
+  // Shopify theme editor support
+  document.addEventListener('shopify:block:select', function(event) {
+    const instance = window.AnnouncementBar_{{ section.id | replace: '-', '_' }};
+    if (instance && typeof instance.onBlockSelect === 'function') {
+      instance.onBlockSelect(event);
+    }
+  });
+
+  document.addEventListener('shopify:block:deselect', function(event) {
+    const instance = window.AnnouncementBar_{{ section.id | replace: '-', '_' }};
+    if (instance && typeof instance.onBlockDeselect === 'function') {
+      instance.onBlockDeselect(event);
+    }
+  });
+
+  document.addEventListener('shopify:section:unload', function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      const instance = window.AnnouncementBar_{{ section.id | replace: '-', '_' }};
+      if (instance && typeof instance.onUnload === 'function') {
+        instance.onUnload();
+      }
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Announcement Slider",
+  "class": "section-announcement-bar",
+  "tag": "section",
+  "enabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#d43747"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay speed",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "ticker_speed",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "label": "Ticker animation speed",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_ticker_animation",
+      "label": "Enable ticker animation for long text",
+      "default": false
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cart_title_override",
+      "label": "Cart page title",
+      "info": "For a single announcement, independent of the blocks.",
+      "default": "Complete your purchase now!"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cart_title_override_mobile",
+      "label": "Cart page title (mobile)",
+      "info": "For a single announcement, independent of the blocks.",
+      "default": "Complete your purchase now!"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Limited Time Offer: Get 50% OFF on your first order."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title_mobile",
+          "label": "Title (mobile)",
+          "default": "Limited Time Offer: Get 50% OFF on your first order."
+        },
+        {
+          "type": "header",
+          "content": "CTA"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "cta_text",
+          "label": "CTA text",
+          "default": "Order now."
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA url"
+        },
+        {
+          "type": "header",
+          "content": "CTA when cart has items"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "cart_filled_cta_text",
+          "label": "CTA text",
+          "default": "Buy now"
+        },
+        {
+          "type": "url",
+          "id": "cart_filled_cta_url",
+          "label": "CTA url"
+        },
+        {
+          "type": "header",
+          "content": "Cart Page Settings"
+        },
+        {
+          "type": "paragraph",
+          "content": "These settings will only be used on the cart page. They will replace the settings above. Leave blank to hide the announcement bar on the cart page."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "cart_title",
+          "label": "Cart page title",
+          "default": "Complete your purchase now!"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "cart_title_mobile",
+          "label": "Cart page title (mobile)",
+          "default": "Complete your purchase now!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Slider"
+    }
+  ]
+}
+{% endschema %}

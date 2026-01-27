@@ -1,0 +1,384 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: {{ section.settings.text_color | default: 'rgb(0, 0, 0)' }};
+  }
+
+  .section-{{ section.id }} {
+     --title-accent-color: {{ section.settings.title_accent_color | default: 'rgba(255,255,255,0.4)' }};
+    background-color: white;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-text {
+    color: rgba(var(--color-foreground-muted), 1);
+  }
+  .section-{{ section.id }}-text strong {
+    color: rgba(var(--color-foreground), 1);
+  }
+  .section-{{ section.id }}-image-content {
+    color: rgba(var(--color-foreground-overlay), 1);
+  }
+
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign lazy_load = 'lazy'
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign lazy_load = 'auto'
+    assign fetch_priority = 'high'
+  endif
+
+  assign image_fit = section.settings.image_fit
+  assign image_class = 'w-full h-full absolute inset-0 ' | append: image_fit
+-%}
+
+<div class="section-{{ section.id }} page-width">
+  <div class="section__main grid gap-8 lg:grid-cols-[40%_1fr]">
+    <div class="section__header text-center lg:hidden">
+      {%- if section.settings.title != blank -%}
+        {% render 'section-title', section %}
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <p class="section-{{ section.id }}-text mt-4">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="section__item">
+      <div
+        class="relative h-full min-h-80 w-full overflow-hidden rounded-xl"
+      >
+        {%- if section.settings.image != blank -%}
+          {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
+          {%- capture sizes -%}
+          (min-width: 1536px) 1024px,
+          (min-width: 750px) calc((100vw) / 2), calc((100vw) / 2)
+        {%- endcapture -%}
+
+          {%- assign image_alt = section.settings.image.alt | default: shop.name -%}
+
+          {{
+            section.settings.image
+            | image_url: width: section.settings.image.width
+            | image_tag:
+              class: image_class,
+              sizes: sizes,
+              widths: widths,
+              loading: lazy_load,
+              alt: image_alt,
+              fetchpriority: fetch_priority
+          }}
+
+        {%- else -%}
+          <div class="rounded-xl bg-black/20 p-16">Image not set</div>
+        {%- endif -%}
+
+        {% comment %}
+          <div class="section-{{ section.id }}-image-content absolute inset-0 flex items-end justify-center gap-4 bg-gradient-to-b from-transparent via-black via-90% to-black pt-4 pr-4 pb-8 pl-4 text-center">
+            <div class="flex w-3/4 flex-col gap-3">
+              <p class="text-lg">{{ section.settings.image_text }}</p>
+            </div>
+          </div>
+        {% endcomment %}
+      </div>
+    </div>
+    <div class="section__item stride-shadow flex flex-col gap-8 overflow-hidden rounded-xl p-4 md:gap-4 md:p-8">
+      <div class="section__header hidden lg:block">
+        {% if section.settings.title != blank %}
+          <h2 class="text-h1 section-title capitalize">
+            {{
+              section.settings.title
+              | replace: '<em>', '<span class="">'
+              | replace: '</em>', '</span>'
+              | replace: '|', '</span><br><span>'
+            }}
+          </h2>
+        {% endif %}
+        {%- if section.settings.text != blank -%}
+          <p class="section-{{ section.id }}-text mt-4">{{ section.settings.text }}</p>
+        {%- endif -%}
+      </div>
+      <div class="section__content">
+        <div class="grid grid-cols-1 gap-x-6 gap-y-0 divide-y divide-black/14 md:grid-cols-2 md:divide-y-0">
+          {% for block in section.blocks %}
+            <div class="relative flex flex-row items-start gap-4 py-4 md:py-6 {% if forloop.first or forloop.index == 2 %}md:after:absolute md:after:bottom-0 md:after:h-px md:after:w-full md:after:bg-black/14 md:gap-6{% endif %}">
+              <div class="flex h-8 w-8 shrink-0 justify-center rounded-full md:h-12 md:w-12">
+                {%- if block.settings.icon != blank -%}
+                  {%- assign icon_alt = block.settings.icon.alt | default: shop.name -%}
+                  {{
+                    block.settings.icon
+                    | image_url: width: 60
+                    | image_tag:
+                      class: ' w-8 h-8 md:h-12 md:w-12 ',
+                      loading: lazy_load,
+                      alt: icon_alt,
+                      fetchpriority: fetch_priority
+                  }}
+                {%- else -%}
+                  <div class="h-8 w-8 rounded-full bg-[rgba(var(--color-foreground),0.2)] md:h-12 md:w-12"></div>
+                {%- endif -%}
+              </div>
+              <div class="">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="leading-snug font-semibold tracking-tight md:text-xl">
+                    {{
+                      block.settings.title
+                      | replace: '<em>', '<span class="opacity-40">'
+                      | replace: '</em>', '</span>'
+                      | replace: '|', '</span><span>'
+                    }}
+                  </h3>
+                {%- endif -%}
+
+                {%- if block.settings.text != blank -%}
+                  <p class="mt-2 text-sm section-{{ section.id }}-text  md:text-base">
+                    {{
+                      block.settings.text
+                      | replace: '<em>', '<span class="opacity-40">'
+                      | replace: '</em>', '</span>'
+                      | replace: '|', '</span><span>'
+                    }}
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if section.settings.button_label != blank or section.settings.disclaimer != blank -%}
+        <div class="section__action flex flex-col gap-3 text-center md:text-left ">
+          {%- if section.settings.button_label != blank -%}
+            {% render 'button',
+              type: 'a',
+              variant: 'primary',
+              text: section.settings.button_label,
+              url: section.settings.button_url
+            %}
+          {%- endif -%}
+
+          {%- if section.settings.disclaimer != blank -%}
+            <span class="text-sm text-[#666666] md:text-xl">{{ section.settings.disclaimer }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Image text row features",
+  "class": "section-image-text-row-features js-section-color",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "paragraph",
+      "content": "To accent a word or phrase, wrap it in italics."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Benefits of <em>Custom Orthotics</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "Stride isn't just about making orthotics more convenient. We're redefining what's possible—<strong>bringing clinical-quality foot support to everyone, without compromise.</strong>"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        {
+          "value": "object-contain",
+          "label": "Contain"
+        },
+        {
+          "value": "object-cover",
+          "label": "cover"
+        }
+      ],
+      "default": "object-cover"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "image_title",
+      "label": "Title",
+      "default": "Aperiam sed blanditiis"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "image_text",
+      "label": "Text",
+      "default": "Cumque impedit vel facilis enim. Soluta voluptatem delectus rem et.Cumque impedit vel facilis enim. Soluta voluptatem delectus rem et.Cumque impedit vel facilis."
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "title_accent_color",
+      "label": "Title accent color",
+      "default": "#9D9FA9"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "SVG preferred"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image text row features",
+      "category": "STRIDE",
+      "settings": {
+        "title": "Features of Our <strong>Custom Orthotics</strong>",
+        "text": "",
+        "button_url": "",
+        "button_label": "",
+        "disclaimer": "",
+        "image": "shopify://shop_images/Untitled_400_x_400_px_400_x_400_px_400_x_400_px_525_x_435_px_2.png",
+        "image_title": "",
+        "image_text": "",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "title_accent_color": "#9d9fa9",
+        "padding_top": 80,
+        "padding_bottom": 80
+      },
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3411.png",
+            "title": "100% Custom Fit",
+            "text": "For your foot shape, pain areas, shoe type, & more"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3326.png",
+            "title": "Deep Heel Cup",
+            "text": "For maximum stability & to prevent over pronation"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3412.png",
+            "title": "Shock Absorbing Cushion",
+            "text": "Distributes weight & reduces impact"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3409.png",
+            "title": "Vegan Leather Top Layer",
+            "text": "Dissipates odor and moisture away from feet"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

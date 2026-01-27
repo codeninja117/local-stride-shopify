@@ -1,0 +1,207 @@
+{%- liquid
+  assign product_form_id = 'quick-add-' | append: section_id | append: product.id
+-%}
+
+{%- case layout -%}
+  {%- when 'premium-add-ons' -%}
+    <product-quick-add-card class="border-blue-fitness/30 flex gap-4 rounded-lg border bg-white p-2 shadow-xs">
+      <div class="product-quick-add-card__image h-23 w-23 shrink-0 overflow-hidden rounded-lg">
+        {%- if product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 192 | image_tag: class: 'w-full h-full object-cover' }}
+        {%- endif -%}
+      </div>
+      <div class="product-quick-add-card__content flex-1">
+        <h4 class="mb-1">{{ product.title }}</h4>
+        {%- if subtitle != blank -%}
+          <h4 class="text-blue-fitness mb-2 text-sm">{{ subtitle }}</h4>
+        {%- endif -%}
+        <p class="text-sm">{{ product.price | money }}</p>
+      </div>
+
+      <div class="product-quick-add-card__action">
+        <div class="quick-add no-js-hidden">
+          {%- if product.variants_count > 1 or qty_rules -%}
+            <modal-opener data-modal="#QuickAdd-{{ product.id }}">
+              <button
+                id="{{ product_form_id }}-submit"
+                type="submit"
+                name="add"
+                class="bg-peach hover:bg-blue-fitness ease inline-flex h-7 w-7 items-center justify-center rounded-3xl text-sm whitespace-nowrap text-black duration-300 hover:text-white md:h-fit md:w-fit md:px-4 md:py-2"
+                aria-haspopup="dialog"
+                aria-labelledby="{{ product_form_id }}-submit"
+                data-product-url="{{ product.url }}"
+              >
+                {{ 'icon-plus.svg' | inline_asset_content }}
+                <span class="hidden md:inline">Add</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            </modal-opener>
+            <quick-add-modal id="QuickAdd-{{ product.id }}" class="quick-add-modal">
+              <div
+                role="dialog"
+                aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
+                aria-modal="true"
+                class="quick-add-modal__content global-settings-popup"
+                tabindex="-1"
+              >
+                <button
+                  id="ModalClose-{{ product.id }}"
+                  type="button"
+                  class="quick-add-modal__toggle"
+                  aria-label="{{ 'accessibility.close' | t }}"
+                >
+                  {{- 'icon-close.svg' | inline_asset_content -}}
+                </button>
+                <div id="QuickAddInfo-{{ product.id }}" class="quick-add-modal__content-info"></div>
+              </div>
+            </quick-add-modal>
+          {%- else -%}
+            <product-form data-section-id="{{ section.id }}">
+              {%- form 'product',
+                product,
+                id: product_form_id,
+                class: 'form',
+                novalidate: 'novalidate',
+                data-type: 'add-to-cart-form'
+              -%}
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{ product.selected_or_first_available_variant.id }}"
+                  class="product-variant-id"
+                  {% if product.selected_or_first_available_variant.available == false %}
+                    disabled
+                  {% endif %}
+                >
+                <button
+                  id="{{ product_form_id }}-submit"
+                  type="submit"
+                  name="add"
+                  class="bg-peach hover:bg-blue-fitness ease inline-flex h-7 w-7 items-center justify-center rounded-3xl whitespace-nowrap text-black duration-300 hover:text-white md:h-fit md:w-fit md:px-4 md:py-2"
+                  aria-labelledby="{{ product_form_id }}-submit"
+                  aria-live="polite"
+                  data-sold-out-message="true"
+                  {% if product.selected_or_first_available_variant.available == false %}
+                    disabled
+                  {% endif %}
+                >
+                  {{ 'icon-plus.svg' | inline_asset_content }}
+                  <span class="hidden md:inline">
+                    {%- if product.selected_or_first_available_variant.available -%}
+                      {{ 'products.product.add_to_cart' | t }}
+                    {%- else -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- endif -%}
+                  </span>
+                  <span class="sold-out-message hidden">
+                    {{ 'products.product.sold_out' | t }}
+                  </span>
+                  {%- render 'loading-spinner' -%}
+                </button>
+              {%- endform -%}
+            </product-form>
+          {%- endif -%}
+        </div>
+      </div>
+    </product-quick-add-card>
+  {%- else -%}
+    <product-quick-add-card class="border-blue-fitness/30 flex flex-col items-center gap-4 rounded-lg border bg-white p-2 shadow-xs md:flex-row">
+      <div class="product-quick-add-card__image aspect-square shrink-0 overflow-hidden rounded-lg md:h-23 md:w-23">
+        {%- if product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 192 | image_tag: class: 'w-full h-full object-cover' }}
+        {%- endif -%}
+      </div>
+      <div class="product-quick-add-card__content flex-1">
+        <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+          {{ product.metafields.judgeme.badge }}
+        </div>
+        <h4 class="md:text-body-l">{{ product.title }}</h4>
+        {%- if subtitle != blank -%}
+          <h4 class="text-blue-fitness text-sm">{{ subtitle }}</h4>
+        {%- endif -%}
+        <p class="text-sm">{{ product.price | money }}</p>
+      </div>
+
+      {%- if product.variants_count > 1 or qty_rules -%}
+        <modal-opener data-modal="#QuickAdd-{{ product.id }}">
+          <button
+            id="{{ product_form_id }}-submit"
+            type="submit"
+            name="add"
+            class="bg-peach hover:bg-blue-fitness ease inline-flex h-7 w-7 items-center justify-center rounded-3xl text-sm whitespace-nowrap text-black duration-300 hover:text-white md:h-fit md:w-fit md:px-4 md:py-2"
+            aria-haspopup="dialog"
+            aria-labelledby="{{ product_form_id }}-submit"
+            data-product-url="{{ product.url }}"
+          >
+            {{ 'icon-plus.svg' | inline_asset_content }}
+            <span class="hidden md:inline">{{ 'products.product.add_to_cart' | t }}</span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </modal-opener>
+        <quick-add-modal id="QuickAdd-{{ product.id }}" class="quick-add-modal">
+          <div
+            role="dialog"
+            aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
+            aria-modal="true"
+            class="quick-add-modal__content global-settings-popup"
+            tabindex="-1"
+          >
+            <button
+              id="ModalClose-{{ product.id }}"
+              type="button"
+              class="quick-add-modal__toggle"
+              aria-label="{{ 'accessibility.close' | t }}"
+            >
+              {{- 'icon-close.svg' | inline_asset_content -}}
+            </button>
+            <div id="QuickAddInfo-{{ product.id }}" class="quick-add-modal__content-info"></div>
+          </div>
+        </quick-add-modal>
+      {%- else -%}
+        <product-form data-section-id="{{ section.id }}">
+          {%- form 'product',
+            product,
+            id: product_form_id,
+            class: 'form',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              class="product-variant-id"
+              {% if product.selected_or_first_available_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+            <button
+              id="{{ product_form_id }}-submit"
+              type="submit"
+              name="add"
+              class="bg-peach hover:bg-blue-fitness ease inline-flex h-7 w-7 items-center justify-center rounded-3xl whitespace-nowrap text-black duration-300 hover:text-white md:h-fit md:w-fit md:px-4 md:py-2"
+              aria-labelledby="{{ product_form_id }}-submit"
+              aria-live="polite"
+              data-sold-out-message="true"
+              {% if product.selected_or_first_available_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+              {{ 'icon-plus.svg' | inline_asset_content }}
+              <span class="hidden md:inline">
+                {%- if product.selected_or_first_available_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              <span class="sold-out-message hidden">
+                {{ 'products.product.sold_out' | t }}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        </product-form>
+      {%- endif -%}
+    </product-quick-add-card>
+{%- endcase -%}

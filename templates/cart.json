@@ -1,0 +1,114 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "blocks": {
+        "title_y7cUeW": {
+          "type": "title",
+          "disabled": true,
+          "settings": {
+            "title": "Order Summary",
+            "subtitle": ""
+          }
+        },
+        "promo_BTC9ee": {
+          "type": "promo",
+          "settings": {
+            "icon": "shopify://shop_images/svg-lightning.svg",
+            "icon_size": 16,
+            "title": "180-Day Money-Back Guarantee",
+            "bg_color": "#f4e5d1",
+            "text_color": "#000000",
+            "display": "inline",
+            "alignment": "center"
+          }
+        },
+        "customizations_GfPywq": {
+          "type": "customizations",
+          "settings": {}
+        },
+        "discount_HVxN73": {
+          "type": "discount",
+          "settings": {
+            "title": "50% OFF NEW YEAR SALE",
+            "subtitle": "Discount Auto-applied",
+            "savings": "Savings $199 (50% OFF)"
+          }
+        },
+        "order_summary_kBqyHV": {
+          "type": "order_summary",
+          "settings": {}
+        },
+        "subtotal_and_checkout_F3Gbtg": {
+          "type": "subtotal_and_checkout",
+          "settings": {}
+        },
+        "premium_add_on_PpTYC6": {
+          "type": "premium-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "custom-engraving",
+            "subtitle": ""
+          }
+        },
+        "premium_add_on_crD6Lb": {
+          "type": "premium-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "stride-x-fuelme-copper-compression-socks",
+            "subtitle": ""
+          }
+        },
+        "recommended_add_on_zTdMgN": {
+          "type": "recommended-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "custom-orthotics-for-high-arches",
+            "subtitle": ""
+          }
+        },
+        "recommended_add_on_CEzbEk": {
+          "type": "recommended-add-on",
+          "disabled": true,
+          "settings": {
+            "product": "custom-orthotics-for-high-arches",
+            "subtitle": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_y7cUeW",
+        "promo_BTC9ee",
+        "customizations_GfPywq",
+        "discount_HVxN73",
+        "order_summary_kBqyHV",
+        "subtotal_and_checkout_F3Gbtg",
+        "premium_add_on_PpTYC6",
+        "premium_add_on_crD6Lb",
+        "recommended_add_on_zTdMgN",
+        "recommended_add_on_CEzbEk"
+      ],
+      "custom_css": [
+        "@media (max-width: 1023px) {#main-cart {margin-bottom: 150px; }}"
+      ],
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "hide_cart_header": false,
+        "compare_savings_label": "NEW YEAR SALE"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

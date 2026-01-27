@@ -1,0 +1,281 @@
+<div class="article-content-gallery">
+  <div class="content-gallery-main swiper" data-js="content-gallery-main-{{ article.id }}">
+    <div class="swiper-wrapper">
+      {%- comment -%} Extract images from article content {%- endcomment -%}
+      {%- assign content_images = article.content | split: '<img' -%}
+      {%- for img_part in content_images -%}
+        {%- if img_part contains 'src=' -%}
+          {%- comment -%} Handle both single and double quotes {%- endcomment -%}
+          {%- if img_part contains 'src="' -%}
+            {%- assign src_with_quote = img_part | split: 'src="' | last -%}
+            {%- assign src_clean = src_with_quote | split: '"' | first -%}
+          {%- elsif img_part contains "src='" -%}
+            {%- assign src_with_quote = img_part | split: "src='" | last -%}
+            {%- assign src_clean = src_with_quote | split: "'" | first -%}
+          {%- else -%}
+            {%- assign src_clean = '' -%}
+          {%- endif -%}
+
+          {%- comment -%} Check if we have a valid image URL (exclude videos) {%- endcomment -%}
+          {%- if src_clean != blank and src_clean != '' -%}
+            {%- comment -%} Accept URLs that start with http, //, or / but exclude video files {%- endcomment -%}
+            {%- unless src_clean contains '.mp4'
+              or src_clean contains '.mov'
+              or src_clean contains '.avi'
+              or src_clean contains '.webm'
+            -%}
+              {%- if src_clean contains 'http' or src_clean contains '//' or src_clean contains '/' -%}
+                <div class="swiper-slide">
+                  <img
+                    src="{{ src_clean }}"
+                    alt="Article content image"
+                    class="content-gallery-main__image"
+                    loading="lazy"
+                    width="800"
+                    height="600"
+                  >
+                </div>
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <div class="content-gallery-thumbnails swiper" data-js="content-gallery-thumbs-{{ article.id }}">
+    <div class="swiper-wrapper">
+      {%- comment -%} Extract images from article content for thumbnails {%- endcomment -%}
+      {%- assign content_images = article.content | split: '<img' -%}
+      {%- for img_part in content_images -%}
+        {%- if img_part contains 'src=' -%}
+          {%- comment -%} Handle both single and double quotes {%- endcomment -%}
+          {%- if img_part contains 'src="' -%}
+            {%- assign src_with_quote = img_part | split: 'src="' | last -%}
+            {%- assign src_clean = src_with_quote | split: '"' | first -%}
+          {%- elsif img_part contains "src='" -%}
+            {%- assign src_with_quote = img_part | split: "src='" | last -%}
+            {%- assign src_clean = src_with_quote | split: "'" | first -%}
+          {%- else -%}
+            {%- assign src_clean = '' -%}
+          {%- endif -%}
+
+          {%- comment -%} Check if we have a valid image URL (exclude videos) {%- endcomment -%}
+          {%- if src_clean != blank and src_clean != '' -%}
+            {%- comment -%} Accept URLs that start with http, //, or / but exclude video files {%- endcomment -%}
+            {%- unless src_clean contains '.mp4'
+              or src_clean contains '.mov'
+              or src_clean contains '.avi'
+              or src_clean contains '.webm'
+            -%}
+              {%- if src_clean contains 'http' or src_clean contains '//' or src_clean contains '/' -%}
+                <div class="swiper-slide">
+                  <div class="content-gallery-thumb">
+                    <img
+                      src="{{ src_clean }}"
+                      alt="Article content thumbnail"
+                      loading="lazy"
+                    >
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</div>
+
+{%- comment -%} Debug: Show what we're working with {%- endcomment -%}
+<div style="display: none;" class="debug-info">
+  <h4>Debug Info:</h4>
+  <p>Article ID: {{ article.id }}</p>
+  <p>Content length: {{ article.content | size }}</p>
+  <p>Number of img tags found: {{ article.content | split: '<img' | size | minus: 1 }}</p>
+
+  {%- assign content_images = article.content | split: '<img' -%}
+  {%- for img_part in content_images -%}
+    {%- if img_part contains 'src=' -%}
+      <p>Found img part {{ forloop.index }}: {{ img_part | slice: 0, 100 }}...</p>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+<style>
+  .article-content-gallery {
+    margin: 0 auto;
+    --swiper-navigation-size: 16px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  @media (max-width: 800px) {
+    {% comment %} .article-content-gallery {
+      max-width: calc(100vw - 40px);
+    } {% endcomment %}
+  }
+  .content-gallery-main {
+    margin-bottom: 1rem;
+  }
+
+  .content-gallery-main__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .content-gallery-thumb {
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .content-gallery-thumb:hover {
+    border-color: #ccc;
+  }
+
+  .content-gallery-thumb.active {
+    border-color: #000;
+  }
+
+  .content-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .article-content-gallery .swiper-button-next,
+  .article-content-gallery .swiper-button-prev {
+    width: 40px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.6);
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .article-content-gallery .swiper-button-next:hover,
+  .article-content-gallery .swiper-button-prev:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .article-content-gallery .swiper-button-next {
+    right: 0;
+    border-radius: 12px 0 0 12px;
+  }
+
+  .article-content-gallery .swiper-button-prev {
+    left: 0;
+    border-radius: 0 12px 12px 0;
+  }
+
+  .article-content-gallery .swiper-slide.swiper-slide-thumb-active > *:first-child {
+    border: 1px solid black;
+  }
+
+  .article-content-gallery .swiper-button-next.swiper-button-disabled,
+  .article-content-gallery .swiper-button-prev.swiper-button-disabled {
+    opacity: 0;
+  }
+
+  /* Show debug info when needed */
+  .debug-info {
+    background: #f0f0f0;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid #ccc;
+    font-size: 12px;
+  }
+</style>
+
+<script>
+  // Initialize Swiper galleries for article content when Swiper is available
+  function initContentGallerySwipers() {
+    if (typeof Swiper !== 'undefined') {
+      const galleryContainers = document.querySelectorAll('.article-content-gallery');
+
+      galleryContainers.forEach((gallery) => {
+        const articleId = gallery
+          .querySelector('[data-js^="content-gallery-main-"]')
+          .getAttribute('data-js')
+          .replace('content-gallery-main-', '');
+        const mainContainer = gallery.querySelector('[data-js^="content-gallery-main-"]');
+        const thumbsContainer = gallery.querySelector('[data-js^="content-gallery-thumbs-"]');
+
+        if (!mainContainer || !thumbsContainer) return;
+
+        // Check if we have any slides before initializing
+        const mainSlides = mainContainer.querySelectorAll('.swiper-slide');
+        const thumbSlides = thumbsContainer.querySelectorAll('.swiper-slide');
+
+        if (mainSlides.length === 0 || thumbSlides.length === 0) {
+          console.log('No images found in article content for gallery');
+          return;
+        }
+
+        // Initialize thumbnails swiper first
+        const thumbsSwiper = new Swiper(thumbsContainer, {
+          spaceBetween: 8,
+          slidesPerView: Math.min(6, thumbSlides.length),
+          slidesPerGroup: 1,
+          loop: thumbSlides.length > 1,
+          freeMode: false,
+          watchSlidesProgress: true,
+          threshold: 10,
+          navigation: {
+            nextEl: thumbsContainer.querySelector('.swiper-button-next'),
+            prevEl: thumbsContainer.querySelector('.swiper-button-prev'),
+          },
+          breakpoints: {
+            480: {
+              slidesPerView: Math.min(4, thumbSlides.length),
+              slidesPerGroup: 1,
+              spaceBetween: 8,
+            },
+            768: {
+              slidesPerView: Math.min(6, thumbSlides.length),
+              slidesPerGroup: 1,
+              spaceBetween: 8,
+            },
+            1024: {
+              slidesPerView: Math.min(6, thumbSlides.length),
+              slidesPerGroup: 1,
+              spaceBetween: 8,
+            },
+          },
+        });
+
+        // Initialize main gallery swiper with thumbs
+        const mainSwiper = new Swiper(mainContainer, {
+          spaceBetween: 8,
+          loop: mainSlides.length > 1,
+          autoHeight: true,
+          navigation: {
+            nextEl: mainContainer.querySelector('.swiper-button-next'),
+            prevEl: mainContainer.querySelector('.swiper-button-prev'),
+          },
+          thumbs: {
+            swiper: thumbsSwiper,
+          },
+        });
+      });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContentGallerySwipers);
+  } else {
+    initContentGallerySwipers();
+  }
+
+  // Also initialize when Swiper loads
+  window.addEventListener('swiperLoaded', initContentGallerySwipers);
+</script>

@@ -1,0 +1,294 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article-advertorial",
+      "blocks": {
+        "sidebar_three_subsections_QiWiU8": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "sidebar_cta": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "sidebar_three_subsections_QiWiU8",
+        "sidebar_cta"
+      ],
+      "settings": {}
+    },
+    "doctor_testimonial_carousel_gy77cj": {
+      "type": "doctor-testimonial-carousel",
+      "blocks": {
+        "doctor_3KGgHk": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/elsa.jpg",
+            "quote": "Stride Soles has revolutionized the way we approach foot pain management. Their custom orthotics are not only effective but also incredibly convenient for patients. The ability to order from home and receive personalized care is a game changer.",
+            "name": "Dr. Elsa Gould, DPT",
+            "position": "CEO, Elsa Gould PT"
+          }
+        },
+        "doctor_VDhQPA": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/Dr.-Scott-Kaylor.webp",
+            "quote": "I've been recommending Stride Soles to my patients for months now. The quality and customization options are exceptional, and my patients love the convenience.",
+            "name": "Dr. Scott Taylor",
+            "position": "CEO, Zone Physical Therapy"
+          }
+        },
+        "doctor_hgggXY": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/Dr._Davi.webp",
+            "quote": "I’ve used other orthotics manufacturers before, but they always seem to cut corners… not these guys. Their new app is very easy to use as a practitioner, but for really anyone.",
+            "name": "Dr. Kevin Davi",
+            "position": "CEO, Family Health PT"
+          }
+        }
+      },
+      "block_order": [
+        "doctor_3KGgHk",
+        "doctor_VDhQPA",
+        "doctor_hgggXY"
+      ],
+      "custom_css": [
+        "@media (min-width: 1024px) {.doctor-testimonial-carousel {width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; margin-top: 0rem; margin-bottom: 0rem; background-color: #f5f6f9; }}"
+      ],
+      "name": "Doctor Carousel",
+      "settings": {
+        "title": "<p>Prescribed By<br/><strong>Top Doctors & Podiatrists</strong></p>",
+        "button_label": "",
+        "button_url": "",
+        "disclaimer": "",
+        "color_scheme": "",
+        "background_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "how_stride_works_FhzVCF": {
+      "type": "how-stride-works",
+      "blocks": {
+        "step_7mhUJM": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_1_37365961-b163-4922-83e5-2fdce6933688.png",
+            "title": "",
+            "text": "Take a short quiz aboutyour pain and goals."
+          }
+        },
+        "step_xeFxe6": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_3_485823f6-54d3-44c6-b5ba-cc929bfdc555.png",
+            "title": "",
+            "text": "Record your gait & scan your feet with the Stride app."
+          }
+        },
+        "step_cGz3dV": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_4_7a781f93-d33f-4d6c-a887-77032225c53a.png",
+            "title": "",
+            "text": "Give us 2-3 weeks for your custom orthotics to arrive!"
+          }
+        }
+      },
+      "block_order": [
+        "step_7mhUJM",
+        "step_xeFxe6",
+        "step_cGz3dV"
+      ],
+      "disabled": true,
+      "name": "How stride works",
+      "settings": {
+        "title": "Get Your Custom StrideSoles Today",
+        "subtitle": "<strong>3 Simple Steps</strong>",
+        "button_primary_label": "Take the Quiz",
+        "button_primary_link": "",
+        "button_secondary_label": "",
+        "button_disclaimer": "Free Shipping",
+        "button_disclaimer_2": "180-Day Money-Back Guarantee",
+        "color_scheme": "",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "how_stride_works_advertorial_WtcANP": {
+      "type": "how-stride-works-advertorial",
+      "blocks": {
+        "step_zQVj4M": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_1_37365961-b163-4922-83e5-2fdce6933688.png",
+            "title": "",
+            "text": "Take a short quiz about your pain and goals."
+          }
+        },
+        "step_6NXa7n": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_3_485823f6-54d3-44c6-b5ba-cc929bfdc555.png",
+            "title": "",
+            "text": "Record your gait & scan your feet with the Stride app."
+          }
+        },
+        "step_qpnCmB": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_4_7a781f93-d33f-4d6c-a887-77032225c53a.png",
+            "title": "",
+            "text": "Give us 2-3 weeks for your custom orthotics to arrive!"
+          }
+        }
+      },
+      "block_order": [
+        "step_zQVj4M",
+        "step_6NXa7n",
+        "step_qpnCmB"
+      ],
+      "custom_css": [
+        "@media (min-width: 1024px) {.how-stride-works-advertorial {width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; }}"
+      ],
+      "name": "How it works advertorial",
+      "settings": {
+        "title": "Get Your Custom StrideSoles Today",
+        "subtitle": "<strong>3 Simple Steps</strong>",
+        "button_primary_label": "Take the Quiz",
+        "button_primary_link": "/pages/quiz",
+        "button_primary_bg_color": "#eacba4",
+        "button_primary_text_color": "#202020",
+        "button_secondary_label": "",
+        "color_scheme": "",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "promotional_offer_nYgth7": {
+      "type": "promotional-offer",
+      "name": "Promotional Offer",
+      "settings": {
+        "main_heading": "<p><strong>Order your StrideSoles</strong><br/>Custom Orthotics Now</p>",
+        "subheading": "Special offer for readers dealing with heel pain:",
+        "benefit_1": "50% off (limited time offer)",
+        "benefit_2": "Final Price: Just $199",
+        "benefit_3": "Free Shipping Included",
+        "benefit_4": "6-Month Satisfaction Guarantee",
+        "benefit_5": "FSA/HSA Eligible",
+        "cta_title": "Get Stridesoles for $199",
+        "cta_code_text": "Coupon applies automatically at checkout.",
+        "button_label": "Get Stride Soles",
+        "button_url": "/pages/quiz",
+        "cta_background_color": "#f8eee1",
+        "button_color": "#7c3aed",
+        "button_text_color": "#ffffff",
+        "time_sensitive_text": "Remember: This discount expires in 48 hours and won't be offered again.",
+        "wallet_text": "Your feet - and your wallet - will thank you.",
+        "doctor_info": "<p>Dr. Stephanie Kane, DPM<br/>Foot & Ankle Surgeon<br/>StrideSoles Medical Advisory Board</p>",
+        "ps_text": "<p>P.S. – I stake my professional reputation on this recommendation. If StrideSoles doesn't provide the same quality as $800 clinic orthotics, I'll personally refund the difference. <strong>That's how confident I am in this solution.</strong></p>",
+        "pps_text": "<p>P.P.S. – Current inventory is limited due to the handcrafted manufacturing process. If you see this page, we still have orthotics available for immediate production. But <strong>once we sell out, the next batch won't be available for 6-8 weeks.</strong></p>",
+        "final_cta": "Don't wait until it's too late.",
+        "endorsement_background_color": "#ffffff",
+        "color_scheme": "",
+        "padding_top": 64,
+        "padding_bottom": 36
+      }
+    },
+    "testimonials_multicolumn_L7U6ci": {
+      "type": "testimonials-multicolumn",
+      "blocks": {
+        "testimonial_tGL7hn": {
+          "type": "testimonial",
+          "settings": {
+            "quote_title": "\"Finally, relief without bankruptcy\"",
+            "quote_text": "\"I went to my podiatrist who took a 3D image of my foot to make a custom orthotic. He wanted $440 a pair. This seemed crazy to me. I looked up StrideSoles, took my own 3D photo of my feet with my phone, and got the same quality orthotics for less than half the price. They work perfectly!\"",
+            "reviewer_name": "Michael R.",
+            "reviewer_title": "Verified Purchase",
+            "verification_text": ""
+          }
+        },
+        "testimonial_aJ68R4": {
+          "type": "testimonial",
+          "settings": {
+            "quote_title": "\"My podiatrist recommended StrideSoles\"",
+            "quote_text": "\"My podiatrist actually recommended I try StrideSoles instead of getting another $600 pair from his office. Very helpful in making me not hate my day as a security guard where I used to constantly be in pain. Thank you!!\"",
+            "reviewer_name": "James H",
+            "reviewer_title": "Security Officer",
+            "verification_text": ""
+          }
+        },
+        "testimonial_6Bg3tX": {
+          "type": "testimonial",
+          "settings": {
+            "quote_title": "\"28 years of running, finally found the solution\"",
+            "quote_text": "\"I'm a coach and athlete who's been competing for 28 years. StrideSoles are so easy to order - you don't have to go into a medical office. You just download the app, scan your feet, and they customize orthotics to your foot. And they're so affordable you can order multiple pairs for different shoes.\"",
+            "reviewer_name": "Nadia R.",
+            "reviewer_title": "Running Coach",
+            "verification_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_tGL7hn",
+        "testimonial_aJ68R4",
+        "testimonial_6Bg3tX"
+      ],
+      "custom_css": [
+        "@media (min-width: 1024px) {.testimonials-multicolumn {width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; }}"
+      ],
+      "name": "Testimonials multicolumn",
+      "settings": {
+        "title": "Real Patient Results",
+        "subtitle": "Speak for Themselves",
+        "button_label": "Take the Quiz",
+        "button_url": "/pages/quiz",
+        "disclaimer": "Limited Time Offer",
+        "button_primary_bg_color": "#eacba4",
+        "button_primary_text_color": "#000000",
+        "color_scheme": "",
+        "background_color": "#f5f6f9",
+        "text_color": "#000000",
+        "star_color": "#eacba4",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "doctor_testimonial_carousel_gy77cj",
+    "how_stride_works_FhzVCF",
+    "how_stride_works_advertorial_WtcANP",
+    "promotional_offer_nYgth7",
+    "testimonials_multicolumn_L7U6ci"
+  ]
+}

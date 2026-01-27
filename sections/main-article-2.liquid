@@ -1,0 +1,276 @@
+{% style %}
+  /* Adjust 100px based on your header height */
+  h2[id] {
+    scroll-margin-top: 200px;
+  }
+{% endstyle %}
+
+<article class="">
+  <header class="  bg-[#000000] pt-[60px] pb-[60px] text-white lg:pt-[200px] ">
+    <div class="page-width grid items-center gap-8 lg:grid-cols-2">
+      <div class="">
+        <h1 class="mb-6 text-4xl lg:text-[62px]">{{ article.title }}</h1>
+        <div class="mb-4 text-lg text-white/60 lg:text-xl">{{ article.excerpt | strip_html }}</div>
+
+        <div class="article__meta flex flex-wrap items-center gap-2 text-sm whitespace-nowrap text-white">
+          {%- if article.metafields.custom.author.value.image != blank -%}
+            {{
+              article.metafields.custom.author.value.image
+              | image_url: width: 56, height: 56
+              | image_tag:
+                class: 'h-7 w-7 rounded-[5px] object-cover',
+                alt: article.metafields.custom.author.value.image.alt,
+                loading: 'lazy'
+            }}
+          {%- else -%}
+            <div class="h-7 w-7 rounded-[5px] bg-black/20"></div>
+          {%- endif -%}
+
+          <p class="text-base font-extrabold">
+            {%- if article.metafields.custom.author.value.name != blank -%}
+              {{ article.metafields.custom.author.value.name }}
+            {%- else -%}
+              Admin
+            {%- endif -%}
+          </p>
+          <span class="text-sm text-white/60">
+            {%- if article.metafields.custom.author.value.title != blank -%}
+              {{ article.metafields.custom.author.value.title }}
+            {%- else -%}
+              Social Media & Community Expert
+            {%- endif -%}
+          </span>
+          <time class="text-sm text-white/60" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            {{ article.published_at | date: '%B %d, %Y' }}
+          </time>
+
+          {% assign word_count = article.content | strip_html | split: ' ' | size %}
+          {% assign reading_time = word_count | divided_by: 225.0 %}
+
+          {% if reading_time < 1 %}
+            {% assign reading_time_text = 'Less than a minute' %}
+          {% else %}
+            {% assign reading_time_minutes = reading_time | round %}
+            {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+          {% endif %}
+          <span class="text-sm text-white/60">•</span>
+          <span class="article-reading-time text-sm text-white/60">{{ reading_time_text }}</span>
+        </div>
+      </div>
+      <div>
+        {{
+          article.image
+          | image_url: width: 3840
+          | image_tag: class: 'article-card__image rounded-xl aspect-video object-cover'
+        }}
+      </div>
+    </div>
+  </header>
+
+  <div class="article__body page-width grid gap-6 pt-16 lg:grid-cols-[1fr_425px]">
+    <div class="flex flex-col gap-12 md:gap-16">
+      {% comment %} Table of Contents Section {% endcomment %}
+      {% assign article_content = article.content %}
+
+      {% comment %} Extract H2 headings {% endcomment %}
+      {% # theme-check-disable %}
+      {% assign h2s = article_content | split: '<h2' %}
+      {% if h2s.size > 1 %}
+        <div class="toc rounded-lg bg-black/5 p-4 lg:p-[60px]" style="">
+          <h2 class="mt-0 mb-4 text-2xl font-normal lg:text-[62px]">
+            <span class="text-[#9D9FA9]">Table of</span> Contents:
+          </h2>
+          <ul class="list-decimal space-y-2">
+            {% for h2 in h2s %}
+              {% unless forloop.first %}
+                {% assign h2_part = h2 | split: '</h2>' | first %}
+                {% assign h2_text = h2_part | split: '>' | last | strip_html | strip %}
+                {% assign h2_id = h2_text | handleize %}
+                <li>
+                  <a href="#{{ h2_id }}" class="text-blue-600 hover:underline">{{ h2_text }}</a>
+                </li>
+              {% endunless %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% # theme-check-enable %}
+
+      {% comment %} Process content to add IDs to H2s {% endcomment %}
+      {% # theme-check-disable %}
+      {% assign modified_content = article_content %}
+      {% assign h2s = modified_content | split: '<h2' %}
+      {% if h2s.size > 1 %}
+        {% assign modified_content = '' %}
+        {% for h2 in h2s %}
+          {% if forloop.first %}
+            {% assign modified_content = h2 %}
+          {% else %}
+            {% assign h2_part = h2 | split: '</h2>' %}
+            {% assign h2_text = h2_part.first | split: '>' | last | strip_html | strip %}
+            {% assign h2_id = h2_text | handleize %}
+            {% assign new_h2 = '<h2 id="'
+              | append: h2_id
+              | append: '"'
+              | append: h2_part.first
+              | append: '</h2>'
+              | append: h2_part.last
+            %}
+            {% assign modified_content = modified_content | append: new_h2 %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% # theme-check-enable %}
+
+      <div class="prose prose-lg prose-neutral max-w-screen-lg">
+        {{ modified_content }}
+      </div>
+
+      {%- if article.metafields.custom.featured_products != blank -%}
+        <div class="article__featured-products">
+          <h2 class="text-h3 mb-8 font-bold">Related Products</h2>
+
+          <div class="article__products-list flex flex-col gap-8 md:gap-10">
+            {%- for item in article.metafields.custom.featured_products.value -%}
+              <div class="article-product-card flex gap-8 rounded-xl border border-black/15 p-4 shadow-xl md:p-6">
+                <div class="article-product-card__image relative h-40 w-40">
+                  {{
+                    item.product.value.featured_image
+                    | image_url: width: 320, height: 320
+                    | image_tag: class: 'aspect-square object-cover rounded-full', loading: 'lazy'
+                  }}
+
+                  <div class="absolute top-4 left-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-black text-xs text-white">
+                    {{ forloop.index }}
+                  </div>
+                </div>
+
+                <div class="article-product-card__details flex flex-col gap-2">
+                  <div class="w-fit rounded-lg bg-black/5 px-4 py-2 text-sm text-black">{{ item.badge }}</div>
+
+                  <!-- Start of Judge.me code -->
+                  <div class="jdgm-widget jdgm-preview-badge text-sm" data-id="{{ item.product.value.id }}">
+                    {{ item.product.value.metafields.judgeme.badge }}
+                  </div>
+                  <!-- End of Judge.me code -->
+
+                  <h3 class="font-bold">
+                    <a href="{{ item.product.value.url }}">{{ item.title }}</a>
+                  </h3>
+                  <div class="text-base">{{ item.description | metafield_tag }}</div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <aside class="newsletter-signup bg-peach flex flex-col rounded-lg p-5 text-black lg:p-[60px]">
+        <span class="mb-7 inline-block w-14 lg:w-16"> {{ 'icon-newsletter.svg' | inline_asset_content }}</span>
+        <h3 class="mt-0 mb-2 text-2xl leading-[1.2] font-extrabold lg:text-[32px]">Never miss another article</h3>
+        <p class="lg:text-lg">Highly curated content, case studies, Stride updates, and more.</p>
+        <!-- Newsletter form content -->
+
+        {% form 'customer', class: 'mt-4' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+
+          <div class="flex w-full max-w-md items-center overflow-hidden rounded-full bg-white">
+            <!-- Input field -->
+            <input
+              id="NewsletterForm--{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              class="w-full max-w-full flex-1 border-none bg-transparent px-6 py-4 text-black placeholder-black/60 placeholder:text-sm focus:outline-none"
+              value="{{ form.email }}"
+              aria-required="true"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              {% if form.errors %}
+                autofocus
+                aria-invalid="true"
+                aria-describedby="Newsletter-error--{{ section.id }}"
+              {% elsif form.posted_successfully? %}
+                aria-describedby="Newsletter-success--{{ section.id }}"
+              {% endif %}
+              placeholder="Enter your email"
+              required
+            >
+
+            <!-- Submit button with outer dotted border -->
+            <div class="relative mx-2">
+              <!-- Dotted border container -->
+              <div class="absolute -inset-1 rounded-full border border-dashed border-black/30"></div>
+
+              <!-- Actual button -->
+              <button
+                type="submit"
+                class="relative rounded-full bg-black px-6 py-1.5 text-white transition-all duration-300 ease-in-out hover:bg-black/20 hover:text-black"
+                name="commit"
+                id="Subscribe"
+                aria-label="{{ 'newsletter.button_label' | t }}"
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
+
+          {% if form.errors %}
+            <div class="mt-3 text-sm" id="Newsletter-error--{{ section.id }}">
+              <span class="mr-2 inline-block">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+              {{- form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email -}}
+            </div>
+          {% endif %}
+
+          {% if form.posted_successfully? %}
+            <div class="mt-3 text-sm text-green-500" id="Newsletter-success--{{ section.id }}">
+              <span class="mr-2 inline-block">
+                {{- 'icon-success.svg' | inline_asset_content -}}
+              </span>
+              {{- 'newsletter.success' | t }}
+            </div>
+          {% endif %}
+        {% endform %}
+      </aside>
+    </div>
+    <aside>
+      <aside class="newsletter-signup bg-peach sticky top-[200px] flex flex-col items-center justify-center rounded-lg p-5 text-center text-black lg:p-8">
+        {% render 'svg-logomark', class: 'w-24 mb-8' %}
+        <h3 class="mb-2 text-2xl leading-[1.24] font-extrabold">
+          Do you experience foot pain? Take our free quiz, try our orthotics, and start a pain-free life.
+        </h3>
+
+        <div class="relative mx-2 mt-6">
+          <!-- Dotted border container -->
+          <div class="absolute -inset-1 rounded-full border border-dashed border-black/30"></div>
+
+          <!-- Actual button -->
+          <a
+            href="/quiz"
+            class="relative block rounded-full bg-black px-12 py-6 font-bold text-white uppercase transition-all duration-300 ease-in-out hover:bg-white hover:text-black"
+          >
+            Take the quiz
+          </a>
+        </div>
+      </aside>
+    </aside>
+  </div>
+
+  <div class="article__related mx-auto mt-16 bg-black/5">
+    <div class="page-width">
+      {% render 'related-articles', article: article %}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Main article",
+  "tag": "section",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

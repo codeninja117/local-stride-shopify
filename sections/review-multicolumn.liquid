@@ -1,0 +1,199 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --text-color: rgb(0,0,0);
+    background-color: {{ section.settings.background_color | default: '#F5F6F9' }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .section-review-multicolumn {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+{% endstyle %}
+
+<div class="review-multicolumn {% if section.settings.enable_wrapper %}page-width {% else %}px-4{% endif %}">
+  <div class="rounded-xl bg-white px-6 py-6 md:px-10 md:py-10">
+    <review-multicolumn-carousel class="swiper relative" data-pagination="bullets">
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign logo_width = block.settings.logo_width
+            assign logo_width2x = logo_width | times: 2.00
+          -%}
+
+          {% style %}
+            .review-multicolumn__logo-el {
+              width: {{ logo_width }}px;
+            }
+          {% endstyle %}
+          <div class="swiper-slide">
+            <div class="review-multicolumn__review flex flex-col gap-6">
+              <p class="flex-1">{{ block.settings.review }}</p>
+              {{
+                block.settings.logo
+                | image_url: width: logo_width2x
+                | image_tag: alt: block.settings.title, class: 'h-auto review-multicolumn__logo-el', loading: 'lazy'
+              }}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="swiper-pagination mt-4 justify-center"></div>
+    </review-multicolumn-carousel>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review multicolumn",
+  "class": "section-review-multicolumn js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_wrapper",
+      "label": "Enable wrapper",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5F6F9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Reviewer name"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "review",
+          "label": "Review"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "min": 50,
+          "max": 300,
+          "step": 10,
+          "unit": "px",
+          "label": "Logo width",
+          "default": 150
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review multicolumn",
+      "category": "STRIDE",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "title": "Forbes",
+            "review": "\"...Stride is taking a stale orthotics industry and flipping it on it’s head.\"",
+            "logo": "shopify://shop_images/forbes-1-1_a54c84ab-e753-4b20-9380-977cc43e59d1.webp",
+            "logo_width": 150
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "title": "Mashable",
+            "review": "\"Normally only available in clinics, Stride can now be bought from home in minutes.\"",
+            "logo": "shopify://shop_images/Mashable_Logo_2021_969cc899-1245-491b-8d15-f24ee9809824.webp",
+            "logo_width": 150
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "title": "Northwestern Medicine",
+            "review": "\"The result is an orthotic which matches the podiatrist in terms of quality and comfort\"",
+            "logo": "shopify://shop_images/Northwestern_Medicine_logo_8293d6d1-9f7e-4c39-b1e5-ebe9381be158.webp",
+            "logo_width": 150
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+{% comment %}
+  "review_im3H9j": {
+    "type": "review",
+    "settings": {
+      "title": "Forbes",
+      "review": "\"...Stride is taking a stale orthotics industry and flipping it on it’s head.\"",
+      "logo": "shopify://shop_images/forbes-1-1_a54c84ab-e753-4b20-9380-977cc43e59d1.webp",
+      "logo_width": 150
+    }
+  },
+  "review_qCpH3A": {
+    "type": "review",
+    "settings": {
+      "title": "Mashable",
+      "review": "\"Normally only available in clinics, Stride can now be bought from home in minutes.\"",
+      "logo": "shopify://shop_images/Mashable_Logo_2021_969cc899-1245-491b-8d15-f24ee9809824.webp",
+      "logo_width": 150
+    }
+  },
+  "review_ixbLAN": {
+    "type": "review",
+    "settings": {
+      "title": "Northwestern Medicine",
+      "review": "\"The result is an orthotic which matches the podiatrist in terms of quality and comfort\"",
+      "logo": "shopify://shop_images/Northwestern_Medicine_logo_8293d6d1-9f7e-4c39-b1e5-ebe9381be158.webp",
+      "logo_width": 150
+    }
+  }
+{% endcomment %}

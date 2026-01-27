@@ -1,0 +1,16 @@
+{% if title != blank or text != blank %}
+  <li class="flex flex-row items-start gap-4">
+    <div class="mt-2 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black text-white md:mt-1 md:h-[30px] md:w-[30px]">
+      {{ 'icon-checkmark.svg' | inline_asset_content }}
+    </div>
+
+    <div class="inline">
+      {% if title != blank %}
+        <h3 class="inline text-base font-bold md:text-lg">{{ title }}:</h3>
+      {% endif %}
+      {% if text != blank %}
+        <p class="text-muted inline text-base md:text-lg">{{ text }}</p>
+      {% endif %}
+    </div>
+  </li>
+{%- endif -%}

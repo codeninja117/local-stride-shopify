@@ -1,0 +1,98 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "title": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>",
+            "title_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>",
+            "cta_text": "Take The Quiz",
+            "cta_url": "shopify://pages/quiz",
+            "cart_filled_cta_text": "Buy now",
+            "cart_filled_cta_url": "/cart",
+            "cart_title": "<strong>50% OFF, NEW YEAR SALE! (Ends Jan 21)</strong>",
+            "cart_title_mobile": "<strong>50% OFF, NEW YEAR SALE! (Ends Jan 21)</strong>"
+          }
+        }
+      },
+      "block_order": [
+        "announcement_1"
+      ],
+      "settings": {
+        "background_color": "#eacba4",
+        "text_color": "#000000",
+        "show_arrows": true,
+        "arrow_color": "#202020",
+        "autoplay_speed": 4,
+        "ticker_speed": 17,
+        "enable_ticker_animation": true,
+        "cart_title_override": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>",
+        "cart_title_override_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "highlight_link_DXaVhN": {
+          "type": "highlight_link",
+          "settings": {
+            "link_title": "Order now",
+            "highlight_color": "#eacba4"
+          }
+        },
+        "mega_menu_rHcYc7": {
+          "type": "mega_menu",
+          "settings": {
+            "link_title": "Catalog",
+            "card_title": "",
+            "card_url": ""
+          }
+        },
+        "sidebar_menu_HgfDB4": {
+          "type": "sidebar_menu",
+          "settings": {
+            "link_title": "Catalog"
+          }
+        }
+      },
+      "block_order": [
+        "highlight_link_DXaVhN",
+        "mega_menu_rHcYc7",
+        "sidebar_menu_HgfDB4"
+      ],
+      "settings": {
+        "menu": "mega-menu-and-dropdowns"
+      }
+    },
+    "rich_text_content_ehPLTk": {
+      "type": "rich-text-content",
+      "disabled": true,
+      "name": "Rich Text Content",
+      "settings": {
+        "rich_text": "<p>If you're dealing with that brutal morning heel pain, you're not alone. Over 2 million Americans suffer from plantar fasciitis every year - and are trapped paying $400-800 for custom orthotics that barely work.</p><p>But smart patients are discovering StrideSoles: German-engineered custom orthotics that deliver the same results as expensive clinic versions, for just $199.</p><h2>Here's why they're making the switch:</h2><h3>1. No More 'Walking on Broken Glass' Every Morning</h3>",
+        "content_max_width": 800,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header",
+    "rich_text_content_ehPLTk"
+  ]
+}

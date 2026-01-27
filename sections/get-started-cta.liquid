@@ -1,0 +1,182 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: 'transparent' }};
+    /* --text-color: {{ section.settings.text_color | default: '#FFFFFF' }}; */
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+
+  }
+  .get-started-cta__video-card {
+    transform: translateX(100%);
+    opacity: 0;
+    transition:
+      transform 1s var(--fluid-out),
+      opacity 1s var(--fluid-out);
+  }
+  .get-started-cta__video-card.is-inview {
+    transform: none;
+    opacity: 1;
+  }
+{% endstyle %}
+
+<div
+  class="get-started-cta gradient relative min-h-[min(100vh,750px)] overflow-hidden text-white after:absolute after:inset-0 after:z-1 after:w-full after:bg-black after:opacity-50 color-{{ section.settings.color_scheme }}"
+  data-animate="fade-in"
+>
+  <div class="get-started-cta__content page-width  relative z-2 flex h-full flex-col gap-8 py-5 md:flex-row">
+    <div class="flex w-full flex-1 flex-col justify-between gap-8 pt-8 lg:pt-[20vh]">
+      <div class="flex flex-col items-baseline gap-12">
+        <h2 class="display display-2 flex flex-col">
+          {% assign title_parts = section.settings.title | newline_to_br | split: '<br />' %}
+          {% for part in title_parts %}
+            <span>{{ part }}</span>
+          {% endfor %}
+        </h2>
+
+        {%- if section.settings.button_label != blank -%}
+          {% render 'button',
+            tag: 'a',
+            text: section.settings.button_label,
+            url: section.settings.button_url,
+            variant: 'primary'
+          %}
+        {%- endif -%}
+      </div>
+
+      <p class="place-self-end self-end text-xl lg:text-2xl">{{ section.settings.callouts }}</p>
+    </div>
+    <div class="flex items-end justify-end lg:flex-1">
+      <a
+        href="{{ section.settings.video_url }}"
+        class="get-started-cta__video-card flex w-[200px] flex-col gap-3 overflow-hidden rounded-xl bg-white/90 p-2 duration-1000 "
+        data-animate="inview"
+      >
+        <div class="get-started-cta__video-wrapper relative h-full w-full overflow-hidden rounded-xl pb-[107%]">
+          {{
+            section.settings.video
+            | video_tag:
+              autoplay: true,
+              loop: true,
+              controls: false,
+              playsinline: true,
+              class: 'absolute inset-0 h-full w-full object-cover object-center'
+          }}
+        </div>
+
+        <div class="get-started-cta__video-label flex items-center justify-between">
+          <span class="get-started-cta__video-label-text text-black">{{ section.settings.video_label }}</span>
+
+          {% render 'svg-arrow-right', class: 'w-4 h-auto' %}
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="get-started-cta__background absolute inset-0 z-0 overflow-hidden">
+    {{
+      section.settings.image
+      | image_url: width: 1200
+      | image_tag:
+        alt: section.settings.title,
+        class: 'w-full h-full object-cover object-center',
+        data-animate: 'scale-out'
+    }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Get started cta",
+  "class": "section-get-started-cta",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Order Now"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "callouts",
+      "label": "Callouts",
+      "default": "Free Shipping ~ 180 Day Return Policy ~ 2 year Warranty ~ FHA/HSA Accepted"
+    },
+    {
+      "type": "header",
+      "content": "Video card"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video url"
+    },
+    {
+      "type": "text",
+      "id": "video_label",
+      "label": "Video label",
+      "default": "Get Started"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Get started cta",
+      "category": "Uncategorized",
+      "settings": {
+        "image": "shopify://shop_images/strides.png",
+        "title": "Got Foot Pain?\nOrder Stride\nToday",
+        "button_url": "",
+        "button_label": "Order Now",
+        "callouts": "Free Shipping ~ 180 Day Return Policy ~ 2 year Warranty ~ FHA/HSA Accepted",
+        "video": "shopify://files/videos/1720-4fba-b7bb-b757d3995a82.mp4",
+        "video_url": "",
+        "video_label": "Get Started"
+      }
+    }
+  ]
+}
+{% endschema %}

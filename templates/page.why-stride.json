@@ -1,0 +1,518 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_iFTA3R": {
+          "type": "title",
+          "settings": {
+            "title": "<em>Stride will change your life…</em>|Are you ready?",
+            "title_font_size": "text-display-l",
+            "inline_title": false
+          }
+        },
+        "text_jUPBxG": {
+          "type": "text",
+          "settings": {
+            "text": "With Stride, cutting edge technology meets German craftsmanship. The result: Award Winning Custom Orthotics available from the comfort of home."
+          }
+        },
+        "buttons_yqj3aG": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Take the Quiz",
+            "button_url": "/pages/quiz?pairs=1",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_iFTA3R",
+        "text_jUPBxG",
+        "buttons_yqj3aG"
+      ],
+      "name": "Hero text overlay",
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/heroBanner.jpg",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 40,
+        "min_height": 100,
+        "min_height_px": 700,
+        "vertical_alignment": "items-center",
+        "color_scheme": "scheme-96f11ca5-72e4-4676-b40a-90b19f72e154",
+        "padding_top": 168,
+        "padding_bottom": 0
+      }
+    },
+    "foambox_vs_scanner": {
+      "type": "foambox-vs-scanner",
+      "blocks": {
+        "feature_iztEje": {
+          "type": "Feature",
+          "settings": {
+            "title": "Accuracy",
+            "stride_feature": "Studies* show improved precision and consistency of foot shape",
+            "other_feature": "Results are highly variable based on shifting balance"
+          }
+        },
+        "feature_yEHVeM": {
+          "type": "Feature",
+          "settings": {
+            "title": "<a href=\"/pages/comparison\" title=\"Comparison\">Clinical Adoption</a>",
+            "stride_feature": "3D phone scans used in orthopedics, prosthetics, dentistry, & more...",
+            "other_feature": "Rapidly getting replaced by digital scanning technology"
+          }
+        },
+        "feature_NW8zHq": {
+          "type": "Feature",
+          "settings": {
+            "title": "Technology",
+            "stride_feature": "30,000 point map with iOS/Android front facing camera",
+            "other_feature": "Well... it’s a foam box"
+          }
+        },
+        "feature_pMBxP4": {
+          "type": "Feature",
+          "settings": {
+            "title": "Speed",
+            "stride_feature": "Instant — digital capture and file transfer in seconds",
+            "other_feature": "Slow — takes weeks to ship back and forth, digitize"
+          }
+        },
+        "feature_XLfAb9": {
+          "type": "Feature",
+          "settings": {
+            "title": "Environmental Impact",
+            "stride_feature": "Zero waste, sustainable digital process",
+            "other_feature": "Disposable foam waste ends up in landfill"
+          }
+        }
+      },
+      "block_order": [
+        "feature_iztEje",
+        "feature_yEHVeM",
+        "feature_NW8zHq",
+        "feature_pMBxP4",
+        "feature_XLfAb9"
+      ],
+      "settings": {
+        "page_width_size": "page-width--lg",
+        "title": "Say Goodbye to <strong>Foam Boxes</strong>",
+        "subtitle": "Orthotics made from 3D scans proven to increase patient satisfaction, adherence, and lower needed adaptations.",
+        "disclaimer": "*Double-Blinded randomized control trial led by BMC Musculoskeletal Disorders & National Health Service",
+        "text_alignment": "center",
+        "button_label": "Learn More",
+        "button_url": "shopify://pages/comparison",
+        "other_feature": "Stride 3D Scanner",
+        "stride_image": "shopify://shop_images/stride__3d.jpg",
+        "stride_color_scheme": "",
+        "other_title": "Foam Box",
+        "other_image": "shopify://shop_images/foambox.png",
+        "other_color_scheme": "",
+        "table_header_title": "Feature",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "banner_stats_JEDXfC": {
+      "type": "banner-stats",
+      "blocks": {
+        "stat_Tpnbxg": {
+          "type": "stat",
+          "settings": {
+            "title": "95%",
+            "subtitle": "Improved Heel Pain in the First Week"
+          }
+        },
+        "stat_XtiYcd": {
+          "type": "stat",
+          "settings": {
+            "title": "<0.03%",
+            "subtitle": "Orthotics are Returned"
+          }
+        },
+        "stat_7m9bm9": {
+          "type": "stat",
+          "settings": {
+            "title": "10,000+",
+            "subtitle": "Orthotics made over 3 generations"
+          }
+        }
+      },
+      "block_order": [
+        "stat_Tpnbxg",
+        "stat_XtiYcd",
+        "stat_7m9bm9"
+      ],
+      "custom_css": [
+        ".banner-stats__stat-subtitle {width: 200px; margin: 0 auto;}"
+      ],
+      "name": "Banner stats",
+      "settings": {
+        "text_alignment": "center",
+        "image": "shopify://shop_images/Tan_Sole_-_Stats_BG.png",
+        "title": "",
+        "subtitle": "",
+        "button_label": "Take the Quiz",
+        "button_url": "/pages/quiz?pairs=1",
+        "disclaimer": "180 Day Satisfaction Guarantee",
+        "height": 460,
+        "container_width": 820,
+        "overlay_opacity": 60,
+        "color_scheme": "scheme-96f11ca5-72e4-4676-b40a-90b19f72e154",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "video_text_row_WCGRAW": {
+      "type": "video-text-row",
+      "blocks": {
+        "title_ydmRkP": {
+          "type": "title",
+          "settings": {
+            "title": "Gait Analysis|<strong>By Top Podiatrists</strong>",
+            "font_size": "text-h1"
+          }
+        },
+        "text_pU66Ad": {
+          "type": "text",
+          "settings": {
+            "text": "Our bodies are constantly in motion. Orthotics made without gait analysis is like making a suit without taking measurements.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_KKBF4i": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 16,
+            "mobile_spacer_height_percentage": 60
+          }
+        },
+        "richtext_GTrPwx": {
+          "type": "richtext",
+          "settings": {
+            "richtext": "<ul><li><strong>Podiatrist Reviewed:</strong> Every gait video is reviewed by a medical expert -- not your local shoe store salesman.</li><li><strong>Takes minutes:</strong> With our smartphone app, simply film yourself walking away and towards your phone. Analyzed by clinicians -- not hourly shoe store salesman. </li><li><strong>Learn How More Data = More Relief:</strong> We analyze your unique gait cycle to correct dysfunctional movement that is causing you pain and frustration </li></ul>",
+            "font_size": "text-body-m"
+          }
+        }
+      },
+      "block_order": [
+        "title_ydmRkP",
+        "text_pU66Ad",
+        "spacer_KKBF4i",
+        "richtext_GTrPwx"
+      ],
+      "name": "Video text row",
+      "settings": {
+        "video": "shopify://files/videos/Stride_CustomOrthotics_Draft_2 (1) (1).mp4",
+        "video_poster": "shopify://shop_images/video_poster.png",
+        "vertical_alignment": "items-center",
+        "color_scheme": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "call_to_action_awzXRw": {
+      "type": "call-to-action",
+      "blocks": {
+        "icon_k8G8eF": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-check-circle.svg",
+            "icon_size": 82
+          }
+        },
+        "title_Kmp8Ld": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "6 free months to fall in love with your custom insoles - worry-free!",
+            "title_font_size": "text-h2",
+            "base_font_weight": "font-semibold",
+            "reduce_margin_bottom": false
+          }
+        },
+        "richtext_d7CXJK": {
+          "type": "richtext",
+          "settings": {
+            "text_alignment": "center",
+            "richtext": "<p>Not fitting well? Need adjustments? No problem! We’ll adjust your custom insoles to fit like a dream so you can get back to enjoying life pain-free.</p>"
+          }
+        },
+        "button_k9izxT": {
+          "type": "button",
+          "settings": {
+            "button_url": "/pages/quiz?pairs=1",
+            "button_label": "Take the Quiz",
+            "disclaimer": "180 Day Satisfaction Guarentee",
+            "button_type": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_k8G8eF",
+        "title_Kmp8Ld",
+        "richtext_d7CXJK",
+        "button_k9izxT"
+      ],
+      "name": "Call To Action",
+      "settings": {
+        "color_scheme": "",
+        "inner_color_scheme": "",
+        "enable_wrapper": false,
+        "enable_border_radius": false,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "image_text_row_CpgkVa": {
+      "type": "image-text-row",
+      "blocks": {
+        "richtext_nzyhNr": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p><strong>Your Orthotics are designed in Oberkochen, Germany in a third generation clinic led by award winning podiatrist Dr. Dietmar Walter.</strong></p><p><strong>With over 200,000 orthotics made over 70 years, we’ve seen and treated it all!</strong></p>",
+            "font_size": "text-h4"
+          }
+        },
+        "spacer_xYm33w": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "text_rMXFUj": {
+          "type": "text",
+          "settings": {
+            "text": "Our design process is so revered, top hospitals, podiatrists, and physical therapists around the world prescribe Stride.",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "richtext_nzyhNr",
+        "spacer_xYm33w",
+        "text_rMXFUj"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "A Legacy of Healing|<strong>Forged in Germany</strong>",
+        "button_label": "Learn more",
+        "button_url": "shopify://pages/team",
+        "image": "shopify://shop_images/dr-group.jpg",
+        "image_caption": "Dr. Dietmar Walter with Stride's award winning podiatry team",
+        "aspect_ratio": "adapt",
+        "mobile_aspect_ratio": "adapt",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-c2153579-bb7d-49fd-b9c3-1ed673895b73",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "image_banner_VKYABF": {
+      "type": "image-banner",
+      "name": "Banner Image",
+      "settings": {
+        "image": "shopify://shop_images/stride-why.jpg"
+      }
+    },
+    "doctor_testimonial_carousel": {
+      "type": "doctor-testimonial-carousel",
+      "blocks": {
+        "doctor_bDNNPU": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/elsa.jpg",
+            "quote": "Stride Soles has revolutionized the way we approach foot pain management. Their custom orthotics are not only effective but also incredibly convenient for patients. The ability to order from home and receive personalized care is a game changer.",
+            "name": "Dr. Elsa Gould, DPT",
+            "position": "CEO, Elsa Gould PT"
+          }
+        },
+        "doctor_FbNgzy": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/Dr.-Scott-Kaylor_42f4647e-6fa4-43b4-9091-b889cc43c786.webp",
+            "quote": "I've been recommending Stride Soles to my patients for months now. The quality and customization options are exceptional, and my patients love the convenience.",
+            "name": "Dr. Scott Taylor",
+            "position": "CEO, Zone Physical Therapy"
+          }
+        },
+        "doctor_3AYWwE": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/Dr._Davi.webp",
+            "quote": "I’ve used other orthotics manufacturers before, but they always seem to cut corners… not these guys. Their new app is very easy to use as a practitioner, but for really anyone.",
+            "name": "Dr. Kevin Davi",
+            "position": "CEO, Family Health PT"
+          }
+        },
+        "doctor_6Nke33": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/ollie.jpg",
+            "quote": "The technology behind Stride Soles is impressive. It brings professional-grade orthotics to patients who might not otherwise have access to this level of care.",
+            "name": "Dr. Oliver Selby-Hoque",
+            "position": "Podiatrist Specialising in Biomechanics"
+          }
+        }
+      },
+      "block_order": [
+        "doctor_bDNNPU",
+        "doctor_FbNgzy",
+        "doctor_3AYWwE",
+        "doctor_6Nke33"
+      ],
+      "name": "Doctor Carousel",
+      "settings": {
+        "title": "<p>Prescribed By<br/><strong>Top Doctors & Podiatrists</strong></p>",
+        "button_label": "Take The Quiz",
+        "button_url": "/pages/quiz?pairs=1",
+        "disclaimer": "180 Day Satisfaction Guarentee",
+        "color_scheme": "",
+        "background_color": "#f5f6f9",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "review_carousel": {
+      "type": "review-carousel-aug-25",
+      "blocks": {
+        "video_review_XGEThr": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMBQgI907dWXQRAjI-DrH9APl22jxPid0sv73mfRi4Qk3yVLPt1bJAM3icCONuNl6OAQEC3OYCJ5-YVgXAw9FpPvuBXxkLDyEf16yY.mp4"
+          }
+        },
+        "video_review_NgRdP7": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Video_1.mov"
+          }
+        },
+        "video_review_GXNnMe": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/lady.mp4"
+          }
+        },
+        "video_review_hXRpEh": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMBQgI907dWXQRAjI-DrH9APl22jxPid0sv73mfRi4Qk3yVLPt1bJAM3icCONuNl6OAQEC3OYCJ5-YVgXAw9FpPvuBXxkLDyEf16yY.mp4"
+          }
+        },
+        "video_review_B3t7Lb": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Lucas Simon.mov"
+          }
+        },
+        "video_review_EikTRy": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Video.mov"
+          }
+        }
+      },
+      "block_order": [
+        "video_review_XGEThr",
+        "video_review_NgRdP7",
+        "video_review_GXNnMe",
+        "video_review_hXRpEh",
+        "video_review_B3t7Lb",
+        "video_review_EikTRy"
+      ],
+      "name": "Review Carousel Aug 25",
+      "settings": {
+        "title": "Real Results from <strong>Real People</strong>",
+        "subtitle": "Over 40,000 Happy Customers",
+        "trustpilot_summary": "shopify://shop_images/trustPilot.png",
+        "trust_pilot_url": "",
+        "slides_per_view": 4.2,
+        "carousel_width": 5,
+        "color_scheme": "",
+        "background_color": "#202020",
+        "text_color": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "call_to_action_rcML8e": {
+      "type": "call-to-action",
+      "blocks": {
+        "title_iUbnat": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "Get Podiatrist Prescribed Relief Directly To Your Doorstep.",
+            "title_font_size": "text-h2",
+            "base_font_weight": "font-semibold",
+            "reduce_margin_bottom": false
+          }
+        },
+        "button_pQFiEa": {
+          "type": "button",
+          "settings": {
+            "button_url": "/pages/quiz?pairs=1",
+            "button_label": "Take the Quiz",
+            "disclaimer": "180 Day Satisfaction Guarentee",
+            "button_type": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "title_iUbnat",
+        "button_pQFiEa"
+      ],
+      "name": "Call To Action",
+      "settings": {
+        "color_scheme": "",
+        "inner_color_scheme": "",
+        "enable_wrapper": false,
+        "enable_border_radius": false,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay",
+    "foambox_vs_scanner",
+    "banner_stats_JEDXfC",
+    "video_text_row_WCGRAW",
+    "call_to_action_awzXRw",
+    "image_text_row_CpgkVa",
+    "image_banner_VKYABF",
+    "doctor_testimonial_carousel",
+    "review_carousel",
+    "call_to_action_rcML8e"
+  ]
+}

@@ -1,0 +1,369 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay_bQifbF": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_wwJc96": {
+          "type": "title",
+          "settings": {
+            "title": "<em>Regrow </em>| your Arch<em> </em>",
+            "title_font_size": "text-display-l",
+            "inline_title": true
+          }
+        },
+        "text_3YjMrb": {
+          "type": "text",
+          "settings": {
+            "text": "Sensorimotor orthotic design stimulates biological pathways to permanently remodel your foot"
+          }
+        },
+        "buttons_MamCAm": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Order Now",
+            "button_url": "shopify://products/sensorimotor-orthotics",
+            "overwrite_button_bg_to_color_human": true,
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_wwJc96",
+        "text_3YjMrb",
+        "buttons_MamCAm"
+      ],
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/phase2_2.jpg",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 0,
+        "min_height": 80,
+        "min_height_px": 700,
+        "vertical_alignment": "items-end",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "progress_dGBzFw": {
+      "type": "progress",
+      "blocks": {
+        "step_VU8ccw": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/week1.jpg",
+            "title": "Week 1",
+            "caption": "Assymetric. Flattened right arch"
+          }
+        },
+        "step_exeMbg": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/week2.jpg",
+            "title": "Week 4",
+            "caption": "Toe Activation. Improved Symmetry"
+          }
+        },
+        "step_Fbi8FP": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/week3.jpg",
+            "title": "Week 7",
+            "caption": "Heel strike balancing. Restored Arch."
+          }
+        },
+        "step_UWwL4U": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/week4.jpg",
+            "title": "Week 12",
+            "caption": "Complete symmetry. Restored Arch."
+          }
+        }
+      },
+      "block_order": [
+        "step_VU8ccw",
+        "step_exeMbg",
+        "step_Fbi8FP",
+        "step_UWwL4U"
+      ],
+      "name": "Progression Images",
+      "settings": {
+        "heading": "Foot pressure map results after 12 weeks of Stride use with improved symmetry and arch structure.",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "line_arrow": "shopify://shop_images/line_arrow.jpg"
+      }
+    },
+    "image_banner_cjLjAn": {
+      "type": "image-banner",
+      "name": "Banner Image",
+      "settings": {
+        "image": "shopify://shop_images/human_foot_banner.jpg"
+      }
+    },
+    "image_text_row_update_HDKMyR": {
+      "type": "image-text-row-update",
+      "blocks": {
+        "text_jr4zGi": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Medial spot -> Medial Arch Activation</strong> Stimulates proprioceptors to support foot alignment and reduce overpronation.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_VTbrCR": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "text_6DKxBB": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Lateral spot → Lateral Stimulus Promotes</strong> controlled supination and ankle stability through targeted feedback.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_jJe3xz": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "text_Jc9YmA": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Metatarsal spot → Forefoot Propulsion</strong> Stimulus Engages foot flexors to enhance push-off strength and gait efficiency.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_gkbWd7": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "text_kKLtpR": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Under digital spot → Toe Flexor </strong>Engagement Encourages toe muscle activation to improve balance and grip.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "text_jr4zGi",
+        "spacer_VTbrCR",
+        "text_6DKxBB",
+        "spacer_jJe3xz",
+        "text_Jc9YmA",
+        "spacer_gkbWd7",
+        "text_kKLtpR"
+      ],
+      "name": "Image text row Update",
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "narrow",
+        "title": "Am I a<strong> Good Candidate?</strong>",
+        "description": "Sensorimotor orthotics are proven to help those with <em>Flat Feet, Plantar Fasciitis, Heel Spurs, Metatarsalgia, and Neuropathy, </em>among others. <a href=\"https://cdn.shopify.com/s/files/1/0578/4066/4640/files/Philosophy_and_improvements.pdf?v=1752464865\" title=\"https://cdn.shopify.com/s/files/1/0578/4066/4640/files/Philosophy_and_improvements.pdf?v=1752464865\"><strong>View Before/After Images from our German Lab.</strong></a>| | With every step, our insoles stimulate targeted nerves and muscles, promoting better alignment and helping your body build strength and stability where it’s needed most.",
+        "image": "shopify://shop_images/shoe_point.png",
+        "mobile_img_desc": "",
+        "aspect_ratio": "adapt",
+        "mobile_aspect_ratio": "adapt",
+        "object_fit": "object-contain",
+        "media_width": 60,
+        "color_scheme": "",
+        "color_scheme_body": "scheme-e6b0860f-fb86-4188-90a7-33e919db9b84",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "button_label": "Buy Sensorimotor Soles",
+        "button_url": "shopify://products/gift-card",
+        "overwrite_button_bg_to_color_human": false
+      }
+    },
+    "image_text_row_update_T3pXhm": {
+      "type": "image-text-row-update",
+      "blocks": {
+        "text_6mhBDm": {
+          "type": "text",
+          "settings": {
+            "text": "Unlike traditional orthotics, Strides stimulate a special receptor called the Golgi Tendon Apparatus. We craft your unique orthotics to induce small stretches along these receptors, triggering a cascade of signals that result in muscle and ligament remodeling. <a href=\"https://cdn.shopify.com/s/files/1/0578/4066/4640/files/Philosophy_and_improvements.pdf?v=1752464865\" title=\"https://cdn.shopify.com/s/files/1/0578/4066/4640/files/Philosophy_and_improvements.pdf?v=1752464865\"><strong>Read Real Customer Case Studies.</strong></a>",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_hTqQnm": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "text_4gVdmb": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>What does this mean for you? </strong>",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "spacer_zWqzaj": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 32,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": false
+          }
+        },
+        "text_4jUmUH": {
+          "type": "text",
+          "settings": {
+            "text": "Permanent pain relief and injury prevention through:",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "text_Ve9fNG": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>1)</strong> Reduction of asymmetry between the right and left foot.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "text_hK6Wzp": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>2)</strong> Improved arch height and strength",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "text_Q6XwPm": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>3)</strong> Bunion angle reduction…And so much more.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "text_6mhBDm",
+        "spacer_hTqQnm",
+        "text_4gVdmb",
+        "spacer_zWqzaj",
+        "text_4jUmUH",
+        "text_Ve9fNG",
+        "text_hK6Wzp",
+        "text_Q6XwPm"
+      ],
+      "name": "Image text row Update",
+      "settings": {
+        "reverse_columns": true,
+        "vertical_alignment": "items-center",
+        "container_size": "narrow",
+        "title": "Repeatable <strong>Results</strong>",
+        "description": "We see permanent changes, time and time again",
+        "image": "shopify://shop_images/before_after.png",
+        "mobile_image": "shopify://shop_images/before_after_mobile.jpg",
+        "mobile_img_desc": "(Top = Patient 1, 2, 3 Before) | (Bottom = Patient 1, 2, 3 After)",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-contain",
+        "media_width": 50,
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "color_scheme_body": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "button_label": "Buy Sensorimotor Soles",
+        "button_url": "",
+        "overwrite_button_bg_to_color_human": false
+      }
+    },
+    "call_to_action_ykCQiG": {
+      "type": "call-to-action",
+      "blocks": {
+        "icon_iJ9tep": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-check-circle.svg",
+            "icon_size": 82
+          }
+        },
+        "title_etcJww": {
+          "type": "title",
+          "settings": {
+            "title": "Ready to Try Sensorimotor Orthotics?",
+            "title_font_size": "text-h2"
+          }
+        },
+        "text_hjGck6": {
+          "type": "text",
+          "settings": {
+            "text": "With our 180 day money back guaranteed, now is the time to take back your foot health!"
+          }
+        },
+        "button_kMahNz": {
+          "type": "button",
+          "settings": {
+            "button_url": "shopify://products/sensorimotor-orthotics",
+            "button_label": "Buy Today",
+            "disclaimer": "Free Shipping",
+            "button_type": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_iJ9tep",
+        "title_etcJww",
+        "text_hjGck6",
+        "button_kMahNz"
+      ],
+      "name": "Call To Action",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "inner_color_scheme": "",
+        "enable_wrapper": true,
+        "enable_border_radius": true,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay_bQifbF",
+    "progress_dGBzFw",
+    "image_banner_cjLjAn",
+    "image_text_row_update_HDKMyR",
+    "image_text_row_update_T3pXhm",
+    "call_to_action_ykCQiG"
+  ]
+}

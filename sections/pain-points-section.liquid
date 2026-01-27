@@ -1,0 +1,283 @@
+{% style %}
+    .section-{{ section.id }} {
+      --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+      --custom-page-width: {{ section.settings.custom_page_width }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    }
+
+    .section-{{ section.id }} .page-width {
+      max-width: var(--custom-page-width);
+    }
+
+    @media screen and (max-width: 1024px) {
+    .section-{{ section.id }} .display-1 {
+      max-width: 385px;
+      margin: 0 auto;
+    }
+    }
+
+
+
+
+  @media screen and (min-width: 1024px) {
+    .section-{{ section.id }} .left-image {
+      aspect-ratio: 9/8;
+    }
+
+    .section-{{ section.id }} .lg\:grid-cols-2 {
+          grid-template-columns: 7fr 6fr;
+      }
+  }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{% endstyle %}
+
+<div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <!-- Top Title Section -->
+    <div class="mb-8 text-center lg:mb-10">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="text-slate/60 mb-3 text-sm font-medium tracking-widest uppercase">
+          {{ section.settings.eyebrow_text }}
+        </p>
+      {% endif %}
+
+      <h1 class="text-h1 text-black">
+        {{ section.settings.title }}
+      </h1>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-10">
+      <!-- Left Image -->
+      <div class="order-1 lg:order-1">
+        {% if section.settings.hero_image != blank %}
+          <div class="left-image bg-gray/5 aspect-[3/2] overflow-hidden rounded-2xl shadow-lg">
+            {{
+              section.settings.hero_image
+              | image_url: width: 800
+              | image_tag: alt: section.settings.title, class: 'w-full h-full object-cover'
+            }}
+          </div>
+        {% else %}
+          <div class="left-image bg-gray/10 flex aspect-[3/2] items-center justify-center rounded-2xl shadow-lg">
+            <p class="text-gray">Add an image</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right Content -->
+      <div class="order-2 lg:order-2">
+        {% if section.settings.description != blank %}
+          <p class="text-slate/70 mb-10 text-lg leading-relaxed lg:pr-8 lg:text-xl">
+            {{ section.settings.description }}
+          </p>
+        {% endif %}
+
+        <!-- Pain Points List -->
+        <div class="pain-points-list">
+          {%- for block in section.blocks -%}
+            <div
+              class="pain-point-item flex items-center gap-4 {% if forloop.last %}pb-0{% else %}pb-12{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.icon_image != blank %}
+                <div class="pain-point-icon mt-1 h-16 w-16 flex-shrink-0">
+                  {{
+                    block.settings.icon_image
+                    | image_url: width: 60
+                    | image_tag: alt: block.settings.title, class: 'w-full h-full object-contain'
+                  }}
+                </div>
+              {% else %}
+                <div class="pain-point-icon-placeholder bg-peach/20 mt-1 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg">
+                  <svg class="text-peach h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              {% endif %}
+
+              <div class="pain-point-content flex-1 pt-1">
+                <h3 class="text-h3 mb-0 font-semibold">
+                  {{ block.settings.title }}
+                </h3>
+                <p class="text-body-l text-slate/60 leading-relaxed">
+                  {{ block.settings.description }}
+                </p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <!-- Logo Badge -->
+        {% if section.settings.badge_image != blank %}
+          <div class="mt-12 flex justify-start">
+            {{
+              section.settings.badge_image
+              | image_url: width: 120
+              | image_tag: alt: 'Brand badge', class: 'h-12 w-auto opacity-80'
+            }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pain Points Hero",
+  "class": "section-pain-points-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "Does this Sound"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p><strong>Does this Sound</strong> Familiar?</p>",
+      "info": "Use <strong> tags for bold text and regular text for normal weight"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "If you're experiencing any of these issues, custom orthotics might be the solution you've been looking for."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_image",
+      "label": "Brand Badge"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "custom_page_width",
+      "min": 800,
+      "max": 1600,
+      "step": 10,
+      "unit": "px",
+      "label": "Custom page width",
+      "default": 1200,
+      "info": "Override the default page width for this section only"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pain_point",
+      "name": "Pain Point",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Sharp Heel Pain"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Especially in the morning"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pain Points Hero",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "pain_point",
+          "settings": {
+            "title": "Sharp Heel Pain",
+            "description": "Especially in the morning"
+          }
+        },
+        {
+          "type": "pain_point",
+          "settings": {
+            "title": "Achy Feet",
+            "description": "That gets worse as you stand"
+          }
+        },
+        {
+          "type": "pain_point",
+          "settings": {
+            "title": "An Endless Trial",
+            "description": "Of products that never last"
+          }
+        }
+      ],
+      "settings": {
+        "eyebrow_text": "Does this Sound",
+        "title": "<p><strong>Does this Sound</strong> Familiar?</p>",
+        "description": "If you're experiencing any of these issues, custom orthotics might be the solution you've been looking for."
+      }
+    }
+  ]
+}
+{% endschema %}

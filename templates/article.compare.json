@@ -1,0 +1,78 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article-compare",
+      "blocks": {
+        "gallery_whUMhg": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "pros_cons_9Hq9r4": {
+          "type": "pros_cons",
+          "settings": {}
+        },
+        "comparison_table_7VFFGL": {
+          "type": "comparison_table",
+          "settings": {
+            "show_expand_button": true,
+            "initial_rows": 5,
+            "expand_button_text": "See More",
+            "collapse_button_text": "See Less"
+          }
+        },
+        "table_of_contents_MYaxzz": {
+          "type": "table_of_contents",
+          "settings": {}
+        },
+        "sidebar_cta_aUNLyL": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": "scheme-5"
+          }
+        },
+        "sidebar_three_subsections_4aN3if": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "article_content_iFTxCV": {
+          "type": "article_content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "gallery_whUMhg",
+        "pros_cons_9Hq9r4",
+        "comparison_table_7VFFGL",
+        "table_of_contents_MYaxzz",
+        "sidebar_cta_aUNLyL",
+        "sidebar_three_subsections_4aN3if",
+        "article_content_iFTxCV"
+      ],
+      "name": "Main article w/comparison",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

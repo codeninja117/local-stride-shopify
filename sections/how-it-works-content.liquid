@@ -1,0 +1,593 @@
+<div class="how-it-works-content page-width">
+  <div class="section__header flex flex-col gap-30 pt-30 pb-10">
+    <div class="flex flex-col gap-6 lg:w-1/2">
+      <span class="text-muted uppercase">{{ section.settings.eyebrow_text }}</span>
+      <h2 class="text-4xl">{{ section.settings.title }}</h2>
+    </div>
+
+    <nav class="flex gap-2">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign title = block.settings.title | replace: '|', ' ' | replace: '<em>', '' | replace: '</em>' | replace: '<strong>', '' | replace: '</strong>', ''
+
+          assign title_handle = title | handleize
+        -%}
+        <a
+          href="#{{ title_handle }}"
+          class="overflow-hidden rounded-4xl bg-white/50 px-6 py-2 transition-colors duration-300 ease-in-out hover:bg-black hover:text-white"
+        >
+          {{- title -}}
+        </a>
+      {%- endfor -%}
+    </nav>
+  </div>
+
+  <div class="grid gap-6" role="list">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign title = block.settings.title | replace: '|', ' ' | replace: '<em>', '' | replace: '</em>' | replace: '<strong>', '' | replace: '</strong>', ''
+
+        assign title_handle = title | handleize
+      -%}
+      {%- case block.type -%}
+        {%- when 'phase_1' -%}
+          {% render 'phase-1', block: block, index: forloop.index %}
+        {%- when 'phase_2' -%}
+          {% render 'phase-2', block: block, index: forloop.index %}
+        {%- when 'phase_3' -%}
+          {% render 'phase-3', block: block, index: forloop.index %}
+        {%- when 'phase_4' -%}
+          {% render 'phase-4', block: block, index: forloop.index %}
+        {%- when 'phase_5' -%}
+          {% render 'phase-5', block: block, index: forloop.index %}
+        {%- else -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How-it-works content",
+  "class": "section-how-it-works-content",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Your scroll-to links will be auto-generated based on blocks arrangement below"
+    },
+    {
+      "type": "header",
+      "content": "Main content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "Healthier Feet today"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Your insoles won’t be custom in the typical sense – Stride collects tens of thousands of your data points, applies 200 years of podiatry expertise, and crafts hyper-personalized orthotics that strengthen your muscles, ligaments, and joints. It’s safe to say these aren’t your grandma’s orthotics."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "phase_1",
+      "name": "Phase #1",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Main content"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "medical",
+              "label": "Medical"
+            },
+            {
+              "value": "footprint",
+              "label": "Footprint"
+            },
+            {
+              "value": "lightbulb",
+              "label": "Lightbulb"
+            },
+            {
+              "value": "question",
+              "label": "Question"
+            }
+          ],
+          "default": "question"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<em>Intake</em>|Quiz",
+          "info": "Italic to lower opacity, | for line-break"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Your data drives every step of the design process. Contrary to popular belief, not all custom orthotics are made with the same level of rigor or clinical quality. So when we talk about custom orthotics, we prefer to be completely transparent about what that actually entails."
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "image_eyebrow_text",
+          "label": "Image eyebrow text",
+          "default": "Podiatrist-Designed Intake Quiz"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "image_text",
+          "label": "Image text",
+          "default": "Our award-winning team of podiatrists developed our intake quiz to be as detailed and exhaustive as possible without taking more than a few minutes to complete. It mirrors the exact questionnaire required for in-person visits to top podiatry clinics but with a few adjustments that add even more customization."
+        },
+        {
+          "type": "header",
+          "content": "Patient"
+        },
+        {
+          "type": "image_picker",
+          "id": "patient_banner_image",
+          "label": "Patient banner image"
+        },
+        {
+          "type": "image_picker",
+          "id": "patient_image",
+          "label": "Patient image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "patient_name",
+          "label": "Patient name",
+          "default": "Gregory Gerla"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "patient_age",
+          "label": "Patient age",
+          "default": "Age 32"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "patient_notes",
+          "label": "Patient notes",
+          "default": "I have pain in the arch of my feet from flat feet. As a lifelong athlete I’d love to get back into running again."
+        }
+      ]
+    },
+    {
+      "type": "phase_2",
+      "name": "Phase #2",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Main content"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "medical",
+              "label": "Medical"
+            },
+            {
+              "value": "footprint",
+              "label": "Footprint"
+            },
+            {
+              "value": "lightbulb",
+              "label": "Lightbulb"
+            },
+            {
+              "value": "question",
+              "label": "Question"
+            }
+          ],
+          "default": "question"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<em>Foot Scan &</em>|Gait Analysis",
+          "info": "Italic to lower opacity, | for line-break"
+        },
+        {
+          "type": "image_picker",
+          "id": "phone_image",
+          "label": "Phone image"
+        },
+        {
+          "type": "image_picker",
+          "id": "other_image",
+          "label": "Other image"
+        },
+        {
+          "type": "header",
+          "content": "Item #1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_1_eyebrow_text",
+          "label": "Item #1 eyebrow text",
+          "default": "Stride’s 3D Foot Scan Unlocks Extreme Customization"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_1_text",
+          "label": "Item #1 text",
+          "default": "Our proprietary IOS app uses leading-edge technology (think Apple Face ID) to capture millions of data points that map the micro-counters of your feet down to the sub-millimeter level, rendering the highest-quality 3D model of any orthotic design process."
+        },
+        {
+          "type": "header",
+          "content": "Item #2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_2_eyebrow_text",
+          "label": "Item #2 eyebrow text",
+          "default": "Stride’s Gait Analysis Completes Your Data Collection"
+        },
+        {
+          "type": "richtext",
+          "id": "item_2_text",
+          "label": "Item #2 text",
+          "default": "<p>The human gait is a complex mechanical motion. Your gait starts at your heel and finishes at your toes, involving your entire body in every step. Part of the problem with the passive support of off-the-shelf insoles is that they don’t realign the body to improve the gait. If anything, they make your issues worse.</p><p>In addition to high-fidelity 3D scans, our app enables you to record a short video of you walking. This simple step provides abundant data for our podiatrists to use when crafting your custom pair of orthotics.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Item #3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "item_3_text",
+          "label": "Item #3 text",
+          "default": "If your custom orthotics don’t require a 3D foot scan and gait analysis, they’re nowhere near as custom as they should be if you seek significant, lasting health outcomes. The perfect pair of personalized orthotics requires a highly accurate 3D model of your foot and a deep understanding of your underlying biomechanics."
+        },
+        {
+          "type": "header",
+          "content": "Callouts"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_1_title",
+          "label": "Callout #1",
+          "default": "Easy to Use"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_1_text",
+          "label": "Callout #1 text",
+          "default": "Effortlessly scan your feet in minutes – you get as many attempts as you’d like."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_title",
+          "label": "Callout #2",
+          "default": "World-Class Tech"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_text",
+          "label": "Callout #2 text",
+          "default": "Leverage the same 3D scanning tech used by the world’s top doctors and podiatrists."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_title",
+          "label": "Callout #3",
+          "default": "The Perfect Position"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_text",
+          "label": "Callout #3 text",
+          "default": "Our AI software virtually adjusts your model into a subtalar neutral position - the gold standard for orthotic casting."
+        },
+        {
+          "type": "header",
+          "content": "CTA"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Get Started"
+        }
+      ]
+    },
+    {
+      "type": "phase_3",
+      "name": "Phase #3",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "medical",
+              "label": "Medical"
+            },
+            {
+              "value": "footprint",
+              "label": "Footprint"
+            },
+            {
+              "value": "lightbulb",
+              "label": "Lightbulb"
+            },
+            {
+              "value": "question",
+              "label": "Question"
+            }
+          ],
+          "default": "question"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<em>Custom</em>|Orthotics Design",
+          "info": "Italic to lower opacity, | for line-break"
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "image_eyebrow_text",
+          "label": "Image eyebrow text",
+          "default": "The 30-Hour Design Process Behind Your Custom Orthotics"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "image_text",
+          "label": "Image text",
+          "default": "Our team of expert podiatrists take over after your 3D model is initially processed to review your orthotic design with all of your data in hand. They introduce cushioning and hard plates, adjust thickness and malleability, and reshape the insole's curvature for plantar corrections. This process ensures that your orthotic is of clinical grade and meets all your specific needs and preferences, providing targeted muscle stimulation and the best possible support for your hard-working feet."
+        },
+        {
+          "type": "header",
+          "content": "CTA"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Get Started"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "disclaimers",
+          "label": "Disclaimers",
+          "default": "Free Shipping|No-risk money-back guarantee",
+          "info": "| for line-break"
+        }
+      ]
+    },
+    {
+      "type": "phase_4",
+      "name": "Phase #4",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "medical",
+              "label": "Medical"
+            },
+            {
+              "value": "footprint",
+              "label": "Footprint"
+            },
+            {
+              "value": "lightbulb",
+              "label": "Lightbulb"
+            },
+            {
+              "value": "question",
+              "label": "Question"
+            }
+          ],
+          "default": "question"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<em>Personalized</em>|Orthotic Production",
+          "info": "Italic to lower opacity, | for line-break"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Once your custom orthotics pass their final quality check, they go to print. Our additive 3D printing approach is truly a game-changer in guaranteeing clinical quality. Techniques like milling and injection casting offer limited control over the variability of an orthotic’s density and shape, resulting in passive support instead of the active stimulation for which Stride strives."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Callouts"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_1_title",
+          "label": "Callout #1",
+          "default": "PowerGrid Design"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_1_text",
+          "label": "Callout #1 text",
+          "default": "The lattice-based design incorporates cushioning, rigidity, flexibility, and propulsive rebound into your orthotics in one continuous print."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_title",
+          "label": "Callout #2",
+          "default": "97% More Sustainable"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_text",
+          "label": "Callout #2 text",
+          "default": "3D printing cuts down on wasted material by an incredible 97% compared to traditional orthotics. "
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_title",
+          "label": "Callout #3",
+          "default": "Premium Materials"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_text",
+          "label": "Callout #3 text",
+          "default": "We use highly durable materials, like TPU bioplastic and vegan leather, to craft your personalized pair."
+        },
+        {
+          "type": "header",
+          "content": "CTA"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Get Started"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "disclaimers",
+          "label": "Disclaimers",
+          "default": "Free Shipping|No-risk money-back guarantee",
+          "info": "| for line-break"
+        }
+      ]
+    },
+    {
+      "type": "phase_5",
+      "name": "Phase #5",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "medical",
+              "label": "Medical"
+            },
+            {
+              "value": "footprint",
+              "label": "Footprint"
+            },
+            {
+              "value": "lightbulb",
+              "label": "Lightbulb"
+            },
+            {
+              "value": "question",
+              "label": "Question"
+            }
+          ],
+          "default": "question"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<em>Rapid</em>|Delivery",
+          "info": "Italic to lower opacity, | for line-break"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "<p>While we estimate a three-week delivery window to account for the unpredictable, don’t be surprised to receive your orthotics within 10 days of submitting your order.</p><p>Our service is speedy, but we don’t use that as an excuse to sacrifice quality. Choosing Stride is equivalent to working with Germany’s top podiatrists from the comfort of your home. Stride combines best-of-breed podiatry expertise with state-of-the-art technology to bring premium, hand-crafted orthotics to your front door.</p>"
+        },
+        {
+          "type": "header",
+          "content": "CTA"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Get Started"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "disclaimers",
+          "label": "Disclaimers",
+          "default": "Free Shipping|No-risk money-back guarantee",
+          "info": "| for line-break"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How-it-works content",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,507 @@
+{%- style -%}
+  #shopify-section-{{ section.id }},
+  .section-{{ section.id }}-main {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    {%- if section.settings.background_color != blank -%}
+      background-color: {{ section.settings.background_color }};
+    {%- endif -%}
+    {%- if section.settings.text_color != blank -%}
+      color: {{ section.settings.text_color }};
+    {%- endif -%}
+  }
+
+  .section-{{ section.id }}-main .text-h1 {
+    font-weight: 300;
+  }
+
+  .section-{{ section.id }}-main .text-h1 strong {
+    font-weight: 500;
+  }
+
+  .section-{{ section.id }}-main .text-body-l {
+    color: #D3D7DB;
+  }
+
+  .section-{{ section.id }}-main .video-container {
+    aspect-ratio: 14/23;
+    max-height: 460px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main .video-container {
+      width: 280px;
+      height: 460px;
+      flex-shrink: 0;
+    }
+
+    .section-{{ section.id }}-main .swiper-slide {
+      width: 280px !important;
+      flex-shrink: 0;
+    }
+  }
+
+
+
+
+
+
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-main gradient relative overflow-hidden color-{{ section.settings.color_scheme }}">
+  <div class="section__main ">
+    <div class="section__header text-center">
+      {%- if section.settings.trustpilot_summary != blank -%}
+        <div class="featured-reviews-carousel__review-stars text-button-accent mb-8 flex flex-nowrap items-center justify-center gap-1 md:mb-10">
+          <div class="w-80">
+            {{
+              section.settings.trustpilot_summary
+              | image_url: width: 640
+              | image_tag: alt: section.settings.title, class: 'h-auto w-full object-contain'
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-h1 mb-2 capitalize md:mb-4">
+          {{
+            section.settings.title
+            | replace: '<i>', '<span class="">'
+            | replace: '</i>', '</span>'
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+          }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="text-body-l">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="section__content">
+      {% comment %} Check if we have video blocks {% endcomment %}
+      {% assign has_video_reviews = false %}
+      {% for block in section.blocks %}
+        {% if block.type == 'video-review' %}
+          {% assign has_video_reviews = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} Check if we have text blocks {% endcomment %}
+      {% assign has_text_reviews = false %}
+      {% for block in section.blocks %}
+        {% if block.type == 'text-review' %}
+          {% assign has_text_reviews = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% case true %}
+        {% when has_video_reviews %}
+          {% comment %} Render video reviews carousel {% endcomment %}
+          <reviews-carousel-text
+            class="swiper !overflow-visible"
+            data-pagination="fraction"
+            data-navigation
+            data-slides-per-view="auto"
+            data-centered-slides="false"
+            data-space-between="16"
+          >
+            <div class="swiper-wrapper">
+              {%- for block in section.blocks -%}
+                {% if block.type == 'video-review' %}
+                  <div class="swiper-slide !h-auto" {{ block.shopify_attributes }}>
+                    <article class="flex h-full flex-col gap-4 overflow-hidden rounded-xl ">
+                      <div class="video-container relative overflow-hidden">
+                        {{
+                          block.settings.video
+                          | video_tag:
+                            class: 'h-full w-full object-cover rounded-lg cursor-pointer',
+                            image_size: '400x',
+                            autoplay: false,
+                            loop: false,
+                            controls: false,
+                            muted: false
+                        }}
+                        <button
+                          class="absolute inset-0 flex items-center justify-center rounded-lg bg-black/20 transition-colors duration-200 hover:bg-black/30"
+                          onclick="playVideo(this);"
+                          aria-label="Play video"
+                        >
+                          <img
+                            src="{{ 'playIcon.png' | asset_url }}"
+                            alt="Play"
+                            class="h-16 w-16 opacity-90"
+                            width="64"
+                            height="64"
+                          >
+                        </button>
+                      </div>
+                    </article>
+                  </div>
+                {% endif %}
+              {%- endfor -%}
+            </div>
+
+            {% render 'carousel-navigation' %}
+          </reviews-carousel-text>
+
+        {% when has_text_reviews %}
+          {% comment %} Render text reviews carousel {% endcomment %}
+          <reviews-carousel-text
+            class="swiper !overflow-visible"
+            data-pagination="fraction"
+            data-navigation
+            data-slides-per-view="auto"
+            data-centered-slides="false"
+            data-space-between="16"
+          >
+            <div class="swiper-wrapper">
+              {%- for block in section.blocks -%}
+                {% if block.type == 'text-review' %}
+                  <div class="swiper-slide !h-auto" {{ block.shopify_attributes }}>
+                    <article class="flex h-full flex-col gap-4 overflow-hidden rounded-xl border border-[rgba(var(--color-foreground),0.1)] bg-white">
+                      <div class="flex flex-1 flex-col gap-2"></div>
+                    </article>
+                  </div>
+                {% endif %}
+              {%- endfor -%}
+            </div>
+
+            {% render 'carousel-navigation' %}
+          </reviews-carousel-text>
+
+        {% else %}
+          {% comment %} Render mixed content carousel {% endcomment %}
+          <reviews-carousel-text
+            class="swiper !overflow-visible"
+            data-pagination="fraction"
+            data-navigation
+            data-slides-per-view="auto"
+            data-centered-slides="false"
+            data-space-between="16"
+          >
+            <div class="swiper-wrapper">
+              {%- for block in section.blocks -%}
+                <div class="swiper-slide !h-auto" {{ block.shopify_attributes }}>
+                  {% case block.type %}
+                    {% when 'video-review' %}
+                      <article class="flex h-full flex-col gap-4 overflow-hidden rounded-xl border border-[rgba(var(--color-foreground),0.1)] bg-white">
+                        <div class="video-container relative overflow-hidden">
+                          {{
+                            block.settings.video
+                            | video_tag:
+                              class: 'h-full w-full object-cover rounded-lg cursor-pointer',
+                              image_size: '400x',
+                              autoplay: false,
+                              loop: false,
+                              controls: false,
+                              muted: false
+                          }}
+                          <button
+                            class="absolute inset-0 flex items-center justify-center rounded-lg bg-black/20 transition-colors duration-200 hover:bg-black/30"
+                            onclick="playVideo(this);"
+                            aria-label="Play video"
+                          >
+                            <img
+                              src="{{ 'playIcon.png' | asset_url }}"
+                              alt="Play"
+                              class="h-16 w-16 opacity-90"
+                              width="64"
+                              height="64"
+                            >
+                          </button>
+                        </div>
+                      </article>
+
+                    {% when 'text-review' %}
+                      <article class="flex h-full flex-col gap-4 overflow-hidden rounded-xl border border-[rgba(var(--color-foreground),0.1)] bg-white">
+                        <div class="flex flex-1 flex-col gap-2"></div>
+                      </article>
+                  {% endcase %}
+                </div>
+              {%- endfor -%}
+            </div>
+
+            {% render 'carousel-navigation' %}
+          </reviews-carousel-text>
+      {% endcase %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review Carousel Aug 25",
+  "class": "section-review-carousel-aug-25",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Real Results from Real People <em>Aug 25</em>"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Over 40,000 Happy Customers"
+    },
+    {
+      "type": "image_picker",
+      "id": "trustpilot_summary",
+      "label": "Trustpilot summary image",
+      "info": "Upload the Trustpilot rating image"
+    },
+    {
+      "type": "url",
+      "id": "trust_pilot_url",
+      "label": "Trustpilot URL",
+      "info": "Link to your Trustpilot page"
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view",
+      "min": 1,
+      "max": 6,
+      "step": 0.1,
+      "label": "Slides per view",
+      "default": 4.2,
+      "info": "Number of slides visible at once"
+    },
+    {
+      "type": "range",
+      "id": "carousel_width",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "label": "Carousel width",
+      "default": 5,
+      "info": "Number of video thumbnails visible in the carousel"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "info": "Overrides color scheme background if set"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "info": "Overrides color scheme text color if set"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video-review",
+      "name": "Video Review",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video file"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster",
+          "label": "Video poster image",
+          "info": "Thumbnail image for the video"
+        }
+      ]
+    },
+    {
+      "type": "text-review",
+      "name": "Text Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Customer name",
+          "default": "Customer Name"
+        },
+        {
+          "type": "text",
+          "id": "review",
+          "label": "Review text",
+          "default": "Amazing product! It has completely changed how I view custom footwear."
+        },
+        {
+          "type": "text",
+          "id": "review_date",
+          "label": "Review date",
+          "default": "August 25, 2025"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review Carousel Aug 25",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "video-review",
+          "settings": {}
+        },
+        {
+          "type": "video-review",
+          "settings": {}
+        },
+        {
+          "type": "video-review",
+          "settings": {}
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  function playVideo(button) {
+    // Get all videos in this section
+    const section = button.closest('.section-{{ section.id }}-main');
+    const allVideos = section.querySelectorAll('video');
+    const currentVideo = button.previousElementSibling;
+
+    // Pause all other videos
+    allVideos.forEach((video) => {
+      if (video !== currentVideo) {
+        video.pause();
+        // Show play button for other videos
+        const otherButton = video.nextElementSibling;
+        if (otherButton && otherButton.tagName === 'BUTTON') {
+          otherButton.style.display = 'flex';
+        }
+      }
+    });
+
+    // Play current video and hide its play button
+    currentVideo.play();
+    button.style.display = 'none';
+
+    // Listen for when video ends to show play button again
+    currentVideo.addEventListener(
+      'ended',
+      function () {
+        button.style.display = 'flex';
+      },
+      { once: true },
+    );
+  }
+
+  // Add click functionality to all videos
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.querySelector('.section-{{ section.id }}-main');
+    if (section) {
+      const videos = section.querySelectorAll('video');
+      videos.forEach((video) => {
+        video.addEventListener('click', function () {
+          if (this.paused) {
+            // If video is paused, play it and hide play button
+            const button = this.nextElementSibling;
+            if (button && button.tagName === 'BUTTON') {
+              button.style.display = 'none';
+            }
+            this.play();
+          } else {
+            // If video is playing, pause it and show play button
+            this.pause();
+            const button = this.nextElementSibling;
+            if (button && button.tagName === 'BUTTON') {
+              button.style.display = 'flex';
+            }
+          }
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  .section-{{ section.id }}-main .ui-carousel-next {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: white;
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  .section-{{ section.id }}-main .ui-carousel-next svg {
+    stroke: black;
+  }
+
+  .section-{{ section.id }}-main .ui-carousel-prev {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .section-{{ section.id }}-main .ui-carousel-next {
+      display: none;
+    }
+  }
+</style>

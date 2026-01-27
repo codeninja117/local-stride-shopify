@@ -1,0 +1,413 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#E2E2E2' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    background-color: {{ section.settings.background_color | default: '#E2E2E2' }};
+    color: {{ section.settings.text_color | default: '#000000' }};
+  }
+
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+    }
+  }
+{%- endstyle -%}
+
+<div class="compare-features bg-slate relative overflow-hidden py-20 text-white">
+  <div class="page-width">
+    <div class="compare-features__content flex flex-col gap-20 lg:flex-row">
+      <div class="compare-features__header flex flex-col gap-6 md:w-1/2 lg:w-1/3">
+        <h2 class="display inline flex-col text-5xl lg:text-6xl">
+          <span class="leading-[1.1]">{{ section.settings.title | newline_to_br | strip }}</span>
+          <span class="leading-[1.1]">{{ section.settings.title_line_2 | newline_to_br | strip }}</span>
+        </h2>
+
+        {%- if section.settings.text != blank -%}
+          <div class="rte flex flex-col gap-4">
+            {% assign text_processed = section.settings.text | strip %}
+            {% if text_processed contains '<i>' or text_processed contains '<em>' %}
+              {{
+                text_processed
+                | replace: '<i>', '<span class="opacity-30">'
+                | replace: '</i>', '</span>'
+                | replace: '<em>', '<span class="opacity-30">'
+                | replace: '</em>', '</span>'
+              }}
+            {% else %}
+              {{ text_processed }}
+            {% endif %}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.caption == blank -%}
+          <div>
+            {% render 'button', type: 'a', variant: 'secondary', text: section.settings.button_label %}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div
+        class="compare-features__table -mx-5 flex flex-1 snap-x snap-mandatory gap-2 overflow-x-auto pr-4 pb-10 whitespace-nowrap lg:gap-4 lg:overflow-x-hidden"
+        role="region"
+        aria-label="Brand Comparison Table, Stride vs Upstep vs Podiatrist"
+      >
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'header' -%}
+              <div
+                class="compare-features__table-header flex snap-center items-end justify-end p-6 text-sm opacity-50"
+                role="rowheader"
+              >
+                <ul class="flex flex-col gap-6" aria-label="Features">
+                  <li class="min-h-7" id="{{ block.settings.option_1 | handleize }}">
+                    {{ block.settings.option_1 }}
+                  </li>
+                  <li class="min-h-7" id="{{ block.settings.option_2 | handleize }}">
+                    {{ block.settings.option_2 }}
+                  </li>
+                  <li class="min-h-7" id="{{ block.settings.option_3 | handleize }}">
+                    {{ block.settings.option_3 }}
+                  </li>
+                  <li class="min-h-7" id="{{ block.settings.option_4 | handleize }}">
+                    {{ block.settings.option_4 }}
+                  </li>
+                  <li class="min-h-7" id="{{ block.settings.option_5 | handleize }}">
+                    {{ block.settings.option_5 }}
+                  </li>
+                  <li class="min-h-7" id="{{ block.settings.option_6 | handleize }}">
+                    {{ block.settings.option_6 }}
+                  </li>
+                </ul>
+              </div>
+            {%- when 'company' -%}
+              <div
+                class="compare-features__table-column flex min-w-42  snap-center flex-col justify-between gap-10 overflow-hidden rounded-xl bg-white p-6 text-[#202020] md:flex-1 lg:min-w-auto {% if block.settings.title == 'Stride' %}bg-white{% else %}bg-white/20 text-white{% endif %}"
+              >
+                <div class="compare-features__column-header flex justify-center" role="rowheader">
+                  {%- if block.settings.logo != blank -%}
+                    {{ block.settings.logo | image_url: width: 120 | image_tag: alt: block.settings.title }}
+                    <div class="sr-only">{{ block.settings.title }}</div>
+                  {%- else -%}
+                    <h3 id="{{ block.settings.title | handleize }}-heading" class="text-lg">
+                      {{ block.settings.title }}
+                    </h3>
+                  {%- endif -%}
+                </div>
+
+                <ul
+                  class="flex flex-col items-center gap-6 text-center"
+                  aria-labelledby="{{ block.settings.title | handleize }}-heading"
+                >
+                  <li
+                    class="h-7"
+                    aria-label="{{ block.settings.option_1_label }}"
+                    aria-labelledby="{{ block.settings.option_1_label | handleize }} {{ block.settings.title | handleize }}"
+                  >
+                    {% render 'svg-comparisons', variant: block.settings.option_1, class: 'h-7 w-7' %}
+
+                    <span class="sr-only">{{ block.settings.option_1_label }}: {{ block.settings.option_1 }}</span>
+                  </li>
+                  <li
+                    class="h-7"
+                    aria-label="{{ block.settings.option_2_label }}"
+                    aria-labelledby="{{ block.settings.option_2_label | handleize }} {{ block.settings.title | handleize }}"
+                  >
+                    {{ block.settings.option_2 }}
+
+                    <span class="sr-only">{{ block.settings.option_2_label }}: {{ block.settings.option_2 }}</span>
+                  </li>
+                  <li
+                    class="h-7"
+                    aria-label="{{ block.settings.option_3_label }}"
+                    aria-labelledby="{{ block.settings.option_3_label | handleize }} {{ block.settings.title | handleize }}"
+                  >
+                    {{ block.settings.option_3 }}
+
+                    <span class="sr-only">{{ block.settings.option_3_label }}: {{ block.settings.option_3 }}</span>
+                  </li>
+                  <li
+                    class="h-7"
+                    aria-label="{{ block.settings.option_4_label }}"
+                    aria-labelledby="{{ block.settings.option_4_label | handleize }} {{ block.settings.title | handleize }}"
+                  >
+                    {{ block.settings.option_4 }}
+
+                    <span class="sr-only">{{ block.settings.option_4_label }}: {{ block.settings.option_4 }}</span>
+                  </li>
+                  <li
+                    class="h-7"
+                    aria-label="{{ block.settings.option_5_label }}"
+                    aria-labelledby="{{ block.settings.option_5_label | handleize }} {{ block.settings.title | handleize }}"
+                  >
+                    {{ block.settings.option_5 }}
+
+                    <span class="sr-only">{{ block.settings.option_5_label }}: {{ block.settings.option_5 }}</span>
+                  </li>
+                  <li
+                    class="h-7"
+                    aria-label="{{ block.settings.option_6_label }}"
+                    aria-labelledby="{{ block.settings.option_6_label | handleize }} {{ block.settings.title | handleize }}"
+                  >
+                    {{ block.settings.option_6 }}
+
+                    <span class="sr-only">{{ block.settings.option_6_label }}: {{ block.settings.option_6 }}</span>
+                  </li>
+                </ul>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.caption != blank -%}
+      <div class="compare-features__footer flex flex-1 flex-col justify-between gap-8 md:flex-row md:items-center md:gap-4">
+        <p class="">{{ section.settings.caption | newline_to_br | strip }}</p>
+
+        {% render 'button', type: 'a', variant: 'secondary', text: section.settings.button_label %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Compare table II",
+  "class": "section-how-it-works-compare-table",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title with opacity",
+      "default": "Stride's Superior\nSolution Offers the"
+    },
+    {
+      "type": "textarea",
+      "id": "title_line_2",
+      "label": "Title line 2",
+      "default": "Best of Both\nWorlds"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>With our revolutionary 3D scanner app, we bring down the time needed to order to mere minutes.</p><p>Compared to the hassle and time needed to for a doctor’s appointmentset up and visit a doctor, or the days of waiting for a foam box to arrive and then ship back, and you’ll see why customers love how the convenience ofconvenient Stride Soles</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "caption",
+      "label": "Caption",
+      "default": "Free shipping\n90-day money-back guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#7b8794"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header",
+      "name": "Header",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "option_1",
+          "label": "option 1",
+          "default": "Order in minutes"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_2",
+          "label": "option 2",
+          "default": "Shipping Time (Days)"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_3",
+          "label": "option 3",
+          "default": "Gait Analysis"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_4",
+          "label": "option 4",
+          "default": "Price"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_5",
+          "label": "option 5",
+          "default": "Waste material per pair"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_6",
+          "label": "option 6",
+          "default": "Weight"
+        }
+      ]
+    },
+    {
+      "type": "company",
+      "name": "Company",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo",
+          "info": "Overrides title text if set"
+        },
+        {
+          "type": "header",
+          "content": "Option 1"
+        },
+        {
+          "type": "text",
+          "id": "option_1_label",
+          "label": "Option 1 label",
+          "default": "Order in minutes",
+          "info": "For accessibility and seo"
+        },
+        {
+          "type": "select",
+          "id": "option_1",
+          "label": "Option 1",
+          "options": [
+            {
+              "value": "yes",
+              "label": "yes"
+            },
+            {
+              "value": "no",
+              "label": "no"
+            },
+            {
+              "value": "sometimes",
+              "label": "sometimes"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Option 2"
+        },
+        {
+          "type": "text",
+          "id": "option_2_label",
+          "label": "Option 2 label",
+          "default": "Shipping Time (Days)",
+          "info": "For accessibility and seo"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_2",
+          "label": "Option 2"
+        },
+        {
+          "type": "header",
+          "content": "Option 3"
+        },
+        {
+          "type": "text",
+          "id": "option_3_label",
+          "label": "Option 3 label",
+          "default": "Gait Analysis",
+          "info": "For accessibility and seo"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_3",
+          "label": "Option 3"
+        },
+        {
+          "type": "header",
+          "content": "Option 4"
+        },
+        {
+          "type": "text",
+          "id": "option_4_label",
+          "label": "Option 4 label",
+          "default": "Price",
+          "info": "For accessibility and seo"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_4",
+          "label": "Option 4"
+        },
+        {
+          "type": "header",
+          "content": "Option 5"
+        },
+        {
+          "type": "text",
+          "id": "option_5_label",
+          "label": "Option 5 label",
+          "default": "Waste material per pair",
+          "info": "For accessibility and seo"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_5",
+          "label": "Option 5"
+        },
+        {
+          "type": "header",
+          "content": "Option 6"
+        },
+        {
+          "type": "text",
+          "id": "option_6_label",
+          "label": "Option 6 label",
+          "default": "Weight",
+          "info": "For accessibility and seo"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "option_6",
+          "label": "Option 6"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Compare table II",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

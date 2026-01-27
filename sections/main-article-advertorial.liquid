@@ -1,0 +1,602 @@
+{% style %}
+  /* Adjust 100px based on your header height */
+  h2[id] {
+    scroll-margin-top: 200px;
+  }
+{% endstyle %}
+<style>
+  @media (min-width: 1024px) {
+    .article__body {
+      grid-template-columns: 1fr; 
+    }
+  }
+  #shopify-section-{{ section.id }} .article__body {
+    max-width: 1153px;
+  }
+  .article__related {
+    display: none;
+  }
+  .breadcrumb,
+  .header__icon--cart,
+  .sidebar-right,
+  .site-header .header__nav {
+    display: none;
+  }
+</style>
+<article class="main-article-1 pt-18 lg:pt-36">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const articleContent = document.querySelector('.article-content-block');
+      const doctorSection = document.querySelector('.section-doctor-testimonial-carousel');
+      const testimonialsSection = document.querySelector('section.section-testimonials-multicolumn');
+      const howItWorksSection = document.querySelector('section.how-stride-works-advertorial');
+      
+      // Insert doctor testimonials section
+      if (articleContent && doctorSection && articleContent.innerHTML.includes('<!-- INSERT_DOCTOR_TESTIMONIALS -->')) {
+        articleContent.innerHTML = articleContent.innerHTML.replace(
+          '<!-- INSERT_DOCTOR_TESTIMONIALS -->', 
+          doctorSection.outerHTML
+        );
+        doctorSection.remove();
+      }
+      
+      // Insert customer testimonials section right after
+      if (articleContent && testimonialsSection) {
+        // Find where the doctor section was just inserted and add testimonials after it
+        const doctorSectionInContent = articleContent.querySelector('.section-doctor-testimonial-carousel');
+        if (doctorSectionInContent) {
+          doctorSectionInContent.insertAdjacentHTML('afterend', testimonialsSection.outerHTML);
+          testimonialsSection.remove();
+        }
+      }
+          // Insert how stride works section at three steps insertion point
+      if (articleContent && howItWorksSection && articleContent.innerHTML.includes('<!-- three_steps_insertion_point -->')) {
+        articleContent.innerHTML = articleContent.innerHTML.replace(
+          '<!-- three_steps_insertion_point -->',
+          howItWorksSection.outerHTML
+        );
+        howItWorksSection.remove();
+      }
+    });
+  </script>
+  <div class="article__body page-width grid gap-6 pt-8 md:gap-6 lg:grid-cols-[1fr_280px]">
+    {%- comment -%} TOC Sidebar {%- endcomment -%}
+     {%- comment -%}
+       Advertorial article doesn't use TOC
+    <aside>
+      <div class="sticky top-4 z-100">
+        {% render 'toc-scroll-highlighting' %}
+      </div>
+    </aside>
+     {%- endcomment -%}
+
+    {% comment %}
+      <div class="article__body page-width page-width--narrow grid gap-6 pt-8 md:gap-10 lg:grid-cols-[1fr_340px]">
+        <div class="flex flex-col gap-8 lg:gap-12">
+          {% # theme-check-disable %}
+          {%- liquid
+            assign article_content = article.content
+            assign h2_segments = article_content | split: '<h2'
+            assign toc_items = ''
+            assign processed_content = ''
+
+            # Process each segment to build TOC and add IDs
+            for segment in h2_segments
+              if forloop.first
+                assign processed_content = segment
+              else
+                if segment contains '</h2>'
+                  # Split the segment into parts
+                  assign h2_parts = segment | split: '>'
+                  assign h2_attrs = h2_parts.first
+                  assign h2_remainder = segment | remove_first: h2_attrs | remove_first: '>'
+
+                  # Extract clean text from between H2 tags
+                  assign h2_content = h2_remainder | split: '</h2>' | first
+                  assign h2_text = h2_content | strip_html | strip
+
+                  if h2_text != ''
+                    # Create ID from text
+                    assign h2_id = h2_text | handleize | prepend: 'toc-'
+
+                    # Add to TOC
+                    assign toc_items = toc_items | append: '<li><a href="#' | append: h2_id | append: '">' | append: h2_text | append: '</a></li>'
+
+                    # Rebuild H2 with ID while preserving existing attributes
+                    assign new_h2 = '<h2 id="' | append: h2_id | append: '" ' | append: h2_attrs | append: '>' | append: h2_remainder
+                    assign processed_content = processed_content | append: new_h2
+                  else
+                    # If no text found, just rebuild original H2
+                    assign processed_content = processed_content | append: '<h2' | append: segment
+                  endif
+                else
+                  # If no closing H2 tag, just rebuild original
+                  assign processed_content = processed_content | append: '<h2' | append: segment
+                endif
+              endif
+            endfor
+
+            # Check if we need to inject CTAs
+            assign has_cta = false
+            if article.metafields.custom.inline_cta.value and processed_content contains '[article_inline_cta]'
+              assign has_cta = true
+              assign content_parts = processed_content | split: '[article_inline_cta]'
+            endif
+          -%}
+          {% # theme-check-enable %}
+
+          {%- if toc_items != '' -%}
+            <div class="toc rounded-lg bg-black/5 p-4 lg:p-6">
+              <h2 class="text-h2 mt-0 mb-4"><span class="text-[#9D9FA9]">Table of</span> Contents:</h2>
+              <ul class="ml-6 list-decimal space-y-2" style="list-style: decimal;">
+                {{ toc_items }}
+              </ul>
+            </div>
+          {%- endif -%}
+          <script>
+            // TOC Accordion JavaScript
+            document.addEventListener('DOMContentLoaded', function () {
+              const tocContainer = document.querySelector('.toc');
+              if (!tocContainer) return;
+
+              const tocHeader = tocContainer.querySelector('h2');
+              const tocList = tocContainer.querySelector('ul');
+
+              if (!tocHeader || !tocList) return;
+
+              // Create chevron icon
+              const chevron = document.createElement('div');
+              chevron.className = 'toc-chevron';
+              chevron.innerHTML = `
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 100%; height: 100%;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                `;
+
+              tocHeader.appendChild(chevron);
+              tocList.classList.remove('expanded');
+
+              let isExpanded = false;
+
+              tocHeader.addEventListener('click', function (e) {
+                if (e.target.tagName !== 'A') {
+                  e.preventDefault();
+                  isExpanded = !isExpanded;
+                  tocList.classList.toggle('expanded', isExpanded);
+                  chevron.classList.toggle('expanded', isExpanded);
+                  tocHeader.setAttribute('aria-expanded', isExpanded);
+                }
+              });
+
+              tocHeader.setAttribute('role', 'button');
+              tocHeader.setAttribute('aria-expanded', 'false');
+              tocHeader.setAttribute('tabindex', '0');
+
+              tocHeader.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  tocHeader.click();
+                }
+              });
+            });
+          </script>
+
+          <div class="prose max-w-none">
+            {% if has_cta %}
+              {% for part in content_parts %}
+                {{ part }}
+                {% unless forloop.last %}
+                  {% render 'article-inline-cta', cta: article.metafields.custom.inline_cta.value %}
+                {% endunless %}
+              {% endfor %}
+            {% else %}
+              {{ processed_content }}
+            {% endif %}
+          </div>
+        </div>
+        <aside>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'sidebar_cta' -%}
+                <div class="newsletter-signup gradient  sticky top-[200px] mt-2 flex flex-col  items-center justify-center rounded-lg p-5 text-center lg:p-8 color-{{ block.settings.color_scheme }}">
+                  {% render 'svg-logomark', class: 'w-24 mb-8' %}
+
+                  {%- if block.settings.sidebar_cta_title != blank -%}
+                    <h3 class="mb-2 text-2xl leading-[1.24] font-extrabold">{{ block.settings.sidebar_cta_title }}</h3>
+                  {%- endif -%}
+
+                  {%- if block.settings.button_label != blank -%}
+                    <div class="relative mx-2 mt-6">
+                      {% render 'button',
+                        tag: 'a',
+                        text: block.settings.button_label,
+                        url: block.settings.button_link,
+                        variant: 'primary'
+                      %}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+              {%- when 'sidebar_three_subsections' -%}
+                <div class="sidebar-three-subsections gradient sticky flex flex-col gap-2 rounded-lg p-5 text-left lg:p-8 color-{{ block.settings.color_scheme }}">
+                  <div class="flex flex-col gap-6">
+                    <div class="article-sidebar-section">
+                      {%- if block.settings.first_subsection_title != blank -%}
+                        <h3 class="mb-2 text-lg font-bold">{{ block.settings.first_subsection_title }}</h3>
+                      {%- endif -%}
+                      {%- if block.settings.first_subsection_tag != blank -%}
+                        <ul class="blog-sidebar-links">
+                          {%- for product in collections.all.products -%}
+                            {%- if product.tags contains block.settings.first_subsection_tag -%}
+                              <li>
+                                <a href="{{ product.url }}">
+                                  {{-
+                                    product.title
+                                    | replace: 'Custom Orthotic Insoles for ', ''
+                                    | replace: 'Custom Foot Orthotics for ', ''
+                                    | replace: 'Custom Orthotics for ', ''
+                                    | replace: 'Orthotics for ', ''
+                                  -}}
+                                </a>
+                              </li>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </div>
+                    <div class="article-sidebar-section">
+                      {%- if block.settings.second_subsection_title != blank -%}
+                        <h3 class="mb-2 text-lg font-bold">{{ block.settings.second_subsection_title }}</h3>
+                      {%- endif -%}
+                      {%- if block.settings.second_subsection_tag != blank -%}
+                        <ul class="blog-sidebar-links">
+                          {%- for product in collections.all.products -%}
+                            {%- if product.tags contains block.settings.second_subsection_tag -%}
+                              <li>
+                                <a href="{{ product.url }}">
+                                  {{-
+                                    product.title
+                                    | replace: 'Custom Orthotic Insoles for ', ''
+                                    | replace: 'Custom Foot Orthotics for ', ''
+                                    | replace: 'Custom Orthotics for ', ''
+                                    | replace: 'Orthotics for ', ''
+                                  -}}
+                                </a>
+                              </li>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </div>
+                    <div class="article-sidebar-section article-sidebar-section--image">
+                      {%- if block.settings.third_subsection_image != blank -%}
+                        <div class="mb-2">
+                          <img
+                            src="{{ block.settings.third_subsection_image | image_url: width: 400, height: 300 }}"
+                            alt="Sidebar image"
+                            class="h-auto w-full rounded-md"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                          >
+                        </div>
+                      {%- endif -%}
+                      {%- if block.settings.third_subsection_richtext != blank -%}
+                        {%- assign richtext = block.settings.third_subsection_richtext | strip -%}
+                        {%- if richtext contains '|' -%}
+                          {%- assign richtext_stripped = richtext | strip_html -%}
+                          {%- assign parts = richtext_stripped | split: '|' -%}
+                          <div class="prose sidebar-blurb max-w-none">
+                            <p>
+                              <span>{{ parts[0] | strip }}</span>
+                              <span>{{ parts[1] | strip }}</span>
+                            </p>
+                          </div>
+                        {%- else -%}
+                          <div class="prose max-w-none">{{ richtext }}</div>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- else -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </aside>
+      </div>
+    {% endcomment %}
+
+    {%- comment -%} Article Content {%- endcomment -%}
+    <div class="flex min-w-0 flex-col gap-6 lg:gap-6">
+      {% render 'snippet-breadcrumbs' %}
+      <header class="-mt-2 grid gap-4 md:gap-8">
+        <div class="">
+          <h1 class="text-h2 mb-4 leading-tight font-semibold">{{ article.title }}</h1>
+          {% comment %} <div class="text-body-m mb-4 text-black/60 ">{{ article.excerpt | strip_html }}</div> {% endcomment %}
+
+          <div class="article__meta flex flex-wrap items-center gap-4 text-sm whitespace-nowrap">
+            <div class="flex items-center gap-4">
+              {%- if article.metafields.custom.author.value.image != blank -%}
+                {%- assign article_author_image_alt = article.metafields.custom.author.value.image.alt
+                  | default: shop.name
+                -%}
+                {{
+                  article.metafields.custom.author.value.image
+                  | image_url: width: 56, height: 56
+                  | image_tag:
+                    class: 'h-13 w-13 rounded-[5px] object-cover',
+                    alt: article.metafields.custom.author.value.image.alt,
+                    loading: 'lazy',
+                    alt: article_author_image_alt
+                }}
+              {%- else -%}
+                <div class="h-7 w-7 rounded-[5px] bg-black/20"></div>
+              {%- endif -%}
+              <div>
+                <p class="text-base font-extrabold">
+                  {%- if article.metafields.custom.author.value.name != blank -%}
+                    {{ article.metafields.custom.author.value.name }}
+                  {%- else -%}
+                    Admin
+                  {%- endif -%}
+                </p>
+                <span class="text-sm text-black/60">
+                  {%- if article.metafields.custom.author.value.title != blank -%}
+                    {{ article.metafields.custom.author.value.title }}
+                  {%- else -%}
+                    Social Media & Community Expert
+                  {%- endif -%}
+                </span>
+              </div>
+            </div>
+
+            <span class="text-sm text-black/60">•</span>
+
+            <div class="flex flex-col">
+              <time class="text-sm text-black/60" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                {{ article.published_at | date: '%B %d, %Y' }}
+              </time>
+
+              {% assign word_count = article.content | strip_html | split: ' ' | size %}
+              {% assign reading_time = word_count | divided_by: 225.0 %}
+
+              {% if reading_time < 1 %}
+                {% assign reading_time_text = 'Less than a minute' %}
+              {% else %}
+                {% assign reading_time_minutes = reading_time | round %}
+                {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+              {% endif %}
+
+              <span class="article-reading-time text-sm text-black/60">{{ reading_time_text }}</span>
+            </div>
+          </div>
+        </div>
+
+        {% comment %}
+          <img
+            srcset="
+              {% if article.image.width >= 350 %}{{ article.image | image_url: width: 350 }} 350w,{% endif %}
+              {% if article.image.width >= 750 %}{{ article.image | image_url: width: 750 }} 750w,{% endif %}
+              {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
+              {% if article.image.width >= 1500 %}{{ article.image | image_url: width: 1500 }} 1500w,{% endif %}
+              {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}
+              {% if article.image.width >= 3000 %}{{ article.image | image_url: width: 3000 }} 3000w,{% endif %}
+              {{ article.image | image_url }} {{ article.image.width }}w
+            "
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+            src="{{ article.image | image_url: width: 1100 }}"
+            loading="eager"
+            fetchpriority="high"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+            alt="{{ article.image.alt | escape }}"
+            class="article-card__image aspect-video rounded-xl object-cover"
+          >
+        {% endcomment %}
+      </header>
+
+      {% render 'process-article-content', article: article %}
+    </div>
+
+    {%- comment -%} Right Sidebar{%- endcomment -%}
+    <aside class="flex flex-col gap-6 sidebar-right">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'sidebar_cta' -%}
+            <div class="newsletter-signup gradient flex flex-col items-center justify-center rounded-lg p-5 text-center lg:p-8 color-{{ block.settings.color_scheme }}">
+              {% render 'svg-logomark', class: 'w-24 mb-8' %}
+
+              {%- if block.settings.sidebar_cta_title != blank -%}
+                <h3 class="mb-2 text-2xl leading-[1.24] font-extrabold">{{ block.settings.sidebar_cta_title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="relative mx-2 mt-6">
+                  {% render 'button',
+                    tag: 'a',
+                    text: block.settings.button_label,
+                    url: block.settings.button_link,
+                    variant: 'primary'
+                  %}
+                </div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'sidebar_three_subsections' -%}
+            <div class="sidebar-three-subsections gradient sticky flex flex-col gap-2 rounded-lg px-4 py-5 text-left color-{{ block.settings.color_scheme }}">
+              <div class="flex flex-col gap-6">
+                <div class="article-sidebar-section">
+                  {%- if block.settings.first_subsection_title != blank -%}
+                    <h3 class="mb-2 text-lg font-bold">{{ block.settings.first_subsection_title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.first_subsection_tag != blank -%}
+                    <ul class="blog-sidebar-links">
+                      {%- for product in collections.all.products -%}
+                        {%- if product.tags contains block.settings.first_subsection_tag -%}
+                          <li>
+                            <a href="{{ product.url }}">
+                              {{-
+                                product.title
+                                | replace: 'Custom Orthotic Insoles for ', ''
+                                | replace: 'Custom Foot Orthotics for ', ''
+                                | replace: 'Custom Orthotics for ', ''
+                                | replace: 'Orthotics for ', ''
+                              -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+                <div class="article-sidebar-section">
+                  {%- if block.settings.second_subsection_title != blank -%}
+                    <h3 class="mb-2 text-lg font-bold">{{ block.settings.second_subsection_title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.second_subsection_tag != blank -%}
+                    <ul class="blog-sidebar-links">
+                      {%- for product in collections.all.products -%}
+                        {%- if product.tags contains block.settings.second_subsection_tag -%}
+                          <li>
+                            <a href="{{ product.url }}">
+                              {{-
+                                product.title
+                                | replace: 'Custom Orthotic Insoles for ', ''
+                                | replace: 'Custom Foot Orthotics for ', ''
+                                | replace: 'Custom Orthotics for ', ''
+                                | replace: 'Orthotics for ', ''
+                              -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+                <div class="article-sidebar-section article-sidebar-section--image">
+                  {%- if block.settings.third_subsection_image != blank -%}
+                    <div class="mb-2">
+                      <img
+                        src="{{ block.settings.third_subsection_image | image_url: width: 400, height: 300 }}"
+                        alt="Sidebar image"
+                        class="h-auto w-full rounded-md"
+                        loading="lazy"
+                        width="400"
+                        height="300"
+                      >
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.third_subsection_richtext != blank -%}
+                    {%- assign richtext = block.settings.third_subsection_richtext | strip -%}
+                    {%- if richtext contains '|' -%}
+                      {%- assign richtext_stripped = richtext | strip_html -%}
+                      {%- assign parts = richtext_stripped | split: '|' -%}
+                      <div class="prose sidebar-blurb max-w-none">
+                        <p>
+                          <span>{{ parts[0] | strip }}</span>
+                          <span>{{ parts[1] | strip }}</span>
+                        </p>
+                      </div>
+                    {%- else -%}
+                      <div class="prose max-w-none">{{ richtext }}</div>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- else -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </aside>
+  </div>
+
+  <div class="article__related mx-auto mt-16 bg-black/5">
+    <div class="page-width">
+      {% render 'related-articles', article: article %}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Main article advert",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "sidebar_cta",
+      "name": "Sidebar CTA",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "sidebar_cta_title",
+          "label": "Title",
+          "default": "Do you experience foot pain? Take our free quiz, try our orthotics, and start a pain-free life."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take The Quiz"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_three_subsections",
+      "name": "Product Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "first_subsection_title",
+          "label": "First Subsection Title"
+        },
+        {
+          "type": "text",
+          "id": "first_subsection_tag",
+          "label": "First Subsection Tag",
+          "info": "Type in the tag for products to display in the first subsection"
+        },
+        {
+          "type": "text",
+          "id": "second_subsection_title",
+          "label": "Second Subsection Title"
+        },
+        {
+          "type": "text",
+          "id": "second_subsection_tag",
+          "label": "Second Subsection Tag",
+          "info": "Type in the tag for products to display in the second subsection"
+        },
+        {
+          "type": "image_picker",
+          "id": "third_subsection_image",
+          "label": "Third Subsection Image"
+        },
+        {
+          "type": "richtext",
+          "id": "third_subsection_richtext",
+          "label": "Third Subsection Rich Text"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

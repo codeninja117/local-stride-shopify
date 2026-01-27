@@ -1,0 +1,44 @@
+<section id="{{ title_handle }}" class="grid gap-8 rounded-xl bg-white p-8 text-black">
+  <div class="phase__main">
+    <span class="uppercase">Phase {{ index }}</span>
+    <h2 class="display flex flex-col">
+      {{
+        block.settings.title
+        | replace: '<em>', '<span class="opacity-40">'
+        | replace: '</em>', '</span>'
+        | replace: '|', '</span><span>'
+      }}
+    </h2>
+
+    {%- comment -%}start: 2 column row{%- endcomment -%}
+    <div class="grid grid-cols-2 gap-8">
+      {%- if block.settings.phone_image != blank -%}
+        {{ section.settings.phone_image | image_url: width: 640 | image_tag: class: 'w-full h-auto' }}
+      {%- else -%}
+        <div class="bg-slate/30 aspect-4/3 w-full overflow-hidden rounded-xl"></div>
+      {%- endif -%}
+
+      <div class="flex flex-col gap-16">
+        <div>
+          <span class="mb-4 block text-black/40 uppercase">{{ block.settings.image_eyebrow_text }}</span>
+          <p class="text-2xl">{{ block.settings.image_text }}</p>
+        </div>
+
+        <div class="flex gap-8">
+          {% render 'button',
+            tag: 'a',
+            text: block.settings.button_label,
+            url: block.settings.button_url,
+            variant: 'primary-fade'
+          %}
+          <p class="flex flex-col">
+            {% assign disclaimer_parts = block.settings.disclaimers | split: '|' %}
+            {% for part in disclaimer_parts %}
+              <span>{{ part }}</span>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,260 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --text-color: #FFFFFF;
+  }
+  {%- if section.settings.hide_on_cart -%}
+    {% unless cart == empty %}
+      .template-cart #shopify-section-{{ section.id }} {
+        display: none;
+      }
+    {% endunless %}
+  {%- endif -%}
+  
+  .footer__social-icons .social-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 30px;
+  }
+  
+  .footer__social-icons .social-icon svg,
+  .footer__social-icons .social-icon img {
+    width: 14px;
+    height: auto;
+  }
+{%- endstyle -%}
+
+<footer class="bg-black py-10 text-white md:py-20">
+  <div class="page-width flex max-w-full flex-col gap-8 px-4 md:gap-32 md:px-8 lg:px-16">
+    <a href="{{ routes.root_url }}" class="footer__logomark block w-18" aria-label="{{ shop.name }}">
+      {% render 'svg-logomark' %}
+    </a>
+    <div class="footer__header">
+      <h2 class="display inline-flex flex-col text-[26px] leading-tight md:text-5xl md:leading-tight">
+        {% assign title_parts = section.settings.title | newline_to_br | split: '<br />' %}
+        {% for part in title_parts %}
+          <span>{{ part }}</span>
+        {% endfor %}
+        <a href="mailto:{{ section.settings.email_address }}" class="text-human underline underline-offset-10">
+          {{ section.settings.email_address }}
+        </a>
+      </h2>
+    </div>
+
+    <div class="footer__content flex flex-col flex-wrap gap-8 md:gap-16 lg:flex-row">
+      <div class="flex flex-col justify-between gap-8 lg:w-1/3">
+        <div>
+          {%- if section.settings.text != blank -%}
+            <div class="footer__text">{{ section.settings.text | newline_to_br }}</div>
+          {%- endif -%}
+          <!-- Social icons -->
+          {%- if section.settings.show_social_icons -%}
+            <div class="footer__social-icons flex gap-2 mt-6">
+              {%- if settings.social_instagram_link != blank -%}
+                <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+                  {%- if settings.social_instagram_icon != blank -%}
+                    {{ settings.social_instagram_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Instagram' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_youtube_link != blank -%}
+                <a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
+                  {%- if settings.social_youtube_icon != blank -%}
+                    {{ settings.social_youtube_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'YouTube' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_facebook_link != blank -%}
+                <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+                  {%- if settings.social_facebook_icon != blank -%}
+                    {{ settings.social_facebook_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Facebook' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_tiktok_link != blank -%}
+                <a href="{{ settings.social_tiktok_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
+                  {%- if settings.social_tiktok_icon != blank -%}
+                    {{ settings.social_tiktok_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'TikTok' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_twitter_link != blank -%}
+                <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Twitter">
+                  {%- if settings.social_twitter_icon != blank -%}
+                    {{ settings.social_twitter_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Twitter' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_snapchat_link != blank -%}
+                <a href="{{ settings.social_snapchat_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Snapchat">
+                  {%- if settings.social_snapchat_icon != blank -%}
+                    {{ settings.social_snapchat_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Snapchat' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_pinterest_link != blank -%}
+                <a href="{{ settings.social_pinterest_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Pinterest">
+                  {%- if settings.social_pinterest_icon != blank -%}
+                    {{ settings.social_pinterest_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Pinterest' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_tumblr_link != blank -%}
+                <a href="{{ settings.social_tumblr_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Tumblr">
+                  {%- if settings.social_tumblr_icon != blank -%}
+                    {{ settings.social_tumblr_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Tumblr' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.563 24c-5.5 0-7.563-1.5-7.563-7.5V9.5h-2V6.5c3.5-1.5 4.5-4.5 4.5-6.5h3v6h4v3h-4v6.5c0 1.5.5 2.5 2.5 2.5h2v3h-3.5z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- if settings.social_vimeo_link != blank -%}
+                <a href="{{ settings.social_vimeo_link }}" target="_blank" rel="noopener" class="social-icon" aria-label="Vimeo">
+                  {%- if settings.social_vimeo_icon != blank -%}
+                    {{ settings.social_vimeo_icon | image_url: width: 24 | image_tag: class: 'w-4 h-4', loading: 'lazy', alt: 'Vimeo' }}
+                  {%- else -%}
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197a315.065 315.065 0 0 0 3.501-3.128C5.08 2.701 6.266 1.984 7.055 1.91c1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.507.539 2.45 1.131 3.674 1.776 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.614-2.061-.574 0-1.167.121-1.777.391 1.186-3.868 3.434-5.757 6.762-5.637 2.473.06 3.628 1.664 3.493 4.797l-.013.01z"/>
+                    </svg>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          <!-- end social icons -->
+        </div>
+        {%- if section.settings.footer_trust_logos != blank -%}
+          <div class="footer__trust-logos w-70">
+            {{
+              section.settings.footer_trust_logos
+              | image_url: width: 640
+              | image_tag: class: 'w-full h-auto object-contain', loading: 'lazy', alt: shop.name
+            }}
+          </div>
+        {%- endif -%}
+      </div>
+      <nav class="footer__nav flex flex-wrap gap-y-12 lg:flex-1 lg:gap-16">
+        {%- for block in section.blocks -%}
+          <div class="w-1/2 md:flex-1">
+            <h3 class="mb-5 tracking-[0.2em] text-[#A7AFB8] uppercase">{{ block.settings.title }}</h3>
+            <ul class="flex flex-col gap-1">
+              {%- for link in block.settings.menu.links -%}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    <div data-animate="origin">
+      {% render 'svg-stride-text-only' %}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer js-section-color",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Have a question?\nContact us at"
+    },
+    {
+      "type": "text",
+      "id": "email_address",
+      "label": "Email address",
+      "default": "team@stridesoles.com"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "The best orthotics in the world.\nGet started in only a few minutes."
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_trust_logos",
+      "label": "Trust logos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Show social icons",
+      "info": "To link to social media accounts. Icon and URL set in theme settings.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_cart",
+      "label": "Hide footer on cart page",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

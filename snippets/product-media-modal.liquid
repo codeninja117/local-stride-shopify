@@ -1,0 +1,113 @@
+<product-modal
+  id="ProductModal-{{ modal_id }}"
+  class="product-media-modal invisible fixed inset-0 z-101 flex justify-center overflow-y-auto bg-white opacity-0 transition-opacity duration-300 ease-in-out [&[open]]:visible [&[open]]:opacity-100"
+>
+  <div
+    class="product-media-modal__dialog w-[calc(100%-1rem)] md:w-fit"
+    role="dialog"
+    aria-label="{{ 'products.modal.label' | t }}"
+    aria-modal="true"
+    tabindex="-1"
+  >
+    <button
+      id="ModalClose-{{ section.id }}"
+      type="button"
+      class="product-media-modal__toggle fixed top-4 right-4 z-102 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-black/10 bg-white shadow-md"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {{ 'icon-close.svg' | inline_asset_content }}
+    </button>
+
+    <div
+      class="product-media-modal__content color-{{ section.settings.color_scheme }} gradient page-width max-w-screen-lg"
+      role="document"
+      aria-label="{{ 'products.modal.label' | t }}"
+      tabindex="0"
+    >
+      <ul class="flex flex-col gap-2">
+        {% comment %}
+          {%- if product.metafields.custom.video -%}
+            <li data-media-id="custom-video">
+              <deferred-media
+                class="deferred-media h-full w-full"
+                data-media-id="custom-video"
+              >
+                <template>
+                  {{
+                    product.metafields.custom.video
+                    | media_tag:
+                      image_size: '2048x',
+                      autoplay: true,
+                      loop: loop,
+                      controls: true,
+                      preload: 'none',
+                      muted: false
+                  }}
+                </template>
+              </deferred-media>
+            </li>
+          {% endif %}
+        {% endcomment %}
+        {%- for media in product.media -%}
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              <li
+                data-media-id="{{ product.metafields.custom.video.id | default: 'custom-video' }}"
+                class="overflow-hidden rounded-lg"
+              >
+                {{
+                  media
+                  | image_url: width: 1946
+                  | image_tag:
+                    class: 'w-full h-full object-cover',
+                    loading: 'lazy',
+                    sizes: sizes,
+                    widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                    data-media-id: media.id
+                }}
+              </li>
+
+            {%- when 'video' -%}
+              <li
+                data-media-id="{{ product.metafields.custom.video.id | default: 'custom-video' }}"
+                class="overflow-hidden rounded-lg"
+              >
+                {% comment %}
+                  <deferred-media
+                    class="deferred-media h-full w-full"
+                    data-media-id="custom-video"
+                  >
+                    {{
+                      media
+                      | media_tag:
+                        image_size: '768x',
+                        autoplay: true,
+                        loop: true,
+                        preload: 'auto',
+                        class: 'w-full h-full object-cover',
+                        playsinline: true,
+                        muted: true,
+                        controls: false
+                    }}
+                  </deferred-media>
+                {% endcomment %}
+                {{
+                  media
+                  | media_tag:
+                    image_size: '768x',
+                    autoplay: false,
+                    loop: true,
+                    preload: 'auto',
+                    class: 'w-full h-full object-cover',
+                    playsinline: true,
+                    muted: false,
+                    controls: true,
+                    data-media-id: media.id
+                }}
+              </li>
+          {%- endcase -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</product-modal>

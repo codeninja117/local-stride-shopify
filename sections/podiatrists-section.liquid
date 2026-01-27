@@ -1,0 +1,276 @@
+{% style %}
+  .section-{{ section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    --title-max-width: {{ section.settings.title_max_width }}px;
+    --custom-page-width: {{ section.settings.custom_page_width }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% endif %}
+  }
+
+  .section-{{ section.id }} .page-width {
+    max-width: var(--custom-page-width);
+  }
+
+  .section-{{ section.id }} .text-h1 {
+    max-width: var(--title-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-{{ section.id }} .image-caption {
+    color: #525A63;
+  }
+
+  .section-{{ section.id }} .podiatrist-description {
+    color: #525A63;
+  }
+
+  :where(.space-y-6>:not(:last-child)) {
+    margin-block-start: calc(calc(var(--spacing) * 6) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-y-reverse)));
+  }
+
+
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <!-- Top Title Section -->
+    <div class="mb-12 text-center lg:mb-14">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="text-slate/60 mb-3 text-sm font-medium tracking-widest uppercase">
+          {{ section.settings.eyebrow_text }}
+        </p>
+      {% endif %}
+
+      <h1 class="text-h1 text-black">
+        {{ section.settings.title }}
+      </h1>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-20">
+      <!-- Left Image -->
+      <div class="order-1 lg:order-1">
+        {% if section.settings.hero_image != blank %}
+          <div class="bg-gray/5 overflow-hidden rounded-2xl shadow-lg" style="aspect-ratio: 470/360;">
+            {{
+              section.settings.hero_image
+              | image_url: width: 800
+              | image_tag: alt: section.settings.title, class: 'w-full h-full object-cover'
+            }}
+          </div>
+          {% if section.settings.image_caption != blank %}
+            <p class="text-body-s image-caption mt-3">{{ section.settings.image_caption }}</p>
+          {% endif %}
+        {% else %}
+          <div class="bg-gray/10 flex items-center justify-center rounded-2xl shadow-lg" style="aspect-ratio: 470/360;">
+            <p class="text-gray">Add an image</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right Content -->
+      <div class="order-2 lg:order-2">
+        {% if section.settings.description != blank %}
+          <p class="text-body-l podiatrist-description mb-8 lg:pr-8">
+            {{ section.settings.description }}
+          </p>
+        {% endif %}
+
+        <!-- Podiatrist Points List -->
+        <ul class="podiatrist-points-list space-y-6">
+          {%- for block in section.blocks -%}
+            <li class="podiatrist-point-item" {{ block.shopify_attributes }}>
+              <div class="text-body-m text-black">
+                {{ block.settings.title }}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <!-- Logo Badge -->
+        {% if section.settings.badge_image != blank %}
+          <div class="mt-12 flex justify-start">
+            {{
+              section.settings.badge_image
+              | image_url: width: 120
+              | image_tag: alt: 'Brand badge', class: 'h-12 w-auto opacity-80'
+            }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Podiatrists Section",
+  "class": "section-podiatrists",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "What Podiatrists"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p><strong>Recommend</strong> Most</p>",
+      "info": "Use <strong> tags for bold text and regular text for normal weight"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Podiatrists consistently recommend these approaches for foot health and comfort."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image Caption",
+      "default": "Professional podiatrist consultation"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_image",
+      "label": "Brand Badge"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "custom_page_width",
+      "min": 800,
+      "max": 1600,
+      "step": 10,
+      "unit": "px",
+      "label": "Custom page width",
+      "default": 1200,
+      "info": "Override the default page width for this section only"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "range",
+      "id": "title_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "label": "Title max width",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "info": "Leave empty to use default color scheme background"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "podiatrist_point",
+      "name": "Podiatrist Point",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<p><strong>Custom Orthotics</strong> for proper arch support</p>",
+          "info": "Use <strong> tags for bold text and regular text for normal weight"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Podiatrists Section",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "podiatrist_point",
+          "settings": {
+            "title": "<p><strong>Custom Orthotics</strong> for proper arch support</p>"
+          }
+        },
+        {
+          "type": "podiatrist_point",
+          "settings": {
+            "title": "<p><strong>Proper Footwear</strong> with adequate cushioning</p>"
+          }
+        },
+        {
+          "type": "podiatrist_point",
+          "settings": {
+            "title": "<p><strong>Regular Stretching</strong> exercises for foot flexibility</p>"
+          }
+        }
+      ],
+      "settings": {
+        "eyebrow_text": "What Podiatrists",
+        "title": "<p><strong>Recommend</strong> Most</p>",
+        "description": "Podiatrists consistently recommend these approaches for foot health and comfort."
+      }
+    }
+  ]
+}
+{% endschema %}

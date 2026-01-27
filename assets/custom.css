@@ -1,0 +1,363 @@
+body.template-article header {
+  background-color: rgba(255, 255, 255, 1);
+}
+body.template-article main {
+  background-color: rgba(245, 246, 249, 1);
+}
+
+.article-content h1 {
+  font-size: 36px;
+  line-height: 45px;
+  font-weight: 700;
+}
+
+/* RTE Color Variables */
+:root {
+  --rte-header-text: #000000;
+  --rte-body-text: #292d31;
+  --rte-divider: #292d31;
+  --rte-link: #292d31;
+  --rte-code-bg: #f5f5f5;
+  --rte-table-border: #292d31;
+  --rte-table-header-bg: #f5f5f5;
+}
+
+/* RTE (Rich Text Editor) Styles */
+.rte {
+  color: var(--rte-body-text);
+  font-size: 14px; /* Mobile: smaller base size */
+  line-height: 26px; /* Mobile: tighter line height */
+  font-weight: 400;
+}
+
+/* Spacing between elements */
+.rte > * + * {
+  margin-top: 1.25em; /* Mobile: tighter spacing */
+}
+
+/* Headings - Mobile First */
+.rte h1 {
+  color: var(--rte-header-text);
+  font-size: 28px; /* Mobile: ~78% of desktop */
+  line-height: 36px;
+  font-weight: 700;
+  margin-top: 1.5em; /* Mobile: less top margin */
+  margin-bottom: 0.5em;
+  letter-spacing: 0;
+}
+
+.rte h2 {
+  color: var(--rte-header-text);
+  font-size: 22px; /* Mobile: ~79% of desktop */
+  line-height: 30px;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: 0;
+}
+
+.rte h3 {
+  color: var(--rte-header-text);
+  font-size: 18px; /* Mobile: ~82% of desktop */
+  line-height: 26px;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  letter-spacing: 0;
+}
+
+/* Paragraphs */
+.rte p {
+  margin-bottom: 20px; /* Mobile: tighter paragraph spacing */
+}
+
+/* Semibold text (for emphasis) */
+.rte strong,
+.rte b {
+  font-weight: 600;
+}
+
+/* Lists */
+.rte ul,
+.rte ol {
+  padding-left: 1.25em; /* Mobile: less indent */
+  margin-bottom: 20px;
+}
+
+.rte li {
+  margin-bottom: 20px; /* Mobile: tighter list spacing */
+  line-height: 26px;
+}
+
+.rte li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists */
+.rte ul ul,
+.rte ul ol,
+.rte ol ul,
+.rte ol ol {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+/* Links */
+.rte a {
+  color: var(--rte-link);
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.rte a:hover {
+  opacity: 0.7;
+}
+
+/* Images */
+.rte img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5em 0; /* Mobile: tighter margins */
+}
+
+/* Figure with caption */
+/* .rte figure {
+  margin: 2em 0;
+} */
+
+.rte figure.image-with-caption {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.rte figure.image-with-caption img {
+  margin: 0; /* Remove default image margins */
+  margin-bottom: 0.5em; /* Small gap between image and caption - 8px */
+}
+
+.rte figcaption {
+  margin-top: 0;
+}
+
+/* Blockquotes */
+.rte blockquote {
+  border-left: 3px solid var(--rte-body-text); /* Mobile: thinner border */
+  padding-left: 1em; /* Mobile: less padding */
+  margin: 1.5em 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--rte-body-text);
+}
+
+/* Horizontal Rules (Dividers) */
+.rte hr {
+  border: none;
+  border-top: 1px solid var(--rte-divider);
+  margin: 2em 0; /* Mobile: tighter margins */
+}
+
+/* Tables - Responsive */
+.rte table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 13px; /* Mobile: smaller text in tables */
+  display: block;
+  overflow-x: auto; /* Mobile: horizontal scroll */
+  -webkit-overflow-scrolling: touch;
+}
+
+.rte th,
+.rte td {
+  border: 1px solid var(--rte-table-border);
+  padding: 0.5em; /* Mobile: less padding */
+  text-align: left;
+  min-width: 100px; /* Prevent too-narrow columns */
+  vertical-align: top;
+}
+
+.rte th {
+  background-color: var(--rte-table-header-bg);
+  font-weight: 600;
+  color: var(--rte-header-text);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Remove paragraph margins inside tables */
+.rte table p {
+  margin-bottom: 0;
+}
+
+.rte table p + p {
+  margin-top: 0.5em; /* If multiple paragraphs in a cell, small gap */
+}
+
+/* Remove margins for other elements inside tables */
+.rte table ul,
+.rte table ol {
+  margin-bottom: 0;
+  padding-left: 1em; /* Less indent in tables */
+}
+
+.rte table li {
+  margin-bottom: 0.25em; /* Tighter list spacing in tables */
+}
+
+.rte table li:last-child {
+  margin-bottom: 0;
+}
+
+/* Remove margins for headings in tables (if they exist) */
+.rte table h1,
+.rte table h2,
+.rte table h3,
+.rte table h4,
+.rte table h5,
+.rte table h6 {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+  font-size: inherit; /* Don't make headings huge in tables */
+  line-height: inherit;
+}
+
+/* Code (if needed) */
+.rte code {
+  background-color: var(--rte-code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.85em; /* Mobile: slightly smaller */
+  font-family: monospace;
+  word-break: break-all; /* Mobile: prevent overflow */
+}
+
+.rte pre {
+  background-color: var(--rte-code-bg);
+  padding: 1em; /* Mobile: less padding */
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5em 0;
+  font-size: 13px; /* Mobile: smaller code blocks */
+}
+
+.rte pre code {
+  background: none;
+  padding: 0;
+  word-break: normal;
+}
+
+/* First element rules - Remove top margins */
+.rte > p:first-child {
+  margin-top: 0;
+}
+
+.rte > h1:first-child,
+.rte > h2:first-child,
+.rte > h3:first-child,
+.rte > h4:first-child,
+.rte > h5:first-child,
+.rte > h6:first-child {
+  margin-top: 0;
+}
+
+/* Last element - Remove bottom margin */
+.rte > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   TABLET & DESKTOP (768px+)
+   ============================================ */
+@media screen and (min-width: 768px) {
+  .rte {
+    font-size: 16px; /* Desktop: back to 16px */
+    line-height: 32px;
+  }
+
+  .rte > * + * {
+    margin-top: 1.5em;
+  }
+
+  .rte h1 {
+    font-size: 36px;
+    line-height: 45px;
+    margin-top: 2em;
+  }
+
+  .rte h2 {
+    font-size: 28px;
+    line-height: 38px;
+    margin-top: 1.75em;
+  }
+
+  .rte h3 {
+    font-size: 22px;
+    line-height: 30px;
+    margin-top: 1.5em;
+  }
+
+  .rte p {
+    margin-bottom: 30px;
+  }
+
+  .rte ul,
+  .rte ol {
+    padding-left: 1.5em;
+    margin-bottom: 30px;
+  }
+
+  .rte li {
+    margin-bottom: 30px;
+    line-height: 32px;
+  }
+
+  .rte ul ul,
+  .rte ul ol,
+  .rte ol ul,
+  .rte ol ol {
+    margin-top: 30px;
+  }
+
+  /* .rte img {
+    margin: 2em 0;
+  } */
+
+  .rte figure.image-with-caption img {
+    margin-bottom: 0.75em;
+  }
+
+  .rte blockquote {
+    border-left-width: 4px;
+    padding-left: 1.5em;
+    margin: 2em 0;
+    font-size: 16px;
+  }
+
+  .rte hr {
+    margin: 2.5em 0;
+  }
+
+  .rte table {
+    font-size: 16px;
+    margin: 2em 0;
+    display: table; /* Desktop: normal table display */
+    overflow-x: visible;
+  }
+
+  .rte th,
+  .rte td {
+    padding: 0.75em;
+    min-width: auto;
+  }
+
+  .rte code {
+    font-size: 0.9em;
+  }
+
+  .rte pre {
+    padding: 1.5em;
+    margin: 2em 0;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,78 @@
+{% comment %}
+  <!-- In your typeform-quiz.liquid -->
+  <div id="typeform-modal" class="fixed inset-0 z-1000 hidden">
+    <div class="bg-opacity-80 absolute inset-0 bg-black"></div>
+    <div class="relative h-full w-full bg-white">
+      <button
+        id="typeform-close"
+        class="absolute top-5 right-5 z-1001 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-800 text-3xl text-white shadow-lg"
+      >
+        ×
+      </button>
+
+      <!-- This is the key part - use exactly the embed code that works for you -->
+      <div class="h-full w-full">
+        <div data-tf-live="01JNMMMZJR147TR3G3GQ1623W9"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Load the Typeform script dynamically only when needed
+      let scriptLoaded = false;
+
+      // Set up modal controls
+      const modal = document.getElementById('typeform-modal');
+      const closeBtn = document.getElementById('typeform-close');
+
+      // Close button functionality
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          if (modal) {
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+          }
+        });
+      }
+
+      // Function to load script
+      function loadTypeformScript() {
+        if (scriptLoaded) return Promise.resolve();
+
+        return new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = '//embed.typeform.com/next/embed.js';
+          script.async = true;
+
+          script.onload = function () {
+            scriptLoaded = true;
+            resolve();
+          };
+
+          document.body.appendChild(script);
+        });
+      }
+
+      // Function to open quiz
+      window.openTypeformQuiz = function () {
+        // Show modal first
+        if (modal) {
+          modal.style.display = 'block';
+          modal.classList.remove('hidden');
+          document.body.classList.add('overflow-hidden');
+        }
+
+        // Load script if needed
+        if (!scriptLoaded) {
+          loadTypeformScript().then(() => {
+            if (window.tf && window.tf.initEmbed) {
+              window.tf.initEmbed();
+            }
+          });
+        }
+      };
+    });
+  </script>
+{% endcomment %}

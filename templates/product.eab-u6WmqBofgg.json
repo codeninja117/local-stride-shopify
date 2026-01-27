@@ -1,0 +1,818 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "promo": {
+          "type": "promo",
+          "settings": {
+            "icon": "shopify://shop_images/svg-lightning.svg",
+            "block_title": "<strong>180-Day Money-Back Guarantee </strong>",
+            "bg_color": "#f4e4d1",
+            "text_color": "#000000",
+            "button_url": "",
+            "button_label": "",
+            "button_type": "primary",
+            "display": "inline",
+            "alignment": "center",
+            "font_size": "base"
+          }
+        },
+        "product_info": {
+          "type": "product_info",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "text_above_button": "Step Into Comfort Below"
+          }
+        },
+        "promo_2": {
+          "type": "promo",
+          "disabled": true,
+          "settings": {
+            "icon": "shopify://shop_images/solar_card-outline_14d4de5a-092b-4670-9a07-6a32a9a05f2c.svg",
+            "block_title": "HSA/FSA Accepted",
+            "bg_color": "#fbf5ed",
+            "text_color": "#000000",
+            "button_url": "",
+            "button_label": "",
+            "button_type": "primary",
+            "display": "inline",
+            "alignment": "center",
+            "font_size": "base"
+          }
+        },
+        "bogos_io_free_gift_gift_thumbnail_view_rhhGDi": {
+          "type": "shopify://apps/bogos-io-free-gift/blocks/gift-thumbnail-view/0432bba6-720a-4e95-be5a-b868386f7aa6",
+          "settings": {}
+        },
+        "callouts": {
+          "type": "callouts",
+          "settings": {
+            "icon": "shopify://shop_images/pdp_icon_1.svg",
+            "block_title": "180-Day Money-Back Guarantee",
+            "icon_2": "shopify://shop_images/pdp_icon_2.svg",
+            "block_title_2": "Free Shipment On All Orders",
+            "icon_3": "shopify://shop_images/pdp_icon_3.svg",
+            "block_title_3": "HSA/FSA Eligibility Guaranteed"
+          }
+        },
+        "accordions": {
+          "type": "accordions",
+          "settings": {
+            "block_title": "Product Details",
+            "block_text": "{{ product.metafields.custom.product_details | metafield_tag }}",
+            "block_title_2": "180-Day Money-Back Guarantee",
+            "block_text_2": "<p>Your satisfaction is our number one priority. If we are not helping you reach your goals, simply contact us and we will work with you to create a new custom orthotic. We will continue working with you for up to 6 months until you are satisfied. If we still don’t meet your needs, just let us know and we will refund your order.</p>",
+            "block_title_3": "Free Shipping",
+            "block_text_3": "<p>All orders in the USA include free shipping. Additional rates apply for nternational and expedited orders</p><h2></h2>"
+          }
+        }
+      },
+      "block_order": [
+        "promo",
+        "product_info",
+        "variant_picker",
+        "buy_buttons",
+        "promo_2",
+        "bogos_io_free_gift_gift_thumbnail_view_rhhGDi",
+        "callouts",
+        "accordions"
+      ],
+      "settings": {
+        "media_gallery_layout": "slideshow",
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "how_stride_works_RbwijA": {
+      "type": "how-stride-works",
+      "blocks": {
+        "step_wFyFtA": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_1.png",
+            "title": "",
+            "text": "Take a short quiz about your pain and goals."
+          }
+        },
+        "step_UFQ9Gp": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/HowItWorks-Stride_3.png",
+            "title": "",
+            "text": "Record your gait & scan your feet with the Stride app."
+          }
+        },
+        "step_g6eKiX": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223815.png",
+            "title": "",
+            "text": "Give us 2-3 weeks for your custom orthotics to arrive!"
+          }
+        }
+      },
+      "block_order": [
+        "step_wFyFtA",
+        "step_UFQ9Gp",
+        "step_g6eKiX"
+      ],
+      "settings": {
+        "title": "How It Works",
+        "subtitle": "<strong>Streamlined Orthotic Ordering</strong>",
+        "button_primary_label": "Learn More",
+        "button_primary_link": "shopify://pages/how-it-works",
+        "button_secondary_label": "Watch video",
+        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "background_color": "#f5f6f9",
+        "text_color": "#000000",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "review_carousel_new_DNR6gF": {
+      "type": "review-carousel-new",
+      "blocks": {
+        "video_review_eJzY4V": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Gabriel Kalen.mp4",
+            "video_poster": "shopify://shop_images/g.png",
+            "review": "StrideSoles have really helped me out, they are really affordable compared to what Iused to get at the doctors office. I was really impressed with how accurate thescan was, it molded to my feet pretty perfectly I would say… When I wear them,compared to normal insoles, I don't feel any pain when walking.",
+            "title": "Alex Franks",
+            "review_date": "January 7, 2024"
+          }
+        },
+        "video_review_UV6HzH": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Snapinsta.app_video_AQMEYMYEv7mbimeBwJkDji3o7NkSU2RaxAcTbMY_56c0SF57VWa_McQZj98xg8HEg11eYg_zxH-kxAgnEWiba8maUzmMIbDGtrE7-78.mp4",
+            "video_poster": "shopify://shop_images/d.png",
+            "review": "I have been using the Stride Soles custom orthotics for about 2 months now in my Brooks running shoes. They customize everything... I selected my shoe type, sport, injuries, and my shoes types and they are perfect for my feet. I brought them by my physio therapist and they said it was exactly what I need to help with my low arch.",
+            "title": "Elliott Hall",
+            "review_date": "July 13, 2023"
+          }
+        },
+        "video_review_8TNkgm": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/lady.mp4",
+            "video_poster": "shopify://shop_images/ss.png",
+            "review": "It's been about a year now so I figure it's time for a review! I wear my Stride's in all of my shoes and love how supported my feet feel. I can walk, run, play tennis, and everything without my normal heel pain. I'm glad I found you guys!!!",
+            "title": "Janice Simon",
+            "review_date": "February 9, 2023"
+          }
+        },
+        "video_review_iQAFTq": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Stride2 (1).mp4",
+            "video_poster": "shopify://shop_images/1.png",
+            "review": "Before Stride Soles, I used to feel like a dog walking on a treadmill! Now I'm able to be on the treadmill, or my bike without pain. In fact, I'm getting ready to purchase another pair today.",
+            "title": "Jorge V",
+            "review_date": "June 14, 2024"
+          }
+        },
+        "video_review_3wAzDJ": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Copy of Snapinsta.app_video_FC4932D5F4A4D54162E12A4F6BE8E1AD_video_dashinit.mp4",
+            "video_poster": "shopify://shop_images/b.png",
+            "review": "As a podiatrist withyears of experience I have always advocated for my patients. I'm glad toendorse and prescribe Stride Soles for my patients. The scanner is extremelyaccurate, and that's why I even use it in-clinic. It's remarkable they've beenable to translate this experience to an at-home model.",
+            "title": "Dr. Stephanie Kane",
+            "review_date": "July 9, 2023"
+          }
+        },
+        "video_review_Yr3GF3": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Lucas Simon.mov",
+            "video_poster": "shopify://shop_images/22.png",
+            "review": "My Stride Soles inserts are absolutely amazing...A lot of my hip, knee, back pain, is relieved so I absolutely love them. I can't emphasize that enough. If you haven't gotten them already, go get them!",
+            "title": "Lucas Simon",
+            "review_date": "March 3, 2025"
+          }
+        }
+      },
+      "block_order": [
+        "video_review_eJzY4V",
+        "video_review_UV6HzH",
+        "video_review_8TNkgm",
+        "video_review_iQAFTq",
+        "video_review_3wAzDJ",
+        "video_review_Yr3GF3"
+      ],
+      "settings": {
+        "title": "What Our <em><strong>Customers Say</strong></em>",
+        "subtitle": "",
+        "trustpilot_summary": "shopify://shop_images/trustpilot-summary.png",
+        "trust_pilot_url": "",
+        "frontrowmd_snippet": "",
+        "slides_per_view": 3.6,
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "review_carousel": {
+      "type": "review-carousel",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "review": "Thank you Stride Soles! I have been through pretty much every pair of insoles at my local drug store, and nothing has helped my flat feet and plantar fasciitis. I decided to try you guys and within a few months the pain has gone away. Y’all have some sort of magic going on!",
+            "title": "Brent A",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/brenta.webp"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "review": "I live in Texas and it’s not easy for me to get orthotics. A few years ago I travelled 3 hours to Dallas to go see a doctor, and had to return 3 times to get fitted. I found Stride online a few months ago, and I’m so glad I did. The scan, and questionnaire, only took a few minutes. The gait analysis was cool too. I don’t think i’m going back to my old doctors.",
+            "title": "Nathan C",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/Nathan.webp"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "review": "As a nurse I am on my feet ALL DAY. I formerly went with Upstep but it really didn’t help my heel pain, and actually made it worse in the morning. My doctor recommended I try Stride Soles and slowly but surely, the pain has gone away. The whole process was so much easier with just a simple app. Dr. Zac and the Stride team have walked me through this process so I couldn’t be happier. Thank you again!!!",
+            "title": "Galina B",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/review-3.webp"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "review": "Every few years I’ve been schlepping to the podiatrist for my next pair of $800 orthotics. After he raised the price again, I just had enough. My friend had good results with you guys, so I decided to give it a try. The scanning was the same thing my old doctor was doing, and I liked the gait analysis part which they reviewed with me. The orthotic cost one tenth the price and feels better than my old one!",
+            "title": "Juliet M",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/review-4.webp"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "review": "…I was moving cities, and had to continually be on my feet moving boxes. By the end of the day I was in so much pain. My cousin recommended I give Stride a try, and I have to say I'm very surprised at how well they work. The quiz and gait analysis seemed very professional and my orthotics arrived in a bit over a week. I'm actually going to get another pair for my golf shoes.",
+            "title": "Itai W",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/review-5.webp"
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "review": "As someone who hates scheduling doctor’s appointments, I cannot say enough good things about Stride’s ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!",
+            "title": "D. Cornelli",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/review-6.webp"
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "review": "I was expecting something made out of solid plastic like what my podiatrist has done for me previously. I didn’t realize they could design orthotics to be super rigid in certain areas and super soft in others. They feel just absolutely incredible.",
+            "title": "Agatha R",
+            "date": "December 7, 2024",
+            "image": "shopify://shop_images/image_18_46cd338b-e5b0-4225-a98e-b5c6e4ca2a13.png"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6",
+        "review_7"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "What Our <em>Customers say</em>",
+        "button_url": "",
+        "button_label": "Take The Quiz",
+        "disclaimer": "Limtied Time Offer",
+        "background_color": "#e2e2e2",
+        "text_color": "#000000",
+        "title_accent_color": "#9d9fa9",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "feature_text_overlay": {
+      "type": "feature-text-overlay",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Designed by Podiatrists"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "Avoids messy impression kits and lengthy clinic appointments"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Instant and effortless ordering"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "title": "Accessible anywhere with your phone"
+          }
+        },
+        "feature_5": {
+          "type": "feature",
+          "settings": {
+            "title": "Capture sub-millimeter anatomic details for the perfect fit"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4",
+        "feature_5"
+      ],
+      "settings": {
+        "title": "Fast & Precise | <strong>Custom Orthotics Experience</strong>",
+        "subtitle": "Our Precision 3D scanner",
+        "text": "<p>We leverage the same 3D scanning tech used by the world’s top doctors and podiatrists to create a perfect mold for your orthotic.</p>",
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take The Quiz",
+        "disclaimer": "",
+        "image": "shopify://shop_images/7499d10ac77ed0c37e325bcbe6cd2404984fdd3c.png",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "content_box_color_scheme": "scheme-3",
+        "overlay_background": "linear-gradient(320deg, rgba(0, 0, 0, 0.16) 16%, rgba(0, 0, 0, 0.55) 87%)",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "image_text_row_features": {
+      "type": "image-text-row-features",
+      "blocks": {
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3411.png",
+            "title": "100% Custom Fit",
+            "text": "For your foot shape, pain areas, shoe type, & more"
+          }
+        },
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3326.png",
+            "title": "Deep Heel Cup",
+            "text": "For maximum stability & to prevent over pronation"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3412.png",
+            "title": "Shock Absorbing Cushion",
+            "text": "Distributes weight & reduces impact"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Frame_3409.png",
+            "title": "Vegan Leather Top Layer",
+            "text": "Dissipates odor and moisture away from feet"
+          }
+        }
+      },
+      "block_order": [
+        "feature_3",
+        "feature_1",
+        "feature_4",
+        "feature_2"
+      ],
+      "settings": {
+        "title": "Features of Our <strong>Custom Orthotics</strong>",
+        "text": "",
+        "button_url": "",
+        "button_label": "",
+        "disclaimer": "",
+        "image": "shopify://shop_images/Untitled_400_x_400_px_400_x_400_px_400_x_400_px_525_x_435_px_2.png",
+        "image_title": "",
+        "image_text": "",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "title_accent_color": "#9d9fa9",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "feature_multicolumn_row_EBehmk": {
+      "type": "feature-multicolumn-row",
+      "blocks": {
+        "feature_xFqxUb": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-clock_0eddc2bf-7257-4f56-9f56-3842951d4003.svg",
+            "title": "Reduces Pain",
+            "text": "From flat feet to plantar fasciitis, our master podiatrists have seen it all"
+          }
+        },
+        "feature_XQp87H": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-discount_0b405d85-50ec-40ec-b048-3541d13a8bf7.svg",
+            "title": "Strengthens feet",
+            "text": "Sensorimotor orthotics stimulate muscles through targeted proprioception"
+          }
+        },
+        "feature_gPm4Ef": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-money.svg",
+            "title": "Prevent Injury",
+            "text": "With less strain on your vulnerable knees and ankles"
+          }
+        },
+        "feature_VqEK7c": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/svg-truck_43626673-258b-4eb3-a721-44ceb8345f5f.svg",
+            "title": "Improve Posture",
+            "text": "Stand in a more neutral stance and walk with less over/under pronation"
+          }
+        }
+      },
+      "block_order": [
+        "feature_xFqxUb",
+        "feature_XQp87H",
+        "feature_gPm4Ef",
+        "feature_VqEK7c"
+      ],
+      "settings": {
+        "title": "How Stride <strong>Helps</strong>",
+        "button_url": "",
+        "button_label": "",
+        "disclaimer": "",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "title_accent_color": "#9d9fa9",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_text_overlay": {
+      "type": "image-text-overlay",
+      "disabled": true,
+      "settings": {
+        "title": "If We Fail To Solve Your Pain Problem <em>We Will Give You Your Money Back</em>",
+        "subtitle": "We will Solve Your Pain",
+        "text": "<p>Stride Soles was founded because of our frustration with the cost, time needed, and quality of existing solutions. That’s why we’re committed to creating the best custom orthotics possible. If they don’t feel quite right, we’ll keep working with you for up to 180 days to get them just right. And if, after all that, they’re still not the right fit, we’ll give you your money back—no hassle, no fine print, just a promise to help you move with ease.</p>",
+        "button_url": "",
+        "button_label": "Take The Quiz",
+        "disclaimer": "Limtied Time Offer",
+        "image": "shopify://shop_images/stride_foot_scan.jpg",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "compare_stride_TdjTEP": {
+      "type": "compare-stride",
+      "blocks": {
+        "header_HfN7tz": {
+          "type": "header",
+          "settings": {
+            "feature_1": "Talk To A Clinician",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "3D Imaging",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$137",
+            "shipping_time": "Delivery Time"
+          }
+        },
+        "others_6qCGf8": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Upstep",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": false,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": false,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": false,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$250+",
+            "shipping_time": "30-40 Days"
+          }
+        },
+        "stride_6FrQAc": {
+          "type": "stride",
+          "settings": {
+            "color_scheme": "scheme-5",
+            "logo": "shopify://shop_images/Stride_Logo_1.svg",
+            "title": "Stride",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$199",
+            "shipping_time": "15-20 Days"
+          }
+        },
+        "others_gzWikK": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Podiatrist",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "Award Winning <em>(Sometimes)</em>",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": false,
+            "price": "$300-1000",
+            "shipping_time": "20-60 Days"
+          }
+        }
+      },
+      "block_order": [
+        "header_HfN7tz",
+        "others_6qCGf8",
+        "stride_6FrQAc",
+        "others_gzWikK"
+      ],
+      "settings": {
+        "title": "Stride's Superior Solution Offer<em>s</em>|<strong>The Best Of Both Worlds</strong>",
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "mobile_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_review": {
+      "type": "image-text-review",
+      "settings": {
+        "reverse_columns": false,
+        "container_size": "narrow",
+        "title": "Professional <strong>Trust</strong>",
+        "review_title": "Dr. Dietmar Walter",
+        "review_subtitle": "Head of Podiatry, Stride Soles",
+        "review_text": "Each orthotic is custom designed in Germany by Dr. Dietmar Walter and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
+        "supporting_image_height": 200,
+        "button_url": "",
+        "button_label": "",
+        "disclaimer": "",
+        "image": "shopify://shop_images/stride_dr_walter.jpg",
+        "image_height": 440,
+        "color_scheme": "",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {
+          "type": "accordion",
+          "settings": {
+            "title": "Does Stride offer the same medical quality as going to the podiatrist?",
+            "answer": "<p>Yes! And in many ways better. Just like in the clinic, you capture a 3D foot scan, record a gait analysis, and answer key questions about your foot health. You can even request a 1:1 consultation with a member of the Stride team. All this in just 5 minutes and a fraction of the cost.</p><p>Your information is then analyzed by our podiatrists who then craft your custom orthotics, designed to alleviate your pain and improve your health.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "accordion",
+          "settings": {
+            "title": "What conditions do your orthotics help with?",
+            "answer": "<p>Custom orthotics are a first line treatment for flat feet, plantar fasciitis, ankle instability, arthritis, pronation, supination, limb-length discrepancy, morton’s neuroma, fractured bones, patellofemoral syndrome, posterior tibialis syndrome, and many other musculoskeletal conditions.</p><p>Strides are more than just a medical treatment. Our insoles are specifically designed to prevent injury by correcting postural issues before injuries occur.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "accordion",
+          "settings": {
+            "title": "What if I don't like my orthotics?",
+            "answer": "<p>We offer a 100% satisfaction guarantee, meaning we will redesign your pair free of charge or offer you a full refund. </p><p>Adjusting to custom orthotics is a process. While most people feel immediate relief, the ligaments, bones, and muscles in your feet may need some time to adapt to the corrective design. We ask that you give your feet at least 21 days to adjust to the insoles, starting with 1-2 hours of wear for the first few days until you feel comfortable.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "accordion",
+          "settings": {
+            "title": "How long do they last?",
+            "answer": "<p>Stride insoles last 4-6 years, depending on factors like activity level and body weight.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "accordion",
+          "settings": {
+            "title": "Do I need a prescription or referral?",
+            "answer": "<p>No. Stride orthotics are available without a prescription, but they are designed and reviewed by medical professionals, so you get clinical-grade care without needing an office visit.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "accordion",
+          "settings": {
+            "title": "Can Stride orthotics fit in any type of shoe?",
+            "answer": "<p>Yes—our insoles are available in different profiles (low, standard, and high volume) to fit everything from athletic shoes and boots to casual sneakers. We’ll guide you to the right fit based on your scan and use case.</p>"
+          }
+        },
+        "accordion_iLQTre": {
+          "type": "accordion",
+          "settings": {
+            "title": "Can I use the same orthotic in multiple pairs of shoes?",
+            "answer": "<p>Yes, though for best performance and longevity, we recommend having multiple pairs if you switch shoes frequently or wear different types (e.g., running shoes vs. work boots).</p>"
+          }
+        },
+        "accordion_Nm4pPc": {
+          "type": "accordion",
+          "settings": {
+            "title": "Are Stride orthotics covered by insurance?",
+            "answer": "<p>Stride doesn’t currently bill insurance directly, but you may be able to submit for reimbursement through your insurance plan. <br/>We’re happy to provide documentation for that. <br/><br/>You can also pay with your FSA/HSA card or ask us for documentation for your own submission. </p>"
+          }
+        },
+        "accordion_rG8miN": {
+          "type": "accordion",
+          "settings": {
+            "title": "How long does it take to receive my orthotics?",
+            "answer": "<p>After your scan and intake, our podiatrists begin designing your insoles right away. Orders are delivered within 15-20 days.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "accordion_iLQTre",
+        "accordion_Nm4pPc",
+        "accordion_rG8miN"
+      ],
+      "settings": {
+        "title": "Frequently Asked<em> </em><strong>Questions</strong>",
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "call_to_action": {
+      "type": "call-to-action",
+      "blocks": {
+        "icon": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-check-circle.svg",
+            "icon_size": 82
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "6 months to fall in love with your custom insoles - worry-free!",
+            "title_font_size": "text-h3",
+            "base_font_weight": "font-semibold",
+            "reduce_margin_bottom": false
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text_alignment": "center",
+            "text": "Not fitting well? Need adjustments? No problem! We’ll adjust your custom insoles to fit like a dream so you can get back to enjoying life pain-free."
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_url": "/pages/quiz?pairs=1",
+            "button_label": "TAKE THE QUIZ",
+            "disclaimer": "180 Day Return Policy",
+            "button_type": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon",
+        "title",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "inner_color_scheme": "",
+        "enable_wrapper": false,
+        "enable_border_radius": false,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 80
+      }
+    },
+    "17426185867dd1a699": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_FkmpzV": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_FkmpzV"
+      ],
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1756322077a22acaae": {
+      "type": "apps",
+      "blocks": {
+        "loox_reviews_loox_dynamic_section_ym4fHw": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "aggregated": true,
+            "limit": 16,
+            "hide_thumbnails": true,
+            "maxwidth": 1080,
+            "is_sample": false
+          }
+        }
+      },
+      "block_order": [
+        "loox_reviews_loox_dynamic_section_ym4fHw"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "how_stride_works_RbwijA",
+    "review_carousel_new_DNR6gF",
+    "review_carousel",
+    "feature_text_overlay",
+    "image_text_row_features",
+    "feature_multicolumn_row_EBehmk",
+    "image_text_overlay",
+    "compare_stride_TdjTEP",
+    "image_text_review",
+    "faq",
+    "call_to_action",
+    "17426185867dd1a699",
+    "1756322077a22acaae"
+  ]
+}

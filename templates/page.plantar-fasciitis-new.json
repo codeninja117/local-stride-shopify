@@ -1,0 +1,1400 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay_jY8k86": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "reviews_summary_rTfngW": {
+          "type": "reviews_summary",
+          "settings": {
+            "reviews_text": "5000+ verified 5-star reviews",
+            "render_reviews_summary_as_h1_element": false,
+            "reviews_h1_text": "Custom Orthotics and Insoles",
+            "reviews_span_text": "with 2000+ verified 5-star reviews"
+          }
+        },
+        "title_kXqWJ3": {
+          "type": "title",
+          "settings": {
+            "title": "<em>Custom Orthotics for Plantar Fasciitis</em>|<strong>Doctor-Designed for Heel Pain Relief</strong>",
+            "title_font_size": "text-display-m",
+            "inline_title": false
+          }
+        },
+        "text_gjLeFr": {
+          "type": "text",
+          "settings": {
+            "text": "Order custom orthotics from home – designed by award-winning German podiatrists for lasting heel pain relief."
+          }
+        },
+        "buttons_hqrXgw": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Get Started",
+            "button_url": "/pages/quiz?pairs=1",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "reviews_summary_rTfngW",
+        "title_kXqWJ3",
+        "text_gjLeFr",
+        "buttons_hqrXgw"
+      ],
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/frame4x1a1.png",
+        "video": "shopify://files/videos/StrideDesktop1920p.mp4",
+        "align_content": "left",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 15,
+        "min_height": 45,
+        "min_height_px": 400,
+        "vertical_alignment": "items-center",
+        "color_scheme": "scheme-3",
+        "padding_top": 180,
+        "padding_bottom": 88
+      }
+    },
+    "content_blocks_pqGwV6": {
+      "type": "content-blocks",
+      "blocks": {
+        "title_nraGcc": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "Help! <strong>Why do my heels hurt?</strong>",
+            "title_tag": "h2"
+          }
+        },
+        "richtext_Q4g7mt": {
+          "type": "richtext",
+          "settings": {
+            "text_alignment": "center",
+            "content": "<p><strong>Plantar fasciitis is one of the most common causes of chronic heel pain</strong>, and custom orthotics are one of the few treatments proven to address the <em>mechanical</em> root of the condition—not just the symptoms. <strong>By supporting the arch</strong>, stabilizing heel motion, and reducing overload on the plantar fascia, <strong>custom orthotics help the tissue finally heal</strong>.</p><p><strong>This guide explains what plantar fasciitis is</strong>, <strong>why it happens</strong>, <strong>how custom orthotics relieve pain</strong>, and <strong>what type of orthotic</strong> provides the fastest and most reliable long-term results.</p><p><strong>Let's get into it!</strong></p>"
+          }
+        },
+        "richtext_Ccqz9m": {
+          "type": "richtext",
+          "disabled": true,
+          "settings": {
+            "text_alignment": "left",
+            "content": "<h2>Lorem ipsum dolor sit amet</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+          }
+        },
+        "image_KaaDCB": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/pain.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "title_nraGcc",
+        "richtext_Q4g7mt",
+        "richtext_Ccqz9m",
+        "image_KaaDCB"
+      ],
+      "name": "Content blocks",
+      "settings": {
+        "page_width": "page-width--md",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_text_row_CHrk8b": {
+      "type": "image-text-row",
+      "blocks": {
+        "title_xPe6eW": {
+          "type": "title",
+          "settings": {
+            "title": "What is Plantar Fasciitis, <strong>and Why Does it Hurt?</strong>",
+            "font_size": "text-h2"
+          }
+        },
+        "richtext_FVdMib": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p>The plantar fascia is a tough, fibrous band of tissue connecting the heel bone to the toes. This tissue helps support the arch and absorbs shock each time your foot strikes the ground (Source: <a href=\"https://www.mayoclinic.org/diseases-conditions/plantar-fasciitis/symptoms-causes/syc-20354846\" target=\"_blank\" title=\"https://www.mayoclinic.org/diseases-conditions/plantar-fasciitis/symptoms-causes/syc-20354846\"><span style=\"text-decoration:underline\"><strong>Mayo Clinic</strong></span></a>). When this tissue becomes inflamed due to microtears caused by overstretching or overuse, the condition is called plantar fasciitis. </p><p>Over time, the inflammation leads to the sharp, stabbing heel pain that’s most noticeable when taking the first few steps in the morning. For some, <a href=\"/blogs/articles/can-plantar-fasciitis-go-away\" title=\"/blogs/articles/can-plantar-fasciitis-go-away\"><span style=\"text-decoration:underline\"><strong>plantar fasciitis will go away on its own</strong></span></a>, for others physical therapy or orthotics may be required.</p><p><br/><a href=\"/blogs/articles/plantar-fasciitis-the-ultimate-guide\" title=\"/blogs/articles/plantar-fasciitis-the-ultimate-guide\"><span style=\"text-decoration:underline\"><strong>See Our Complete Plantar Fasciitis Guide</strong></span></a><strong>.</strong></p>",
+            "font_size": "text-body-m"
+          }
+        }
+      },
+      "block_order": [
+        "title_xPe6eW",
+        "richtext_FVdMib"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/pf-1.png",
+        "image_caption": "",
+        "aspect_ratio": "80%",
+        "mobile_aspect_ratio": "125%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "columns_with_icons_EMgW7P": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_i7nQmD": {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/pf-s-1.png",
+            "title": "<strong>Sharp, stabbing heel pain </strong>",
+            "description": "Especially first steps in the morning"
+          }
+        },
+        "column_h8JVGf": {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/pf-s-2.png",
+            "title": "<strong>Pain that worsens after activity</strong>",
+            "description": "While resting, not during activity"
+          }
+        },
+        "column_y4tMr6": {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/pf-s-3.png",
+            "title": "<strong>Stiffness or mild swelling</strong>",
+            "description": "Along the side of the foot"
+          }
+        },
+        "column_XzdwaP": {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/pf-s-4.png",
+            "title": "<strong>Tenderness in the arch</strong> ",
+            "description": "That increases throughout the day"
+          }
+        }
+      },
+      "block_order": [
+        "column_i7nQmD",
+        "column_h8JVGf",
+        "column_y4tMr6",
+        "column_XzdwaP"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "page-width--xl",
+        "title": "Symptoms of <strong>Plantar Fasciitis</strong>",
+        "description": "<p>Many have combinations of the below symptoms:</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "center",
+        "items_per_row": 4,
+        "grid_gap": 0.6,
+        "icon_width": 90,
+        "color_scheme": "scheme-888a23f6-2790-4f27-94f2-9e22c6b0e4f0",
+        "color_scheme_blocks": "scheme-888a23f6-2790-4f27-94f2-9e22c6b0e4f0",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "columns_with_icons_FRHdjF": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_U8Xec4": {
+          "type": "column",
+          "settings": {
+            "title": "Fallen or collapsing arches",
+            "description": ""
+          }
+        },
+        "column_9Qx3Tq": {
+          "type": "column",
+          "settings": {
+            "title": "Prolonged standing or work on hard floors",
+            "description": ""
+          }
+        },
+        "column_yfBndV": {
+          "type": "column",
+          "settings": {
+            "title": "Overpronation, where the ankles roll inward with each step",
+            "description": ""
+          }
+        },
+        "column_BRbMPd": {
+          "type": "column",
+          "settings": {
+            "title": "Worn-out footwear with no arch support",
+            "description": ""
+          }
+        },
+        "column_FVxNyn": {
+          "type": "column",
+          "settings": {
+            "title": "Tight calves or Achilles tendons, which pull on heel bone",
+            "description": ""
+          }
+        },
+        "column_Jn4Krn": {
+          "type": "column",
+          "settings": {
+            "title": "Age-related changes in foot fat pads, tissue elasticity, or gait.",
+            "description": ""
+          }
+        },
+        "column_qQGVbB": {
+          "type": "column",
+          "settings": {
+            "title": "Sudden increases in walking, standing or running",
+            "description": ""
+          }
+        },
+        "column_UAdeM7": {
+          "type": "column",
+          "settings": {
+            "title": "High BMI, which increases load on the fascia",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_U8Xec4",
+        "column_9Qx3Tq",
+        "column_yfBndV",
+        "column_BRbMPd",
+        "column_FVxNyn",
+        "column_Jn4Krn",
+        "column_qQGVbB",
+        "column_UAdeM7"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "<strong>Causes of Plantar Fasciitis (Why It Happens)</strong>",
+        "description": "<p>Plantar fasciitis occurs when the plantar fascia — the thick, fibrous band that supports your arch — becomes irritated or overloaded. While many people think plantar fasciitis is purely an \"overuse injury\", the truth is that <strong>biomechanics play the biggest role.</strong></p>",
+        "footer_text": "<p>Even minor imbalances can create thousands of microtears over time — leading to the painful morning \"first-step\" sensation that plantar fasciitis is known for.</p>",
+        "title_text_alignment": "center",
+        "block_text_alignment": "center",
+        "items_per_row": 3,
+        "grid_gap": 2,
+        "icon_width": 40,
+        "color_scheme": "",
+        "color_scheme_blocks": "scheme-888a23f6-2790-4f27-94f2-9e22c6b0e4f0",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "columns_with_icons_tzzf3F": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_qqfNd6": {
+          "type": "column",
+          "settings": {
+            "title": "Wearing orthotics consistently",
+            "description": ""
+          }
+        },
+        "column_9hX4Gw": {
+          "type": "column",
+          "settings": {
+            "title": "Gentle morning foot mobility",
+            "description": ""
+          }
+        },
+        "column_mtAjdF": {
+          "type": "column",
+          "settings": {
+            "title": "Supportive shoes with firm midsoles",
+            "description": ""
+          }
+        },
+        "column_wVRWKy": {
+          "type": "column",
+          "settings": {
+            "title": "Avoiding barefoot walking",
+            "description": ""
+          }
+        },
+        "column_iRwK6r": {
+          "type": "column",
+          "settings": {
+            "title": "Stretching calves 2–3× daily",
+            "description": ""
+          }
+        },
+        "column_yTmR38": {
+          "type": "column",
+          "settings": {
+            "title": "Gradual return to activity",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_qqfNd6",
+        "column_9hX4Gw",
+        "column_mtAjdF",
+        "column_wVRWKy",
+        "column_iRwK6r",
+        "column_yTmR38"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "Habits That <strong>Improve Plantar Fasciitis</strong>",
+        "description": "<p>Many have combinations of the below symptoms</p>",
+        "footer_text": "<p>Orthotics address the mechanical root cause — these habits support healing even further.</p>",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 2,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-888a23f6-2790-4f27-94f2-9e22c6b0e4f0",
+        "color_scheme_blocks": "scheme-c2153579-bb7d-49fd-b9c3-1ed673895b73",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_HTyLcN": {
+      "type": "image-text-row",
+      "blocks": {
+        "title_mir4XD": {
+          "type": "title",
+          "settings": {
+            "title": "Who Is Most at Risk for Plantar Fasciitis?",
+            "font_size": "text-h2"
+          }
+        },
+        "richtext_xaFHxF": {
+          "type": "richtext",
+          "settings": {
+            "text": "<p>Plantar fasciitis can affect anyone, but certain factors significantly increase risk.</p><p><strong>You’re at higher risk if:</strong></p><ul><li>Aged 40–60</li><li>Flat feet / high arches</li><li>Limited ankle mobility</li><li>Women 2× more likely</li><li>Standing jobs (nurses, retail, factory)</li></ul>",
+            "font_size": "text-body-m"
+          }
+        }
+      },
+      "block_order": [
+        "title_mir4XD",
+        "richtext_xaFHxF"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/pf-2.png",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 30,
+        "color_scheme": "scheme-de3029fc-ee45-41fb-a828-d7c1f535f2dd",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "columns_with_icons_NdK67H": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_KknER7": {
+          "type": "column",
+          "settings": {
+            "title": "Walking barefoot on hard floors",
+            "description": ""
+          }
+        },
+        "column_LV7Gp6": {
+          "type": "column",
+          "settings": {
+            "title": "Sudden training increases",
+            "description": ""
+          }
+        },
+        "column_TQJnAN": {
+          "type": "column",
+          "settings": {
+            "title": "Worn-out shoes",
+            "description": ""
+          }
+        },
+        "column_aRiGqi": {
+          "type": "column",
+          "settings": {
+            "title": "Standing all day on concrete",
+            "description": ""
+          }
+        },
+        "column_7VW98t": {
+          "type": "column",
+          "settings": {
+            "title": "Running before addressing calf tightness",
+            "description": ""
+          }
+        },
+        "column_wrpaPg": {
+          "type": "column",
+          "settings": {
+            "title": "Skipping calf and foot stretching",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_KknER7",
+        "column_LV7Gp6",
+        "column_TQJnAN",
+        "column_aRiGqi",
+        "column_7VW98t",
+        "column_wrpaPg"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "Daily Habits That <strong>Worsen Plantar Fasciitis</strong>",
+        "description": "<p>Many have combinations of the below symptoms</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 2,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "",
+        "color_scheme_blocks": "scheme-de3029fc-ee45-41fb-a828-d7c1f535f2dd",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_RUxrdP": {
+      "type": "image-text-row",
+      "blocks": {
+        "title_AXkUcD": {
+          "type": "title",
+          "settings": {
+            "title": "<strong>Do Custom Orthotics</strong> Help Plantar Fasciitis?",
+            "font_size": "text-h2"
+          }
+        },
+        "richtext_GwhCDj": {
+          "type": "richtext",
+          "settings": {
+            "text": "<h2></h2><p><em>Yes. Research consistently shows that custom orthotics reduce plantar fascia strain by correcting the mechanics that cause the condition.</em></p><p></p><p>Unlike generic foam inserts, custom orthotics treat the <em>root mechanical cause</em>—not just cushion symptoms.</p>",
+            "font_size": "text-body-m"
+          }
+        }
+      },
+      "block_order": [
+        "title_AXkUcD",
+        "richtext_GwhCDj"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-center",
+        "container_size": "normal",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/pf-3.png",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 40,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "feature_multicolumn_row_MHtV33": {
+      "type": "feature-multicolumn-row",
+      "blocks": {
+        "feature_jtrYjm": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/bones.png",
+            "title": "Supports the Arch",
+            "text": "Proper arch support prevents the plantar fascia from overstretching with each step, reducing strain on the inflamed tissue."
+          }
+        },
+        "feature_JeHYP6": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/human.png",
+            "title": "Stabilizes the Heel",
+            "text": "A rigid heel cup keeps the heel aligned and reduces inward rolling (overpronation), which is one of the biggest drivers of plantar fascia tension."
+          }
+        },
+        "feature_WNDQbw": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/deployment.png",
+            "title": "Redistributes Pressure",
+            "text": "Stride’s custom geometry shifts pressure away from the heel—helping reduce morning “first-step” pain by giving the fascia a chance to heal."
+          }
+        },
+        "feature_GgnyPg": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/walk.png",
+            "title": "Promotes a More Natural Gait",
+            "text": "By improving alignment from heel strike through toe-off, custom orthotics help your foot move more efficiently and reduce flare-ups over time."
+          }
+        }
+      },
+      "block_order": [
+        "feature_jtrYjm",
+        "feature_JeHYP6",
+        "feature_WNDQbw",
+        "feature_GgnyPg"
+      ],
+      "name": "Feature multicolumn row",
+      "settings": {
+        "title": "<strong>How Custom Orthotics Help </strong>Plantar Fasciitis",
+        "button_url": "",
+        "button_label": "",
+        "disclaimer": "",
+        "background_color": "#eeeeee",
+        "text_color": "#000000",
+        "title_accent_color": "#9d9fa9",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "content_blocks_wPR6Mb": {
+      "type": "content-blocks",
+      "blocks": {
+        "title_D8Y8NG": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "<strong>Custom Orthotics v/s</strong> OTC for Plantar Fasciitis",
+            "title_tag": "h2"
+          }
+        },
+        "table_AVCy6M": {
+          "type": "table",
+          "settings": {
+            "table_data": "Feature | Over The Counter Insoles | Custom Orthotics\nPurpose | Designed to provide comfort, shock absorption, and mild arch support. | Medical-grade design to correct biomechanical issues and address the root cause of pain.\nCustomization | Offers semi-customization but not medical grade. | Fully customized to fit your foot structure and specific biomechanical needs.\nDesign and Construction | Simple design and soft materials. | Multi-layer design and rigid or semi-rigid materials for adequate arch support.\nDurability | Lasts 3 to 6 months. | Can last 4+ years depending on use.\nWhere to get them | Pharmacies, sports stores, footwear companies, and online. | From podiatrists or other relevant healthcare providers.\nCost | Costs from $20 to $100, depending on the quality. | Costs from $199 and above."
+          }
+        }
+      },
+      "block_order": [
+        "title_D8Y8NG",
+        "table_AVCy6M"
+      ],
+      "name": "Content blocks",
+      "settings": {
+        "page_width": "page-width--lg",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "yes_no_blocks_fXEYga": {
+      "type": "yes-no-blocks",
+      "blocks": {
+        "column_cDxLqr": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/yn-1.png",
+            "title": "✅  Best Shoe Types",
+            "description": "<ul><li>Running shoes with firm heel counters</li><li>Walking shoes with structured midsoles</li><li>Work boots with rigid shanks</li><li>Cross-trainers with minimal twisting</li></ul>"
+          }
+        },
+        "column_DHaicq": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/yn2.png",
+            "title": "❌  Avoid",
+            "description": "<ul><li>Soft memory-foam shoes</li><li>Flat slip-ons</li><li>Flip flops</li><li>Barefoot/minimal shoes during flare-ups</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "column_cDxLqr",
+        "column_DHaicq"
+      ],
+      "disabled": true,
+      "name": "Yes/No Blocks",
+      "settings": {
+        "page_width": "page-width--lg",
+        "title": "<strong>What Shoes Work Best With</strong> Orthotics for Plantar Fasciitis?",
+        "description": "<p>Many have combinations of the below symptoms</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 2,
+        "grid_gap": 1,
+        "color_scheme": "",
+        "color_scheme_blocks": "scheme-de3029fc-ee45-41fb-a828-d7c1f535f2dd",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "columns_with_icons_Mjt4GT": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_4ahn9j": {
+          "type": "column",
+          "settings": {
+            "title": "Custom arch profile",
+            "description": "Matches your arch height — not a generic curve."
+          }
+        },
+        "column_ajcAzX": {
+          "type": "column",
+          "settings": {
+            "title": "Deep heel cup",
+            "description": "Controls rearfoot motion and reduces pronation."
+          }
+        },
+        "column_qj6Y4H": {
+          "type": "column",
+          "settings": {
+            "title": "Firm, medical-grade shell",
+            "description": "Corrects mechanics (soft foam collapses after hours)."
+          }
+        },
+        "column_VNwnJN": {
+          "type": "column",
+          "settings": {
+            "title": "Precise foot scanning",
+            "description": "3D data ensures your fascia is supported exactly where it needs it."
+          }
+        },
+        "column_9QqMdG": {
+          "type": "column",
+          "settings": {
+            "title": "Durable top cover",
+            "description": "3D data ensures your fascia is supported exactly where it needs it."
+          }
+        }
+      },
+      "block_order": [
+        "column_4ahn9j",
+        "column_ajcAzX",
+        "column_qj6Y4H",
+        "column_VNwnJN",
+        "column_9QqMdG"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "<strong>How to Choose the Right Orthotics </strong>for Plantar Fasciitis",
+        "description": "<p>A proper plantar fasciitis orthotic should include:</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 3,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-1",
+        "color_scheme_blocks": "scheme-c2153579-bb7d-49fd-b9c3-1ed673895b73",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "columns_with_icons_8Fzc6B": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_R9PQgH": {
+          "type": "column",
+          "settings": {
+            "title": "Custom arch profile",
+            "description": "Matches your arch height — not a generic curve."
+          }
+        },
+        "column_YU9R8y": {
+          "type": "column",
+          "settings": {
+            "title": "Deep heel cup",
+            "description": "Controls rearfoot motion and reduces pronation."
+          }
+        },
+        "column_XtN3Rp": {
+          "type": "column",
+          "settings": {
+            "title": "Firm, medical-grade shell",
+            "description": "Corrects mechanics (soft foam collapses after hours)."
+          }
+        },
+        "column_e4pBkD": {
+          "type": "column",
+          "settings": {
+            "title": "Precise foot scanning",
+            "description": "3D data ensures your fascia is supported exactly where it needs it."
+          }
+        },
+        "column_PzfYe9": {
+          "type": "column",
+          "settings": {
+            "title": "Durable top cover",
+            "description": "3D data ensures your fascia is supported exactly where it needs it."
+          }
+        }
+      },
+      "block_order": [
+        "column_R9PQgH",
+        "column_YU9R8y",
+        "column_XtN3Rp",
+        "column_e4pBkD",
+        "column_PzfYe9"
+      ],
+      "disabled": true,
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "What to Expect When You <strong>Start Wearing Custom Orthotics</strong>",
+        "description": "<p>A proper plantar fasciitis orthotic should include:</p>",
+        "footer_text": "<p>Supportive shoe + corrective orthotic = fastest healing.</p>",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 3,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-1",
+        "color_scheme_blocks": "scheme-c2153579-bb7d-49fd-b9c3-1ed673895b73",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "best_orthotics_Q6wi4N": {
+      "type": "best-orthotics",
+      "blocks": {
+        "column_item_rzq7X3": {
+          "type": "column_item",
+          "settings": {
+            "show_number": true,
+            "image": "shopify://shop_images/bo-1.png",
+            "title": "<strong>Stride Soles</strong> - Best Overall for Plantar Fasciitis Relief",
+            "description": "<p>✅ 3D foot scanning<br/>✅ Gait video analysis<br/>✅ Podiatrist-designed geometry<br/>✅ Medical-grade materials<br/>✅ Designed to stabilize arches & heel motion</p>"
+          }
+        },
+        "column_item_aBzUKb": {
+          "type": "column_item",
+          "settings": {
+            "show_number": true,
+            "image": "shopify://shop_images/bo2.png",
+            "title": "<strong>Clinic-Prescribed Orthotics</strong>",
+            "description": "<p>✅ Highly effective <br/>🟡 Require appointments and cost $400–$800.</p>"
+          }
+        },
+        "column_item_6XMGcg": {
+          "type": "column_item",
+          "settings": {
+            "show_number": true,
+            "image": "shopify://shop_images/bo3.png",
+            "title": "<strong>Premium Semi-Custom Insoles</strong>",
+            "description": "<p>✅ Cheap ($40-$80) <br/>🟡 Often lack proper arch support</p>"
+          }
+        }
+      },
+      "block_order": [
+        "column_item_rzq7X3",
+        "column_item_aBzUKb",
+        "column_item_6XMGcg"
+      ],
+      "name": "Best Orthotics",
+      "settings": {
+        "page_width": "page-width--md",
+        "title": "<strong>Best Custom Orthotics for</strong> Plantar Fasciitis (2025)",
+        "description": "<p>Not all Custom Orthotics are made equal</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 1,
+        "grid_gap": 1,
+        "color_scheme": "",
+        "color_scheme_blocks": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "feature_multicolumn_eWEaVQ": {
+      "type": "feature-multicolumn",
+      "blocks": {
+        "feature_NJTjfE": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/4.jpg",
+            "title": "3D Foot Scans",
+            "text": ""
+          }
+        },
+        "feature_xxw4gY": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/print-light.webp",
+            "title": "Gait video analysis",
+            "text": ""
+          }
+        },
+        "feature_GG9DmH": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/strides.webp",
+            "title": "Podiatrist-designed geometries",
+            "text": ""
+          }
+        },
+        "feature_fFaNDQ": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/soccer.jpg",
+            "title": "Orthopedic-grade materials",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_NJTjfE",
+        "feature_xxw4gY",
+        "feature_GG9DmH",
+        "feature_fFaNDQ"
+      ],
+      "disabled": true,
+      "name": "Feature multicolumn",
+      "settings": {
+        "title": "Stride Orthotics Check All Of These \nBoxes Because They're Made From:",
+        "text": "",
+        "button_label": "",
+        "button_url": "",
+        "footer_text": "<p>This is why Stride orthotics don't just cushion —<br/>they correct the entire gait cycle.</p>",
+        "items_per_row": 4,
+        "background_color": "#e2e2e2",
+        "text_color": "#000000",
+        "color_scheme": "",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "columns_with_icons_eAmYpj": {
+      "type": "columns-with-icons",
+      "disabled": true,
+      "custom_css": [],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "What to Expect When You <strong>Start Wearing Custom Orthotics</strong>",
+        "description": "<p>Custom orthotics modify how your foot loads pressure.</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 3,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-de3029fc-ee45-41fb-a828-d7c1f535f2dd",
+        "color_scheme_blocks": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 36
+      }
+    },
+    "columns_with_icons_kDJWch": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_WFTAJc": {
+          "type": "column",
+          "settings": {
+            "title": "Calf tightness",
+            "description": ""
+          }
+        },
+        "column_cgARrT": {
+          "type": "column",
+          "settings": {
+            "title": "New gait awareness",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_WFTAJc",
+        "column_cgARrT"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".gap-16 {gap: 1rem;}"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "",
+        "description": "<p><strong>Normal during the first 7–14 days:</strong></p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 3,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-de3029fc-ee45-41fb-a828-d7c1f535f2dd",
+        "color_scheme_blocks": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "columns_with_icons_tQhYwE": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_d7CgNW": {
+          "type": "column",
+          "settings": {
+            "title": "Have sharp heel pain",
+            "description": "Especially first steps in the morning"
+          }
+        },
+        "column_C4xzNd": {
+          "type": "column",
+          "settings": {
+            "title": "Wear work boots all day",
+            "description": "Pressure on the heel/forefoot that builds daily"
+          }
+        },
+        "column_ChwabA": {
+          "type": "column",
+          "settings": {
+            "title": "Have flat or collapsed arches",
+            "description": "Corrects mechanics (soft foam collapses after hours)."
+          }
+        },
+        "column_JVY3Xm": {
+          "type": "column",
+          "settings": {
+            "title": "Experience overpronation",
+            "description": "Ankles roll inwards during walking"
+          }
+        },
+        "column_8LzQJY": {
+          "type": "column",
+          "settings": {
+            "title": "Achy arches",
+            "description": "Fatigue after long standing days"
+          }
+        }
+      },
+      "block_order": [
+        "column_d7CgNW",
+        "column_C4xzNd",
+        "column_ChwabA",
+        "column_JVY3Xm",
+        "column_8LzQJY"
+      ],
+      "disabled": true,
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "Get <strong>Plantar Fasciitis Orthotics</strong>",
+        "description": "<p>Perfect for people who...</p>",
+        "footer_text": "",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 3,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-888a23f6-2790-4f27-94f2-9e22c6b0e4f0",
+        "color_scheme_blocks": "scheme-c2153579-bb7d-49fd-b9c3-1ed673895b73",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "how_stride_works_UgXVzF": {
+      "type": "how-stride-works",
+      "blocks": {
+        "step_pAFk7T": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/Image1-1.jpg",
+            "title": "Short assessment about your heel pain",
+            "text": ""
+          }
+        },
+        "step_wHXtRH": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/Image2-1.jpg",
+            "title": "Record your gait & scan your feet with the Stride app.",
+            "text": ""
+          }
+        },
+        "step_eiCVE7": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/group-new.jpg",
+            "title": "Give us 2-3 weeks for your custom orthotics to arrive!",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "step_pAFk7T",
+        "step_wHXtRH",
+        "step_eiCVE7"
+      ],
+      "name": "How stride works",
+      "settings": {
+        "title": "How Stride Works",
+        "subtitle": "<strong>Your At-home Podiatry Visit</strong>",
+        "button_primary_label": "Take the Quiz",
+        "button_primary_link": "/pages/quiz?pairs=1",
+        "button_secondary_label": "Watch video",
+        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
+        "button_disclaimer": "Free Shipping",
+        "button_disclaimer_2": "180-Day Money-Back Guarantee",
+        "color_scheme": "scheme-1",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "columns_with_icons_Le88Cz": {
+      "type": "columns-with-icons",
+      "blocks": {
+        "column_x9n6hg": {
+          "type": "column",
+          "settings": {
+            "title": "Days 1-3",
+            "description": "1–2 hours/day"
+          }
+        },
+        "column_RXPPnj": {
+          "type": "column",
+          "settings": {
+            "title": "Days 4-7",
+            "description": "3–5 hours/day"
+          }
+        },
+        "column_tkyqJF": {
+          "type": "column",
+          "settings": {
+            "title": "Week 2",
+            "description": "Most of the day"
+          }
+        },
+        "column_trEXhb": {
+          "type": "column",
+          "settings": {
+            "title": "After Week 2",
+            "description": "Full-time use"
+          }
+        }
+      },
+      "block_order": [
+        "column_x9n6hg",
+        "column_RXPPnj",
+        "column_tkyqJF",
+        "column_trEXhb"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".gap-16 {gap: 1rem;}"
+      ],
+      "name": "Columns with icons",
+      "settings": {
+        "page_width": "",
+        "title": "",
+        "description": "<p><strong>Break-in plan:</strong></p>",
+        "footer_text": "<p>Adjustments are common and part of the process.</p>",
+        "title_text_alignment": "center",
+        "block_text_alignment": "left",
+        "items_per_row": 4,
+        "grid_gap": 1,
+        "icon_width": 40,
+        "color_scheme": "scheme-de3029fc-ee45-41fb-a828-d7c1f535f2dd",
+        "color_scheme_blocks": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 60
+      }
+    },
+    "feature_multicolumn_XqggKt": {
+      "type": "feature-multicolumn",
+      "blocks": {
+        "feature_GMe74V": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/str_lp_1.png",
+            "title": "Custom Arch for Plantar Fasciitis Relief",
+            "text": "Matches your arch height + foot shape to reduce strain on the plantar fascia."
+          }
+        },
+        "feature_EExrjL": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/str_lp_2.png",
+            "title": "Stabilizes the Plantar Fascia",
+            "text": "Prevents overpronation and reduces heel pressure with each step."
+          }
+        },
+        "feature_ydpXKN": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/str_lp_3.png",
+            "title": "Offloads Pressure From Heel & Midfoot",
+            "text": "3D-printed geometry shifts load away from painful Plantar Fasciitis hotspots."
+          }
+        },
+        "feature_W7dtik": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/str_lp_4.png",
+            "title": "Designed for All-Day Walking & Standing",
+            "text": "Supports long hours on your feet without collapsing, unlike foam inserts."
+          }
+        }
+      },
+      "block_order": [
+        "feature_GMe74V",
+        "feature_EExrjL",
+        "feature_ydpXKN",
+        "feature_W7dtik"
+      ],
+      "disabled": true,
+      "name": "Feature multicolumn",
+      "settings": {
+        "title": "Stride Custom Orthotics \nFor Plantar Fasciitis",
+        "text": "Stride orthotics are engineered specifically for heel pain, morning pain, and plantar fascia strain.",
+        "button_label": "",
+        "button_url": "",
+        "footer_text": "",
+        "items_per_row": 4,
+        "background_color": "#e2e2e2",
+        "text_color": "#000000",
+        "color_scheme": "scheme-888a23f6-2790-4f27-94f2-9e22c6b0e4f0",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "statistics_hero_W9MGpE": {
+      "type": "statistics-hero",
+      "blocks": {
+        "statistic_TFPyVV": {
+          "type": "statistic",
+          "settings": {
+            "number": "95%",
+            "body": "Improved Heel Pain in the First Week"
+          }
+        },
+        "statistic_JXyJzN": {
+          "type": "statistic",
+          "settings": {
+            "number": "<0.03%",
+            "body": "Orthotics are Returned"
+          }
+        },
+        "statistic_Rb4LEA": {
+          "type": "statistic",
+          "settings": {
+            "number": "10,000+",
+            "body": "Orthotics made over 3 generations"
+          }
+        }
+      },
+      "block_order": [
+        "statistic_TFPyVV",
+        "statistic_JXyJzN",
+        "statistic_Rb4LEA"
+      ],
+      "name": "Statistics Hero",
+      "settings": {
+        "title": "",
+        "button_label": "Get Your Custom Orthotics",
+        "button_url": "/pages/quiz?pairs=1",
+        "disclaimer": "180 Day Satisfaction Guarantee",
+        "number_color": "#eacba4",
+        "body_color": "#ffffff",
+        "button_background_color": "#6417ff",
+        "button_text_color": "#ffffff",
+        "background_image": "shopify://shop_images/Screenshot_2025-08-18_at_2.28.31_PM.png",
+        "overlay_color": "#000000",
+        "overlay_opacity": 60,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "review_carousel_new_794U6g": {
+      "type": "review-carousel-new",
+      "blocks": {
+        "video_review_X4gBYF": {
+          "type": "video-review",
+          "settings": {
+            "video_poster": "shopify://shop_images/g.png",
+            "review": "StrideSoles have really helped me out, they are really affordable compared to what Iused to get at the doctors office. I was really impressed with how accurate thescan was, it molded to my feet pretty perfectly I would say… When I wear them,compared to normal insoles, I don't feel any pain when walking.",
+            "title": "Gabriel Kalen",
+            "review_date": "January 7, 2024"
+          }
+        },
+        "video_review_JnmdkR": {
+          "type": "video-review",
+          "settings": {
+            "video_poster": "shopify://shop_images/d.png",
+            "review": "I have been using the Stride Soles custom orthotics for about 2 months now in my Brooks running shoes. They customize everything... I selected my shoe type, sport, injuries, and my shoes types and they are perfect for my feet. I brought them by my physio therapist and they said it was exactly what I need to help with my low arch.",
+            "title": "Elliott Hall",
+            "review_date": "July 13, 2023"
+          }
+        },
+        "video_review_hPzPAB": {
+          "type": "video-review",
+          "settings": {
+            "video_poster": "shopify://shop_images/ss.png",
+            "review": "It's been about a year now so I figure it's time for a review! I wear my Stride's in all of my shoes and love how supported my feet feel. I can walk, run, play tennis, and everything without my normal heel pain. I'm glad I found you guys!!!",
+            "title": "Janice Simon",
+            "review_date": "February 9, 2023"
+          }
+        },
+        "video_review_ME7R9B": {
+          "type": "video-review",
+          "settings": {
+            "video_poster": "shopify://shop_images/1.png",
+            "review": "Before Stride Soles, I used to feel like a dog walking on a treadmill! Now I'm able to be on the treadmill, or my bike without pain. In fact, I'm getting ready to purchase another pair today.",
+            "title": "Jorge V",
+            "review_date": "June 14, 2024"
+          }
+        },
+        "video_review_Wj38XA": {
+          "type": "video-review",
+          "settings": {
+            "video_poster": "shopify://shop_images/b.png",
+            "review": "As a podiatrist withyears of experience I have always advocated for my patients. I'm glad toendorse and prescribe Stride Soles for my patients. The scanner is extremelyaccurate, and that's why I even use it in-clinic. It's remarkable they've beenable to translate this experience to an at-home model.",
+            "title": "Dr. Stephanie Kane",
+            "review_date": "July 9, 2023"
+          }
+        },
+        "video_review_x9Ungw": {
+          "type": "video-review",
+          "settings": {
+            "video_poster": "shopify://shop_images/22.png",
+            "review": "My Stride Soles inserts are absolutely amazing...A lot of my hip, knee, back pain, is relieved so I absolutely love them. I can't emphasize that enough. If you haven't gotten them already, go get them!",
+            "title": "Lucas Simon",
+            "review_date": "February 3, 2025"
+          }
+        }
+      },
+      "block_order": [
+        "video_review_X4gBYF",
+        "video_review_JnmdkR",
+        "video_review_hPzPAB",
+        "video_review_ME7R9B",
+        "video_review_Wj38XA",
+        "video_review_x9Ungw"
+      ],
+      "name": "Review carousel new",
+      "settings": {
+        "title": "What Our <em><strong>Customers Say</strong></em>",
+        "subtitle": "What will you achieve with Stride Soles?",
+        "trustpilot_summary": "shopify://shop_images/trustpilot-summary.png",
+        "trust_pilot_url": "",
+        "frontrowmd_snippet": "",
+        "slides_per_view": 3.6,
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take the Quiz",
+        "disclaimer": "Limited Time Offer",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "call_to_action_ErHxhd": {
+      "type": "call-to-action",
+      "blocks": {
+        "icon_rftrat": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-check-circle.svg",
+            "icon_size": 82
+          }
+        },
+        "title_Dk3Yyh": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "6 free months to fall in love with your custom insoles - worry-free!",
+            "title_font_size": "text-h2",
+            "base_font_weight": "font-semibold",
+            "reduce_margin_bottom": false
+          }
+        },
+        "richtext_DNckpU": {
+          "type": "richtext",
+          "settings": {
+            "text_alignment": "center",
+            "richtext": "<p>Not fitting well? Need adjustments? No problem! We’ll adjust your custom insoles to fit like a dream so you can get back to enjoying life pain-free.</p>"
+          }
+        },
+        "button_8hE9rw": {
+          "type": "button",
+          "settings": {
+            "button_url": "/pages/quiz?pairs=1",
+            "button_label": "Take the Quiz",
+            "disclaimer": "180 Day Satisfaction Guarentee",
+            "button_type": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_rftrat",
+        "title_Dk3Yyh",
+        "richtext_DNckpU",
+        "button_8hE9rw"
+      ],
+      "name": "Call To Action",
+      "settings": {
+        "color_scheme": "",
+        "inner_color_scheme": "",
+        "enable_wrapper": false,
+        "enable_border_radius": false,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay_jY8k86",
+    "content_blocks_pqGwV6",
+    "image_text_row_CHrk8b",
+    "columns_with_icons_EMgW7P",
+    "columns_with_icons_FRHdjF",
+    "columns_with_icons_tzzf3F",
+    "image_text_row_HTyLcN",
+    "columns_with_icons_NdK67H",
+    "image_text_row_RUxrdP",
+    "feature_multicolumn_row_MHtV33",
+    "content_blocks_wPR6Mb",
+    "yes_no_blocks_fXEYga",
+    "columns_with_icons_Mjt4GT",
+    "columns_with_icons_8Fzc6B",
+    "best_orthotics_Q6wi4N",
+    "feature_multicolumn_eWEaVQ",
+    "columns_with_icons_eAmYpj",
+    "columns_with_icons_kDJWch",
+    "columns_with_icons_tQhYwE",
+    "how_stride_works_UgXVzF",
+    "columns_with_icons_Le88Cz",
+    "feature_multicolumn_XqggKt",
+    "statistics_hero_W9MGpE",
+    "review_carousel_new_794U6g",
+    "call_to_action_ErHxhd"
+  ]
+}

@@ -1,0 +1,421 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="section__main  page-width" data-animate="fade-up">
+    <div class="section__header mx-auto w-[700px] max-w-full text-center">
+      {%- if section.settings.title != blank -%}
+        <h2 class="{{ section.settings.title_font_size }} section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<i>', '<span class="">'
+            | replace: '</i>', '</span>'
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+          }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="{% unless section.settings.make_subtitle_color_primary %}opacity-60{% endunless %} {{ section.settings.subtitle_font_size }}">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-4" data-animate>
+      {% comment %} Initialize variables for each column {% endcomment %}
+      {%- capture column_1 -%}{%- endcapture -%}
+      {%- capture column_2 -%}{%- endcapture -%}
+      {%- capture column_3 -%}{%- endcapture -%}
+      {%- capture column_4 -%}{%- endcapture -%}
+
+      {% comment %} Build HTML for each column {% endcomment %}
+      {% for block in section.blocks %}
+        {%- assign block_image_alt = block.settings.image.alt | default: shop.name -%}
+        {%- capture block_html -%}
+          <div class="overflow-hidden rounded-[12px]" data-cascade="{{ forloop.index | times: 0.05 }}" {{ block.shopify_attributes }}>
+            {{ block.settings.image | image_url: width: 1024 | image_tag:
+              class: 'h-full w-full object-cover max-w-full',
+              sizes: '(min-width: 768px) 25vw, 50vw',
+              widths: '425, 768',
+              loading: 'lazy',
+              alt: block_image_alt
+            }}
+          </div>
+        {%- endcapture -%}
+
+        {% case block.settings.column_position %}
+          {% when '1' -%}
+            {%- assign column_1 = column_1 | append: block_html %}
+          {% when '2' -%}
+            {%- assign column_2 = column_2 | append: block_html %}
+          {% when '3' -%}
+            {%- assign column_3 = column_3 | append: block_html %}
+          {% when '4' -%}
+            {%- assign column_4 = column_4 | append: block_html %}
+        {% endcase %}
+      {% endfor %}
+
+      {% comment %} Output each column {% endcomment %}
+      <div class="hidden gap-4 md:grid">{{ column_1 }}</div>
+      <div class="grid gap-4">{{ column_2 }}</div>
+      <div class="grid gap-4">{{ column_3 }}</div>
+      <div class="hidden gap-4 md:grid">{{ column_4 }}</div>
+    </div>
+
+    <div class="section__footer flex flex-col items-center gap-2 text-center">
+      {%- if section.settings.button_label != blank -%}
+        {% render 'button',
+          tag: 'a',
+          variant: 'primary',
+          text: section.settings.button_label,
+          url: section.settings.button_url
+        %}
+      {%- endif -%}
+
+      {%- if section.settings.disclaimer != blank -%}
+        <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+          {{- section.settings.disclaimer -}}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Mosaic gallery",
+  "class": "section-mosaic-gallery js-section-color",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Columns 1 and 4 will be hidden on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italics to highlight a word or phrase."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Unlock your</em> following areas?"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "options": [
+        {
+          "value": "text-display-xl",
+          "label": "display xl"
+        },
+        {
+          "value": "text-display-l",
+          "label": "display large"
+        },
+        {
+          "value": "text-display-m",
+          "label": "display m"
+        },
+        {
+          "value": "text-h1",
+          "label": "h1"
+        },
+        {
+          "value": "text-h2",
+          "label": "h2"
+        },
+        {
+          "value": "text-h3",
+          "label": "h3"
+        },
+        {
+          "value": "text-h4",
+          "label": "h4"
+        },
+        {
+          "value": "text-h5",
+          "label": "h5"
+        },
+        {
+          "value": "text-h6",
+          "label": "h6"
+        }
+      ],
+      "default": "text-h1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "What will you achieve with Stride Soles?"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_size",
+      "label": "Subtitle font size",
+      "options": [
+        {
+          "value": "text-display-xl",
+          "label": "display xl"
+        },
+        {
+          "value": "text-display-l",
+          "label": "display large"
+        },
+        {
+          "value": "text-display-m",
+          "label": "display m"
+        },
+        {
+          "value": "text-h1",
+          "label": "h1"
+        },
+        {
+          "value": "text-h2",
+          "label": "h2"
+        },
+        {
+          "value": "text-h3",
+          "label": "h3"
+        },
+        {
+          "value": "text-h4",
+          "label": "h4"
+        },
+        {
+          "value": "text-h5",
+          "label": "h5"
+        },
+        {
+          "value": "text-h6",
+          "label": "h6"
+        },
+        {
+          "value": "text-body-l",
+          "label": "body l"
+        },
+        {
+          "value": "text-body-m",
+          "label": "body m"
+        },
+        {
+          "value": "text-body-s",
+          "label": "body s"
+        }
+      ],
+      "default": "text-body-m"
+    },
+    {
+      "type": "checkbox",
+      "id": "make_subtitle_color_primary",
+      "label": "Make subtitle color primary",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "column_position",
+          "label": "Column position",
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            }
+          ],
+          "default": "1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mosaic gallery",
+      "category": "STRIDE",
+      "blocks": {
+        "image_NbQ8wF": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223810.png",
+            "column_position": "1"
+          }
+        },
+        "image_9QdPMc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223817.png",
+            "column_position": "1"
+          }
+        },
+        "image_BLKhJg": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_2.jpg",
+            "column_position": "2"
+          }
+        },
+        "image_QGK6hx": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design.jpg",
+            "column_position": "2"
+          }
+        },
+        "image_CV4CAB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223813.png",
+            "column_position": "3"
+          }
+        },
+        "image_HT4RrB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223816.png",
+            "column_position": "3"
+          }
+        },
+        "image_w4TEHN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223814.png",
+            "column_position": "4"
+          }
+        },
+        "image_8xXxra": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223815_417cf910-40e9-4e95-b944-4c53b68347e7.png",
+            "column_position": "4"
+          }
+        },
+        "image_wCwNJn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223818.png",
+            "column_position": "4"
+          }
+        }
+      },
+      "block_order": [
+        "image_NbQ8wF",
+        "image_9QdPMc",
+        "image_BLKhJg",
+        "image_QGK6hx",
+        "image_CV4CAB",
+        "image_HT4RrB",
+        "image_w4TEHN",
+        "image_8xXxra",
+        "image_wCwNJn"
+      ],
+      "settings": {
+        "title": "<em>Unlock your</em> <strong>potential</strong>",
+        "subtitle": "What will you achieve with Stride Soles?",
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  ]
+}
+{% endschema %}

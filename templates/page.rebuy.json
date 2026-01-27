@@ -1,0 +1,32 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-rebuy",
+      "settings": {
+        "logo": "shopify://shop_images/Stride_Logo_1.svg",
+        "logo_width": 160,
+        "content_width": 580,
+        "title": "Welcome Back!",
+        "content": "<p>Your scans, quiz answers, and gait video are already saved. To purchase again, please sign in below.</p><p><strong>Note: If you purchased before May 1st, 2025 please fill out this form to begin the re-purchase process.</strong></p>",
+        "promo": "At checkout please enjoy a 20% loyalty discount with code \"Family20\"",
+        "button_label": "Continue to Sign In",
+        "background_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "content_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

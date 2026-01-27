@@ -1,0 +1,307 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    {%- if section.settings.background_image != blank -%}
+      background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    {%- endif -%}
+  }
+
+  #shopify-section-{{section.id }} .statistics-hero__overlay {
+    background-color: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  #shopify-section-{{section.id }} .statistics-hero__number {
+    color: {{ section.settings.number_color }};
+  }
+
+  #shopify-section-{{section.id }} .statistics-hero__body {
+    color: {{ section.settings.body_color }};
+    max-width: 210px;
+  }
+
+  @media screen and (min-width: 1024px) {
+
+  }
+
+  #shopify-section-{{section.id }} .statistics-hero__cta .btn-primary {
+    border-color: {{ section.settings.button_background_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+
+  #shopify-section-{{section.id }} .statistics-hero__cta .btn-primary__inner {
+    background-color: {{ section.settings.button_background_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="statistics-hero section-{{ section.id }}-main relative flex items-center justify-center">
+  <!-- Background Overlay -->
+  <div class="statistics-hero__overlay absolute inset-0"></div>
+
+  <div class="page-width relative z-10">
+    <div class="flex flex-col items-center gap-4">
+      <!-- Section Title -->
+      {%- if section.settings.title != blank -%}
+        <div class="text-center">
+          <h2 class="text-h1 text-white">
+            {{ section.settings.title }}
+          </h2>
+        </div>
+      {%- endif -%}
+
+      <!-- Statistics Grid -->
+      <div class="mb-8 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-32">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'statistic' -%}
+              <div class="statistics-hero__statistic flex justify-center" {{ block.shopify_attributes }}>
+                <div class="flex flex-col items-center text-center">
+                  {%- if block.settings.number != blank -%}
+                    <div class="text-h1 statistics-hero__number mb-0 font-medium">
+                      {{ block.settings.number }}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.body != blank -%}
+                    <p class="text-body-l statistics-hero__body">
+                      {{ block.settings.body }}
+                    </p>
+                  {%- endif -%}
+                </div>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      <!-- Central Image -->
+      {%- if section.settings.central_image != blank -%}
+        <div class="statistics-hero__central-image relative">
+          <div class="aspect-square w-64 overflow-hidden rounded-xl md:w-80 lg:w-96">
+            {{
+              section.settings.central_image
+              | image_url: width: 600
+              | image_tag: class: 'h-full w-full object-cover', loading: 'lazy', alt: section.settings.central_image.alt
+              | escape
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <!-- Call to Action -->
+      {%- if section.settings.button_label != blank -%}
+        <div class="statistics-hero__cta text-body-l mb-0 text-center">
+          {% render 'button',
+            tag: 'a',
+            variant: 'primary',
+            text: section.settings.button_label,
+            url: section.settings.button_url
+          %}
+        </div>
+      {%- endif -%}
+
+      <!-- Disclaimer -->
+      {%- if section.settings.disclaimer != blank -%}
+        <div class="statistics-hero__disclaimer text-center">
+          <p class="text-body-m text-white">
+            {{ section.settings.disclaimer }}
+          </p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Statistics Hero",
+  "class": "section-statistics-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Proven Results"
+    },
+    {
+      "type": "image_picker",
+      "id": "central_image",
+      "label": "Central image",
+      "info": "Recommended: 600x600px square image"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer text",
+      "default": "180 Day Satisfaction Guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number color",
+      "default": "#ffffff"
+    },
+
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#ffffff"
+    },
+
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button background color",
+      "default": "#8b5cf6"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Recommended: 2000px wide"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "statistic",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number/Percentage",
+          "default": "95%"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body text",
+          "default": "Improved Heel Pain in the First Week"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statistics Hero",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "statistic",
+          "settings": {
+            "number": "95%",
+            "body": "Improved Heel Pain in the First Week"
+          }
+        },
+        {
+          "type": "statistic",
+          "settings": {
+            "number": "<0.03%",
+            "body": "Orthotics are Returned"
+          }
+        },
+        {
+          "type": "statistic",
+          "settings": {
+            "number": "10,000+",
+            "body": "Orthotics made over 3 generations"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

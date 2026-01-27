@@ -1,0 +1,218 @@
+{%- style -%}
+  .section-{{ section.id }} {
+     --background-color: {{ section.settings.background_color | default: '#e2e2e2' }};
+     --text-color: {{ section.settings.text_color | default: '#000000`' }};
+     --title-accent-color: {{ section.settings.title_accent_color | default: 'rgba(255,255,255,0.4)' }};
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign lazy_load = true
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign lazy_load = false
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+<div class="section-{{ section.id }} page-width flex flex-col gap-8 md:gap-14">
+  <div class="section__header text-center">
+    {% render 'section-title', section: section %}
+  </div>
+
+  <div class="min-w-0">
+    <reviews-carousel class="swiper !overflow-visible" data-pagination="fraction" data-navigation>
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          <div class="swiper-slide featured-reviews-carousel__review-content !h-auto">
+            <article class="flex h-full flex-col gap-6 overflow-hidden rounded-xl bg-white p-5 md:p-6">
+              <div class="flex flex-col gap-[18px] md:flex-row">
+                <div class="flex-1">
+                  {%- if block.settings.image != blank -%}
+                    <div class="aspect-4/3 overflow-hidden">
+                      {{
+                        block.settings.image
+                        | image_url: width: block.settings.image.width
+                        | image_tag:
+                          alt: block.settings.title,
+                          width: 425,
+                          class: 'h-full w-full object-cover',
+                          loading: 'lazy'
+                      }}
+                    </div>
+                  {%- else -%}
+                    <div class="featured-reviews-carousel__review-image h-full w-full bg-black/20"></div>
+                  {%- endif -%}
+                </div>
+                <div class="flex flex-1 flex-col gap-[18px]">
+                  <div class="featured-reviews-carousel__review-stars flex flex-nowrap gap-1.5 text-[#DDDEDA]">
+                    {%- render 'svg-star', height: 24, width: 24 -%}
+                    {%- render 'svg-star', height: 24, width: 24 -%}
+                    {%- render 'svg-star', height: 24, width: 24 -%}
+                    {%- render 'svg-star', height: 24, width: 24 -%}
+                    {%- render 'svg-star', height: 24, width: 24 %}
+                  </div>
+
+                  <h3 class="text-sm lg:text-xl">‟{{ block.settings.review | truncatewords: 36 }}”</h3>
+
+                  <div class="flex items-center gap-5">
+                    <div class="flex flex-col gap-2">
+                      <p class="text-sm md:text-2xl">{{ block.settings.title }}</p>
+                      <p class="text-xs opacity-40 md:text-xl">{{ block.settings.date }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="ui-carousel-controls mt-6 flex items-center justify-center gap-4 justify-self-end md:mt-16">
+        <div class="ui-carousel-prev reviews-carousel-nav-item">
+          {% render 'svg-arrow', type: 'left', class: 'ui-carousel-arrow' %}
+        </div>
+        {% comment %} <div class="swiper-pagination"></div> {% endcomment %}
+        <div class="ui-carousel-next reviews-carousel-nav-item">
+          {% render 'svg-arrow', type: 'right', class: 'ui-carousel-arrow' %}
+        </div>
+      </div>
+    </reviews-carousel>
+  </div>
+
+  <div class="flex flex-col items-center gap-2 text-center">
+    {% render 'button',
+      type: 'a',
+      variant: 'primary',
+      text: section.settings.button_label,
+      url: section.settings.button_url
+    %}
+    <span class="inline-block text-sm opacity-50 md:text-xl">{{ section.settings.disclaimer }}</span>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review Carousel",
+  "class": "section-review-carousel",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "What Our <em>Customers say</em>"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Limtied Time Offer"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "title_accent_color",
+      "label": "Text color",
+      "default": "#9D9FA9"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "review",
+          "label": "Review"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "date",
+          "label": "Date"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review Carousel",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

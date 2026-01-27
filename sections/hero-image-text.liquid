@@ -1,0 +1,254 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    overflow: hidden;
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: 180px;
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  .breakout {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .hero-image-text__media-container {
+      width: {{ section.settings.media_width }}%;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round
+  assign fetchpriority = 'auto'
+  assign loading = 'lazy'
+  if section.index == 1
+    assign fetchpriority = 'high'
+    assign loading = 'eager'
+  endif
+
+  assign bg_image_alt = section.settings.image.alt | default: 'Stride Custom Othotics'
+-%}
+
+<div class="gradient color-{{ section.settings.color_scheme }} relative" data-animate>
+  <div class="flex flex-col {% if section.settings.reverse_columns %} md:flex-row-reverse {% else %} md:flex-row{% endif %} {{ section.settings.vertical_alignment }} section-{{ section.id }}-padding gap-4 {% unless section.settings.disable_container %} page-width{% endunless %}">
+    <div class="hero-image-text__media-container">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            class: 'w-full h-auto hero-image-text__image-el',
+            sizes: '(min-width: 768px) 50vw, 100vw',
+            widths: '640, 768, 1024, 1280, 1536',
+            alt: bg_image_alt,
+            loading: loading,
+            fetchpriority: fetchpriority,
+            data-animate: 'fade-left'
+        }}
+      {%- else -%}
+        <div class="h-full w-full bg-white/20"></div>
+      {%- endif -%}
+    </div>
+    <div class="hero-image-text__content-container flex max-w-screen-md flex-col gap-6 px-6 md:flex-1 md:px-6">
+      {% assign title_parts = section.settings.title | split: '|' %}
+
+      {%- if section.index == 1 -%}
+        <h1
+          class="{{ section.settings.title_font_size }} section-title flex flex-col leading-tight"
+          data-animate="fade-right"
+        >
+          {% for part in title_parts %}
+            {{ part | replace: '<em>', '<span class="text-human">' | replace: '</em>', '</span>' }}
+          {% endfor %}
+        </h1>
+      {%- else -%}
+        <h2
+          class="{{ section.settings.title_font_size }} section-title flex flex-col leading-tight"
+          data-animate="fade-right"
+        >
+          {% for part in title_parts %}
+            {{ part | replace: '<em>', '<span class="text-human">' | replace: '</em>', '</span>' }}
+          {% endfor %}
+        </h2>
+      {%- endif -%}
+
+      <div
+        class="hero-image-text__subtitle text-sm md:w-7/10 md:text-xl md:leading-snug"
+        data-animate="fade-right"
+        data-animate-delay="0.15"
+      >
+        <p class="section-text text-body-l">{{ section.settings.subtitle }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Hero image text",
+  "class": "section-hero-image-text",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "reverse_columns",
+      "label": "Reverse columns",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_container",
+      "label": "Disable container",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "media_width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Media width",
+      "default": 50
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "The Craftsmanship | <strong>Behind Your Orthotics</strong>"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "options": [
+        {
+          "value": "text-display-xl",
+          "label": "display xl"
+        },
+        {
+          "value": "text-display-l",
+          "label": "display large"
+        },
+        {
+          "value": "text-display-m",
+          "label": "display m"
+        },
+        {
+          "value": "text-h1",
+          "label": "h1"
+        },
+        {
+          "value": "text-h2",
+          "label": "h2"
+        },
+        {
+          "value": "text-h3",
+          "label": "h3"
+        },
+        {
+          "value": "text-h4",
+          "label": "h4"
+        },
+        {
+          "value": "text-h5",
+          "label": "h5"
+        },
+        {
+          "value": "text-h6",
+          "label": "h6"
+        }
+      ],
+      "default": "text-display-l"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "We believe in transparency – We want you to know exactly who and where your orthotics come from."
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "items-start",
+          "label": "Top"
+        },
+        {
+          "value": "items-center",
+          "label": "Center"
+        },
+        {
+          "value": "items-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "items-center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero image text",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

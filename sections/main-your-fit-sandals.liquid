@@ -1,0 +1,546 @@
+<style>
+  .timeline-steps::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 3rem;
+    bottom: 4rem;
+    width: 2px;
+    background-color: #9c876d;
+    height: 0;
+    z-index: 1;
+    animation: drawLine 2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+  }
+
+  .step-item span {
+    z-index: 10;
+  }
+
+  .step-1 .step-item__content {
+    opacity: 1;
+  }
+
+  .step-2 .step-item__content {
+    animation: fadeInStep 0.6s ease 0.6s forwards;
+  }
+
+  .step-3 .step-item__content {
+    animation: fadeInStep 0.6s ease 1.6s forwards;
+  }
+
+  /* Line drawing animation */
+  @keyframes drawLine {
+    0% {
+      height: 0;
+    }
+    30% {
+      height: 4rem;
+    }
+    60% {
+      height: 8rem;
+    }
+    100% {
+      height: calc(100% - 7rem);
+    }
+  }
+
+  @keyframes fadeInStep {
+    from {
+      opacity: 0.3;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<div class="page-width py-8">
+  <quiz-results data-fallback-url="{{ section.settings.fallback_redirect_url | default: '/pages/quiz' }}">
+    <div class="quiz-results__success">
+      <div class="quiz-results__success-content text-center">
+        <!-- Doctor Image -->
+        <div class="before:bg-blue-fitness/50 relative mb-8 before:absolute before:top-1/2 before:left-1/2 before:-z-1 before:h-px before:w-full before:-translate-1/2 before:-translate-x-1/2">
+          <div class="bg-blue-fitness mx-auto h-28 w-28 overflow-hidden rounded-full">
+            {{ section.settings.avatar | image_url: width: 224 | image_tag: class: 'h-full w-full object-cover' }}
+          </div>
+        </div>
+
+        {%- if section.settings.title != blank -%}
+          <h1 class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">{{ section.settings.title }}</h1>
+        {%- endif -%}
+
+        {%- if section.settings.subtitle != blank -%}
+          <p class="text-lg text-gray-600">This is what happens next:</p>
+        {%- endif -%}
+
+        <!-- CTA Button -->
+        <div class="mt-4 mb-8">
+          <button
+            id="quiz-results-add-to-cart-btn"
+            type="button"
+            class="btn-primary text-xl font-semibold"
+          >
+            <div class="btn-primary__inner">
+              <div class="btn-primary__text-wrapper">
+                <div class="btn-primary__text">Let's Go →</div>
+                <div class="btn-primary__text">Let's Go →</div>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div class="quiz-results__steps mx-auto max-w-md text-left">
+          <ol class="timeline-steps relative mb-12 ml-8 text-gray-500">
+            {%- for block in section.blocks -%}
+              <li class="step-item step-{{ forloop.index }} ms-16 mb-16">
+                <span class="absolute -start-8 flex h-16 w-16 items-center justify-center rounded-lg bg-orange-100 ring-8 ring-white">
+                  {{ block.settings.icon | image_url: width: 16 | image_tag: class: 'h-full w-full object-cover' }}
+                </span>
+                <div class="step-item__content {% unless forloop.first %}opacity-30{% endunless %}">
+                  <h3 class="mb-2 text-xl font-semibold text-gray-900">{{ block.settings.title }}</h3>
+                  <p class="text-gray-500">{{ block.settings.subtitle }}</p>
+                </div>
+              </li>
+            {%- endfor -%}
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blank fallback content (hidden by default) -->
+    <div class="quiz-results__no-data" style="display: none;">
+      <div class="min-h-screen"></div>
+    </div>
+  </quiz-results>
+</div>
+
+{% javascript %}
+  /**
+   * QuizResults Web Component - Simplified Version
+   *
+   * Processes quiz completion data and adds product to cart.
+   * Uses variant from URL parameter or falls back to default.
+   *
+   * @class QuizResults
+   * @extends {HTMLElement}
+   */
+  class QuizResults extends HTMLElement {
+    constructor() {
+      super();
+
+      // CONFIGURATION - Only two settings needed
+      this.config = {
+        // Default variant ID to use if none in URL
+        defaultVariantId: 40606957371456,
+
+        // Redirect behavior (false in theme customizer)
+        redirectMode: this.shouldRedirect(),
+
+        // localStorage keys
+        quizDataKey: 'quiz_data',
+        quizTimestampKey: 'quiz_data_timestamp',
+      };
+    }
+
+    shouldRedirect() {
+      // Don't redirect in theme customizer, preview, or iframe
+      if (window.Shopify?.designMode) return false;
+      if (window.location.search.includes('preview_theme_id')) return false;
+      if (window.parent !== window) return false;
+      return true;
+    }
+
+    connectedCallback() {
+      console.log('Quiz Results - Simplified Mode');
+
+      const params = new URLSearchParams(window.location.search);
+      const hasQuizCompletion = params.get('quiz_complete') === 'true';
+
+      if (hasQuizCompletion) {
+        // Get quiz data from URL
+        const quizData = this.extractQuizDataFromURL();
+
+        if (Object.keys(quizData).length === 0) {
+          console.warn('quiz_complete=true but no quiz data found');
+          this.handleNoQuizData();
+          return;
+        }
+
+        // Store quiz data in localStorage
+        this.storeQuizData(quizData);
+
+        // Show content and setup
+        this.showContent();
+        this.setupCartButton(quizData);
+      } else {
+        // No quiz completion - redirect
+        this.handleNoQuizData();
+      }
+    }
+
+    /**
+     * Extract quiz data from URL parameters
+     * Excludes control parameters (variant, quiz_complete, UTM params, etc.)
+     */
+    extractQuizDataFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const data = {};
+
+      const excludedParams = [
+        'quiz_complete',
+        'variant',
+        'storefront',
+        'pairs',
+        'checkout',
+        'checkout_url',
+        'debug',
+        'quantity',
+        '_ga',
+        '_gid',
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'fbclid',
+        'gclid',
+        'cart_link_id',
+        'preview_theme_id',
+        'pb',
+      ];
+
+      for (let [key, value] of params.entries()) {
+        // Skip excluded params and checkout/utm prefixes
+        if (
+          !excludedParams.includes(key) &&
+          !key.startsWith('checkout[') &&
+          !key.startsWith('utm_') &&
+          !key.startsWith('_')
+        ) {
+          const decodedValue = decodeURIComponent(value);
+
+          // Skip empty values and placeholder underscores
+          if (decodedValue && decodedValue.trim() !== '' && !/^_+(\s+_+)*$/.test(decodedValue.trim())) {
+            data[key] = decodedValue;
+          }
+        }
+      }
+
+      console.log('Extracted quiz data:', data);
+      return data;
+    }
+
+    /**
+     * Get variant ID from URL parameter or use default
+     */
+    getVariantId() {
+      const params = new URLSearchParams(window.location.search);
+      const urlVariant = params.get('variant');
+
+      if (urlVariant) {
+        // Clean variant ID (remove query params if present)
+        const cleanVariant = parseInt(urlVariant.split('?')[0].split('#')[0]);
+        console.log('Using variant from URL:', cleanVariant);
+        return cleanVariant;
+      }
+
+      console.log('No variant in URL, using default:', this.config.defaultVariantId);
+      return this.config.defaultVariantId;
+    }
+
+    /**
+     * Format quiz data for cart properties
+     * Formats keys to be human-readable (capitalize, replace underscores)
+     */
+    formatQuizDataForCart(quizData) {
+      const formatted = {};
+
+      Object.keys(quizData).forEach((key) => {
+        // Format key: capitalize first letter, replace underscores with spaces
+        const formattedKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+        formatted[formattedKey] = quizData[key];
+      });
+
+      console.log('Formatted quiz data:', formatted);
+      return formatted;
+    }
+
+    /**
+     * Add product to cart with quiz data
+     */
+    async addToCart(quizData, button) {
+      const originalText = button.querySelector('.btn-primary__text')?.textContent || 'Add to Cart';
+      this.setButtonState(button, 'Adding...', true);
+
+      try {
+        // Get variant ID from URL or use default
+        const variantId = this.getVariantId();
+
+        // Format quiz data as line item properties
+        const properties = this.formatQuizDataForCart(quizData);
+
+        console.log('Adding to cart:', { variantId, properties });
+
+        // Clear cart first
+        await this.clearCart();
+
+        // Add product with quiz data
+        const cartData = {
+          items: [
+            {
+              id: variantId,
+              quantity: 1,
+              properties: properties,
+            },
+          ],
+          attributes: properties, // Also add as order attributes
+        };
+
+        const response = await fetch(`${window.shopUrl + window.routes.cart_add_url}.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cartData),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.description || error.message || `Cart add failed: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Successfully added to cart:', result);
+
+        // Success - redirect to cart
+        this.setButtonState(button, 'Added! Redirecting...', true);
+        setTimeout(() => {
+          window.location.href = window.routes.cart_url;
+        }, 500);
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+
+        // Handle specific errors
+        if (error.message.includes('sold out')) {
+          this.setButtonState(button, window.variantStrings.soldOut, true);
+        } else if (error.message.includes("can't add more")) {
+          this.setButtonState(button, 'Max quantity reached', true);
+          setTimeout(() => this.setButtonState(button, originalText, false), 3000);
+        } else {
+          this.setButtonState(button, 'Error - Try Again', false);
+          setTimeout(() => this.setButtonState(button, originalText, false), 2000);
+        }
+      }
+    }
+
+    /**
+     * Clear cart items and attributes
+     */
+    async clearCart() {
+      try {
+        // Clear cart items
+        const clearResponse = await fetch(`${window.shopUrl + window.routes.cart_clear_url}.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!clearResponse.ok) {
+          throw new Error(`Failed to clear cart: ${clearResponse.status}`);
+        }
+
+        console.log('Cart cleared successfully');
+      } catch (error) {
+        console.error('Error clearing cart:', error);
+        // Don't throw - proceed with adding new item
+      }
+    }
+
+    /**
+     * Store quiz data in localStorage
+     */
+    storeQuizData(quizData) {
+      try {
+        localStorage.setItem(this.config.quizDataKey, JSON.stringify(quizData));
+        localStorage.setItem(this.config.quizTimestampKey, new Date().toISOString());
+        console.log('Quiz data stored in localStorage');
+      } catch (error) {
+        console.error('Failed to store quiz data:', error);
+      }
+    }
+
+    /**
+     * Get stored quiz data from localStorage
+     */
+    getStoredQuizData() {
+      try {
+        const stored = localStorage.getItem(this.config.quizDataKey);
+        return stored ? JSON.parse(stored) : null;
+      } catch (error) {
+        console.error('Failed to retrieve quiz data:', error);
+        return null;
+      }
+    }
+
+    /**
+     * Clear stored quiz data
+     */
+    clearStoredQuizData() {
+      try {
+        localStorage.removeItem(this.config.quizDataKey);
+        localStorage.removeItem(this.config.quizTimestampKey);
+        console.log('Quiz data cleared from localStorage');
+      } catch (error) {
+        console.error('Failed to clear quiz data:', error);
+      }
+    }
+
+    /**
+     * Setup cart button click handler
+     */
+    setupCartButton(quizData) {
+      const button = this.querySelector('#quiz-results-add-to-cart-btn');
+      if (!button) return;
+
+      // In theme customizer, show alert instead
+      if (window.Shopify?.designMode) {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          alert('This button adds personalized orthotics to cart in the live store.');
+        });
+        return;
+      }
+
+      // Setup actual cart functionality
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.addToCart(quizData, button);
+      });
+    }
+
+    /**
+     * Update button state
+     */
+    setButtonState(button, text, disabled) {
+      if (!button) return;
+
+      const textElements = button.querySelectorAll('.btn-primary__text');
+      textElements.forEach((el) => (el.textContent = text));
+
+      button.disabled = disabled;
+      button.style.opacity = disabled ? '0.6' : '1';
+      button.style.cursor = disabled ? 'not-allowed' : 'pointer';
+    }
+
+    /**
+     * Show success content, hide fallback
+     */
+    showContent() {
+      const successContent = this.querySelector('.quiz-results__success');
+      const noDataContent = this.querySelector('.quiz-results__no-data');
+
+      if (successContent) successContent.style.display = 'block';
+      if (noDataContent) noDataContent.style.display = 'none';
+    }
+
+    /**
+     * Handle missing quiz data - redirect to quiz
+     */
+    handleNoQuizData() {
+      if (!this.config.redirectMode) {
+        console.log('Design mode: Not redirecting');
+        return;
+      }
+
+      const fallbackUrl = this.getAttribute('data-fallback-url') || '/pages/quiz';
+      console.log('No quiz data - redirecting to:', fallbackUrl);
+
+      // Hide success content, show blank
+      const successContent = this.querySelector('.quiz-results__success');
+      const noDataContent = this.querySelector('.quiz-results__no-data');
+
+      if (successContent) successContent.style.display = 'none';
+      if (noDataContent) noDataContent.style.display = 'block';
+
+      setTimeout(() => {
+        window.location.href = fallbackUrl;
+      }, 100);
+    }
+  }
+
+  // Register custom element
+  customElements.define('quiz-results', QuizResults);
+
+  // Global helper functions for external use
+  window.getQuizData = function () {
+    const el = document.querySelector('quiz-results');
+    return el ? el.getStoredQuizData() : null;
+  };
+
+  window.clearQuizData = function () {
+    const el = document.querySelector('quiz-results');
+    if (el) el.clearStoredQuizData();
+  };
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Your fit",
+  "class": "section section-your-fit",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Your fit page"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar",
+      "label": "Avatar"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "You're only one step away..."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "This is what happens next:"
+    },
+    {
+      "type": "header",
+      "content": "Redirect settings"
+    },
+    {
+      "type": "url",
+      "id": "fallback_redirect_url",
+      "label": "Fallback redirect URL",
+      "info": "Where to redirect if no quiz data is found"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Place your order online"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Take the first step towards your pain-free life"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

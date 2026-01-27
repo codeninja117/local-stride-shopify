@@ -1,0 +1,259 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    /* --background-color: {{ section.settings.background_color | default: '#E2E2E2' }}; */
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    background-color: {{ section.settings.background_color | default: '#E2E2E2' }};
+    color: {{ section.settings.text_color | default: '#000000' }};
+  }
+
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+    }
+
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }} about-section-1 gradient color-{{ section.settings.color_scheme }}">
+  <div class="about-section-1__main page-width flex flex-col gap-10 lg:gap-16 ">
+    {%- if section.settings.title != blank -%}
+      <h2 class="text-h1 section-title capitalize">
+        {{
+          section.settings.title
+          | replace: '<em>', '<span class="">'
+          | replace: '</em>', '</span>'
+          | replace: '|', '</span><br><span>'
+        }}
+      </h2>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'block_1' -%}
+          <section class="grid gap-8 lg:grid-cols-2">
+            <div>
+              <div class="overflow-hidden rounded-xl">
+                {%- if block.settings.video != blank -%}
+                  {{
+                    block.settings.video
+                    | video_tag: autoplay: true, loop: true, controls: false, playsinline: true, class: 'h-auto w-full'
+                  }}
+                {%- else -%}
+                  <div class="bg-slate/30 aspect-3/2 rounded-xl"></div>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="flex flex-col justify-between gap-10 lg:gap-16">
+              <div>
+                <span class="text-eyebrow text-blue-fitness mb-4 inline-block font-semibold uppercase">
+                  {{- block.settings.eyebrow_text -}}
+                </span>
+                <p class="text-h2">{{ block.settings.title }}</p>
+              </div>
+              <p class="text-lg lg:text-xl">{{ block.settings.text }}</p>
+            </div>
+          </section>
+
+        {%- when 'block_2' -%}
+          <section class="flex flex-col gap-8 lg:flex-row">
+            <div class="flex flex-col justify-between gap-16 lg:w-1/3">
+              {%- if block.settings.eyebrow_icon != blank -%}
+                <div class="svg-wrapper">
+                  {{ block.settings.eyebrow_icon | image_url: width: 48 | image_tag: class: 'w-12 h-12' }}
+                </div>
+              {%- endif -%}
+
+              <div>
+                <h2 class="display text-4xl lg:flex lg:flex-col">
+                  {% assign title_parts = block.settings.title | newline_to_br | split: '<br />' %}
+                  {% for part in title_parts %}
+                    <span>{{ part }}</span>
+                  {% endfor %}
+                </h2>
+
+                <p class="mt-4 text-lg lg:mt-8 lg:text-xl">{{ block.settings.text }}</p>
+              </div>
+
+              {% render 'button',
+                tag: 'a',
+                text: block.settings.button_label,
+                url: block.settings.button_url,
+                variant: 'secondary'
+              %}
+            </div>
+            <div class="flex items-end gap-4 lg:w-2/3">
+              <div class="w-1/4 overflow-hidden rounded-xl">
+                {%- if block.settings.image_2 != blank -%}
+                  {{ block.settings.image_2 | image_url: width: 640 | image_tag: class: 'w-full h-auto' }}
+                {%- else -%}
+                  <div class="bg-slate/30 aspect-square overflow-hidden rounded-xl"></div>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.image != blank -%}
+                <div class="w-3/4 overflow-hidden rounded-xl">
+                  {{ block.settings.image | image_url: width: 640 | image_tag: class: 'w-full h-auto' }}
+                </div>
+              {%- else -%}
+                <div class="bg-slate/30 aspect-square w-3/4 overflow-hidden rounded-xl"></div>
+              {%- endif -%}
+            </div>
+          </section>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About section #1",
+  "class": "section-about-section-1",
+  "max_blocks": 2,
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Innovative Orthotics,|<strong>Redefined Experience</strong>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block_1",
+      "name": "Block #1",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "eyebrow_text",
+          "label": "Eyebrow text",
+          "default": "Stride isn’t just innovative"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "We’re completely redefining the orthotic design experience to emphasize customer convenience and clinical quality."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Our team of award-winning podiatrists factor hundreds of thousands of your data points into your remarkably personalized pair of orthotics."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        }
+      ]
+    },
+    {
+      "type": "block_2",
+      "name": "Block #2",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "eyebrow_icon",
+          "label": "Eyebrow icon"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+          "default": "Personalized Care,\nLasting Solutions"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Stride isn’t customized in the conventional sense –we help you overcome your problems permanently, enabling you to live happy, healthy, pain-free livesthrough exceptional, convenient healthcare solutions."
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take our Quiz"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2",
+          "info": "smaller image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About section #1",
+      "category": "Uncategorized",
+      "settings": {
+        "title": "Innovative Orthotics,\nRedefined Experience"
+      },
+      "blocks": [
+        {
+          "type": "block_1",
+          "settings": {}
+        },
+        {
+          "type": "block_2",
+          "settings": {}
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+{%- assign button_class = 'btn-' | append: variant -%}
+
+{%- if tag == 'a' -%}
+  <a href="{{ url }}" class="{{ button_class }} {{ class }}">
+{%- else -%}
+  <button class="{{ button_class }}">
+{%- endif -%}
+<div class="{{ button_class }}__inner">
+  <div class="{{ button_class }}__text-wrapper">
+    <div class="{{ button_class }}__text">{{ text }}</div>
+    <div class="{{ button_class }}__text">{{ text }}</div>
+  </div>
+</div>
+{%- if tag == 'a' -%}
+  </a>
+{%- else -%}
+  </button>
+{%- endif -%}

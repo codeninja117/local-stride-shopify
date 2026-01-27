@@ -1,0 +1,11 @@
+{%- comment -%}
+  Cart Timer Component
+  Shows countdown timer when cart has items
+
+  Usage:
+  {% render 'cart-timer' %}
+{%- endcomment -%}
+
+{%- if cart.item_count > 0 -%}
+  <cart-timer class="mb-8 rounded-md border border-[#FBF5ED] bg-[#FBF5ED]"></cart-timer>
+{%- endif -%}

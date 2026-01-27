@@ -1,0 +1,1094 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- comment -%}start mobile table{%- endcomment -%}
+<div class="section-{{  section.id }}-main gradient color-{{ section.settings.mobile_color_scheme }} text-sm lg:hidden">
+  <div class="section__main page-width mx-auto max-w-3xl text-sm lg:hidden">
+    <div class="section__header text-center">
+      {% if section.settings.title != blank %}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span> <span>'
+          }}
+        </h2>
+      {% endif %}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="opacity-60">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="flex flex-col overflow-hidden rounded-lg border">
+      <!-- Header Row -->
+      <div class="flex flex-row border-b">
+        <!-- First column is for feature names -->
+        <div class="w-1/4 bg-[rgba(var(--color-alternate-background),1)]">
+          <!-- Leave empty for first cell -->
+        </div>
+
+        <!-- Company columns - Stride first with white bg, then others with bg-[rgba(var(--color-foreground),0.1)] -->
+        {% assign stride_block = section.blocks | where: 'type', 'stride' | first %}
+        <div class="w-1/4 bg-[rgba(var(--color-accent),1)] text-center font-medium text-black">
+          {% if stride_block.settings.logo != blank %}
+            <div class="mx-auto flex items-center justify-center p-4">
+              {{ stride_block.settings.logo | image_url: width: 80 | image_tag: class: 'max-w-full h-auto' }}
+            </div>
+          {% endif %}
+        </div>
+
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="w-1/4 content-center bg-[rgba(var(--color-alternate-background),1)] py-4 text-center font-medium ">
+              {{ block.settings.title }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Feature 1 Row -->
+      {% assign header_block = section.blocks | where: 'type', 'header' | first %}
+      <div class="flex flex-row border-b">
+        <div class="w-1/4 px-2 py-4">
+          <div class="font-medium">{{ header_block.settings.feature_1 }}</div>
+        </div>
+
+        <!-- Stride column first with bg -->
+        <div class="flex w-1/4 items-center justify-center bg-[rgba(var(--color-accent),1)] py-4">
+          {% if stride_block.settings.feature_1_checkbox %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% else %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 "
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Other company columns -->
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="flex w-1/4 items-center justify-center px-2 py-4">
+              {% if block.settings.feature_1_checkbox %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% else %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 "
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Feature 2 Row -->
+      <div class="flex flex-row border-b">
+        <div class="w-1/4 px-2 py-4">
+          <div class="font-medium">{{ header_block.settings.feature_2 }}</div>
+        </div>
+
+        <!-- Stride column first with bg -->
+        <div class="flex w-1/4 items-center justify-center bg-[rgba(var(--color-accent),1)] py-4">
+          {% if stride_block.settings.feature_2_checkbox %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% else %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 "
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Other company columns -->
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="flex w-1/4 items-center justify-center px-2 py-4">
+              {% if block.settings.feature_2_checkbox %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% else %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 "
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Feature 3 Row -->
+      <div class="flex flex-row border-b">
+        <div class="w-1/4 px-2 py-4">
+          <div class="font-medium">{{ header_block.settings.feature_3 }}</div>
+        </div>
+
+        <!-- Stride column first with bg -->
+        <div class="flex w-1/4 items-center justify-center bg-[rgba(var(--color-accent),1)] py-4">
+          {% if stride_block.settings.feature_3_checkbox %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% else %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 "
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Other company columns -->
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="flex w-1/4 items-center justify-center px-2 py-4">
+              {% if forloop.last %}
+                <div class="text-sm ">Sometimes</div>
+              {% elsif block.settings.feature_3_checkbox %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% else %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 "
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Feature 4 Row -->
+      <div class="flex flex-row border-b">
+        <div class="w-1/4 px-2 py-4">
+          <div class="font-medium">{{ header_block.settings.feature_4 }}</div>
+        </div>
+
+        <!-- Stride column first with bg -->
+        <div class="flex w-1/4 items-center justify-center bg-[rgba(var(--color-accent),1)] py-4">
+          {% if stride_block.settings.feature_4_checkbox %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% else %}
+            <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 "
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Other company columns -->
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="flex w-1/4 items-center justify-center px-2 py-4">
+              {% if block.settings.feature_4_checkbox %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% else %}
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border border-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 "
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Price Row -->
+      <div class="flex flex-row border-b">
+        <div class="w-1/4 px-2 py-4">
+          <div class="font-medium">Price</div>
+        </div>
+
+        <!-- Stride price first with bg -->
+        <div class="stride_main_price w-1/4 bg-[rgba(var(--color-accent),1)] px-2 py-4 text-center">
+          {{ stride_block.settings.price }}
+        </div>
+
+        <!-- Other company prices -->
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="w-1/4 px-2 py-4 text-center ">
+              {{ block.settings.price }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Shipping Time Row -->
+      <div class="flex flex-row">
+        <div class="w-1/4 px-2 py-4">
+          <div class="font-medium">{{ header_block.settings.shipping_time }}</div>
+        </div>
+
+        <!-- Stride shipping first with bg -->
+        <div class="w-1/4 bg-[rgba(var(--color-accent),1)] px-2 py-4 text-center ">
+          <div>{{ stride_block.settings.shipping_time }}</div>
+        </div>
+
+        <!-- Other company shipping -->
+        {% for block in section.blocks %}
+          {% if block.type == 'others' %}
+            <div class="w-1/4 px-2 py-4 text-center ">
+              <div>{{ block.settings.shipping_time }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="section__footer flex flex-col items-center gap-2 text-center">
+      {%- if section.settings.button_label != blank -%}
+        {% render 'button',
+          tag: 'a',
+          variant: 'primary',
+          text: section.settings.button_label,
+          url: section.settings.button_url
+        %}
+      {%- endif -%}
+
+      {%- if section.settings.disclaimer != blank -%}
+        <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+          {{- section.settings.disclaimer -}}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- comment -%}end mobile table{%- endcomment -%}
+
+{%- comment -%}start desktop table{%- endcomment -%}
+<div class="section-{{  section.id }}-main gradient color-{{ section.settings.color_scheme }} hidden lg:block">
+  <div class="section__main page-width">
+    <div class="section__header text-center">
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><br><span>'
+          }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="opacity-60">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+    <div class="">
+      <div class="mx-auto grid max-w-7xl grid-cols-3 items-center gap-6">
+        {% assign stride_block = section.blocks | where: 'type', 'stride' | first %}
+        {% assign other_blocks = section.blocks | where: 'type', 'others' %}
+        {% assign header_block = section.blocks | where: 'type', 'header' | first %}
+
+        {% comment %} First card (first 'others' block) {% endcomment %}
+        {% assign first_other = other_blocks | first %}
+        {% if first_other %}
+          <div class="gradient flex flex-col rounded-lg bg-white p-6 shadow-md color-{{  first_other.settings.color_scheme }} h-fit border border-[rgba(var(--color-foreground),0.1)]">
+            <div class="border-b border-b-[rgba(var(--color-foreground),0.1)] pb-7">
+              <div class="text-h2 font-bold">{{ first_other.settings.price }}</div>
+              <div class="text-lg opacity-60">{{ first_other.settings.title }}</div>
+            </div>
+
+            <div class="flex-grow space-y-4 py-8">
+              <div class="flex items-center gap-3">
+                {% if first_other.settings.feature_1_checkbox %}
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_1 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if first_other.settings.feature_2_checkbox %}
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_2 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if first_other.settings.feature_3_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_3 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if first_other.settings.feature_4_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_4 }}</span>
+              </div>
+            </div>
+
+            <div class="mt-6 flex justify-between border-t border-t-[rgba(var(--color-foreground),0.1)] pt-6 pb-2">
+              <div class="">{{ header_block.settings.shipping_time }}:</div>
+              <div class="font-medium">{{ first_other.settings.shipping_time }}</div>
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %} Middle card (Stride) {% endcomment %}
+        {% if stride_block %}
+          <div class="gradient -mt-2 flex flex-col rounded-lg border border-[rgba(var(--color-foreground),0.1)] p-6 shadow-lg color-{{ stride_block.settings.color_scheme }}">
+            <div class="border-b border-b-[rgba(var(--color-foreground),0.1)] pb-7">
+              <div class="text-display-xl stride_main_price font-bold">{{ stride_block.settings.price }}</div>
+              <div class="text-lg uppercase">{{ stride_block.settings.title }}</div>
+            </div>
+
+            <div class="flex-grow space-y-4 py-8">
+              <div class="flex items-center gap-3">
+                {% if stride_block.settings.feature_1_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span class="">{{ header_block.settings.feature_1 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if stride_block.settings.feature_2_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="/60 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span class="">{{ header_block.settings.feature_2 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if stride_block.settings.feature_3_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span class="">{{ header_block.settings.feature_3 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if stride_block.settings.feature_4_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span class="">{{ header_block.settings.feature_4 }}</span>
+              </div>
+            </div>
+
+            <div class="mt-6 flex justify-between border-t border-t-[rgba(var(--color-foreground),0.1)] pt-8 pb-4">
+              <div class="">{{ header_block.settings.shipping_time }}:</div>
+              <div class="font-medium ">{{ stride_block.settings.shipping_time }}</div>
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %} Third card (last 'others' block) {% endcomment %}
+        {% if other_blocks.size > 1 %}
+          {% assign last_other = other_blocks.last %}
+          <div class="gradient flex flex-col rounded-lg bg-white p-6 shadow-md color-{{  last_other.settings.color_scheme }} h-fit border border-[rgba(var(--color-foreground),0.1)]">
+            <div class="mb-4 border-b border-b-[rgba(var(--color-foreground),0.1)] pb-7">
+              <div class="text-h2 font-bold">{{ last_other.settings.price }}</div>
+              <div class="text-lg">{{ last_other.settings.title }}</div>
+            </div>
+
+            <div class="flex-grow space-y-4 py-4">
+              <div class="flex items-center gap-3">
+                {% if last_other.settings.feature_1_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_1 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if last_other.settings.feature_2_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_2 }}</span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if last_other.settings.feature_2_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+
+                {% comment %} Special handling for "Sometimes" in feature 3 {% endcomment %}
+                <span>
+                  {{- header_block.settings.feature_3 }}
+                  {% if last_other == other_blocks.last %}
+                    <span class="ml-1 text-[rgba(var(--color-foreground),0.6)] italic">(Sometimes)</span>
+                  {% endif %}
+                </span>
+              </div>
+
+              <div class="flex items-center gap-3">
+                {% if last_other.settings.feature_4_checkbox %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                {% else %}
+                  <svg class="h-5 w-5 rounded-full border" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                {% endif %}
+                <span>{{ header_block.settings.feature_4 }}</span>
+              </div>
+            </div>
+
+            <div class="mt-6 flex justify-between border-t border-t-[rgba(var(--color-foreground),0.1)] pt-6 pb-2">
+              <div class="">{{ header_block.settings.shipping_time }}:</div>
+              <div class="font-medium">{{ last_other.settings.shipping_time }}</div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="section__footer flex flex-col items-center gap-2 text-center">
+      {%- if section.settings.button_label != blank -%}
+        {% render 'button',
+          tag: 'a',
+          variant: 'primary',
+          text: section.settings.button_label,
+          url: section.settings.button_url
+        %}
+      {%- endif -%}
+
+      {%- if section.settings.disclaimer != blank -%}
+        <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+          {{- section.settings.disclaimer -}}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- comment -%}end desktop table{%- endcomment -%}
+
+{% schema %}
+{
+  "name": "Compare Stride",
+  "class": "section-compare-stride js-section-color",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Columns 1 and 4 will be hidden on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italics to highlight a word or phrase."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Stride's Superior Solution Offers</em>|The Best Of Both Worlds"
+    },
+
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "mobile_color_scheme",
+      "label": "Mobile color scheme",
+      "default": "scheme-4"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header",
+      "name": "Header",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Header will render on mobile only"
+        },
+        {
+          "type": "header",
+          "content": "Feature 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "3D Foot Imaging"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_1_checkbox",
+          "label": "Feature 1 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Feature 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "Gait Analysis"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_2_checkbox",
+          "label": "Feature 2 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Feature 3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_3",
+          "label": "Feature 3",
+          "default": "Award Winning"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_3_checkbox",
+          "label": "Feature 3 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Feature 4"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_4",
+          "label": "Feature 4",
+          "default": "Instant Ordering"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_4_checkbox",
+          "label": "Feature 4 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Price"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "price",
+          "label": "Price",
+          "default": "$90"
+        },
+        {
+          "type": "header",
+          "content": "Shipping"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "shipping_time",
+          "label": "Shipping time",
+          "default": "Shipping time"
+        }
+      ]
+    },
+    {
+      "type": "stride",
+      "name": "Stride",
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-3",
+          "info": "Only applies to the desktop table"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo",
+          "info": "can be omitted. only used for stride"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Company name",
+          "default": "Stride"
+        },
+        {
+          "type": "header",
+          "content": "Feature 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "3D Foot Imaging"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_1_checkbox",
+          "label": "Feature 1 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Feature 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "Gait Analysis"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_2_checkbox",
+          "label": "Feature 2 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Feature 3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_3",
+          "label": "Feature 3",
+          "default": "Award Winning"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_3_checkbox",
+          "label": "Feature 3 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Feature 4"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_4",
+          "label": "Feature 4",
+          "default": "Instant Ordering"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_4_checkbox",
+          "label": "Feature 4 checkbox",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Price"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "price",
+          "label": "Price",
+          "default": "$90"
+        },
+        {
+          "type": "header",
+          "content": "Shipping"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "shipping_time",
+          "label": "Shipping time",
+          "default": "15-20 Days"
+        }
+      ]
+    },
+    {
+      "type": "others",
+      "name": "Others",
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1",
+          "info": "Only applies to the desktop table"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Company name"
+        },
+        {
+          "type": "header",
+          "content": "Feature 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "3D Foot Imaging"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_1_checkbox",
+          "label": "Feature 1 checkbox",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Feature 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "Gait Analysis"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_2_checkbox",
+          "label": "Feature 2 checkbox",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Feature 3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_3",
+          "label": "Feature 3",
+          "default": "Award Winning"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_3_checkbox",
+          "label": "Feature 3 checkbox",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Feature 4"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_4",
+          "label": "Feature 4",
+          "default": "Instant Ordering"
+        },
+        {
+          "type": "checkbox",
+          "id": "feature_4_checkbox",
+          "label": "Feature 4 checkbox",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Price"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "price",
+          "label": "Price",
+          "default": "$90"
+        },
+        {
+          "type": "header",
+          "content": "Shipping"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "shipping_time",
+          "label": "Shipping time",
+          "default": "15-20 Days"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Compare Stride",
+      "category": "Uncategorized",
+      "blocks": {
+        "header_wPi8Bc": {
+          "type": "header",
+          "settings": {
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$90",
+            "shipping_time": "15-20 Days"
+          }
+        },
+        "others_YVYbcH": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Upstep",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": false,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": false,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": false,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": false,
+            "price": "$200+",
+            "shipping_time": "30-40 Days"
+          }
+        },
+        "stride_AGJKCL": {
+          "type": "stride",
+          "settings": {
+            "color_scheme": "scheme-4",
+            "logo": "shopify://shop_images/Stride_Logo_1.svg",
+            "title": "Stride",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$90",
+            "shipping_time": "15-20 Days"
+          }
+        },
+        "others_tWac3Y": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Podiatrist",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": true,
+            "feature_3": "Award Winning <em>(Sometimes)</em>",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": false,
+            "price": "$300-1000",
+            "shipping_time": "20-60 Days"
+          }
+        }
+      },
+      "block_order": ["header_wPi8Bc", "others_YVYbcH", "stride_AGJKCL", "others_tWac3Y"],
+      "settings": {
+        "title": "<em>Stride's Superior Solution Offers</em>|The Best Of Both Worlds",
+        "button_url": "",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-1",
+        "mobile_color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  ]
+}
+{% endschema %}

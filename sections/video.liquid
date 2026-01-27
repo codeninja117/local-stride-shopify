@@ -1,0 +1,217 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign video_id = section.settings.video.id
+  assign video_alt = section.settings.video.alt
+  assign poster = section.settings.video.preview_image | default: section.settings.cover_image
+
+  if section.settings.video != null
+    assign ratio_diff = section.settings.video.aspect_ratio | minus: poster.aspect_ratio | abs
+    if ratio_diff < 0.01 and ratio_diff > 0
+      assign fix_ratio = true
+    endif
+  endif
+-%}
+
+{%- capture sizes -%}
+  100vw
+{%- endcapture -%}
+
+<div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }} page-width relative flex flex-col gap-8 md:gap-14">
+  <div class="section__header text-center">
+    <h2 class="text-display-l">
+      {{
+        section.settings.title
+        | replace: '<em>', '<span class="text-muted">'
+        | replace: '</em>', '</span>'
+        | replace: '|', '</span><span>'
+      }}
+    </h2>
+  </div>
+
+  <deferred-media
+    class="video-section__media group relative mx-auto w-full {% if fix_ratio %} media-fit-cover{% endif %}"
+    data-media-id="{{ video_id }}"
+    {% if poster != null %}
+      style="--ratio-percent: {{ 1 | divided_by: poster.aspect_ratio | times: 100 }}%;"
+    {% endif %}
+  >
+    <button
+      id="Deferred-Poster-Modal-{{ video_id }}"
+      class="deferred-media__button video-section__poster relative cursor-pointer overflow-hidden rounded-xl"
+      type="button"
+      aria-label="Load video"
+    >
+      {%- if poster != null -%}
+        {{
+          poster
+          | image_url: width: 3840
+          | image_tag:
+            class: 'absolute inset-0 w-full h-full object-cover cursor-pointer',
+            sizes: sizes,
+            widths: '375, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+            alt: poster.alt
+        }}
+      {%- else -%}
+        <div class="bg-slate/20 aspect-video rounded-xl"></div>
+      {%- endif -%}
+      <span class="deferred-media__poster-button absolute  right-[22px] bottom-[22px] z-2 flex h-[64px] w-[64px] items-center justify-center rounded-full bg-[rgba(var(--color-secondary-button),0.25)] p-3 shadow-lg md:right-[40px] md:bottom-[40px] md:h-[94px] md:w-[94px]">
+        <div class="flex h-full w-full items-center justify-center rounded-full bg-[rgba(var(--color-secondary-button),1)] md:h-[68px] md:w-[68px]">
+          <span class="svg-wrapper pointer-events-none h-5 w-5 text-[rgba(var(--color-background),1)] md:h-6 md:w-6">
+            {{- 'icon-play.svg' | inline_asset_content -}}
+          </span>
+        </div>
+      </span>
+    </button>
+    <template>
+      {%- if section.settings.video == null and section.settings.video_url != null -%}
+        {%- liquid
+          assign loop = ''
+          if section.settings.enable_video_looping
+            assign loop = '&loop=1&playlist=' | append: video_id
+          endif
+        -%}
+
+        {%- if section.settings.video_url.type == 'youtube' -%}
+          <iframe
+            src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+            class="js-youtube"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            title="{{ section.settings.description | escape }}"
+          ></iframe>
+        {%- else -%}
+          <iframe
+            src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
+            class="js-vimeo"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            title="{{ section.settings.description | escape }}"
+          ></iframe>
+        {%- endif -%}
+      {%- else -%}
+        {{
+          section.settings.video
+          | video_tag:
+            class: 'object-cover',
+            image_size: '1100x',
+            autoplay: true,
+            loop: section.settings.enable_video_looping,
+            controls: true,
+            muted: false,
+            class: 'rounded-xl overflow-hidden'
+        }}
+      {%- endif -%}
+    </template>
+  </deferred-media>
+</div>
+
+{% schema %}
+{
+  "name": "Video",
+  "class": "section section-video js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "video_selector",
+      "label": "Video selector",
+      "options": [
+        {
+          "value": "shopify",
+          "label": "Shopify"
+        },
+        {
+          "value": "external",
+          "label": "External"
+        }
+      ],
+      "default": "shopify"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italics to highlight a word or phrase."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "How It <em>Works</em>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-4"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

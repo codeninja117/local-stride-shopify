@@ -1,0 +1,139 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+     --background-color: {{ section.settings.background_color | default: '#7b8794' }};
+    --text-color: {{ section.settings.text_color | default: '#FFFFFF' }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.background_color | default: '#7b8794' }};
+    color: {{ section.settings.text_color | default: '#FFFFFF' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="join-the-movement__main page-width flex flex-col gap-20  text-white">
+  <div class="join-the-movement__content flex flex-col gap-4 md:flex-row">
+    <div class="order-2 lg:order-1 lg:w-1/3">
+      <p class="text-xl lg:text-2xl">{{ section.settings.text }}</p>
+    </div>
+    <div class="order-1 flex-1 lg:order-2 lg:justify-items-end">
+      <h2 class="display display-1 flex flex-col">
+        {{
+          section.settings.title
+          | replace: '<em>', '<span class="opacity-40">'
+          | replace: '</em>', '</span>'
+          | replace: '|', '</span><span>'
+        }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="join-the-movement__footer">
+    <div class="flex items-center gap-5">
+      <div class="overflow-hidden rounded-full">
+        <img
+          src="/cdn/shop/files/review-1.webp?v=1739339538&amp;width=70"
+          alt="Katy S"
+          srcset="/cdn/shop/files/review-1.webp?v=1739339538&amp;width=70 70w"
+          width="70"
+          height="70"
+          loading="lazy"
+        >
+      </div>
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-6">
+          <div class="featured-reviews-carousel__review-stars flex flex-nowrap">
+            {% render 'svg-star', width: 20, height: 20 %}
+            {% render 'svg-star', width: 20, height: 20 %}
+            {% render 'svg-star', width: 20, height: 20 %}
+            {% render 'svg-star', width: 20, height: 20 %}
+            {% render 'svg-star', width: 20, height: 20 %}
+          </div>
+          <div class="flex items-center gap-2">
+            <span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="10" fill="#202020"></rect> <path d="M10.4343 12.4343L8.75 10.75C8.33579 10.3358 7.66421 10.3358 7.25 10.75C6.83579 11.1642 6.83579 11.8358 7.25 12.25L10.2929 15.2929C10.6834 15.6834 11.3166 15.6834 11.7071 15.2929L17.25 9.75C17.6642 9.33579 17.6642 8.66421 17.25 8.25C16.8358 7.83579 16.1642 7.83579 15.75 8.25L11.5657 12.4343C11.2533 12.7467 10.7467 12.7467 10.4343 12.4343Z" fill="#FFF"></path>
+              </svg>
+            </span>
+            Verified
+          </div>
+        </div>
+        <p class="opacity-40">Dr. Zac Cartun</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Join the movement",
+  "class": "section-join-the-movement",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Join the</em>|Movement",
+      "info": "Italic to lower opacity, | for line-break"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "Thank you for taking part in the movement to redefine modern orthotics and stop unnecessary, inconvenient, and unaddressed pain in its tracks."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "backgound_color",
+      "label": "Background color",
+      "default": "#7b8794"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "Join the movement",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

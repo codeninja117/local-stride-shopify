@@ -1,0 +1,572 @@
+{%- style -%}
+  #shopify-section-{{section.id }},
+  #shopify-section-{{section.id }} .doctor-testimonial-carousel {
+    {%- if section.settings.background_color != blank -%}
+      background-color: {{ section.settings.background_color }};
+    {%- endif -%}
+  }
+  #shopify-section-{{section.id }} cite {
+    font-style: normal;
+  }
+
+  #shopify-section-{{section.id }} .doctor-testimonial-carousel__testimonial {
+    transform: translate(15%, -15%);
+  }
+
+  #shopify-section-{{section.id }} .text-h1 {
+    font-weight: 300;
+  }
+
+  #shopify-section-{{section.id }} .text-h1 strong {
+    font-weight: 500;
+  }
+
+
+
+  #shopify-section-{{section.id }} blockquote {
+    color: #525A63;
+  }
+
+  #shopify-section-{{section.id }} cite {
+    font-weight: 700;
+    color: #000000;
+  }
+
+  #shopify-section-{{section.id }} .flex.flex-col p:last-child {
+    color: #67717B;
+  }
+
+  @media screen and (min-width: 1024px) {
+
+    .lg\:mb-12 {
+      margin-bottom: calc(var(--spacing) * 12);
+    }
+
+
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="doctor-testimonial-carousel section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <!-- Section Title -->
+    {%- if section.settings.title != blank -%}
+      <div class="mb-6 pb-2 text-center lg:mb-12">
+        <div class="text-h1 text-black">
+          {{ section.settings.title }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="flex flex-col gap-1 lg:flex-row lg:gap-1">
+      <!-- Mobile Layout: Single Image Frame with Testimonial Below -->
+      <div class="block lg:hidden">
+        <!-- Single Image Frame (Full Width) -->
+        <div class="doctor-testimonial-carousel__images-mobile mb-6">
+          <div class="relative">
+            <div class="relative overflow-hidden rounded-lg" style="aspect-ratio: 333/459;">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'doctor' -%}
+                    <img
+                      src="{{ block.settings.image | image_url: width: 400 }}"
+                      alt="{{ block.settings.name | escape }}"
+                      class="doctor-image-mobile absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-in-out {% unless forloop.first %}opacity-0{% endunless %}"
+                      data-index="{{ forloop.index0 }}"
+                      loading="lazy"
+                      width="400"
+                      height="400"
+                    >
+                {%- endcase -%}
+              {%- endfor -%}
+
+              <!-- Mobile Navigation Arrows positioned in bottom left -->
+              <div class="absolute right-0 bottom-0 z-10 flex">
+                <button
+                  class="doctor-carousel-prev-mobile flex h-12 w-12 items-center justify-center shadow-sm transition-colors hover:opacity-80"
+                  style="background-color: #EACBA4;"
+                  aria-label="Previous doctor"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" fill="none">
+                    <path d="M17.2803 6.78019L1.4012 6.78019M1.4012 6.78019L7.3559 0.825524M1.4012 6.78019L7.3559 12.7349" stroke="black" stroke-width="1.48867" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button
+                  class="doctor-carousel-next-mobile ml-1 flex h-12 w-12 items-center justify-center shadow-sm transition-colors hover:opacity-80"
+                  style="background-color: #EACBA4;"
+                  aria-label="Next doctor"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" fill="none">
+                    <path d="M1.7197 6.78019L17.5988 6.78019M17.5988 6.78019L11.6441 0.825524M17.5988 6.78019L11.6441 12.7349" stroke="black" stroke-width="1.48867" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Testimonial Content Below Image -->
+        <div class="doctor-testimonial-carousel__content-mobile">
+          <div class="doctor-testimonial-carousel__testimonial-mobile relative overflow-hidden rounded-xl bg-white p-6">
+            <div class="testimonial-content-mobile" id="testimonial-content-mobile-{{ section.id }}">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'doctor' -%}
+                    <div
+                      class="testimonial-item-mobile {% unless forloop.first %}hidden{% endunless %}"
+                      data-index="{{ forloop.index0 }}"
+                      {{ block.shopify_attributes }}
+                    >
+                      <!-- Quote -->
+                      {%- if block.settings.quote != blank -%}
+                        <blockquote class="text-body-m mb-8 text-gray-700">"{{ block.settings.quote }}"</blockquote>
+                      {%- endif -%}
+
+                      <!-- Doctor Info -->
+                      <div class="flex flex-col">
+                        {%- if block.settings.name != blank -%}
+                          <cite class="text-h3 mb-2 font-bold text-gray-900 md:mb-1">
+                            {{ block.settings.name }}
+                          </cite>
+                        {%- endif -%}
+
+                        {%- if block.settings.position != blank -%}
+                          <p class="text-body-m text-gray-600">
+                            {{ block.settings.position }}
+                          </p>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Layout: Original 3-Frame Design -->
+      <div class="hidden w-full flex-col gap-1 lg:flex lg:flex-row lg:gap-1">
+        <!-- Left Column: Testimonial Content -->
+        <div class="relative z-10 flex w-1/4 flex-col justify-center">
+          <div class="doctor-testimonial-carousel__content">
+            <!-- Testimonial Card -->
+            <div class="doctor-testimonial-carousel__testimonial relative overflow-hidden rounded-xl bg-white p-6 ">
+              <div class="testimonial-content" id="testimonial-content-{{ section.id }}">
+                {%- for block in section.blocks -%}
+                  {%- case block.type -%}
+                    {%- when 'doctor' -%}
+                      <div
+                        class="testimonial-item {% unless forloop.first %}hidden{% endunless %}"
+                        data-index="{{ forloop.index0 }}"
+                        {{ block.shopify_attributes }}
+                      >
+                        <!-- Quote -->
+                        {%- if block.settings.quote != blank -%}
+                          <blockquote class="text-body-m mb-8 text-gray-700">"{{ block.settings.quote }}"</blockquote>
+                        {%- endif -%}
+
+                        <!-- Doctor Info -->
+                        <div class="flex flex-col">
+                          {%- if block.settings.name != blank -%}
+                            <cite class="text-h3 mb-2 font-bold text-gray-900">
+                              {{ block.settings.name }}
+                            </cite>
+                          {%- endif -%}
+
+                          {%- if block.settings.position != blank -%}
+                            <p class="text-body-m text-gray-600">
+                              {{ block.settings.position }}
+                            </p>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                  {%- endcase -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Doctor Images -->
+        <div class="relative z-0 flex w-3/4 flex-col justify-center">
+          <div class="doctor-testimonial-carousel__images">
+            <!-- Image Container -->
+            <div class="relative">
+              <div class="flex gap-4 ">
+                <!-- Frame 1 (Left - Larger) -->
+                <div class="doctor-frame doctor-frame-1 flex-shrink-0" style="width: 40%;">
+                  <div class="relative overflow-hidden" style="aspect-ratio: 333/459;">
+                    {%- for block in section.blocks -%}
+                      {%- case block.type -%}
+                        {%- when 'doctor' -%}
+                          <img
+                            src="{{ block.settings.image | image_url: width: 400 }}"
+                            alt="{{ block.settings.name | escape }}"
+                            class="doctor-image absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-in-out {% unless forloop.first %}opacity-0{% endunless %}"
+                            data-index="{{ forloop.index0 }}"
+                            data-frame="1"
+                            loading="lazy"
+                            width="400"
+                            height="400"
+                          >
+                      {%- endcase -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+
+                <!-- Frame 2 (Center - Smaller, with nav buttons) -->
+                <div class="doctor-frame doctor-frame-2 relative flex-shrink-0" style="width: 30%;">
+                  <div class="relative overflow-hidden" style="aspect-ratio: 290/350;">
+                    {%- for block in section.blocks -%}
+                      {%- case block.type -%}
+                        {%- when 'doctor' -%}
+                          <img
+                            src="{{ block.settings.image | image_url: width: 400 }}"
+                            alt="{{ block.settings.name | escape }}"
+                            class="doctor-image absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-in-out {% unless forloop.index == 2 %}opacity-0{% endunless %}"
+                            data-index="{{ forloop.index0 }}"
+                            data-frame="2"
+                            loading="lazy"
+                            width="400"
+                            height="400"
+                          >
+                      {%- endcase -%}
+                    {%- endfor -%}
+
+                    <!-- Navigation Arrows positioned in bottom left of frame 2 -->
+                    <div class="absolute bottom-0 left-0 z-10 flex">
+                      <button
+                        class="doctor-carousel-prev flex h-12 w-12 items-center justify-center shadow-sm transition-colors hover:opacity-80"
+                        style="background-color: #EACBA4;"
+                        aria-label="Previous doctor"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" fill="none">
+                          <path d="M17.2803 6.78019L1.4012 6.78019M1.4012 6.78019L7.3559 0.825524M1.4012 6.78019L7.3559 12.7349" stroke="black" stroke-width="1.48867" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                      <button
+                        class="doctor-carousel-next ml-1 flex h-12 w-12 items-center justify-center shadow-sm transition-colors hover:opacity-80"
+                        style="background-color: #EACBA4;"
+                        aria-label="Next doctor"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" fill="none">
+                          <path d="M1.7197 6.78019L17.5988 6.78019M17.5988 6.78019L11.6441 0.825524M17.5988 6.78019L11.6441 12.7349" stroke="black" stroke-width="1.48867" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Frame 3 (Right - Smaller) -->
+                <div class="doctor-frame doctor-frame-3 flex-shrink-0" style="width: 30%;">
+                  <div class="relative overflow-hidden rounded-lg" style="aspect-ratio: 290/350;">
+                    {%- for block in section.blocks -%}
+                      {%- case block.type -%}
+                        {%- when 'doctor' -%}
+                          <img
+                            src="{{ block.settings.image | image_url: width: 400 }}"
+                            alt="{{ block.settings.name | escape }}"
+                            class="doctor-image absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-in-out {% unless forloop.index == 3 %}opacity-0{% endunless %}"
+                            data-index="{{ forloop.index0 }}"
+                            data-frame="3"
+                            loading="lazy"
+                            width="400"
+                            height="400"
+                          >
+                      {%- endcase -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Section footer {% endcomment %}
+    {%- if section.settings.button_label != blank -%}
+      <div class="section__footer flex flex-col items-center gap-3 lg:mt-12">
+        {% render 'button',
+          tag: 'a',
+          text: section.settings.button_label,
+          url: section.settings.button_url,
+          variant: 'primary'
+        %}
+        <span>{{ section.settings.disclaimer }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const sectionId = '{{ section.id }}';
+    const section = document.querySelector('#shopify-section-' + sectionId);
+    if (!section) return;
+
+    // Desktop elements
+    const testimonialContent = section.querySelector('#testimonial-content-' + sectionId);
+    const doctorImages = section.querySelectorAll('.doctor-image');
+    const testimonialItems = section.querySelectorAll('.testimonial-item');
+    const prevButton = section.querySelector('.doctor-carousel-prev');
+    const nextButton = section.querySelector('.doctor-carousel-next');
+
+    // Mobile elements
+    const testimonialContentMobile = section.querySelector('#testimonial-content-mobile-' + sectionId);
+    const doctorImagesMobile = section.querySelectorAll('.doctor-image-mobile');
+    const testimonialItemsMobile = section.querySelectorAll('.testimonial-item-mobile');
+    const prevButtonMobile = section.querySelector('.doctor-carousel-prev-mobile');
+    const nextButtonMobile = section.querySelector('.doctor-carousel-next-mobile');
+
+    if (!testimonialContent || doctorImages.length === 0 || testimonialItems.length === 0) return;
+
+    let currentIndex = 0;
+    const totalItems = testimonialItems.length;
+
+    function updateCarousel() {
+      // Update desktop image visibility in each frame
+      doctorImages.forEach((img) => {
+        const imgIndex = parseInt(img.dataset.index);
+        const frame = parseInt(img.dataset.frame);
+
+        // Calculate which image should be visible in each frame
+        const frame1Index = currentIndex;
+        const frame2Index = (currentIndex + 1) % totalItems;
+        const frame3Index = (currentIndex + 2) % totalItems;
+
+        // Set opacity based on which frame this image belongs to and which index it should show
+        if (frame === 1 && imgIndex === frame1Index) {
+          img.style.opacity = '1';
+        } else if (frame === 2 && imgIndex === frame2Index) {
+          img.style.opacity = '1';
+        } else if (frame === 3 && imgIndex === frame3Index) {
+          img.style.opacity = '1';
+        } else {
+          img.style.opacity = '0';
+        }
+      });
+
+      // Update mobile image visibility
+      doctorImagesMobile.forEach((img, index) => {
+        if (index === currentIndex) {
+          img.style.opacity = '1';
+        } else {
+          img.style.opacity = '0';
+        }
+      });
+
+      // Update desktop testimonial content (crossfade)
+      testimonialItems.forEach((item, index) => {
+        if (index === currentIndex) {
+          item.classList.remove('hidden');
+          item.style.opacity = '1';
+        } else {
+          item.classList.add('hidden');
+          item.style.opacity = '0';
+        }
+      });
+
+      // Update mobile testimonial content (crossfade)
+      testimonialItemsMobile.forEach((item, index) => {
+        if (index === currentIndex) {
+          item.classList.remove('hidden');
+          item.style.opacity = '1';
+        } else {
+          item.classList.add('hidden');
+          item.style.opacity = '0';
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalItems;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+      updateCarousel();
+    }
+
+    // Desktop event listeners
+    if (prevButton) {
+      prevButton.addEventListener('click', nextSlide);
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', prevSlide);
+    }
+
+    // Mobile event listeners
+    if (prevButtonMobile) {
+      prevButtonMobile.addEventListener('click', nextSlide);
+    }
+
+    if (nextButtonMobile) {
+      nextButtonMobile.addEventListener('click', prevSlide);
+    }
+
+    // Initialize
+    updateCarousel();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Doctor Carousel",
+  "class": "section-doctor-testimonial-carousel",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p><strong>Prescribed By</strong> Doctors</p>"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "info": "Overrides color scheme background if set"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "doctor",
+      "name": "Doctor",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Doctor image",
+          "info": "Recommended: 400x400px square image"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial quote",
+          "default": "Stride Soles has revolutionized the way we approach foot pain management. Their custom orthotics are not only effective but also incredibly convenient for patients."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Doctor name",
+          "default": "Dr. Jane Doe"
+        },
+        {
+          "type": "text",
+          "id": "position",
+          "label": "Position/Title",
+          "default": "Chief Podiatrist, SuperFoot Clinic"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Doctor Carousel",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "doctor",
+          "settings": {
+            "quote": "Stride Soles has revolutionized the way we approach foot pain management. Their custom orthotics are not only effective but also incredibly convenient for patients. The ability to order from home and receive personalized care is a game changer.",
+            "name": "Dr. Jane Doe",
+            "position": "Chief Podiatrist, SuperFoot Clinic"
+          }
+        },
+        {
+          "type": "doctor",
+          "settings": {
+            "quote": "I've been recommending Stride Soles to my patients for months now. The quality and customization options are exceptional, and my patients love the convenience.",
+            "name": "Dr. Michael Smith",
+            "position": "Sports Medicine Specialist"
+          }
+        },
+        {
+          "type": "doctor",
+          "settings": {
+            "quote": "The technology behind Stride Soles is impressive. It brings professional-grade orthotics to patients who might not otherwise have access to this level of care.",
+            "name": "Dr. Sarah Johnson",
+            "position": "Orthopedic Surgeon"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

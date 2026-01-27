@@ -1,0 +1,222 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#e2e2e2' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+  }
+{% endstyle %}
+
+<div class="instagram-collage relative min-h-screen bg-[#e2e2e2] py-20 text-[#a7abae]">
+  <div class="page-width flex h-full flex-col gap-10">
+    {% comment %}
+      <div class="instagram-collage__header flex h-full items-center justify-center md:absolute md:inset-0">
+        <h2 class="display flex flex-col text-center text-[clamp(2rem,8vw,8rem)] font-medium">
+          <span class="opacity-30">{{ section.settings.title }}</span>
+          <span>{{ section.settings.title_line_2 }}</span>
+        </h2>
+      </div>
+    {% endcomment %}
+
+    <ul class="instagram-collage__grid grid gap-y-8 md:grid-cols-2 md:gap-x-20 md:gap-y-16">
+      <!-- Header positioned with CSS order -->
+      <li class="order-3 md:col-span-2">
+        <div class="instagram-collage__header flex h-full items-center justify-center">
+          <h2 class="display flex flex-col text-center text-[clamp(2.3rem,8vw,8rem)] font-medium">
+            <span class="opacity-30">{{ section.settings.title }}</span>
+            <span>{{ section.settings.title_line_2 }}</span>
+          </h2>
+        </div>
+      </li>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'group_1' -%}
+            <li class="flex gap-6 {% if forloop.index <= 2 %}order-{{ forloop.index }}{% else %}order-{{ forloop.index | plus: 1 }}{% endif %}">
+              <div class="flex-1 justify-self-end md:w-1/2">
+                {{
+                  block.settings.image
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'w-full h-auto rounded-xl overflow-hidden'
+                }}
+              </div>
+              <div class="w-1/4 pt-20">
+                {{
+                  block.settings.image_2
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'rounded-xl overflow-hidden'
+                }}
+              </div>
+            </li>
+          {%- when 'group_2' -%}
+            <li class="flex justify-between {% if forloop.index <= 2 %}order-{{ forloop.index }}{% else %}order-{{ forloop.index | plus: 1 }}{% endif %}">
+              <div class="flex w-1/3 flex-col gap-2 self-end pb-[10%]">
+                <a href="#" class="flex flex-col text-[#202020]"
+                  ><span>icon</span><span>{{ section.settings.instagram_handle }}</span></a
+                >
+                <p class="text-sm">{{ section.settings.instagram_text }}</p>
+              </div>
+              <div class="w-1/3">
+                {{
+                  block.settings.image
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'rounded-xl overflow-hidden'
+                }}
+              </div>
+            </li>
+          {%- when 'group_3' -%}
+            <li class="flex justify-center gap-6 {% if forloop.index <= 2 %}order-{{ forloop.index }}{% else %}order-{{ forloop.index | plus: 1 }}{% endif %}">
+              <div class="flex-1 pt-8 md:w-1/3">
+                {{
+                  block.settings.image
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'w-full h-auto rounded-xl overflow-hidden'
+                }}
+              </div>
+              <div class="w-1/4">
+                {{
+                  block.settings.image_2
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'rounded-xl overflow-hidden'
+                }}
+              </div>
+            </li>
+          {%- when 'group_4' -%}
+            <li class="flex justify-start gap-6 {% if forloop.index <= 2 %}order-{{ forloop.index }}{% else %}order-{{ forloop.index | plus: 1 }}{% endif %}">
+              <div class="w-1/4 self-end pt-8">
+                {{
+                  block.settings.image
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'w-full h-auto rounded-xl overflow-hidden'
+                }}
+              </div>
+              <div class="flex-1 md:w-1/2">
+                {{
+                  block.settings.image_2
+                  | image_url: width: 640
+                  | image_tag: alt: section.settings.title, class: 'rounded-xl overflow-hidden'
+                }}
+              </div>
+            </li>
+        {%- endcase -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Instagram collage",
+  "class": "section-instagram-collage",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Strong Steps."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title_line_2",
+      "label": "Title line 2",
+      "default": "Confident Strides."
+    },
+
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Instagram handle",
+      "default": "@stride__soles"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "instagram_text",
+      "label": "Instagram text",
+      "default": "With so many shoutouts from raving fans, it’s hard to keep track, but we do our best!"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "group_1",
+      "name": "Group 1",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        }
+      ]
+    },
+    {
+      "type": "group_2",
+      "name": "Group 2",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "group_3",
+      "name": "Group 3",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        }
+      ]
+    },
+    {
+      "type": "group_4",
+      "name": "Group 4",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram collage",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

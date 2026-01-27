@@ -1,0 +1,133 @@
+{% comment %} <div class="article-content-block prose max-w-none"> {% endcomment %}
+<div class="article-content-block rte">
+  {%- liquid
+    assign article_content = article.content
+
+    # First, process images with alt tags to add captions
+    assign img_segments = article_content | split: '<img'
+    assign img_processed_content = ''
+
+    for img_segment in img_segments
+      if forloop.first
+        assign img_processed_content = img_segment
+      else
+        if img_segment contains '>'
+          # Find the end of the img tag
+          assign img_parts = img_segment | split: '>'
+          assign img_attrs = img_parts.first
+          assign img_remainder = img_segment | remove_first: img_attrs | remove_first: '>'
+
+          # Check if img has alt attribute
+          if img_attrs contains 'alt='
+            # Extract alt text
+            assign alt_start = img_attrs | split: 'alt="' | last
+            assign alt_text = alt_start | split: '"' | first
+
+            # Only add caption if alt text is not empty
+            if alt_text != '' and alt_text != ' '
+              # Create caption wrapper
+              assign img_with_caption = '<figure class="image-with-caption"><img ' | append: img_attrs | append: '><figcaption class="image-caption text-sm text-gray-600 italic text-left">' | append: alt_text | append: '</figcaption></figure>' | append: img_remainder
+              assign img_processed_content = img_processed_content | append: img_with_caption
+            else
+              # No alt text, keep original
+              assign img_processed_content = img_processed_content | append: '<img' | append: img_segment
+            endif
+          else
+            # No alt attribute, keep original
+            assign img_processed_content = img_processed_content | append: '<img' | append: img_segment
+          endif
+        else
+          # Malformed img tag, keep original
+          assign img_processed_content = img_processed_content | append: '<img' | append: img_segment
+        endif
+      endif
+    endfor
+
+    # Now process videos with alt/title attributes for captions
+    assign video_segments = img_processed_content | split: '<video'
+    assign video_processed_content = ''
+
+    for video_segment in video_segments
+      if forloop.first
+        assign video_processed_content = video_segment
+      else
+        if video_segment contains '</video>'
+          # Find the video tag and its closing tag
+          assign video_full = '<video' | append: video_segment
+          assign video_end = video_full | split: '</video>' | first | append: '</video>'
+          assign video_remainder = video_segment | remove_first: video_end | remove_first: '<video'
+
+          # Extract attributes from opening tag
+          assign video_parts = video_segment | split: '>'
+          assign video_attrs = video_parts.first
+
+          # Check for title or alt attribute for caption
+          assign caption_text = ''
+          if video_attrs contains 'title='
+            assign title_start = video_attrs | split: 'title="' | last
+            assign caption_text = title_start | split: '"' | first
+          elsif video_attrs contains 'alt='
+            assign alt_start = video_attrs | split: 'alt="' | last
+            assign caption_text = alt_start | split: '"' | first
+          endif
+
+          # Only add caption if text is not empty
+          if caption_text != '' and caption_text != ' '
+            assign video_with_caption = '<figure class="video-with-caption">' | append: video_end | append: '<figcaption class="video-caption text-sm text-gray-600 italic  text-left">' | append: caption_text | append: '</figcaption></figure>' | append: video_remainder
+            assign video_processed_content = video_processed_content | append: video_with_caption
+          else
+            # No caption text, keep original
+            assign video_processed_content = video_processed_content | append: '<video' | append: video_segment
+          endif
+        else
+          # No closing video tag, keep original
+          assign video_processed_content = video_processed_content | append: '<video' | append: video_segment
+        endif
+      endif
+    endfor
+
+    # Now process H2 tags as before
+    assign h2_segments = video_processed_content | split: '<h2'
+    assign processed_content = ''
+
+    # Process each segment to add IDs to H2 tags
+    for segment in h2_segments
+      if forloop.first
+        assign processed_content = segment
+      else
+        if segment contains '</h2>'
+          # Split the segment into parts
+          assign h2_parts = segment | split: '>'
+          assign h2_attrs = h2_parts.first
+          assign h2_remainder = segment | remove_first: h2_attrs | remove_first: '>'
+
+          # Extract clean text from between H2 tags
+          assign h2_content = h2_remainder | split: '</h2>' | first
+          assign h2_text = h2_content | strip_html | strip
+
+          # Check if H2 has the "in-compare-template" class and skip it
+          assign should_skip = false
+          if h2_attrs contains 'class=' and h2_attrs contains 'in-compare-template'
+            assign should_skip = true
+          endif
+
+          if h2_text != '' and should_skip == false
+            # Create ID from text
+            assign h2_id = h2_text | handleize | prepend: 'toc-'
+
+            # Rebuild H2 with ID while preserving existing attributes
+            assign new_h2 = '<h2 id="' | append: h2_id | append: '" ' | append: h2_attrs | append: '>' | append: h2_remainder
+            assign processed_content = processed_content | append: new_h2
+          else
+            # If no text found or should skip, just rebuild original H2
+            assign processed_content = processed_content | append: '<h2' | append: segment
+          endif
+        else
+          # If no closing H2 tag, just rebuild original
+          assign processed_content = processed_content | append: '<h2' | append: segment
+        endif
+      endif
+    endfor
+  -%}
+  {{ processed_content }}
+</div>

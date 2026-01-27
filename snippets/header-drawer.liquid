@@ -1,0 +1,15 @@
+{% comment %}
+  Renders a header drawer menu for mobile and desktop.
+
+  Usage:
+  {% render 'header-drawer' %}
+{% endcomment %}
+
+<header-drawer class="block flex-1 lg:hidden">
+  <details id="Details-menu-drawer-container">
+    <summary aria-label="">
+      {% render 'hamburger' %}
+    </summary>
+    <aside id="menu-drawer" class="menu-drawer">asdf</aside>
+  </details>
+</header-drawer>

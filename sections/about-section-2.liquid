@@ -1,0 +1,171 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+     --background-color: {{ section.settings.background_color | default: '#E2E2E2' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.background_color | default: '#FFFFFF' }};
+    color: {{ section.settings.text_color | default: '#000000' }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="about-section-2 page-width flex flex-col flex-wrap justify-between gap-8 text-black lg:flex-row">
+  <div class="flex flex-col gap-20 lg:w-1/3">
+    {%- if section.settings.eyebrow_icon != blank -%}
+      <div class="svg-wrapper">
+        {{ section.settings.eyebrow_icon | image_url: width: 48 | image_tag: class: 'w-12 h-12' }}
+      </div>
+    {%- endif -%}
+
+    <div>
+      <h2 class="display text-5xl leading-[1.2] lg:flex lg:flex-col">
+        {% assign title_parts = section.settings.title | newline_to_br | split: '<br />' %}
+        {% for part in title_parts %}
+          <span>{{ part }}</span>
+        {% endfor %}
+      </h2>
+    </div>
+    <div class="flex flex-col gap-4 lg:gap-8">
+      <div class="flex flex-col gap-1 lg:gap-2">
+        <p class="uppercase">{{ section.settings.name }}</p>
+        <p class="text-muted uppercase">{{ section.settings.position }}</p>
+      </div>
+
+      <div class="aspect-3/2 overflow-hidden rounded-xl">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 3840
+            | image_tag:
+              width: section.settings.image.width,
+              class: 'w-full h-full object-cover',
+              sizes: '50vw',
+              widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+          }}
+        {%- else -%}
+          <div class="bg-slate/30 aspect-3/2 overflow-hidden rounded-xl"></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="lg:w-1/2">
+    <div class="text-xl lg:text-2xl">
+      {% assign text_processed = section.settings.text | strip %}
+      {% if text_processed contains '<i>' or text_processed contains '<em>' %}
+        {{
+          text_processed
+          | replace: '<i>', '<span class="opacity-30">'
+          | replace: '</i>', '</span>'
+          | replace: '<em>', '<span class="opacity-30">'
+          | replace: '</em>', '</span>'
+        }}
+      {% else %}
+        {{ text_processed }}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About section #2",
+  "class": "section-about-section-2",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "eyebrow_icon",
+      "label": "Eyebrow icon"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Our Story -\nThe Search for the\nUltimate Orthotic"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>As far back as I can remember, I’ve had flat feet. Despite stretching, exercises, and buying over-the-counter insoles, I consistently had pain after walking just a few minutes. Three years ago, I decided to take matters into my own hands and go see a Podiatrist in anticipation of a exchange trip aboard. Nine hundred dollars, and two weeks later, my order was finally placed. <em>Sadly, despite my repeated requests for rush delivery, I didn’t receive my orthotics in the 8 weeks leading up to the trip. Frustrated and in pain, I spent the next two months hobbling around France, wondering if there was a better system for ordering orthotics.</em></p>",
+      "info": "Use italics to lower text opacity"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "name",
+      "label": "Name",
+      "default": "Gregory Gerla"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "position",
+      "label": "Position",
+      "default": "CEO"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "backgound_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "About section #2",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

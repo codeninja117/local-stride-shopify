@@ -1,0 +1,75 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb pt-0">
+  <nav aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+      <li>
+        <a href="{{ blog.url }}" class="breadcrumb-link">
+          {{ blog.title | default: 'Blogs' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <div class="inline-flex w-4 justify-center">
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="currentColor" class="breadcrumb-separator">
+            <path d="M1 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        {%- if article.tags.size > 0 -%}
+          <a href="{{ blog.url }}/tagged/{{ article.tags.first | handle }}" class="breadcrumb-link">
+            {{ article.tags.first | replace: '-', ' ' | capitalize }}
+          </a>
+        {%- else -%}
+          <span class="breadcrumb-text">{{ 'blogs.article.general' | t | default: 'Article' }}</span>
+        {%- endif -%}
+      </li>
+      <li class="breadcrumb-item">
+        <div class="inline-flex w-4 justify-center">
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="currentColor" class="breadcrumb-separator">
+            <path d="M1 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="breadcrumb-current">{{ article.title | truncate: 28, '...' }}</span>
+      </li>
+    </ol>
+  </nav>
+</div>
+
+<style>
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    @media screen and (min-width: 768px) {
+      font-size: 12p;
+    }
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-link {
+    color: rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: black;
+  }
+
+  .breadcrumb-text {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .breadcrumb-separator {
+    color: rgba(0, 0, 0, 1);
+  }
+
+  .breadcrumb-current {
+    color: black;
+    font-weight: 500;
+  }
+</style>

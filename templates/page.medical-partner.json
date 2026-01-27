@@ -1,0 +1,616 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "medical_partner_banner": {
+      "type": "medical-partner-banner",
+      "blocks": {
+        "title_wwJc96": {
+          "type": "title",
+          "settings": {
+            "title": "<em>Our Proud</em> | Medical Partners",
+            "title_font_size": "text-display-l"
+          }
+        },
+        "text_3YjMrb": {
+          "type": "text",
+          "settings": {
+            "text": "Stride is also prescribed by top clinicians across the United States and beyond."
+          }
+        },
+        "buttons_MamCAm": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Get In Touch",
+            "button_url": "shopify://pages/schedule-call",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_wwJc96",
+        "text_3YjMrb",
+        "buttons_MamCAm"
+      ],
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/Hero_2.jpg",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 0,
+        "min_height": 80,
+        "min_height_px": 700,
+        "vertical_alignment": "items-end",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_UQghkX": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_Y9nMEw": {
+          "type": "text",
+          "settings": {
+            "text": "“I’ve been prescribing Stride Soles to my patients for over a year now and have nothing but great things to say about the product. I really appreciate the time they put into crafting every pair. I’ve used other orthotics manufacturers before, but they always seem to cut corners… not these guys. Their new app is very easy to use as a practitioner, but for really anyone.”",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_Fz4kkK": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_VhkMWX": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Kevin Davi, DPT",
+            "font_size": "text-h2"
+          }
+        },
+        "text_KPGaXk": {
+          "type": "text",
+          "settings": {
+            "text": "Owner, Family Health PT",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_f47iBp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/family-health.png",
+            "image_width": 200
+          }
+        }
+      },
+      "block_order": [
+        "text_Y9nMEw",
+        "spacer_Fz4kkK",
+        "title_VhkMWX",
+        "text_KPGaXk",
+        "image_f47iBp"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/kevin.jpg",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_DD9fCd": {
+      "type": "image-text-row",
+      "blocks": {
+        "buttons_iYtj8M": {
+          "type": "buttons",
+          "settings": {
+            "button_video_url": "shopify://files/videos/Copy of Snapinsta.app_video_FC4932D5F4A4D54162E12A4F6BE8E1AD_video_dashinit.mp4"
+          }
+        },
+        "text_qQTGhk": {
+          "type": "text",
+          "settings": {
+            "text": "When I first experienced the Stride process, I was blown away. The questions asked in their intake form, the scanner, the gait analysis - it all mirrored what I was doing in clinic. I can now remotely offer my patients orthotics that adhere to full podiatry standards.",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_xhJkwa": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_BVMwfT": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Stephanie Kane, DPM",
+            "font_size": "text-h2"
+          }
+        },
+        "text_zJkUrY": {
+          "type": "text",
+          "settings": {
+            "text": "Foot & Ankle Surgeon",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_hN7wHf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/foot_ankle.png",
+            "image_width": 200
+          }
+        }
+      },
+      "block_order": [
+        "buttons_iYtj8M",
+        "text_qQTGhk",
+        "spacer_xhJkwa",
+        "title_BVMwfT",
+        "text_zJkUrY",
+        "image_hN7wHf"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": true,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/Dr._Stephanie_Kane_DPM.png",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_Ntfwna": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_xAk8CT": {
+          "type": "text",
+          "settings": {
+            "text": "Stride Soles solves an acute need for my clients who want custom orthotics without the hassle of going to the podiatry. I have been blown away by the quality and service of the Stride team, and am proud to call them a partner for my business. If you are in the hunt for custom orthotics, either come see me in person or check them out online! https://www.shoregolfperformance.com/",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_XtfcWA": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_KeiEXr": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Michael Edwards",
+            "font_size": "text-h2"
+          }
+        },
+        "text_tiYArD": {
+          "type": "text",
+          "settings": {
+            "text": "CEO, Shore Golf Performance",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_yn8xJM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/shore_golf.png",
+            "image_width": 200
+          }
+        }
+      },
+      "block_order": [
+        "text_xAk8CT",
+        "spacer_XtfcWA",
+        "title_KeiEXr",
+        "text_tiYArD",
+        "image_yn8xJM"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": true,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/michael.jpg",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_7Y7ayH": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_jJRVpW": {
+          "type": "text",
+          "settings": {
+            "text": "I take my patient care very seriously. I’m not going to endorse and prescribe any product until I am fully sure it’s in the best interest of my patients. After multiple sample pairs I am confident that Stride Soles is the best orthotic money can get you. I fully endorse their product and encourage everyone to give them a shot if you have foot or knee pain.",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_Cwejby": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_xJrwYJ": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Elsa Gould, DPM",
+            "font_size": "text-h2"
+          }
+        },
+        "text_yHg8Eb": {
+          "type": "text",
+          "settings": {
+            "text": "CEO, Doctor of Physical Therapy",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_dMqUNN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ec.png",
+            "image_width": 60
+          }
+        }
+      },
+      "block_order": [
+        "text_jJRVpW",
+        "spacer_Cwejby",
+        "title_xJrwYJ",
+        "text_yHg8Eb",
+        "image_dMqUNN"
+      ],
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/stephanie.jpg",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_kbL8AW": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_icbLXF": {
+          "type": "text",
+          "settings": {
+            "text": "Fit a couple patients with Stride Soles and they absolutely love it, it's made a big impact in their lives. Their knees feel better, hips feel better, back feel better, and of course their feet feel better... I know you are going to like them!",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_7BBrAD": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_a84cnT": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Michael Harmon",
+            "font_size": "text-h2"
+          }
+        },
+        "text_FmVFKb": {
+          "type": "text",
+          "settings": {
+            "text": "CEO, Harmon Physical Therapy",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_Nd8MfR": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/HarmonPT-Logo-HOR-e1496384337829.png",
+            "image_width": 200
+          }
+        },
+        "buttons_8Hp8dc": {
+          "type": "buttons",
+          "settings": {
+            "button_video_url": "shopify://files/videos/SnapInsta.to_AQMBQgI907dWXQRAjI-DrH9APl22jxPid0sv73mfRi4Qk3yVLPt1bJAM3icCONuNl6OAQEC3OYCJ5-YVgXAw9FpPvuBXxkLDyEf16yY.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "text_icbLXF",
+        "spacer_7BBrAD",
+        "title_a84cnT",
+        "text_FmVFKb",
+        "image_Nd8MfR",
+        "buttons_8Hp8dc"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": true,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/michael_harmon.jpg",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_mi36pC": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_GrRiLU": {
+          "type": "text",
+          "settings": {
+            "text": "Any patient that comes to see me with plantar fasciitis or flat feet I send to Dr. Cartun and the Stride Soles team. They create a fantastic orthotic and are just good people to work with in general.",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_inratr": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_CBnNHW": {
+          "type": "title",
+          "settings": {
+            "title": "Dr. Scott Taylor",
+            "font_size": "text-h2"
+          }
+        },
+        "text_bkrXNA": {
+          "type": "text",
+          "settings": {
+            "text": "CEO, Zone Physical Therapy",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_G7Kd8m": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/zone.png",
+            "image_width": 330
+          }
+        }
+      },
+      "block_order": [
+        "text_GrRiLU",
+        "spacer_inratr",
+        "title_CBnNHW",
+        "text_bkrXNA",
+        "image_G7Kd8m"
+      ],
+      "settings": {
+        "reverse_columns": false,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/Dr.-Scott-Kaylor.webp",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_text_row_YyKia3": {
+      "type": "image-text-row",
+      "blocks": {
+        "text_YmYYyi": {
+          "type": "text",
+          "settings": {
+            "text": "I have had the pleasure of working with Stride Soles over the last couple of months. I've been using their insoles for running and walking, and putting on a ton of millage. I'm pleased to say that the standard is of very high quality.  With my patients we are always trying to find a balance between being able to provide enough support by changing the forces being acted on that foot, and also having the insoles be comfortable. These insoles do that job very nicely. In terms of ease of application and ease of ordering these insoles are fantastic.",
+            "font_size": "text-body-m",
+            "text_color": "primary"
+          }
+        },
+        "spacer_pWFiXg": {
+          "type": "spacer",
+          "settings": {
+            "spacer_height": 100,
+            "mobile_spacer_height_percentage": 60,
+            "fill_height": true
+          }
+        },
+        "title_zHcJXt": {
+          "type": "title",
+          "settings": {
+            "title": "Michael Selby, Podiatrist",
+            "font_size": "text-h2"
+          }
+        },
+        "text_tLAbXy": {
+          "type": "text",
+          "settings": {
+            "text": "Biomechanics Specialist",
+            "font_size": "text-h3",
+            "text_color": "text-muted"
+          }
+        },
+        "image_DmVtCG": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/foot_ahead.jpg",
+            "image_width": 200
+          }
+        },
+        "buttons_KdWxL3": {
+          "type": "buttons",
+          "settings": {
+            "button_video_url": "shopify://files/videos/PXL_20250705_073721652.TS~4 (1).mp4"
+          }
+        }
+      },
+      "block_order": [
+        "text_YmYYyi",
+        "spacer_pWFiXg",
+        "title_zHcJXt",
+        "text_tLAbXy",
+        "image_DmVtCG",
+        "buttons_KdWxL3"
+      ],
+      "name": "Image text row",
+      "settings": {
+        "reverse_columns": true,
+        "vertical_alignment": "items-stretch",
+        "container_size": "narrow",
+        "title": "",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/ollie.jpg",
+        "image_caption": "",
+        "aspect_ratio": "100%",
+        "mobile_aspect_ratio": "100%",
+        "object_fit": "object-cover",
+        "media_width": 50,
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "partners_column_rJCpBD": {
+      "type": "partners-column",
+      "blocks": {
+        "testimonial_dijVfL": {
+          "type": "testimonial",
+          "settings": {
+            "logo": "shopify://shop_images/premier.jpg",
+            "company_name": "",
+            "quote": "\"As a on-the-go PT, I love how my patients can just scan their feet from anywhere\"",
+            "user_image": "shopify://shop_images/daniel.png",
+            "name": "Dr. Keyon Thompson",
+            "role": "PT, DPT, Clinic Owner",
+            "location": "Louisville, KY",
+            "website": "https://www.premiermobiletherapy.com/",
+            "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38"
+          }
+        },
+        "testimonial_nAJ7eH": {
+          "type": "testimonial",
+          "settings": {
+            "logo": "shopify://shop_images/bellingham.jpg",
+            "company_name": "",
+            "quote": "\"My patients have loved using Stride. Some scan at the clinic, and some at home, but either way the product is great!\"",
+            "user_image": "shopify://shop_images/heather.png",
+            "name": "Heather Kreizenbeck",
+            "role": "PT, MPT, Clinic Owner",
+            "location": "Bellingham, WA",
+            "website": "https://bellinghamphysicaltherapy.com/",
+            "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_dijVfL",
+        "testimonial_nAJ7eH"
+      ],
+      "name": "Testimonials Grid",
+      "settings": {
+        "block_description": "Our collaborative approach ensures that our customers benefit from medically informed insights and superior orthopedic solutions. Together, we're stepping forward to deliver innovative products designed with expert guidance, so you can confidently stride toward better health.",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "image_banner_WQkUHF": {
+      "type": "image-banner",
+      "name": "Banner Image",
+      "settings": {
+        "image": "shopify://shop_images/banner_partner.jpg"
+      }
+    }
+  },
+  "order": [
+    "medical_partner_banner",
+    "image_text_row_UQghkX",
+    "image_text_row_DD9fCd",
+    "image_text_row_Ntfwna",
+    "image_text_row_7Y7ayH",
+    "image_text_row_kbL8AW",
+    "image_text_row_mi36pC",
+    "image_text_row_YyKia3",
+    "partners_column_rJCpBD",
+    "image_banner_WQkUHF"
+  ]
+}

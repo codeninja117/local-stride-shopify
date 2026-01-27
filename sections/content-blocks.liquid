@@ -1,0 +1,403 @@
+{%- liquid
+  assign block_padding_top = 0
+  assign block_padding_bottom = 0
+  assign block_padding_left = 0
+  assign block_padding_right = 0
+-%}
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {% for block in section.blocks %}
+    {%- liquid
+      assign block_padding_top = block.settings.block_padding_top | plus: block_padding_top
+      assign block_padding_bottom = block.settings.block_padding_bottom | plus: block_padding_bottom
+      assign block_padding_left = block.settings.block_padding_left | plus: block_padding_left
+      assign block_padding_right = block.settings.block_padding_right | plus: block_padding_right
+    -%}
+    .content-blocks__item--{{ section.id }}-{{ block.id }} {
+      padding-top: {{ block.settings.block_padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ block.settings.block_padding_bottom | times: 0.75 | round: 0 }}px;
+      padding-left: {{ block.settings.block_padding_left | times: 0.75 | round: 0 }}px;
+      padding-right: {{ block.settings.block_padding_right | times: 0.75 | round: 0 }}px;
+    }
+    @media screen and (min-width: 768px) {
+      .content-blocks__item--{{ section.id }}-{{ block.id }} {
+        padding-top: {{ block.settings.block_padding_top }}px;
+        padding-bottom: {{ block.settings.block_padding_bottom }}px;
+        padding-left: {{ block.settings.block_padding_left }}px;
+        padding-right: {{ block.settings.block_padding_right }}px;
+      }
+    }
+  {% endfor %}
+</style>
+
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width {{ section.settings.page_width }}">
+    {% comment %}
+      <div class="article-content-block prose max-w-none">
+        {{ section.settings.content }}
+      </div>
+    {% endcomment %}
+
+    <div class="rte">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'title' -%}
+            <{{ block.settings.title_tag }}
+              class="text-h2 section-title capitalize text-{{ block.settings.text_alignment }}"
+              {{ block.shopify_attributes }}
+            >
+              {{
+                block.settings.title
+                | replace: '<i>', '<span class="">'
+                | replace: '</i>', '</span>'
+                | replace: '<em>', '<span class="">'
+                | replace: '</em>', '</span>'
+              }}
+            </{{ block.settings.title_tag }}>
+          {%- when 'richtext' -%}
+            <div class="rte text-{{ block.settings.text_alignment }}">{{ block.settings.content }}</div>
+          {%- when 'image' -%}
+            <div class="" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag: class: 'h-auto w-full overflow-hidden rounded-lg', sizes: '100vw'
+                }}
+              {%- else -%}
+                <div
+                  class="aspect-video h-full w-full overflow-hidden rounded-xl bg-[rgba(var(--color-foreground),0.3)]"
+                ></div>
+              {%- endif -%}
+            </div>
+          {%- when 'image-text-row' -%}
+            <div
+              class="content-blocks__item--{{ section.id }}-{{ block.id }} gradient flex flex-col gap-4 md:flex-row md:gap-8 color-{{ block.settings.color_scheme }} rounded-xl"
+              {{ block.shopify_attributes }}
+            >
+              <div class="flex gap-4 md:w-1/2">
+                {%- if block.settings.image != blank -%}
+                  <div class="">
+                    {{
+                      block.settings.image
+                      | image_url: width: block.settings.image.width
+                      | image_tag:
+                        class: 'w-full h-auto object-cover rounded-xl overflow-hidden !my-0',
+                        alt: block.settings.image.alt,
+                        sizes: '(min-width: 768px) 50vw, 100vw'
+                      | escape
+                    }}
+                  </div>
+                {%- else -%}
+                  <div
+                    class="aspect-square h-full w-full overflow-hidden rounded-xl bg-[rgba(var(--color-foreground),0.3)]"
+                  ></div>
+                {%- endif -%}
+              </div>
+              <div class="flex flex-1 flex-col gap-4">
+                {%- if block.settings.content != blank -%}
+                  <div class="">
+                    {{ block.settings.content }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- when 'table' -%}
+            {%- if block.settings.table_data != blank -%}
+              {%- assign table_rows = block.settings.table_data | newline_to_br | split: '<br />' -%}
+              <div class="table-wrapper" {{ block.shopify_attributes }}>
+                <table class="mt-0 table w-full table-auto">
+                  {%- for row in table_rows -%}
+                    {%- unless row == blank -%}
+                      {%- assign columns = row | split: '|' -%}
+                      <tr class="border-blue-fitness/70 border-b {% if forloop.first %} font-bold {% endif %}">
+                        {%- for column in columns -%}
+                          {%- if forloop.first and forloop.parentloop.first -%}
+                            <th class="border-blue-fitness/709 border-r p-3 text-left last:border-r-0">
+                              {{ column | strip }}
+                            </th>
+                          {%- else -%}
+                            <td class="border-blue-fitness/709 border-r p-3 text-left last:border-r-0">
+                              {{ column | strip }}
+                            </td>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tr>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                </table>
+              </div>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Content blocks",
+  "class": "section--content-blocks",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Page width",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "page-width--sm",
+          "label": "Small"
+        },
+        {
+          "value": "page-width--md",
+          "label": "Medium"
+        },
+        {
+          "value": "page-width--lg",
+          "label": "Large"
+        },
+        {
+          "value": "page-width--xl",
+          "label": "Extra Large"
+        }
+      ],
+      "default": "page-width--lg"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "text_alignment",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "left"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Lorem ipsum dolor sit amet"
+        },
+        {
+          "type": "select",
+          "id": "title_tag",
+          "label": "Title tag",
+          "options": [
+            {
+              "value": "h1",
+              "label": "h1"
+            },
+            {
+              "value": "h2",
+              "label": "h2"
+            },
+            {
+              "value": "h3",
+              "label": "h3"
+            },
+            {
+              "value": "h4",
+              "label": "h4"
+            },
+            {
+              "value": "h5",
+              "label": "h5"
+            }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "type": "richtext",
+      "name": "Richtext",
+      "settings": [
+        {
+          "type": "text_alignment",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "left"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<h2>Lorem ipsum dolor sit amet</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "name": "Table",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Use pipes to separate columns"
+        },
+        {
+          "type": "textarea",
+          "id": "table_data",
+          "label": "Table",
+          "default": "Feature | OTC Insoles | Custom Orthotics\n\nPurpose | Reduce Pain | Improve Posture\n\nArchitecture | Flat Foot | Deep Heel Cup\n\nSupporting Surface | Solid Plastic | Flexible Polymer\n\nColor | Black | White\n\nSize | Small | Medium\n\nFeature | OTC Insoles | Custom Orthotics\n\nPurpose | Reduce Pain | Improve Posture\n\nArchitecture | Flat Foot | Deep Heel Cup\n\nSupporting Surface | Solid Plastic | Flexible Polymer\n\nColor | Black | White\n\nSize | Small | Medium"
+        }
+      ]
+    },
+    {
+      "type": "image-text-row",
+      "name": "Image text row",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "reverse_columns",
+          "label": "Reverse columns",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<h2>Lorem ipsum dolor sit amet</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme_1"
+        },
+        {
+          "type": "range",
+          "id": "block_padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 36
+        },
+        {
+          "type": "range",
+          "id": "block_padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 36
+        },
+        {
+          "type": "range",
+          "id": "block_padding_left",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding left",
+          "default": 36
+        },
+        {
+          "type": "range",
+          "id": "block_padding_right",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding_right",
+          "default": 36
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content blocks",
+      "category": "STRIDE",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "richtext",
+          "settings": {
+            "content": "<h2>Lorem ipsum dolor sit amet</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/BlogImage04.jpg"
+          }
+        },
+        {
+          "type": "table",
+          "settings": {
+            "table_data": "Feature | OTC Insoles | Custom Orthotics\n\nPurpose | Reduce Pain | Improve Posture\n\nArchitecture | Flat Foot | Deep Heel Cup\n\nSupporting Surface | Solid Plastic | Flexible Polymer\n\nColor | Black | White\n\nSize | Small | Medium\n\nFeature | OTC Insoles | Custom Orthotics\n\nPurpose | Reduce Pain | Improve Posture\n\nArchitecture | Flat Foot | Deep Heel Cup\n\nSupporting Surface | Solid Plastic | Flexible Polymer\n\nColor | Black | White\n\nSize | Small | Medium"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

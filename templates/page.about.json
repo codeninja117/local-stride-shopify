@@ -1,0 +1,213 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay_pxwame": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_xnfDHj": {
+          "type": "title",
+          "settings": {
+            "title": "<em>About</em> | <strong>Stride</strong>",
+            "title_font_size": "text-display-l"
+          }
+        },
+        "text_jBJaaH": {
+          "type": "text",
+          "settings": {
+            "text": "At Stride, we fuse cutting-edge technology with clinical compassion to make healthcare accessible and convenient for all."
+          }
+        },
+        "text_GQQfAq": {
+          "type": "text",
+          "settings": {
+            "text": "Our solutions empower people to live life to the fullest, helping them overcome their pain and grow into the very best versions of themselves."
+          }
+        },
+        "buttons_mV8tJD": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Get in Touch",
+            "button_url": "shopify://pages/schedule-call",
+            "button_label_2": "",
+            "button_url_2": "",
+            "button_video_url": "shopify://files/videos/about-video.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "title_xnfDHj",
+        "text_jBJaaH",
+        "text_GQQfAq",
+        "buttons_mV8tJD"
+      ],
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/about_bg_new.jpg",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 10,
+        "min_height": 70,
+        "min_height_px": 700,
+        "vertical_alignment": "items-end",
+        "color_scheme": "scheme-3",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "about_section_1_zAnCRn": {
+      "type": "about-section-1",
+      "blocks": {
+        "block_1_jjNBiQ": {
+          "type": "block_1",
+          "settings": {
+            "eyebrow_text": "Putting you at the center of innovation",
+            "title": "We’re completely redefining the orthotic design experience to emphasize customer convenience and clinical quality.",
+            "text": "Our team of award-winning podiatrists factor hundreds of thousands of your data points into your remarkably personalized pair of orthotics.",
+            "video": "shopify://files/videos/about-video.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "block_1_jjNBiQ"
+      ],
+      "settings": {
+        "title": "Innovative Orthotics, | <strong>Redefined Experience</strong>",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 56
+      }
+    },
+    "about_timeline_bLyp8w": {
+      "type": "about-timeline",
+      "blocks": {
+        "timeline_item_cTVVnF": {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": false,
+            "Timeline_indicator": "shopify://shop_images/timeline_indicator-3.png",
+            "image": "shopify://shop_images/timeline_1.jpg",
+            "image_caption": "Greg Gerla - Founder & CEO",
+            "title": "Pushing <strong>Through</strong>",
+            "subtitle": "",
+            "content": "<p>For as long as I can remember, I've had flat feet. Like many, I tried stretching, exercises, and countless over-the-counter insoles—but \"pushing through\" was just a reality of life.</p><p>My story begins in 2021 when I was training for my first Ironman. I sought out a top podiatrist and paid nearly $900 for what I was told were the best orthotics money could buy. After multiple visits to the doctor and two months of waiting, my orthotics finally arrived.</p><p>They got me through the race, but I needed more support. Another $400 and another month of waiting, my adjusted pair still wasn’t ready  for my semester abroad. Frustrated and in pain, I spent months walking around Europe with nothing more than cheap Amazon insoles, wondering—<strong>why isn’t there a better way?</strong></p>"
+          }
+        },
+        "timeline_item_CTcj9d": {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": true,
+            "Timeline_indicator": "shopify://shop_images/timeline_indicator-3.png",
+            "image": "shopify://shop_images/timeline_2.jpg",
+            "image_caption": "Greg Gerla - CEO &  Dr. Zac Cartun, MD - CMO",
+            "title": "A Lightbulb <strong>Moment</strong>",
+            "subtitle": "",
+            "content": "<p>While studying at INSEAD in France, I met Dr. Zac Cartun, a physician with a passion for re-imagining smartphones as medical resources. As we researched the orthotics industry, we discovered that doctors were already scanning patients' feet with their phones and tablets. But no one had built an app to let patients do it themselves. That was our lightbulb moment.</p><p>We quickly got to work, recruiting a team to develop the <strong>first-ever mobile foot scanning</strong> solution—so anyone could access high-quality custom orthotics without the hassle.</p>"
+          }
+        },
+        "timeline_item_yKq8Yt": {
+          "type": "timeline_item",
+          "settings": {
+            "reverse_columns": false,
+            "Timeline_indicator": "shopify://shop_images/timeline_indicator-3.png",
+            "image": "shopify://shop_images/timeline_3.jpg",
+            "image_caption": "Dr. Dietmar Walter - Chief Podiatrist &  Dominik Walter - Head of Design",
+            "title": "A Legacy of Craftsmanship <strong>Meets Modern Technology</strong>",
+            "subtitle": "",
+            "content": "<p>Creating great orthotics requires more than just digital innovation—it demands expert craftsmanship.</p><p>We knew we needed the best, which took us to Oberkochen, Germany to meet with Dominik and his father Dietmar Walter. Winners of the prestigious “Adalbert-Seifriz” Design and Innovation award, among others, and inventors of the first CAD-based insole milling system, we were blown by the unrelenting passion they had for orthotics while visiting their factory. </p><p>Today, the Walters lead our design and production, ensuring that every pair of Stride Soles is built with the same precision and dedication as family patriarch and last traditional shoe maker in Germany, Berhard Walter, Intended. <a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Learn More About Our Team & Factory</strong></span></a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "timeline_item_cTVVnF",
+        "timeline_item_CTcj9d",
+        "timeline_item_yKq8Yt"
+      ],
+      "settings": {
+        "hide_timeline": false,
+        "title": "Our Story | <strong>Frustration to Innovation</strong>",
+        "subtitle": "",
+        "text_alignment": "center",
+        "header_underline": "shopify://shop_images/timeline_header__underline.svg",
+        "header_underline_width": 280,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "carousel_within_carousel_jqzTrf": {
+      "type": "carousel-within-carousel",
+      "blocks": {
+        "slide_64wdqU": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/dede.png",
+            "image_2": "shopify://shop_images/IMG_0221.heic",
+            "title": "Dede Griesbauer",
+            "subtitle": "Athlete",
+            "text": "<em>\"As someone who hates scheduling doctor's appointments, I cannot say enough good things about Stride's ordering process. The insole is not too rigid, or too soft, right in the middle, which is perfect for my shoes!\"</em>"
+          }
+        },
+        "slide_DwgmxT": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/Frame_2147223810.png",
+            "title": "Jason Pohl",
+            "subtitle": "Athlete",
+            "text": "<em>\"As a professional triathlete I demand the best from my equipment. With a number of injuries in my past, Stride insoles have really helped keep me injury free and back in racing mode! I owe a lot of Stride Soles at this point...\"</em>"
+          }
+        },
+        "slide_PiB3mM": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/kristers.webp",
+            "image_2": "shopify://shop_images/Kristers_Stanford.jpg",
+            "title": "Kristers Skrinda",
+            "subtitle": "Athlete",
+            "text": "<em>\"As a 6'8'' basketball player, i'm putting a lot of pressure on my knees and feet. Stride Soles has relieved the normal pressure I feel on my body. I'm excited for my upcoming season wearing my new orthotics.\"</em>"
+          }
+        },
+        "slide_LzM7Mp": {
+          "type": "slide",
+          "settings": {
+            "image_1": "shopify://shop_images/5dc48c6cef4b3efb093505903971b47b.png",
+            "title": "FC Heidenheim",
+            "subtitle": "Athlete",
+            "text": "Stride Soles is partnering  with PedCad to design custom orthotics for players in the Bundesliga’s top flight"
+          }
+        }
+      },
+      "block_order": [
+        "slide_64wdqU",
+        "slide_DwgmxT",
+        "slide_PiB3mM",
+        "slide_LzM7Mp"
+      ],
+      "settings": {
+        "title": "Athletes who <strong>Move with Stride</strong>",
+        "text": "Stride orthotics aren’t just for everyday comfort—they’re built to perform at the highest level. That’s why elite athletes across different sports trust Stride to support their movement, endurance, and recovery.",
+        "button_url": "/pages/quiz?pairs=1",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "slides_per_view": 4,
+        "color_scheme": "scheme-237aeb4b-282b-4d7e-8b34-f7517d85b6a3",
+        "slide_color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay_pxwame",
+    "about_section_1_zAnCRn",
+    "about_timeline_bLyp8w",
+    "carousel_within_carousel_jqzTrf"
+  ]
+}

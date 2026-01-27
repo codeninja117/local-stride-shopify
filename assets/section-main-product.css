@@ -1,0 +1,46 @@
+.product__promo {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+  }
+}
+
+.product__promo-icon {
+  width: 14px;
+  height: 14px;
+  @media screen and (min-width: 768px) {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.product-title {
+  @media screen and (min-width: 768px) {
+  }
+}
+
+.made-in-germany-badge {
+  background-color: rgba(245, 246, 249, 1);
+  padding: 8px 15px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.made-in-germany-badge__flag {
+  width: 24px;
+  height: 16px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3"><rect width="5" height="3" fill="%23000"/><rect width="5" height="2" fill="%23D00"/><rect width="5" height="1" fill="%23FFCE00"/></svg>');
+  background-size: cover;
+}

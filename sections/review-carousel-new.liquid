@@ -1,0 +1,588 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-main gradient relative overflow-hidden color-{{ section.settings.color_scheme }}">
+  <div class="section__main page-width">
+    <div class="section__header text-center">
+      {%- if section.settings.trustpilot_summary != blank -%}
+        <div class="featured-reviews-carousel__review-stars text-button-accent mb-6 flex flex-nowrap items-center justify-center gap-1 md:mb-8">
+          <div class="w-80">
+            {{
+              section.settings.trustpilot_summary
+              | image_url: width: 640
+              | image_tag: alt: section.settings.title, class: 'h-auto w-full object-contain'
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.frontrowmd_snippet != blank -%}
+        <style>
+          .iframe-frontrow #embedded p.main-copy,
+          .iframe-frontrow #embedded p.main-copy *,
+          .iframe-frontrow #embedded button.learn-more > p {
+            text-align: center;
+          }
+          #embedded p.main-copy,
+          #embedded p.main-copy *,
+          #embedded button.learn-more > p {
+            text-align: center;
+          }
+        </style>
+        <div class="featured-reviews-carousel__frontrowmd mb-6 flex flex-nowrap items-center justify-center gap-1 md:mb-8">
+          {{ section.settings.frontrowmd_snippet }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-h1 section-title capitalize">
+          {{
+            section.settings.title
+            | replace: '<i>', '<span class="">'
+            | replace: '</i>', '</span>'
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+          }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="section__content">
+      {% comment %} Check if we have video blocks {% endcomment %}
+      {% assign has_video_reviews = false %}
+      {% for block in section.blocks %}
+        {% if block.type == 'video-review' %}
+          {% assign has_video_reviews = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} Check if we have text blocks {% endcomment %}
+      {% assign has_text_reviews = false %}
+      {% for block in section.blocks %}
+        {% if block.type == 'text-review' %}
+          {% assign has_text_reviews = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% if has_video_reviews %}
+        {% comment %} Render video reviews carousel {% endcomment %}
+        <reviews-carousel-text
+          class="swiper !overflow-visible"
+          data-pagination="fraction"
+          data-navigation
+          data-slides-per-view="{{ section.settings.slides_per_view | default: 4.2 }}"
+          data-centered-slides="true"
+        >
+          <div class="swiper-wrapper">
+            {%- for block in section.blocks -%}
+              {% if block.type == 'video-review' %}
+                <div class="swiper-slide !h-auto" {{ block.shopify_attributes }}>
+                  <article class="flex h-full flex-col gap-4 overflow-hidden rounded-xl border border-[rgba(var(--color-foreground),0.1)] bg-white p-4">
+                    <div class="relative aspect-video overflow-hidden">
+                      {%- liquid
+                        assign video_id = block.settings.video.id | default: block.settings.video_url
+                        assign video_alt = block.settings.title
+                        assign poster = block.settings.video_poster
+
+                        if block.settings.video != null
+                          assign ratio_diff = block.settings.video.aspect_ratio | minus: poster.aspect_ratio | abs
+                          if ratio_diff < 0.01 and ratio_diff > 0
+                            assign fix_ratio = true
+                          endif
+                        endif
+                      -%}
+
+                      {%- capture sizes -%}400px{%- endcapture -%}
+
+                      <deferred-media
+                        class="video-section__media group relative mx-auto block w-full object-cover"
+                        data-media-id="{{ video_id }}"
+                        {% if poster != null %}
+                          style="--ratio-percent: {{ 9 | divided_by: 16.00 | times: 100.00 }}%;"
+                        {% endif %}
+                      >
+                        <button
+                          id="Deferred-Poster-Modal-{{ video_id }}"
+                          class="deferred-media__button video-section__poster relative cursor-pointer overflow-hidden"
+                          type="button"
+                          aria-label="Load video"
+                        >
+                          {%- if poster != null -%}
+                            {{
+                              poster
+                              | image_url: width: 400
+                              | image_tag:
+                                class: 'absolute inset-0 w-full h-full object-cover cursor-pointer',
+                                sizes: sizes,
+                                widths: '375, 400',
+                                alt: video_alt
+                            }}
+                          {%- else -%}
+                            <div class="bg-slate/20 aspect-video rounded-lg"></div>
+                          {%- endif -%}
+
+                          <span class="deferred-media__poster-button absolute top-1/2 left-1/2 z-2 flex h-[88px] w-[88px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[rgba(var(--color-secondary-button),0.25)] p-3 shadow-lg">
+                            <div class="flex h-full w-full items-center justify-center rounded-full bg-[rgba(var(--color-secondary-button),1)]">
+                              <span class="svg-wrapper pointer-events-none h-4.5 w-4.5 text-[rgba(var(--color-background),1)]">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  class="lucide lucide-play-icon lucide-play"
+                                >
+                                  <polygon points="6 3 20 12 6 21 6 3"/>
+                                </svg>
+                              </span>
+                            </div>
+                          </span>
+                        </button>
+                        <template>
+                          {%- if block.settings.video == null and block.settings.video_url != null -%}
+                            {%- liquid
+                              assign loop = ''
+                              if block.settings.enable_video_looping
+                                assign loop = '&loop=1&playlist=' | append: video_id
+                              endif
+                            -%}
+
+                            {%- if block.settings.video_url.type == 'youtube' -%}
+                              <iframe
+                                src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+                                class="js-youtube"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen
+                                title="{{ block.settings.title | escape }}"
+                              ></iframe>
+                            {%- else -%}
+                              <iframe
+                                src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
+                                class="js-vimeo"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen
+                                title="{{ block.settings.title | escape }}"
+                              ></iframe>
+                            {%- endif -%}
+                          {%- else -%}
+                            {{
+                              block.settings.video
+                              | video_tag:
+                                image_size: '400x',
+                                autoplay: true,
+                                loop: false,
+                                controls: true,
+                                muted: false,
+                                class: 'rounded-lg overflow-hidden object-cover'
+                            }}
+                          {%- endif -%}
+                        </template>
+                      </deferred-media>
+                    </div>
+                    <div class="flex flex-1 flex-col gap-2">
+                      <div class="featured-reviews-carousel__review-stars text-button-accent flex flex-nowrap gap-0.5">
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                      </div>
+
+                      <p class="text-h3 font-semibold">{{ block.settings.title }}</p>
+                      <p class="text-blue-fitness text-xs">{{ block.settings.review_date }}</p>
+                      <div class="text-body-m">{{ block.settings.review | strip_html | truncate: 100 }}</div>
+                    </div>
+                  </article>
+                </div>
+              {% endif %}
+            {%- endfor -%}
+          </div>
+
+          {% render 'carousel-navigation' %}
+        </reviews-carousel-text>
+
+      {% elsif has_text_reviews %}
+        {% comment %} Render text reviews carousel {% endcomment %}
+        <reviews-carousel-text
+          class="swiper !overflow-visible"
+          data-pagination="fraction"
+          data-navigation
+          data-slides-per-view="{{ section.settings.slides_per_view | default: 3.6 }}"
+          data-centered-slides="true"
+        >
+          <div class="swiper-wrapper">
+            {%- for block in section.blocks -%}
+              {% if block.type == 'text-review' %}
+                <div class="swiper-slide !h-auto" {{ block.shopify_attributes }}>
+                  <article class="flex h-full flex-col overflow-hidden rounded-xl border border-[rgba(var(--color-foreground),0.1)] p-4">
+                    <div class="flex flex-1 flex-col gap-4">
+                      <div class="featured-reviews-carousel__review-stars text-button-accent flex flex-nowrap gap-0.5">
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 -%}
+                        {%- render 'svg-star', height: 12, width: 12 %}
+                      </div>
+                      <div class="flex flex-col gap-12">
+                        <p class="text-base font-medium text-[rgba(var(--color-foreground),0.6)] lg:text-xl">
+                          "{{ block.settings.review | truncate: 120 }}"
+                        </p>
+                        <div class="mt-2 flex items-center gap-2">
+                          {% if block.settings.avatar != blank %}
+                            <div class="h-14 w-14 overflow-hidden rounded-full">
+                              {{
+                                block.settings.avatar
+                                | image_url: width: 48
+                                | image_tag: alt: block.settings.title, class: 'h-full w-full object-cover'
+                              }}
+                            </div>
+                          {%- else -%}
+                            <div
+                              class="h-14 w-14 overflow-hidden rounded-full bg-[rgba(var(--color-foreground),0.1)]"
+                            ></div>
+                          {% endif %}
+                          <div class="flex flex-col">
+                            <p class="">{{ block.settings.title }}</p>
+
+                            <div class="inline-flex items-center gap-1">
+                              <svg
+                                class="h-4 w-4 rounded-full bg-[#0084FF] text-[rgba(var(--color-background),1)]"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                              </svg>
+                              <span class="text-base text-[rgba(var(--color-foreground),0.4)]"> Verified</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              {% endif %}
+            {%- endfor -%}
+          </div>
+
+          {% render 'carousel-navigation' %}
+        </reviews-carousel-text>
+
+      {% else %}
+        {% comment %} Fallback if no reviews of either type {% endcomment %}
+        <div class="py-8 text-center text-gray-500">No reviews available to display.</div>
+      {% endif %}
+    </div>
+
+    {%- if section.settings.button_label != blank or section.settings.disclaimer != blank -%}
+      <div class="section__footer flex flex-col items-center gap-2 text-center">
+        {%- if section.settings.button_label != blank -%}
+          {% render 'button',
+            tag: 'a',
+            variant: 'primary',
+            text: section.settings.button_label,
+            url: section.settings.button_url
+          %}
+        {%- endif -%}
+
+        {%- if section.settings.disclaimer != blank -%}
+          <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+            {{- section.settings.disclaimer -}}
+          </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review carousel new",
+  "class": "section-review-carousel-new js-section-color",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Columns 1 and 4 will be hidden on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italics to highlight a word or phrase."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "What Our <em>Customers Say</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "What will you achieve with Stride Soles?"
+    },
+    {
+      "type": "header",
+      "content": "Reviews stars & count/summary"
+    },
+    {
+      "type": "image_picker",
+      "id": "trustpilot_summary",
+      "label": "Trustpilot summary"
+    },
+
+    {
+      "type": "url",
+      "id": "trust_pilot_url",
+      "label": "Trustpilot url"
+    },
+    {
+      "type": "liquid",
+      "id": "frontrowmd_snippet",
+      "label": "frontrowMD snippet"
+    },
+    {
+      "type": "header",
+      "content": "Carousel settings"
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view",
+      "min": 0.1,
+      "max": 10,
+      "step": 0.1,
+      "label": "Sldies per view",
+      "default": 3.6
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text-review",
+      "name": "Text review",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "review",
+          "label": "Review",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Author",
+          "default": "Esther Lockman"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar"
+        }
+      ]
+    },
+    {
+      "type": "video-review",
+      "name": "Video review",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster",
+          "label": "Video poster"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "review",
+          "label": "Review",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Author",
+          "default": "Esther Lockman"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "review_date",
+          "label": "Review date",
+          "default": "January 7, 2025"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review carousel new",
+      "blocks": {
+        "video_review_3FqViN": {
+          "type": "video-review",
+          "settings": {
+            "video": "",
+            "video_poster": "shopify://shop_images/g.png",
+            "review": "StrideSoles have really helped me out, they are really affordable compared to what Iused to get at the doctors office. I was really impressed with how accurate thescan was, it molded to my feet pretty perfectly I would say… When I wear them,compared to normal insoles, I don't feel any pain when walking.",
+            "title": "Gabriel Kalen",
+            "review_date": "January 7, 2024"
+          }
+        },
+        "video_review_KqTMUa": {
+          "type": "video-review",
+          "settings": {
+            "video": "",
+            "video_poster": "shopify://shop_images/d.png",
+            "review": "I have been using the Stride Soles custom orthotics for about 2 months now in my Brooks running shoes. They customize everything... I selected my shoe type, sport, injuries, and my shoes types and they are perfect for my feet. I brought them by my physio therapist and they said it was exactly what I need to help with my low arch.",
+            "title": "Elliott Hall",
+            "review_date": "July 13, 2023"
+          }
+        },
+        "video_review_6agECT": {
+          "type": "video-review",
+          "settings": {
+            "video": "",
+            "video_poster": "shopify://shop_images/ss.png",
+            "review": "It's been about a year now so I figure it's time for a review! I wear my Stride's in all of my shoes and love how supported my feet feel. I can walk, run, play tennis, and everything without my normal heel pain. I'm glad I found you guys!!!",
+            "title": "Janice Simon",
+            "review_date": "February 9, 2023"
+          }
+        },
+        "video_review_nb6Uqi": {
+          "type": "video-review",
+          "settings": {
+            "video": "",
+            "video_poster": "shopify://shop_images/1.png",
+            "review": "Before Stride Soles, I used to feel like a dog walking on a treadmill! Now I'm able to be on the treadmill, or my bike without pain. In fact, I'm getting ready to purchase another pair today.",
+            "title": "Jorge V",
+            "review_date": "June 14, 2024"
+          }
+        },
+        "video_review_Cr4mXp": {
+          "type": "video-review",
+          "settings": {
+            "video": "",
+            "video_poster": "shopify://shop_images/b.png",
+            "review": "As a podiatrist withyears of experience I have always advocated for my patients. I'm glad toendorse and prescribe Stride Soles for my patients. The scanner is extremelyaccurate, and that's why I even use it in-clinic. It's remarkable they've beenable to translate this experience to an at-home model.",
+            "title": "Dr. Stephanie Kane",
+            "review_date": "July 9, 2023"
+          }
+        },
+        "video_review_zP7XQB": {
+          "type": "video-review",
+          "settings": {
+            "video": "",
+            "video_poster": "shopify://shop_images/22.png",
+            "review": "My Stride Soles inserts are absolutely amazing...A lot of my hip, knee, back pain, is relieved so I absolutely love them. I can't emphasize that enough. If you haven't gotten them already, go get them!",
+            "title": "Lucas Simon",
+            "review_date": "February 3, 2025"
+          }
+        }
+      },
+      "block_order": [
+        "video_review_3FqViN",
+        "video_review_KqTMUa",
+        "video_review_6agECT",
+        "video_review_nb6Uqi",
+        "video_review_Cr4mXp",
+        "video_review_zP7XQB"
+      ],
+      "settings": {
+        "title": "What Our <em><strong>Customers Say</strong></em>",
+        "subtitle": "",
+        "trustpilot_summary": "shopify://shop_images/trustpilot-summary.png",
+        "trust_pilot_url": "",
+        "slides_per_view": 3.6,
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  ]
+}
+{% endschema %}

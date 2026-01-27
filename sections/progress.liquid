@@ -1,0 +1,147 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: white;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .progress-image-title {
+    font-size: 19.45px;
+    margin: 24px 0;
+  }
+  .progress-image-desc {
+    font-size: 18px;
+    color: #000;
+    font-weight: 600;
+  }
+
+  .progression-images {
+    padding: 40px 0;
+    flex-direction: row;
+  }
+
+  .progress-section-desc {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 767px) {
+    .progression-images {
+        flex-wrap: wrap;
+    }
+    .progression-item {
+        width: calc(50% - 12px);
+    }
+  }
+{%- endstyle -%}
+<div class="section-{{ section.id }}">
+  <div class="progression-section page-width md:max-w-screen-lg">
+    {% if section.settings.heading != blank %}
+      <h2 class="progress-section-desc text-body-l text-center">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="progression-images is-inview flex flex-col items-stretch gap-6 md:flex-row">
+      {% for block in section.blocks %}
+        <div class="progression-item flex flex-col justify-between text-center">
+          {% if block.settings.image != blank %}
+            <img
+              src="{{ block.settings.image | img_url: '240x240' }}"
+              alt="{{ block.settings.caption | escape }}"
+              loading="lazy"
+              fetchpriority="auto"
+            >
+          {% endif %}
+          <h3 class="progress-image-title">{{ block.settings.title }}</h3>
+          <p class="progress-image-desc">{{ block.settings.caption }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.line_arrow != blank %}
+      <div class="line-arrow flex flex-col items-center">
+        {{
+          section.settings.line_arrow
+          | image_url: width: 620
+          | image_tag: loading: 'lazy', alt: 'Progress', fetchpriority: 'auto'
+        }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Progression Images",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Foot pressure map results after 12 weeks of Stride use with improved symmetry and arch structure."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    },
+    {
+      "type": "image_picker",
+      "id": "line_arrow",
+      "label": "Line Arrow Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Progression Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title (e.g. Week 1)"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Progression Images",
+      "category": "Uncategorized"
+    }
+  ]
+}
+{% endschema %}

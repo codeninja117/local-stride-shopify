@@ -1,0 +1,269 @@
+<div class="page-width">
+  <code class="bg-blue-fitness/20 mb-2 block rounded-md p-2 text-sm">
+    http://127.0.0.1:9292/pages/quiz-results?submitted=true&checkout[email]=andrewhkim01@gmail.com&checkout[shipping_address][first_name]=Andrew&Arch=Flat+feet&Pain+Region+L=Base+of+small+toe+(met+5),+Outer+Ankle,+Inside+Ankle,+Knee&Pain+Region+R=Base+of+small+toe+(met+5),+Outer+Ankle&Pain+Frequency=After+a+long+day&Size=Mens+8&Condition=Plantar+Fasciitis&Shoe+Type=Running+Shoes
+  </code>
+
+  <quiz-results>
+    <div class="quiz-results__success">
+      <div class="quiz-results__success-content grid gap-4 md:grid-cols-2">
+        <div class="quiz-results__success-details">
+          <h1 class="text-h1 mb-4">You're only one step away from relief...</h1>
+          <p class="text-body-l mb-2">This is what happens next:</p>
+
+          <ol class="text-body-l ml-8 list-decimal ">
+            <li>Place your order online.</li>
+            <li>Scan feet & record gait on your phone.</li>
+            <li>Wait 7-10 business days for your orthotics!</li>
+          </ol>
+
+          <button id="quiz-results-add-to-cart-btn" type="submit" class="btn btn-primary">
+            <div class="btn-primary__inner">
+              <div class="btn-primary__text-wrapper">
+                <div class="btn-primary__text">Place Order</div>
+                <div class="btn-primary__text">Place Order</div>
+              </div>
+            </div>
+          </button>
+
+          <p class="text-body-l mt-8">180 Day Money Back Guarantee ~ Free Shipping ~ HSA/FSA Eligible</p>
+        </div>
+        <div class="quiz-results__success-media">
+          <div class="bg-blue-fitness/30 aspect-square"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No quiz data fallback content (hidden by default) -->
+    <div class="quiz-results__no-data" style="display: none;">
+      <div class="quiz-results__success-content grid gap-4 md:grid-cols-1">
+        <div class="quiz-results__success-details text-center">
+          <h1 class="text-h1 mb-4">🔄 Redirecting to Assessment</h1>
+          <p class="text-body-l mb-4">
+            No quiz data found. Redirecting you to Dr. Walter's assessment in
+            <span id="countdown" class="font-bold text-blue-600">3</span> seconds...
+          </p>
+          <div class="mb-8">
+            <a href="/pages/quiz" class="btn btn-primary">
+              <div class="btn-primary__inner">
+                <div class="btn-primary__text-wrapper">
+                  <div class="btn-primary__text">Take Assessment Now</div>
+                  <div class="btn-primary__text">Take Assessment Now</div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <p class="text-body-l">Click the button above if you're not redirected automatically</p>
+        </div>
+      </div>
+    </div>
+  </quiz-results>
+</div>
+
+<script>
+  class QuizResults extends HTMLElement {
+    constructor() {
+      super();
+      // Configuration
+      this.config = {
+        shopDomain: 'stridesoles.com',
+        defaultVariantId: '40613653119040',
+        redirectDelay: 3,
+        redirectMode: true, // Set to false to show fallback content instead of redirecting
+      };
+    }
+
+    connectedCallback() {
+      // Check if user came from quiz submission
+      const params = new URLSearchParams(window.location.search);
+      const isFromQuizSubmission = params.get('submitted') === 'true';
+
+      if (!isFromQuizSubmission) {
+        this.handleNoQuizData();
+        return;
+      }
+
+      // Get quiz data from URL parameters
+      const lineItemProperties = this.getLineItemProperties();
+
+      // Double-check we have actual quiz data (in case someone manually adds submitted=true)
+      if (Object.keys(lineItemProperties).length === 0) {
+        this.handleNoQuizData();
+        return;
+      }
+
+      // We have valid quiz submission - process normally
+      this.displayResults(lineItemProperties);
+      this.setupCartButton(lineItemProperties);
+    }
+
+    disconnectedCallback() {
+      // Clean up any timers
+      if (this.redirectTimer) {
+        clearInterval(this.redirectTimer);
+      }
+    }
+
+    handleNoQuizData() {
+      if (this.config.redirectMode) {
+        this.redirectToQuiz();
+      } else {
+        this.showFallbackContent();
+      }
+    }
+
+    redirectToQuiz() {
+      // Hide normal content
+      const successContent = this.querySelector('.quiz-results__success');
+      const noDataContent = this.querySelector('.quiz-results__no-data');
+
+      if (successContent) successContent.style.display = 'none';
+      if (noDataContent) noDataContent.style.display = 'block';
+
+      // Start countdown
+      let timeLeft = this.config.redirectDelay;
+      const countdownEl = this.querySelector('#countdown');
+
+      this.redirectTimer = setInterval(() => {
+        timeLeft--;
+        if (countdownEl) countdownEl.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(this.redirectTimer);
+          window.location.href = '/pages/quiz';
+        }
+      }, 1000);
+    }
+
+    showFallbackContent() {
+      // Hide normal content and show no-data content
+      const successContent = this.querySelector('.quiz-results__success');
+      const noDataContent = this.querySelector('.quiz-results__no-data');
+
+      if (successContent) successContent.style.display = 'none';
+      if (noDataContent) {
+        noDataContent.style.display = 'block';
+        // Update content for non-redirect mode
+        const heading = noDataContent.querySelector('.text-h1');
+        const description = noDataContent.querySelector('.text-body-l');
+
+        if (heading) heading.textContent = '🤔 No Assessment Data Found';
+        if (description) {
+          description.innerHTML =
+            "It looks like you haven't completed Dr. Walter's foot assessment yet, or your session has expired.";
+        }
+      }
+    }
+
+    displayResults(lineItemProperties) {
+      // Optional: You could display the quiz results somewhere on the page
+      // For now, we'll just log them for debugging
+      console.log('Quiz results:', lineItemProperties);
+
+      // If you want to show the quiz results on the page, you could add them here
+      // For example, adding a summary section or updating existing content
+    }
+
+    setupCartButton(lineItemProperties) {
+      const button = this.querySelector('#quiz-results-add-to-cart-btn');
+      if (!button) return;
+
+      // Create cart URL with Base64 properties
+      const cartUrl = this.createCartUrl(lineItemProperties);
+
+      // Convert button to link or add click handler
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = cartUrl;
+      });
+
+      console.log('Cart URL created:', cartUrl);
+    }
+
+    createCartUrl(lineItemProperties) {
+      // Add metadata to properties
+      const enrichedData = {
+        ...lineItemProperties,
+        {% comment %} 'Quiz Source': 'Dr. Walter Assessment',
+        'Submitted At': new Date().toISOString(), {% endcomment %}
+      };
+
+      // Create Base64 URL-safe encoding
+      const jsonString = JSON.stringify(enrichedData);
+      const base64 = btoa(unescape(encodeURIComponent(jsonString)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+
+      // Build cart URL
+      const variantId = lineItemProperties.variant_id || this.config.defaultVariantId;
+      let cartUrl = `https://${this.config.shopDomain}/cart/${variantId}:1,40606957404224:1?storefront=true&properties=${base64}`;
+
+      // Add checkout prefill if email/name available
+      const checkoutParams = [];
+      if (lineItemProperties.email) {
+        checkoutParams.push(`checkout[email]=${encodeURIComponent(lineItemProperties.email)}`);
+      }
+      if (lineItemProperties.first_name) {
+        checkoutParams.push(
+          `checkout[shipping_address][first_name]=${encodeURIComponent(lineItemProperties.first_name)}`,
+        );
+      }
+
+      if (checkoutParams.length > 0) {
+        cartUrl += '&' + checkoutParams.join('&');
+      }
+
+      return cartUrl;
+    }
+
+    getLineItemProperties() {
+      const params = new URLSearchParams(window.location.search);
+      const data = {};
+
+      // Exclude parameters that are not line item properties
+      const excludedParams = [
+        'submitted', // Control parameter - not a line item property
+        'storefront',
+        'variant',
+        'pairs',
+        'checkout',
+        'checkout_url',
+        'debug',
+        'quantity',
+        '_ga',
+        '_gid',
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'fbclid',
+        'gclid',
+        'cart_link_id',
+      ];
+
+      for (let [key, value] of params.entries()) {
+        if (
+          !excludedParams.includes(key) &&
+          !key.startsWith('checkout[') &&
+          !key.startsWith('utm_') &&
+          !key.startsWith('_')
+        ) {
+          data[key] = decodeURIComponent(value);
+        }
+      }
+
+      return data;
+    }
+  }
+
+  window.customElements.define('quiz-results', QuizResults);
+</script>
+
+{% schema %}
+{
+  "name": "Quiz Results",
+  "class": "section section-quiz-results",
+  "settings": []
+}
+{% endschema %}

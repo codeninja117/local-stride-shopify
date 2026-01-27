@@ -1,0 +1,59 @@
+{% # theme-check-disable %}
+{%- liquid
+  assign article_content = article.content
+  assign h2_segments = article_content | split: '<h2'
+  assign toc_items = ''
+  assign processed_content = ''
+
+  # Process each segment to build TOC and add IDs
+  for segment in h2_segments
+    if forloop.first
+      assign processed_content = segment
+    else
+      if segment contains '</h2>'
+        # Split the segment into parts
+        assign h2_parts = segment | split: '>'
+        assign h2_attrs = h2_parts.first
+        assign h2_remainder = segment | remove_first: h2_attrs | remove_first: '>'
+
+        # Extract clean text from between H2 tags
+        assign h2_content = h2_remainder | split: '</h2>' | first
+        assign h2_text = h2_content | strip_html | strip
+
+        if h2_text != ''
+          # Create ID from text
+          assign h2_id = h2_text | handleize | prepend: 'toc-'
+
+          # Add to TOC
+          assign toc_items = toc_items | append: '<li><a href="#' | append: h2_id | append: '">' | append: h2_text | append: '</a></li>'
+
+          # Rebuild H2 with ID while preserving existing attributes
+          assign new_h2 = '<h2 id="' | append: h2_id | append: '" ' | append: h2_attrs | append: '>' | append: h2_remainder
+          assign processed_content = processed_content | append: new_h2
+        else
+          # If no text found, just rebuild original H2
+          assign processed_content = processed_content | append: '<h2' | append: segment
+        endif
+      else
+        # If no closing H2 tag, just rebuild original
+        assign processed_content = processed_content | append: '<h2' | append: segment
+      endif
+    endif
+  endfor
+-%}
+{% # theme-check-enable %}
+
+{%- if toc_items != '' -%}
+  <div class="toc rounded-lg bg-black/5 p-4 lg:p-[60px]">
+    <h2 class="mt-0 mb-4 text-2xl font-normal lg:text-[62px]">
+      <span class="text-[#9D9FA9]">Table of</span> Contents:
+    </h2>
+    <ul class="list-decimal space-y-2">
+      {{ toc_items }}
+    </ul>
+  </div>
+{%- endif -%}
+
+<div class="prose">
+  {{ processed_content }}
+</div>

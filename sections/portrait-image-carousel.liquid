@@ -1,0 +1,154 @@
+{% comment %}
+  Portrait Image Carousel Section (fixed typos)
+{% endcomment %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }} .portrait-carousel__container {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .portrait-carousel__container {
+    width:90vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="">
+    {%- if section.settings.heading != blank -%}
+      <div class="mb-8 text-center">
+        <div class="mx-auto" style="max-width: {{ section.settings.heading_max_width | default: 800 }}px;">
+          {{ section.settings.heading | replace: '<h1>', '<h1 class="text-h1">' }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="portrait-carousel__container">
+        <div class="scrollbar-hide flex gap-4 overflow-x-auto">
+          {%- for block in section.blocks -%}
+            <div class="" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 400
+                  | image_tag: class: 'w-full h-64 md:h-80 object-cover rounded-lg', alt: block.settings.image.alt
+                  | default: 'Portrait image',
+                    loading: 'lazy',
+                    sizes: '(min-width: 768px) 224px, 192px',
+                    widths: '192, 224, 300, 400'
+                }}
+              {%- else -%}
+                <div class="flex h-64 w-full items-center justify-center rounded-lg bg-gray-200 md:h-80">
+                  <span class="text-sm text-gray-500">No image selected</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Portrait Image Carousel",
+  "class": "section-portrait-image-carousel js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>Customer Photos</h2>"
+    },
+    {
+      "type": "range",
+      "id": "heading_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Heading max width",
+      "default": 800
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Portrait Image Carousel",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

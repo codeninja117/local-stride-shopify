@@ -1,0 +1,332 @@
+{% style %}
+  /* Adjust 100px based on your header height */
+  h2[id] {
+    scroll-margin-top: 200px;
+  }
+{% endstyle %}
+
+<article class="main-article-1 pt-18 lg:pt-36">
+  {% comment %} <div class="article__body page-width grid gap-4 pt-8 lg:grid-cols-[280px_1fr_280px]"> {% endcomment %}
+  <div class="{% render 'article-body-classes' %}">
+    {%- comment -%} TOC Sidebar {%- endcomment -%}
+    <aside>
+      {% comment %} <div class="sticky top-4 z-100 rounded-lg bg-white p-4"> {% endcomment %}
+      {% render 'toc-scroll-highlighting' %}
+      {% comment %} </div> {% endcomment %}
+    </aside>
+
+    {%- comment -%} Article Content {%- endcomment -%}
+    <div class="{% render 'article-content-classes' %}">
+      {% render 'snippet-breadcrumbs' %}
+      <header class="-mt-2 grid gap-4 md:gap-8">
+        <div class="space-y-2">
+          <h1 class="">{{ article.title }}</h1>
+
+          {%- if article.excerpt != blank -%}
+            <div class="text-body-m mb-4 text-black/60 ">{{ article.excerpt | strip_html }}</div>
+          {%- endif -%}
+
+          <div class="article__meta mt-4 flex flex-wrap items-center gap-4 text-sm whitespace-nowrap">
+            <div class="flex items-center gap-4">
+              {%- if article.metafields.custom.author.value.image != blank -%}
+                {%- assign article_author_image_alt = article.metafields.custom.author.value.image.alt
+                  | default: shop.name
+                -%}
+                {{
+                  article.metafields.custom.author.value.image
+                  | image_url: width: 56, height: 56
+                  | image_tag:
+                    class: 'h-13 w-13 rounded-[5px] object-cover',
+                    alt: article.metafields.custom.author.value.image.alt,
+                    loading: 'lazy',
+                    alt: article_author_image_alt
+                }}
+              {%- else -%}
+                <div class="h-7 w-7 rounded-[5px] bg-black/20"></div>
+              {%- endif -%}
+              <div>
+                <p class="text-base font-extrabold">
+                  {%- if article.metafields.custom.author.value.name != blank -%}
+                    {{ article.metafields.custom.author.value.name }}
+                  {%- else -%}
+                    Admin
+                  {%- endif -%}
+                </p>
+                <span class="text-sm text-black/60">
+                  {%- if article.metafields.custom.author.value.title != blank -%}
+                    {{ article.metafields.custom.author.value.title }}
+                  {%- else -%}
+                    Social Media & Community Expert
+                  {%- endif -%}
+                </span>
+              </div>
+            </div>
+
+            <span class="text-sm text-black/60">•</span>
+
+            <div class="flex flex-col">
+              <time class="text-sm text-black/60" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                {{ article.published_at | date: '%B %d, %Y' }}
+              </time>
+
+              {% assign word_count = article.content | strip_html | split: ' ' | size %}
+              {% assign reading_time = word_count | divided_by: 225.0 %}
+
+              {% if reading_time < 1 %}
+                {% assign reading_time_text = 'Less than a minute' %}
+              {% else %}
+                {% assign reading_time_minutes = reading_time | round %}
+                {% assign reading_time_text = reading_time_minutes | append: ' min' %}
+              {% endif %}
+
+              <span class="article-reading-time text-sm text-black/60">{{ reading_time_text }}</span>
+            </div>
+          </div>
+        </div>
+
+        {% comment %}
+          <img
+            srcset="
+              {% if article.image.width >= 350 %}{{ article.image | image_url: width: 350 }} 350w,{% endif %}
+              {% if article.image.width >= 750 %}{{ article.image | image_url: width: 750 }} 750w,{% endif %}
+              {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
+              {% if article.image.width >= 1500 %}{{ article.image | image_url: width: 1500 }} 1500w,{% endif %}
+              {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}
+              {% if article.image.width >= 3000 %}{{ article.image | image_url: width: 3000 }} 3000w,{% endif %}
+              {{ article.image | image_url }} {{ article.image.width }}w
+            "
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+            src="{{ article.image | image_url: width: 1100 }}"
+            loading="eager"
+            fetchpriority="high"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+            alt="{{ article.image.alt | escape }}"
+            class="article-card__image aspect-video rounded-xl object-cover"
+          >
+        {% endcomment %}
+      </header>
+
+      {% render 'process-article-content', article: article %}
+    </div>
+
+    {%- comment -%} Right Sidebar{%- endcomment -%}
+    <aside class="flex flex-col gap-6">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'sidebar_cta' -%}
+            <div class="newsletter-signup gradient sticky top-[20vh] flex flex-col items-center justify-center rounded-lg p-5 text-center lg:p-8 color-{{ block.settings.color_scheme }}">
+              {% render 'svg-logomark', class: 'w-24 mb-8' %}
+
+              {%- if block.settings.sidebar_cta_title != blank -%}
+                <h3 class="mb-2 text-2xl leading-[1.24] font-extrabold">{{ block.settings.sidebar_cta_title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="relative mx-2 mt-6">
+                  {% render 'button',
+                    tag: 'a',
+                    text: block.settings.button_label,
+                    url: block.settings.button_link,
+                    variant: 'primary'
+                  %}
+                </div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'sidebar_three_subsections' -%}
+            <div class="sidebar-three-subsections gradient sticky flex flex-col gap-2 rounded-lg px-4 py-5 text-left color-{{ block.settings.color_scheme }}">
+              <div class="flex flex-col gap-6">
+                <div class="article-sidebar-section">
+                  {%- if block.settings.first_subsection_title != blank -%}
+                    <h3 class="mb-2 text-lg font-bold">{{ block.settings.first_subsection_title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.first_subsection_tag != blank -%}
+                    <ul class="blog-sidebar-links">
+                      {%- for product in collections.all.products -%}
+                        {%- if product.tags contains block.settings.first_subsection_tag -%}
+                          {%- assign clean_title = product.title
+                            | replace: 'Custom Orthotic Insoles for ', ''
+                            | replace: 'Custom Foot Orthotics for ', ''
+                            | replace: 'Custom Orthotics for ', ''
+                            | replace: 'Orthotics for ', ''
+                          -%}
+                          {%- if clean_title contains 'Heel Spur Orthotics' -%}
+                            {%- assign final_title = 'Custom Orthotics for Heel Spurs' -%}
+                          {%- elsif clean_title contains 'Sensorimotor Orthotics' -%}
+                            {%- assign final_title = 'Custom Sensorimotor Orthotics' -%}
+                          {%- elsif clean_title contains 'Orthotics' -%}
+                            {%- assign final_title = clean_title -%}
+                          {%- else -%}
+                            {%- assign final_title = 'Custom Orthotics for ' | append: clean_title -%}
+                          {%- endif -%}
+                          <li class="custom-orthotics-link">
+                            <a href="{{ product.url }}">
+                              {{- final_title -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+                <div class="article-sidebar-section">
+                  {%- if block.settings.second_subsection_title != blank -%}
+                    <h3 class="mb-2 text-lg font-bold">{{ block.settings.second_subsection_title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.second_subsection_tag != blank -%}
+                    <ul class="blog-sidebar-links">
+                      {%- for product in collections.all.products -%}
+                        {%- if product.tags contains block.settings.second_subsection_tag -%}
+                          {%- assign clean_title = product.title
+                            | replace: 'Custom Orthotic Insoles for ', ''
+                            | replace: 'Custom Foot Orthotics for ', ''
+                            | replace: 'Custom Orthotics for ', ''
+                            | replace: 'Orthotics for ', ''
+                          -%}
+                          {%- if clean_title contains 'Heel Spur Orthotics' -%}
+                            {%- assign final_title = 'Custom Orthotics for Heel Spurs' -%}
+                          {%- elsif clean_title contains 'Sensorimotor Orthotics' -%}
+                            {%- assign final_title = 'Custom Sensorimotor Orthotics' -%}
+                          {%- elsif clean_title contains 'Orthotics' -%}
+                            {%- assign final_title = clean_title -%}
+                          {%- else -%}
+                            {%- assign final_title = 'Custom Orthotics for ' | append: clean_title -%}
+                          {%- endif -%}
+                          <li>
+                            <a href="{{ product.url }}">
+                              {{- final_title -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+                <div class="article-sidebar-section article-sidebar-section--image">
+                  {%- if block.settings.third_subsection_image != blank -%}
+                    <div class="mb-2">
+                      <img
+                        src="{{ block.settings.third_subsection_image | image_url: width: 400, height: 300 }}"
+                        alt="Sidebar image"
+                        class="h-auto w-full rounded-md"
+                        loading="lazy"
+                        width="400"
+                        height="300"
+                      >
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.third_subsection_richtext != blank -%}
+                    {%- assign richtext = block.settings.third_subsection_richtext | strip -%}
+                    {%- if richtext contains '|' -%}
+                      {%- assign richtext_stripped = richtext | strip_html -%}
+                      {%- assign parts = richtext_stripped | split: '|' -%}
+                      <div class="prose sidebar-blurb max-w-none">
+                        <p>
+                          <span>{{ parts[0] | strip }}</span>
+                          <span>{{ parts[1] | strip }}</span>
+                        </p>
+                      </div>
+                    {%- else -%}
+                      <div class="prose max-w-none">{{ richtext }}</div>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- else -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </aside>
+  </div>
+
+  <div class="article__related mx-auto mt-16 bg-black/5">
+    <div class="page-width">
+      {% render 'related-articles', article: article %}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Main article",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "sidebar_cta",
+      "name": "Sidebar CTA",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "sidebar_cta_title",
+          "label": "Title",
+          "default": "Do you experience foot pain? Take our free quiz, try our orthotics, and start a pain-free life."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take The Quiz"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_three_subsections",
+      "name": "Product Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "first_subsection_title",
+          "label": "First Subsection Title"
+        },
+        {
+          "type": "text",
+          "id": "first_subsection_tag",
+          "label": "First Subsection Tag",
+          "info": "Type in the tag for products to display in the first subsection"
+        },
+        {
+          "type": "text",
+          "id": "second_subsection_title",
+          "label": "Second Subsection Title"
+        },
+        {
+          "type": "text",
+          "id": "second_subsection_tag",
+          "label": "Second Subsection Tag",
+          "info": "Type in the tag for products to display in the second subsection"
+        },
+        {
+          "type": "image_picker",
+          "id": "third_subsection_image",
+          "label": "Third Subsection Image"
+        },
+        {
+          "type": "richtext",
+          "id": "third_subsection_richtext",
+          "label": "Third Subsection Rich Text"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,103 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_text_overlay_Uc7TF3": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_kmynAk": {
+          "type": "title",
+          "settings": {
+            "title": "Our Happy Customers",
+            "title_font_size": "text-display-l",
+            "inline_title": false
+          }
+        },
+        "text_qKTX6c": {
+          "type": "text",
+          "settings": {
+            "text": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
+          }
+        },
+        "buttons_UY4Dtm": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Take The Quiz",
+            "button_url": "shopify://pages/quiz",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_kmynAk",
+        "text_qKTX6c",
+        "buttons_UY4Dtm"
+      ],
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/StrideSoles_May2025-7.jpg",
+        "layout": "overlay",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 0,
+        "min_height": 30,
+        "min_height_px": 450,
+        "vertical_alignment": "items-center",
+        "color_scheme": "scheme-3",
+        "padding_top": 188,
+        "padding_bottom": 60
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "1746692041fe12aad5": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "17604685078bcbbb26": {
+      "type": "apps",
+      "blocks": {
+        "loox_reviews_loox_agg_section_KnxVgw": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "hide_thumbnails": false,
+            "product_handle": "",
+            "aggregated": true,
+            "data-limit": 20,
+            "maxwidth": 1080,
+            "is_sample": true
+          }
+        }
+      },
+      "block_order": [
+        "loox_reviews_loox_agg_section_KnxVgw"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "hero_text_overlay_Uc7TF3",
+    "main",
+    "17604685078bcbbb26",
+    "1746692041fe12aad5"
+  ]
+}

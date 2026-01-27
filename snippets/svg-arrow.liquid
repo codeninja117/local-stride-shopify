@@ -1,0 +1,10 @@
+{%- case type -%}
+  {%- when 'left' -%}
+    <svg class="{{ class }} rotate-180" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.58646 0.473633L13.0537 5.00044L8.58646 9.52725L7.5188 8.47363L10.2062 5.75044H0V4.25044H10.2062L7.5188 1.52725L8.58646 0.473633Z" fill="currentColor"/>
+    </svg>
+  {%- else -%}
+    <svg class="{{ class }}" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.58646 0.473633L13.0537 5.00044L8.58646 9.52725L7.5188 8.47363L10.2062 5.75044H0V4.25044H10.2062L7.5188 1.52725L8.58646 0.473633Z" fill="currentColor"/>
+    </svg>
+{%- endcase -%}

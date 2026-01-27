@@ -1,0 +1,9 @@
+.product-card .price-item {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.product-card .price--on-sale .price-item--regular {
+  color: #b72d3d;
+  font-size: 12px;
+}

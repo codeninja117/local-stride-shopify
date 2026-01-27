@@ -1,0 +1,332 @@
+{%- style -%}
+  #shopify-section-{{section.id }},
+  #shopify-section-{{section.id }} .faq-mosaic {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    {%- if section.settings.section_background_color != blank -%}
+      background-color: {{ section.settings.section_background_color }};
+    {%- endif -%}
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  #shopify-section-{{section.id }} .faq-card {
+    {%- if section.settings.card_background_color != blank -%}
+      background-color: {{ section.settings.card_background_color }};
+    {%- endif -%}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="faq-mosaic section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="section__main flex flex-col gap-16">
+      <!-- Section Header -->
+      <div class="section__header mx-auto max-w-3xl text-center">
+        {%- if section.settings.title != blank -%}
+          <h2 class="text-h1 text-black capitalize">
+            {{
+              section.settings.title
+              | replace: '<em>', '<span>'
+              | replace: '</em>', '</span>'
+              | replace: '|', '</span><span>'
+            }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subtitle != blank -%}
+          <p class="text-h1 mt-0 font-extrabold text-black">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+
+      <!-- Mosaic Grid -->
+      <div class="faq-mosaic__grid">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'faq_card' -%}
+                <div
+                  class="faq-card group relative overflow-hidden rounded-xl bg-white p-6  transition-all duration-300 hover:shadow-lg {{ block.settings.card_size }}"
+                  {{ block.shopify_attributes }}
+                >
+                  <!-- Card Background Pattern (optional) -->
+                  {%- if block.settings.show_pattern -%}
+                    <div class="absolute inset-0 opacity-5">
+                      <svg class="h-full w-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <pattern id="dots-{{ block.id }}" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <circle cx="10" cy="10" r="1" fill="currentColor"/>
+                          </pattern>
+                        </defs>
+                        <rect width="100" height="100" fill="url(#dots-{{ block.id }})"/>
+                      </svg>
+                    </div>
+                  {%- endif -%}
+
+                  <!-- Card Content -->
+                  <div class="relative z-10 flex h-full flex-col">
+                    <!-- Question -->
+                    <div class="mb-4">
+                      <h3 class="text-body-m leading-tight font-semibold text-black">
+                        {{ block.settings.question }}
+                      </h3>
+                    </div>
+
+                    <!-- Answer -->
+                    <div class="flex-1">
+                      <div class="prose prose-sm text-body-m max-w-none text-black">
+                        {{ block.settings.answer }}
+                      </div>
+                    </div>
+
+                    <!-- Optional Icon -->
+                    {%- if block.settings.icon != blank -%}
+                      <div class="mt-4 flex justify-end">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
+                          {{
+                            block.settings.icon
+                            | image_url: width: 32
+                            | image_tag: class: 'h-4 w-4', loading: 'lazy', alt: block.settings.icon.alt
+                            | escape
+                          }}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- Optional Footer -->
+      {%- if section.settings.button_label != blank or section.settings.disclaimer != blank -%}
+        <div class="section__footer flex flex-col items-center gap-4 text-center">
+          {%- if section.settings.button_label != blank -%}
+            {% render 'button',
+              tag: 'a',
+              variant: 'primary',
+              text: section.settings.button_label,
+              url: section.settings.button_url
+            %}
+          {%- endif -%}
+
+          {%- if section.settings.disclaimer != blank -%}
+            <p class="text-sm opacity-60">{{ section.settings.disclaimer }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ Mosaic",
+  "class": "section-faq-mosaic",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Frequently Asked</em> Questions"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Find answers to common questions about our products and services"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Still have questions? Contact our support team"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "label": "Section background color",
+      "info": "Overrides color scheme background if set"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "info": "Overrides default white card background if set"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_card",
+      "name": "FAQ Card",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "question",
+          "label": "Question",
+          "default": "What makes your orthotics different?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Our orthotics are custom-made using advanced 3D scanning technology and premium materials for optimal comfort and support.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon (optional)",
+          "info": "Small icon to display in the corner of the card"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_pattern",
+          "label": "Show background pattern",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "card_size",
+          "label": "Card size",
+          "options": [
+            {
+              "value": "",
+              "label": "Default"
+            },
+            {
+              "value": "md:col-span-2",
+              "label": "Wide (2 columns)"
+            },
+            {
+              "value": "md:row-span-2",
+              "label": "Tall (2 rows)"
+            },
+            {
+              "value": "md:col-span-2 md:row-span-2",
+              "label": "Large (2x2)"
+            }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Mosaic",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "faq_card",
+          "settings": {
+            "question": "How do I get started?",
+            "answer": "<p>Take our 30-second assessment to get your custom orthotics. We'll guide you through the entire process step by step.</p>"
+          }
+        },
+        {
+          "type": "faq_card",
+          "settings": {
+            "question": "What materials do you use?",
+            "answer": "<p>We use premium, medical-grade materials including breathable fabrics and supportive foams for maximum comfort and durability.</p>"
+          }
+        },
+        {
+          "type": "faq_card",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard shipping takes 3-5 business days. Express shipping is available for faster delivery.</p>"
+          }
+        },
+        {
+          "type": "faq_card",
+          "settings": {
+            "question": "Do you offer returns?",
+            "answer": "<p>Yes! We offer a 180-day return policy. If you're not satisfied, we'll help you find the perfect fit or provide a full refund.</p>"
+          }
+        },
+        {
+          "type": "faq_card",
+          "settings": {
+            "question": "Are your orthotics covered by insurance?",
+            "answer": "<p>Many insurance plans cover custom orthotics. Contact us and we'll help you check your coverage and submit claims.</p>"
+          }
+        },
+        {
+          "type": "faq_card",
+          "settings": {
+            "question": "How do I care for my orthotics?",
+            "answer": "<p>Clean with mild soap and water, air dry, and store in a cool, dry place. Avoid extreme heat or direct sunlight.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

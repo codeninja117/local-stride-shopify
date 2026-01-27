@@ -1,0 +1,485 @@
+{%- liquid
+  assign lazy_load = 'lazy'
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign lazy_load = 'auto'
+    assign fetch_priority = 'high'
+  endif
+
+  if section.settings.aspect_ratio == 'adapt'
+    assign aspect_padding_bottom = 1 | divided_by: section.settings.image.aspect_ratio | times: 100 | append: '%'
+  else
+    assign aspect_padding_bottom = section.settings.aspect_ratio
+    assign mobile_aspect_padding_bottom = section.settings.mobile_aspect_ratio
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: #f5f6f9;
+  }
+
+  #shopify-section-{{section.id }} .aspect-ratio-container {
+    padding-bottom: {{ mobile_aspect_padding_bottom }};
+  }
+
+  #shopify-section-{{section.id }} .section__header {
+    margin-bottom: 2rem;
+    @media screen and (min-width: 768px) {
+      margin-bottom: 4rem;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    #shopify-section-{{ section.id }} .image-text-row__media-container {
+      width: {{ section.settings.media_width }}%;
+    }
+    #shopify-section-{{section.id }} .aspect-ratio-container {
+      padding-bottom: {{ aspect_padding_bottom }};
+    }
+
+    #shopify-section-{{section.id }} .section__main {
+      gap: 0;
+    }
+
+    .section__subheader {
+      align-items: end;
+      border-bottom-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+    }
+
+    .foambox-vs-scanner__image {
+      padding-top: 0px;
+    }
+
+    .foambox-vs-scanner .section__content a {
+      color: #0F3BFF;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: bold;
+    }
+  }
+
+  .foambox-vs-scanner__image img {
+    border-radius: 15px;
+  }
+
+  .svg-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .green-check {
+    color: green;
+  }
+
+  .red-cross {
+    color: red;
+  }
+
+  .section-{{ section.id }} .section__header p {
+    max-width: 420px;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }} .section__main.page-width   {
+      padding-inline: 0;
+    }
+
+    .section-{{ section.id }} .section__header,
+    .section-{{ section.id }} .section__header p {
+      padding-inline: calc(var(--spacing) * 4);
+    }
+    .foambox-vs-scanner__image.py-6 {
+      padding-block: 0px;
+      padding-inline: 0;
+      height: auto;
+    }
+
+    .section__subheader {
+      gap: calc(var(--spacing) * 4);
+      padding-inline: calc(var(--spacing) * 4);
+    }
+
+    .section__subheader .bg-peach\/30 {
+      border-radius: 15px;
+    }
+
+    .foambox {
+      background-color: white;
+      border-radius: 15px;
+    }
+
+    .foambox-vs-scanner-mobile {
+      background-color: white;
+    }
+
+    .section__subheader .py-6, .section__content .py-6 {
+      padding-block: calc(var(--spacing) * 3);
+    }
+    .foambox-vs-scanner__image.py-6 {
+      padding-block: 0;
+    }
+  }
+{%- endstyle -%}
+
+{% capture header %}
+  <div class="foambox-vs-scanner__col flex-1 divide-y border-b">
+    <div class="foambox-vs-scanner__list divide divide-y">
+      {% for block in section.blocks %}
+        <div class="foambox-vs-scanner__list-item px-6 py-2 font-medium md:flex md:min-h-24 md:items-center md:justify-end">
+          {{ block.settings.title }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endcapture %}
+
+{% capture stride %}
+ <div class="foambox-vs-scanner__col bg-peach/20 flex-1 divide-y border-b">
+    <div class="foambox-vs-scanner__list divide divide-y">
+      {% for block in section.blocks %}
+        <div class="foambox-vs-scanner__list-item px-6 py-2 font-semibold md:flex md:min-h-24 md:items-center">
+          {{ block.settings.stride_feature }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endcapture %}
+
+{% capture other %}
+<div class="foambox-vs-scanner__col flex-1 divide-y">
+    <div class="foambox-vs-scanner__list divide divide-y border-b">
+      {% for block in section.blocks %}
+        <div class="foambox-vs-scanner__list-item px-6 py-2 md:flex md:min-h-24 md:items-center">
+          {{ block.settings.other_feature }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endcapture %}
+
+<div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }} foambox-vs-scanner">
+  <div class="section__main page-width {{ section.settings.page_width_size }}">
+    {% if section.settings.title != blank %}
+      <div class="section__header w-[700px] max-w-full section-header-{{ section.settings.text_alignment }}">
+        {%- if section.settings.title != blank -%}
+          <h2 class="text-h1 section-title capitalize">
+            {{
+              section.settings.title
+              | replace: '<em>', '<span class="">'
+              | replace: '</em>', '</span>'
+              | replace: '|', '</span><br><span>'
+            }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subtitle != blank -%}
+          <p>{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.disclaimer != blank -%}
+          <small class="text-xs opacity-60">{{ section.settings.disclaimer }}</small>
+        {%- endif -%}
+      </div>
+    {% endif %}
+
+    <div class="section__subheader flex">
+      <div class="hidden flex-1 overflow-hidden md:flex md:justify-end">
+        <div class="foambox-vs-scanner__col-header text-body-l px-6 py-6 font-bold">
+          {{ section.settings.table_header_title | default: 'Feature' }}
+        </div>
+      </div>
+      <div class="bg-peach/30 flex-1 overflow-hidden">
+        <div class="foambox-vs-scanner__col-header text-body-l px-6 py-6 font-bold">
+          {{ section.settings.stride_title | default: '3D Scanner' }}
+          <span class="svg-wrapper  green-check pointer-events-none h-9 w-9 md:h-9 md:w-9">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+        </div>
+
+        <div class="foambox-vs-scanner__image h-full rounded-t-lg px-6 py-6">
+          {{
+            section.settings.stride_image
+            | image_url: width: 1024
+            | image_tag: class: 'h-full object-cover w-full', loading: 'lazy'
+          }}
+        </div>
+      </div>
+      <div class="foambox flex-1 overflow-hidden">
+        <div class="foambox-vs-scanner__col-header text-body-l px-8 py-6 font-bold">
+          {{ section.settings.other_title | default: '3D Scanner' }}
+          <span class="svg-wrapper red-cross pointer-events-none h-9 w-9 md:h-9 md:w-9">
+            {{ 'icon-close.svg' | inline_asset_content }}
+          </span>
+        </div>
+
+        <div class="foambox-vs-scanner__image h-full rounded-t-lg px-8 py-6">
+          {{
+            section.settings.other_image
+            | image_url: width: 1024
+            | image_tag: class: 'h-full object-cover w-full', loading: 'lazy'
+          }}
+        </div>
+      </div>
+    </div>
+
+    {% comment %}desktop version{% endcomment %}
+    <div class="section__content hidden md:flex">
+      {{ header }}
+      {{ stride }}
+      {{ other }}
+    </div>
+
+    {% comment %}mobile version{% endcomment %}
+    <div class="section__content flex flex-col md:hidden md:flex-row md:flex-wrap md:gap-4">
+      {% for block in section.blocks %}
+        <div class="foambox-vs-scanner__col foambox-vs-scanner-mobile mb-4 px-4 py-6 md:w-[calc(50%-16px)]">
+          <div class="foambox-vs-scanner__col-header text-h2 mb-4 border-b py-4 font-bold">
+            {{ block.settings.title }}
+          </div>
+          <div class="flex">
+            <div class="foambox-vs-scanner__list divide-blue-fitness/50 bg-peach/20 flex-1 divide-y rounded-lg">
+              <div class="foambox-vs-scanner__list-item p-4 font-medium">
+                <p class="text-body-l mb-2 font-bold">
+                  {{ section.settings.stride_title | default: '3D Scanner' }}
+                  <span class="svg-wrapper  green-check pointer-events-none h-9 w-9 md:h-9 md:w-9">
+                    {{ 'icon-checkmark.svg' | inline_asset_content }}
+                  </span>
+                </p>
+                <p>{{ block.settings.stride_feature }}</p>
+              </div>
+            </div>
+            <div class="foambox-vs-scanner__list divide-blue-fitness/50 flex-1 divide-y">
+              <div class="foambox-vs-scanner__list-item p-4 font-medium">
+                <p class="text-body-l mb-2 font-bold">
+                  {{ section.settings.other_title | default: '3D Scanner' }}
+                  <span class="svg-wrapper red-cross pointer-events-none h-9 w-9 md:h-9 md:w-9">
+                    {{ 'icon-close.svg' | inline_asset_content }}
+                  </span>
+                </p>
+                <p>{{ block.settings.other_feature }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% comment %} Section footer {% endcomment %}
+    {%- if section.settings.button_label != blank -%}
+      <div class="section__footer flex flex-col items-center lg:mt-12">
+        {% render 'button',
+          tag: 'a',
+          text: section.settings.button_label,
+          url: section.settings.button_url,
+          variant: 'primary'
+        %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Foambox vs scanner",
+  "class": "section-foambox-vs-scanner",
+  "settings": [
+    {
+      "type": "select",
+      "id": "page_width_size",
+      "label": "Page width size",
+      "options": [
+        {
+          "value": "page-width--sm",
+          "label": "sm"
+        },
+        {
+          "value": "page-width--md",
+          "label": "md"
+        },
+        {
+          "value": "page-width--lg",
+          "label": "lg"
+        },
+        {
+          "value": "page-width--xl",
+          "label": "xl"
+        },
+        {
+          "value": "",
+          "label": "default"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Compare | <strong>Foambox vs. Scanner</strong>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Top clinics across the country have moved away from foam boxes, and Stride Soles is no different. Let’s look at why the foam box method to model the foot has been losing popularity."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "header",
+      "content": "Stride"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "other_feature",
+      "label": "Stride title",
+      "default": "3D Scanner"
+    },
+    {
+      "type": "image_picker",
+      "id": "stride_image",
+      "label": "Stride image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "stride_color_scheme",
+      "label": "Stride color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Other"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "other_title",
+      "label": "Other title",
+      "default": "Foam Box"
+    },
+    {
+      "type": "image_picker",
+      "id": "other_image",
+      "label": "Other image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "other_color_scheme",
+      "label": "Other color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Table header title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "table_header_title",
+      "label": "Table header title",
+      "default": "Feature"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "stride_feature",
+          "label": "Stride feature",
+          "default": "Stride feature"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "other_feature",
+          "label": "Other feature",
+          "default": "Other feature"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Foambox vs scanner",
+      "category": "Uncategorized"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-your-fit-sandals",
+      "blocks": {
+        "step_HARh4y": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/icon-bag.svg",
+            "title": "Place your order online",
+            "subtitle": "Take the first step towards your pain-free life"
+          }
+        },
+        "step_Kpyq7J": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/icon-phone.svg",
+            "title": "3D Scan your feet",
+            "subtitle": "Unlike other orthotics, Stride's app allows you to scan your feet and get a personalized sole built just for your foot."
+          }
+        },
+        "step_bbaqhU": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/icon-steps.svg",
+            "title": "Start relieving your foot pain",
+            "subtitle": "Your Stride Soles will arrive 15-20 days (7-10 days with express shipping) after ordering."
+          }
+        }
+      },
+      "block_order": [
+        "step_HARh4y",
+        "step_Kpyq7J",
+        "step_bbaqhU"
+      ],
+      "settings": {
+        "avatar": "shopify://shop_images/innovation_dr.png",
+        "title": "You're only one step away...",
+        "subtitle": "This is what happens next:",
+        "fallback_redirect_url": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

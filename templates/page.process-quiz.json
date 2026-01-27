@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-process-quiz",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

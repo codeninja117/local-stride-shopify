@@ -1,0 +1,836 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }}-main {
+    /* min-height: max({{ section.settings.min_height | default: 100 }}vh, {{ section.settings.min_height_px | default: 600 }}px); */
+
+    min-height: {{ section.settings.min_height_px | default: 600 }}px;
+    contain: layout paint;
+
+  }
+
+  .section-{{ section.id }}-main:after {
+    {%- if section.settings.layout == 'overlay' and section.settings.enable_gradient_overlay -%}
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      content: '';
+      z-index: 0;
+      background: linear-gradient(270deg, rgba(0, 0, 0, 0) 35.89%, #000000 91.56%), linear-gradient(0deg, rgba(0, 0, 0, 0) 74.77%, #000000 100%);
+    {%- endif -%}
+  }
+
+  .section-{{ section.id }}-main:before {
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.00 }};
+    background-color: rgba(0,0,0,1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    z-index: 1;
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.8 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.8 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-main .hero-text-overlay__buttons .btn-primary {
+    width: 100%;
+  }
+
+  {% if section.settings.btn_primary_bg_color != blank %}
+    .section-{{ section.id }}-main .hero-text-overlay__buttons .btn-primary .btn-primary__inner {
+      background-color: {{ section.settings.btn_primary_bg_color }};
+    }
+    .section-{{ section.id }}-main .hero-text-overlay__buttons .btn-primary {
+      border-color: {{ section.settings.btn_primary_bg_color }};
+    }
+  {% endif %}
+
+  {% if section.settings.btn_primary_text_color != blank %}
+    .section-{{ section.id }}-main .hero-text-overlay__buttons .btn-primary .btn-primary__inner {
+      color: {{ section.settings.btn_primary_text_color }};
+    }
+  {% endif %}
+
+  {% if section.settings.btn_primary_font_size_mobile != blank %}
+    .section-{{ section.id }}-main .hero-text-overlay__buttons .btn-primary .btn-primary__inner {
+      font-size: {{ section.settings.btn_primary_font_size_mobile }};
+    }
+  {% endif %}
+
+  @media screen and (min-width: 1024px) {
+    {% if section.settings.btn_primary_font_size_desktop != blank %}
+      .section-{{ section.id }}-main .hero-text-overlay__buttons .btn-primary .btn-primary__inner {
+        font-size: {{ section.settings.btn_primary_font_size_desktop }};
+      }
+    {% endif %}
+  }
+
+  @media screen and (max-width: 767px) {
+    .hero-text-overlay-title > * {
+      font-size: 40px;
+      font-weight: 400;
+    }
+    .btn-primary {
+      font-size: var(--text-xl);
+    }
+  }
+  .hero-text-overlay-title > * + * {
+    @media screen and (max-width: 767px) {
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-weight: 600;
+    }
+  }
+
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round
+  assign fetchpriority = 'auto'
+  assign loading = 'lazy'
+  if section.index == 1
+    assign fetchpriority = 'high'
+    assign loading = 'eager'
+  endif
+
+  assign bg_image_alt = section.settings.image.alt | default: 'Stride Custom Othotics'
+-%}
+
+<div class="gradient color-{{ section.settings.color_scheme }} relative">
+  <div class="section-{{ section.id }}-main flex {{ section.settings.vertical_alignment }} {% if section.settings.layout == 'row' %}page-width gap-6 md:gap-12 flex-col md:flex-row{% endif %}">
+    <div class="section-{{ section.id }}-content hero-text-overlay__content flex-1 {% if section.settings.layout == 'overlay' %}z-1 page-width{% endif %}">
+      <div class="section-{{ section.id }}-padding ">
+        <div class="flex {% if section.settings.layout == 'overlay' %}lg:w-3xl max-w-full{% endif  %} flex-col gap-4">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'reviews_summary' -%}
+                <div
+                  class="hero-text-overlay__reviews-summary text-body-m flex items-center gap-4"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="review-stars-row text-human flex flex-nowrap items-center justify-center gap-1">
+                    {%- render 'svg-star', height: 16, width: 16 -%}
+                    {%- render 'svg-star', height: 16, width: 16 -%}
+                    {%- render 'svg-star', height: 16, width: 16 -%}
+                    {%- render 'svg-star', height: 16, width: 16 -%}
+                    {%- render 'svg-star', height: 16, width: 16 %}
+                  </div>
+                  <span>{{ block.settings.reviews_text }}</span>
+                </div>
+              {%- when 'title' -%}
+                <div class="hero-text-overlay__title" {{ block.shopify_attributes }}>
+                  {% assign title_parts = block.settings.title | split: '|' %}
+
+                  {%- if section.index == 1 -%}
+                    <h1 class="{{ block.settings.title_font_size }} hero-text-overlay-title {% if block.settings.inliine_title == false %} flex flex-col {%  endif %} flex flex-col gap-2">
+                      {% for part in title_parts %}
+                        {% comment %} {% if forloop.first != true %}<br>{% endif %} {% endcomment %}
+                        {{ part | replace: '<em>', '<span class="text-human block">' | replace: '</em>', '</span>' }}
+                      {% endfor %}
+                    </h1>
+                  {%- else -%}
+                    <h2 class="{{ block.settings.title_font_size }} hero-text-overlay-title {% if block.settings.inliine_title == false %} flex flex-col {%  endif %} flex flex-col gap-2">
+                      {% for part in title_parts %}
+                        {% comment %} {% if forloop.first != true %}<br>{% endif %} {% endcomment %}
+                        {{ part | replace: '<em>', '<span class="text-human block">' | replace: '</em>', '</span>' }}
+                      {% endfor %}
+                    </h2>
+                  {%- endif -%}
+                </div>
+              {%- when 'text' -%}
+                <div
+                  class="hero-text-overlay__text text-base md:w-8/10 md:text-xl md:leading-snug"
+                  {{ block.shopify_attributes }}
+                >
+                  <p>{{ block.settings.text }}</p>
+                </div>
+              {%- when 'buttons' -%}
+                <style>
+                    {% if block.settings.overwrite_button_bg_to_color_human %}
+                      .hero-text-overlay__buttons > *:first-child {
+                        --color-button: {{settings.theme_color_human.red }},{{settings.theme_color_human.green }},{{settings.theme_color_human.blue }};
+                      }
+                       .hero-text-overlay__buttons > *:first-child:hover > .btn-primary__inner {
+                        --color-button-hover: 255,255,255;
+                        --color-button-label-hover: 0,0,0;
+                      }
+                  {% endif %}
+                </style>
+                <div
+                  class="hero-text-overlay__buttons flex items-center gap-2 md:flex-row lg:ml-4 lg:gap-6"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if block.settings.button_label != blank -%}
+                    <div class="text-body-l max-w-64 flex-1 md:flex-initial">
+                      {% render 'button',
+                        tag: 'a',
+                        text: block.settings.button_label,
+                        url: block.settings.button_url,
+                        variant: 'primary'
+                      %}
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.button_label_2 != blank -%}
+                    <div class="text-body-l max-w-64 flex-1 md:flex-initial">
+                      {% render 'button',
+                        tag: 'a',
+                        text: block.settings.button_label_2,
+                        url: block.settings.button_url_2,
+                        variant: 'secondary'
+                      %}
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.button_video_url != blank -%}
+                    <modal-opener data-modal="#HeroTextOverlayVideoModal-{{ section.id }}" class="w-fit">
+                      <button class="btn-video">
+                        <div class="btn-video__inner">
+                          <div class="btn-video__text-wrapper">
+                            <span class="btn-video__text">
+                              <span class="svg-wrapper text-human pointer-events-none h-4 w-4 md:h-4 md:w-4">
+                                {{- 'icon-play.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    </modal-opener>
+
+                    <modal-dialog
+                      id="HeroTextOverlayVideoModal-{{ section.id }}"
+                      class="invisible fixed inset-0 z-101 flex items-center justify-center overflow-hidden overflow-y-auto bg-black/30 opacity-0 backdrop-blur-lg transition-opacity duration-300 ease-in-out [&[open]]:visible [&[open]]:opacity-100"
+                      data-play-on-open
+                    >
+                      <div
+                        role="dialog"
+                        aria-label="Stride video"
+                        aria-modal="true"
+                        class="w-[768px] max-w-full"
+                        tabindex="-1"
+                      >
+                        <button
+                          id="ModalClose-{{ section.id }}"
+                          type="button"
+                          class="absolute top-4 right-4 text-white"
+                          aria-label="{{ 'accessibility.close' | t }}"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="48"
+                            height="48"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.25"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-x"
+                          >
+                            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                          </svg>
+                        </button>
+
+                        {%- assign video_alt = block.settings.button_video_url.alt | default: shop.name -%}
+                        {{
+                          block.settings.button_video_url
+                          | video_tag:
+                            class: 'h-auto w-full ',
+                            controls: true,
+                            autoplay: false,
+                            muted: false,
+                            alt: video_alt
+                        }}
+                      </div>
+                    </modal-dialog>
+                  {%- endif -%}
+                </div>
+              {%- when 'disclaimer' -%}
+                <div
+                  class="hero-text-overlay__disclaimer text-body-m  text-left"
+                  {{ block.shopify_attributes }}
+                >
+                  <p>{{ block.settings.disclaimer_text }}</p>
+                </div>
+              {%- when 'features' -%}
+                <div class="hero-text-overlay__features gap flex text-center" {{ block.shopify_attributes }}>
+                  {%- if block.settings.feature_icon != blank -%}
+                    <div class="hero-text-overlay__feature-item flex-1 rounded-md bg-white/5 p-5 backdrop-blur-lg md:min-w-72 md:flex-initial">
+                      {{
+                        block.settings.feature_icon
+                        | image_url: width: 108
+                        | image_tag:
+                          class: 'object-contain mb-5 mx-auto',
+                          alt: block.settings.feature_title,
+                          width: 54,
+                          height: 54,
+                          sizes: '54px',
+                          widths: '108'
+                      }}
+                      <p class="text-sm">{{ block.settings.feature_title }}</p>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.feature_icon_2 != blank -%}
+                    <div class="hero-text-overlay__feature-item flex-1 rounded-md bg-white/5 p-5 backdrop-blur-lg md:min-w-72 md:flex-initial">
+                      {{
+                        block.settings.feature_icon_2
+                        | image_url: width: 108
+                        | image_tag:
+                          class: 'object-contain mb-5 mx-auto',
+                          alt: block.settings.feature_title,
+                          width: 54,
+                          height: 54,
+                          sizes: '54px',
+                          widths: '108'
+                      }}
+                      <p class="text-sm">{{ block.settings.feature_title_2 }}</p>
+                    </div>
+                  {%- endif -%}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+    {%- case section.settings.layout -%}
+      {%- when 'overlay' -%}
+        {%- case section.settings.media_selector -%}
+          {%- when 'image' -%}
+            <div class="hero-text-overlay__image absolute inset-0 z-0 h-full w-full">
+              {%- if section.settings.image != blank -%}
+                {%- assign sizes = settings.page_width | append: 'px' -%}
+                {{
+                  section.settings.image
+                  | image_url: width: 1920
+                  | image_tag:
+                    class: 'w-full h-full object-cover  scale-out-in',
+                    widths: '640, 768, 1024, 1280, 1536, 1920',
+                    sizes: '100vw',
+                    height: section.settings.min_height_px,
+                    alt: bg_image_alt,
+                    loading: loading,
+                    fetchpriority: fetchpriority
+                }}
+              {%- else -%}
+                <div class="h-full w-full bg-white/20"></div>
+              {%- endif -%}
+            </div>
+          {%- when 'video' -%}
+            <div class="hero-text-overlay__video absolute inset-0 z-0 h-full w-full">
+              {%- if section.settings.video != blank -%}
+                {{
+                  section.settings.video
+                  | video_tag:
+                    autoplay: true,
+                    loop: true,
+                    controls: false,
+                    playsinline: true,
+                    class: 'h-full w-full object-cover  scale-out-in'
+                }}
+              {%- else -%}
+                <div class="h-full w-full bg-white/20"></div>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- when 'row' -%}
+        {%- case section.settings.media_selector -%}
+          {%- when 'image' -%}
+            <div class="hero-text-overlay__image flex-1">
+              {%- if section.settings.image != blank -%}
+                {{
+                  section.settings.image
+                  | image_url: width: section.settings.image.width
+                  | image_tag:
+                    class: 'w-full h-full object-cover aspect-square rounded-2xl',
+                    sizes: '(min-width: 768px) 50vw, 100vw',
+                    widths: '640, 768, 1024, 1280, 1536, 1920, 2560',
+                    alt: bg_image_alt,
+                    loading: loading,
+                    fetchpriority: fetchpriority
+                }}
+              {%- else -%}
+                <div class="h-full w-full bg-white/20"></div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'video' -%}
+            <div class="hero-text-overlay__video aspect-video">
+              {%- if section.settings.video != blank -%}
+                {{
+                  section.settings.video
+                  | video_tag:
+                    autoplay: true,
+                    loop: true,
+                    controls: false,
+                    playsinline: true,
+                    class: 'h-full w-full object-cover'
+                }}
+              {%- else -%}
+                <div class="h-full w-full bg-white/20"></div>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+    {%- endcase -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero text overlay Aug25",
+  "class": "section-Hero-text-overlay js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "media_selector",
+      "label": "Media selector",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "overlay",
+          "label": "Overlay"
+        },
+        {
+          "value": "row",
+          "label": "Row"
+        }
+      ],
+      "default": "overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gradient_overlay",
+      "label": "Enable gradient overlay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Image height"
+    },
+    {
+      "type": "paragraph",
+      "content": "The section will use whichever value is larger at any given screen size. So if your 70vh happens to be less than 600px on a small screen, the section will still maintain at least 600px height."
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "dvh",
+      "label": "Min height",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "min_height_px",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Minimum height in pixels",
+      "default": 700
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "items-start",
+          "label": "Top"
+        },
+        {
+          "value": "items-center",
+          "label": "Center"
+        },
+        {
+          "value": "items-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "items-center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_bg_color",
+      "label": "Primary button background color",
+      "info": "Leave empty to use default button styling"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_text_color",
+      "label": "Primary button text color",
+      "info": "Leave empty to use default button styling"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_font_size_mobile",
+      "label": "Primary button font size (mobile)",
+      "info": "e.g., 1rem, 16px, 1.2em"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_font_size_desktop",
+      "label": "Primary button font size (desktop)",
+      "info": "e.g., 1.125rem, 18px, 1.4em"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 120
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reviews_summary",
+      "name": "Reviews summary",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Reviews summary"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "reviews_text",
+          "label": "Reviews text",
+          "default": "500+ verified 5-star reviews"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Title"
+        },
+        {
+          "type": "paragraph",
+          "content": "1. To accent a word or phrase, wrap it in italics."
+        },
+        {
+          "type": "paragraph",
+          "content": "2. To break a line, end the previous line with a | (pipe) character."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<em>Custom Orthotics</em>|For The 21st Century"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title font size",
+          "options": [
+            {
+              "value": "text-display-xl",
+              "label": "display xl"
+            },
+            {
+              "value": "text-display-l",
+              "label": "display large"
+            },
+            {
+              "value": "text-display-m",
+              "label": "display m"
+            },
+            {
+              "value": "text-h1",
+              "label": "h1"
+            },
+            {
+              "value": "text-h2",
+              "label": "h2"
+            },
+            {
+              "value": "text-h3",
+              "label": "h3"
+            },
+            {
+              "value": "text-h4",
+              "label": "h4"
+            },
+            {
+              "value": "text-h5",
+              "label": "h5"
+            },
+            {
+              "value": "text-h6",
+              "label": "h6"
+            }
+          ],
+          "default": "text-display-l"
+        },
+        {
+          "type": "checkbox",
+          "id": "inline_title",
+          "label": "Inline",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button primary"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take The Quiz"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "checkbox",
+          "id": "overwrite_button_bg_to_color_human",
+          "label": "Overwrite button background to color_human",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Button secondary"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "button_label_2",
+          "label": "Button label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_url_2",
+          "label": "Button url"
+        },
+        {
+          "type": "header",
+          "content": "Button video"
+        },
+        {
+          "type": "video",
+          "id": "button_video_url",
+          "label": "Video url"
+        }
+      ]
+    },
+    {
+      "type": "disclaimer",
+      "name": "Disclaimer",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Disclaimer"
+        },
+        {
+          "type": "text",
+          "id": "disclaimer_text",
+          "label": "Disclaimer text",
+          "default": "Results may vary. Consult with a healthcare professional."
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "name": "Features",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Feature #1"
+        },
+        {
+          "type": "image_picker",
+          "id": "feature_icon",
+          "label": "Feature icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_title",
+          "label": "Feature title",
+          "default": "365-day money-back guarantee"
+        },
+        {
+          "type": "header",
+          "content": "Feature #2"
+        },
+        {
+          "type": "image_picker",
+          "id": "feature_icon_2",
+          "label": "Feature icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "feature_title_2",
+          "label": "Feature title",
+          "default": "100% Medically Approved"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero text overlay Aug25",
+      "category": "Uncategorized",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "title": "Custom Orthotics\nFor The 21st Century",
+            "title_font_size": "text-display-xl"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Take The Quiz",
+            "button_url": "/pages/quiz",
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        },
+        "disclaimer": {
+          "type": "disclaimer",
+          "settings": {
+            "disclaimer_text": "Results may vary. Consult with a healthcare professional."
+          }
+        },
+        "features": {
+          "type": "features",
+          "settings": {
+            "feature_icon": "shopify://shop_images/icon__moneyback.png",
+            "feature_title": "365-day money-back guarantee",
+            "feature_icon_2": "shopify://shop_images/icon__medicallyapproved.png",
+            "feature_title_2": "100% Medically Approved"
+          }
+        }
+      },
+      "block_order": ["title", "text", "buttons", "disclaimer", "features"],
+      "settings": {
+        "image": "shopify://shop_images/home-hero-bg.jpg",
+        "layout": "overlay",
+        "min_height": 100,
+        "vertical_alignment": "items-center",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 120
+      }
+    }
+  ]
+}
+{% endschema %}

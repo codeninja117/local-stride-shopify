@@ -1,0 +1,418 @@
+{% # theme-check-disable %}
+{%- liquid
+  assign article_content = article.content
+  assign h2_segments = article_content | split: '<h2'
+  assign toc_items = ''
+  assign processed_content = ''
+
+  # Process each segment to build TOC and add IDs
+  for segment in h2_segments
+    if forloop.first
+      assign processed_content = segment
+    else
+      if segment contains '</h2>'
+        # Split the segment into parts
+        assign h2_parts = segment | split: '>'
+        assign h2_attrs = h2_parts.first
+        assign h2_remainder = segment | remove_first: h2_attrs | remove_first: '>'
+
+        # Extract clean text from between H2 tags
+        assign h2_content = h2_remainder | split: '</h2>' | first
+        assign h2_text = h2_content | strip_html | strip
+
+        # Check if H2 has the "in-compare-template" class and skip it
+        assign should_skip = false
+        if h2_attrs contains 'class=' and h2_attrs contains 'in-compare-template'
+          assign should_skip = true
+        endif
+
+        if h2_text != '' and should_skip == false
+          # Create ID from text
+          assign h2_id = h2_text | handleize | prepend: 'toc-'
+
+          # Add to TOC
+          assign toc_items = toc_items | append: '<li><a href="#' | append: h2_id | append: '" class="toc-highlight-link" data-target="' | append: h2_id | append: '">' | append: h2_text | append: '</a></li>'
+
+          # Rebuild H2 with ID while preserving existing attributes
+          assign new_h2 = '<h2 id="' | append: h2_id | append: '" ' | append: h2_attrs | append: '>' | append: h2_remainder
+          assign processed_content = processed_content | append: new_h2
+        else
+          # If no text found, just rebuild original H2
+          assign processed_content = processed_content | append: '<h2' | append: segment
+        endif
+      else
+        # If no closing H2 tag, just rebuild original
+        assign processed_content = processed_content | append: '<h2' | append: segment
+      endif
+    endif
+  endfor
+
+  # Check if we need to inject CTAs
+  assign has_cta = false
+  if article.metafields.custom.inline_cta.value and processed_content contains '[article_inline_cta]'
+    assign has_cta = true
+    assign content_parts = processed_content | split: '[article_inline_cta]'
+  endif
+-%}
+{% # theme-check-enable %}
+
+<div class="sticky top-4 z-100 rounded-lg bg-white p-4">
+  {%- if toc_items != '' -%}
+    <!-- Desktop TOC (sidebar) -->
+    <toc-scroll-highlighting class="hidden lg:block">
+      <h2 class="text-h4 mt-0 mb-4 font-semibold">Table of Contents:</h2>
+      <ul class="ml-4.5 list-decimal space-y-2 text-sm" style="list-style: decimal;">
+        {{ toc_items }}
+      </ul>
+    </toc-scroll-highlighting>
+
+    <!-- Mobile floating button and drawer -->
+    <toc-scroll-highlighting-drawer class="lg:hidden">
+      <button class="toc-mobile-trigger text-peach fixed right-6 bottom-6 z-40 flex h-14 items-center justify-center gap-4 bg-black p-4 font-semibold shadow-lg transition-colors hover:bg-gray-800">
+        Table of Contents:
+        <span class="text-white">
+          {% render 'svg-plus' %}
+        </span>
+      </button>
+
+      <div class="toc-mobile-overlay pointer-events-none fixed inset-0 z-50 bg-black/50 opacity-0 transition-opacity duration-300">
+        <div class="toc-mobile-content absolute right-0 bottom-0 left-0 max-h-[80vh] translate-y-full transform overflow-y-auto rounded-t-2xl bg-[#292D31] text-white transition-transform duration-300">
+          <div class="p-6">
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="text-h4 font-semibold">Table of Contents</h2>
+              <button class="toc-mobile-close text-gray-500 hover:text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <ul class="space-y-1/2 ml-6 list-decimal" style="list-style: decimal;">
+              {{ toc_items }}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </toc-scroll-highlighting-drawer>
+  {%- endif -%}
+</div>
+
+<script>
+  // Create global TOC manager first
+  window.tocManager =
+    window.tocManager ||
+    new (class TocManager {
+      constructor() {
+        this.allTocInstances = new Set();
+        this.headings = [];
+        this.currentActiveId = null;
+        this.ticking = false;
+        this.setupGlobalScrollListener();
+      }
+
+      registerInstance(instance) {
+        this.allTocInstances.add(instance);
+        console.log('Registered:', instance.constructor.name, 'Total:', this.allTocInstances.size);
+
+        // Update headings array when first instance is registered
+        if (this.headings.length === 0 && instance.headings?.length > 0) {
+          this.headings = instance.headings;
+        }
+
+        // Force update when new instance registers
+        setTimeout(() => this.forceUpdate(), 100);
+      }
+
+      unregisterInstance(instance) {
+        this.allTocInstances.delete(instance);
+      }
+
+      setupGlobalScrollListener() {
+        const onScroll = () => {
+          if (!this.ticking) {
+            requestAnimationFrame(() => {
+              this.updateAllInstances();
+              this.ticking = false;
+            });
+            this.ticking = true;
+          }
+        };
+
+        window.addEventListener('scroll', onScroll);
+      }
+
+      updateAllInstances() {
+        const scrollTop = window.pageYOffset;
+        const offset = 100;
+        let activeHeading = null;
+
+        // Find the current heading
+        for (let i = this.headings.length - 1; i >= 0; i--) {
+          const heading = this.headings[i];
+          if (heading && heading.offsetTop <= scrollTop + offset) {
+            activeHeading = heading;
+            break;
+          }
+        }
+
+        const newActiveId = activeHeading ? activeHeading.id : null;
+
+        // Only update if active heading changed
+        if (newActiveId !== this.currentActiveId) {
+          this.currentActiveId = newActiveId;
+          console.log('Active ID:', newActiveId, 'Instances:', this.allTocInstances.size);
+
+          // Update all registered instances
+          this.allTocInstances.forEach((instance) => {
+            if (typeof instance.updateActiveTocLink === 'function') {
+              instance.updateActiveTocLink(newActiveId);
+            }
+          });
+        }
+      }
+
+      // Force update all instances (useful when drawer opens)
+      forceUpdate() {
+        this.updateAllInstances();
+      }
+    })();
+
+  // Base TOC functionality
+  class TocScrollHighlighting extends HTMLElement {
+    constructor() {
+      super();
+      this.tocLinks = [];
+      this.headings = [];
+    }
+
+    connectedCallback() {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => this.init(), 50);
+    }
+
+    init() {
+      this.tocLinks = Array.from(this.querySelectorAll('.toc-highlight-link'));
+      if (this.tocLinks.length === 0) return;
+
+      // Get all heading elements that have TOC entries
+      this.headings = this.tocLinks
+        .map((link) => {
+          const targetId = link.getAttribute('data-target');
+          return document.getElementById(targetId);
+        })
+        .filter(Boolean);
+
+      if (this.headings.length === 0) return;
+
+      this.setupLinkListeners();
+      console.log('Desktop TOC initialized with', this.tocLinks.length, 'links');
+
+      // Register with global manager
+      window.tocManager.registerInstance(this);
+      if (window.tocManager.headings.length === 0) {
+        window.tocManager.headings = this.headings;
+      }
+    }
+
+    disconnectedCallback() {
+      // Unregister when element is removed
+      window.tocManager.unregisterInstance(this);
+    }
+
+    setupLinkListeners() {
+      this.tocLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('data-target');
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 80;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth',
+            });
+          }
+        });
+      });
+    }
+
+    updateActiveTocLink(activeId) {
+      console.log('Desktop updating to:', activeId);
+      // Update TOC links based on active ID
+      this.tocLinks.forEach((link) => {
+        link.classList.remove('active');
+        const linkTarget = link.getAttribute('data-target');
+
+        if (activeId && linkTarget === activeId) {
+          link.classList.add('active');
+          console.log('Desktop added active to:', linkTarget);
+        }
+      });
+    }
+  }
+
+  // Mobile drawer component
+  class TocScrollHighlightingDrawer extends HTMLElement {
+    constructor() {
+      super();
+      this.isOpen = false;
+    }
+
+    connectedCallback() {
+      this.init();
+    }
+
+    init() {
+      const trigger = this.querySelector('.toc-mobile-trigger');
+      const overlay = this.querySelector('.toc-mobile-overlay');
+      const closeBtn = this.querySelector('.toc-mobile-close');
+
+      // Wait for DOM to be fully ready before finding links
+      setTimeout(() => {
+        // Initialize TOC functionality for links in drawer - look more specifically
+        this.tocLinks = Array.from(this.querySelectorAll('ul .toc-highlight-link'));
+
+        this.headings = this.tocLinks
+          .map((link) => {
+            const targetId = link.getAttribute('data-target');
+            return document.getElementById(targetId);
+          })
+          .filter(Boolean);
+
+        this.setupTocFunctionality();
+
+        // Register with global manager
+        window.tocManager.registerInstance(this);
+      }, 100);
+
+      // Event listeners for drawer
+      trigger?.addEventListener('click', () => this.open());
+      closeBtn?.addEventListener('click', () => this.close());
+
+      overlay?.addEventListener('click', (e) => {
+        if (e.target === overlay) this.close();
+      });
+    }
+
+    disconnectedCallback() {
+      // Unregister when element is removed
+      window.tocManager.unregisterInstance(this);
+    }
+
+    setupTocFunctionality() {
+      // Setup link listeners
+      this.tocLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('data-target');
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 80;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth',
+            });
+            this.close(); // Close drawer after navigation
+          }
+        });
+      });
+    }
+
+    updateActiveTocLink(activeId) {
+      // Update TOC links based on active ID
+      this.tocLinks.forEach((link) => {
+        link.classList.remove('active');
+        if (activeId && link.getAttribute('data-target') === activeId) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    open() {
+      const overlay = this.querySelector('.toc-mobile-overlay');
+      const content = this.querySelector('.toc-mobile-content');
+
+      overlay.classList.remove('pointer-events-none', 'opacity-0');
+      content.classList.remove('translate-y-full');
+      document.body.style.overflow = 'hidden';
+      this.isOpen = true;
+
+      // Double-check we have the links when opening
+      if (this.tocLinks.length === 0) {
+        this.tocLinks = Array.from(this.querySelectorAll('ul .toc-highlight-link'));
+      }
+
+      // Force update active state when drawer opens
+      window.tocManager.forceUpdate();
+    }
+
+    close() {
+      const overlay = this.querySelector('.toc-mobile-overlay');
+      const content = this.querySelector('.toc-mobile-content');
+
+      overlay.classList.add('opacity-0');
+      content.classList.add('translate-y-full');
+
+      setTimeout(() => {
+        overlay.classList.add('pointer-events-none');
+        document.body.style.overflow = '';
+      }, 300);
+
+      this.isOpen = false;
+    }
+  }
+
+  // Register custom elements
+  if (!customElements.get('toc-scroll-highlighting')) {
+    customElements.define('toc-scroll-highlighting', TocScrollHighlighting);
+  }
+
+  if (!customElements.get('toc-scroll-highlighting-drawer')) {
+    customElements.define('toc-scroll-highlighting-drawer', TocScrollHighlightingDrawer);
+  }
+</script>
+
+<style>
+  .toc-highlight-link {
+    display: block;
+    color: inherit;
+    opacity: 0.5;
+    text-decoration: none;
+    transition:
+      color 0.2s ease,
+      font-weight 0.2s ease,
+      opacity 0.2s ease;
+    cursor: pointer;
+  }
+
+  .toc-highlight-link:hover {
+    color: black;
+    opacity: 1;
+  }
+
+  .toc-highlight-link.active {
+    color: black;
+    text-decoration: underline;
+    opacity: 1;
+  }
+
+  /* Mobile drawer specific styles */
+  toc-scroll-highlighting-drawer .toc-highlight-link {
+    display: block;
+    color: white;
+  }
+
+  toc-scroll-highlighting-drawer .toc-highlight-link:hover {
+    color: #eacba4; /* peach color */
+    opacity: 1;
+  }
+
+  toc-scroll-highlighting-drawer .toc-highlight-link.active {
+    color: #eacba4; /* peach color */
+    text-decoration: underline;
+    opacity: 1;
+    font-weight: 600;
+  }
+</style>

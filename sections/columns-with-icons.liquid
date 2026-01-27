@@ -1,0 +1,338 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    --grid-gap: {{ section.settings.grid_gap }}rem;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }} .section-blocklist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--grid-gap);
+  }
+
+  @media screen and (min-width: 1024px) {
+    .section-{{ section.id }} .section-blocklist {
+      gap: var(--grid-gap);
+      padding: 1rem;
+    }
+  }
+
+  .section-{{ section.id }} .section-block__item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: calc((100% - 2rem) / 2);
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }} .section-block__item {
+      width: calc((100% - 4rem) / 3);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .section-{{ section.id }} .section-block__item {
+      width: calc((100% - (3rem * ({{ section.settings.items_per_row }} - 1))) / {{ section.settings.items_per_row }});
+    }
+  }
+
+  .section-{{ section.id }} .columns-with-icons__icon {
+    width: 100%;
+    max-width: {{ section.settings.icon_width }}px;
+    margin: 0 auto;
+  }
+{%- endstyle -%}
+
+<div
+  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }} section-{{ section.id }}"
+>
+  <div class="page-width {{ section.settings.page_width }} flex flex-col gap-16" data-animate>
+    <div class="section-header flex flex-col gap-4 text-{{ section.settings.title_text_alignment }}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="section-title text-h2" data-cascade="0">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="section-description page-width page-width--md" data-cascade="0.15">
+          {{ section.settings.description }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="section-blocklist text-{{ section.settings.block_text_alignment }}">
+        {%- for block in section.blocks -%}
+          <div
+            class="section-block__item gradient color-{{ section.settings.color_scheme_blocks }}"
+            data-cascade="{{ forloop.index | times: 0.15 }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.icon != blank -%}
+              <div class="columns-with-icons__icon overflow-hidden">
+                {{
+                  block.settings.icon
+                  | image_url: width: 300
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '150',
+                    class: 'w-full h-auto aspect-square object-cover rounded-xl overflow-hidden',
+                    alt: block.settings.title,
+                    data-animate: 'scale-out'
+                }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="section-title font-bold">
+                {{ block.settings.title }}
+              </h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <div class="section-description text-sm">
+                {{ block.settings.description }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footer_text != blank -%}
+      <div class="section-description page-width page-width--md" data-cascade="0.30">
+        {{ section.settings.footer_text }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Columns with icons",
+  "class": "section section--columns-with-icons",
+  "settings": [
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Page width",
+      "options": [
+        {
+          "value": "",
+          "label": "Default"
+        },
+        {
+          "value": "page-width--sm",
+          "label": "Small"
+        },
+        {
+          "value": "page-width--md",
+          "label": "Medium"
+        },
+        {
+          "value": "page-width--lg",
+          "label": "Large"
+        },
+        {
+          "value": "page-width--xl",
+          "label": "Extra Large"
+        }
+      ],
+      "default": "page-width--sm"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Perfect for People Who..."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>If any of these sound familiar, Stride was made for you.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "footer_text",
+      "label": "Footer text"
+    },
+
+    {
+      "type": "text_alignment",
+      "id": "title_text_alignment",
+      "label": "Title text alignment",
+      "default": "center"
+    },
+    {
+      "type": "text_alignment",
+      "id": "block_text_alignment",
+      "label": "Block text alignment",
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items / row",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0.2,
+      "max": 4,
+      "step": 0.2,
+      "label": "Grid gap (rem)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "min": 10,
+      "max": 160,
+      "step": 10,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_blocks",
+      "label": "Color scheme (blocks)"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Column title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "Lorem ipsum dolor sit amet"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Columns with icons",
+      "category": "STRIDE",
+      "settings": {
+        "title": "Perfect for People Who...",
+        "description": "<p>If any of these sound familiar, Stride was made for you.</p>",
+        "color_scheme_blocks": ""
+      },
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/smile.png",
+            "title": "Sharp heel pain",
+            "description": "especially first steps in the morning"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/smile.png",
+            "title": "Work boots all day",
+            "description": "pressure on heel/forefoot builds"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/smile.png",
+            "title": "Flat or collapsing arches",
+            "description": "need stable arch support"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/smile.png",
+            "title": "Overpronation",
+            "description": "ankles roll inward while walking"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/smile.png",
+            "title": "Achy arches after standing",
+            "description": "fatigue from long days"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "shopify://shop_images/smile.png",
+            "title": "Pain on the outside of the foot",
+            "description": "lateral foot strain/cuboid stress"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

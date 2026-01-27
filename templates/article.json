@@ -1,0 +1,42 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "sidebar_three_subsections_QiWiU8": {
+          "type": "sidebar_three_subsections",
+          "settings": {
+            "first_subsection_title": "Orthotics for Foot Conditions",
+            "first_subsection_tag": "condition",
+            "second_subsection_title": "Orthotics for Shoe Types",
+            "second_subsection_tag": "shoe type",
+            "third_subsection_image": "shopify://shop_images/StrideSoles_May2025-34_1.jpg",
+            "third_subsection_richtext": "<p>95%|of users felt relief from foot & heel pain within the first week</p>",
+            "color_scheme": ""
+          }
+        },
+        "sidebar_cta": {
+          "type": "sidebar_cta",
+          "settings": {
+            "sidebar_cta_title": "Suffering with Foot Pain? See if Custom Orthotics are right for you!",
+            "button_label": "Take The Quiz",
+            "button_link": "shopify://products/custom-orthotics",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": ["sidebar_three_subsections_QiWiU8", "sidebar_cta"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

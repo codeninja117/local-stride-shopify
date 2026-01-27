@@ -1,0 +1,760 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .video-modal--active {
+    opacity: 1;
+  }
+
+  .video-modal__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transform: scale(1.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .video-modal--active .video-modal__backdrop {
+    transform: scale(1);
+  }
+
+  .video-modal__content {
+    position: relative;
+    z-index: 2;
+    max-width: 90vw;
+    max-height: 90vh;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  .video-modal--active .video-modal__content {
+    transform: scale(1) translateY(0);
+  }
+
+  .video-modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .video-modal__close:hover {
+    background: rgba(0, 0, 0, 0.95);
+    transform: scale(1.1);
+  }
+
+  .video-modal__close:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+  }
+
+  .video-modal__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .video-modal__media video,
+  .video-modal__media iframe {
+    width: 100%;
+    height: auto;
+    max-width: 80vw;
+    max-height: 80vh;
+    border-radius: 12px;
+    display: block;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .video-modal__content {
+      max-width: 95vw;
+      max-height: 85vh;
+      margin: 20px;
+    }
+
+    .video-modal__close {
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .video-modal__media video,
+    .video-modal__media iframe {
+      max-width: 90vw;
+      max-height: 70vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .video-modal__content {
+      max-width: 98vw;
+      max-height: 90vh;
+      margin: 10px;
+    }
+  }
+
+  /* Updated video trigger styles - make entire area clickable */
+  .modal-video-trigger {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    background: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  .modal-video-trigger:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .video-review-card__media-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f5f5f5;
+  }
+
+  /* Remove button-specific styles and apply to the trigger itself */
+  .modal-video-trigger .play-button {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    /* transform: translate(-50%, -50%); */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    pointer-events: none; /* Let parent handle clicks */
+  }
+
+  .modal-video-trigger .play-button .btn-video__inner {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .modal-video-trigger:hover .play-button {
+    background: rgba(255, 255, 255, .3);
+    /* transform: translateX(-50%, -50%) scale(1.1); */
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-video-trigger:focus {
+    outline: 3px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 2px;
+  }
+
+  .modal-video-trigger .play-button svg {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.2s ease;
+    fill: #EACBA4;
+  }
+
+  .modal-video-trigger:hover .play-button svg {
+    transform: scale(1.1);
+  }
+
+  /* Image hover effects */
+  .modal-video-trigger .curated-reviews__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+  }
+
+  .modal-video-trigger:hover .curated-reviews__image {
+    transform: scale(1.05);
+  }
+
+  /* Subtle overlay on hover */
+  .modal-video-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    border-radius: 12px;
+  }
+
+  .modal-video-trigger:hover::before {
+    opacity: 1;
+  }
+
+  /* Mobile responsiveness for play button */
+  @media (max-width: 768px) {
+    .modal-video-trigger .play-button {
+      width: 70px;
+      height: 70px;
+    }
+
+    .modal-video-trigger .play-button svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .modal-video-trigger .play-button {
+      width: 60px;
+      height: 60px;
+    }
+
+    .modal-video-trigger .play-button svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign video = section.settings.video
+  assign video_id = section.settings.video.id | default: section.settings.video_url.id
+  assign video_alt = section.settings.video.alt | default: section.settings.review_text
+  assign poster = section.settings.video_poster | default: section.settings.video.preview_image
+-%}
+
+<div class="video-text-row section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}" data-animate>
+  <div class="page-width page-width--narrow grid gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-[1fr_2fr] lg:gap-16 {{ section.settings.vertical_alignment }}">
+    <div class="video-text-row__media">
+      <modal-video-trigger
+        class="modal-video-trigger"
+        data-video-id="{{ video_id }}"
+        role="button"
+        tabindex="0"
+        aria-label="Play video review"
+      >
+        <div class="video-review-card__media-wrapper">
+          {%- if poster -%}
+            {{
+              poster
+              | image_url: width: 1024, height: 1024
+              | image_tag: class: 'curated-reviews__image', alt: poster.alt
+            }}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'curated-reviews__image' }}
+          {%- endif -%}
+
+          <div class="play-button btn-video" aria-hidden="true">
+            <div class="btn-video__inner">
+              {{- 'icon-play.svg' | inline_asset_content -}}
+            </div>
+          </div>
+
+          {% comment %}
+            <div class="btn-video">
+              <div class="btn-video__inner">
+                <div class="btn-video__text-wrapper">
+                  <span class="btn-video__text">
+                    <span class="svg-wrapper text-human pointer-events-none h-4 w-4 md:h-4 md:w-4">
+                      {{- 'icon-play.svg' | inline_asset_content -}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          {% endcomment %}
+        </div>
+
+        <template>
+          {{
+            video
+            | video_tag: image_size: '1100x', autoplay: true, loop: false, controls: true, muted: false, alt: video_alt
+          }}
+        </template>
+      </modal-video-trigger>
+    </div>
+    <div class="video-text-row__content flex flex-col gap-4">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'title' -%}
+            <h2
+              class="{{ block.settings.font_size }} flex flex-col leading-[1.2]"
+              data-cascade="{{ forloop.index | times: 0.05 }}"
+              {{ block.shopify_attributes }}
+            >
+              {% comment %} {{ block.settings.title }} {% endcomment %}
+
+              {{
+                block.settings.title
+                | replace: '<em>', '<span class="">'
+                | replace: '</em>', '</span>'
+                | replace: '|', '</span> <span>'
+              }}
+            </h2>
+          {%- when 'text' -%}
+            <p
+              class="{{ block.settings.font_size }} {% if block.settings.text_color == 'text-muted' %}text-muted{% endif %}"
+              data-cascade="{{ forloop.index | times: 0.05 }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.text }}
+            </p>
+          {%- when 'richtext' -%}
+            <div
+              class="{{ block.settings.font_size }} rte"
+              data-cascade="{{ forloop.index | times: 0.05 }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.richtext }}
+            </div>
+          {%- when 'button' -%}
+            <div data-cascade="{{ forloop.index | times: 0.05 }}" {{ block.shopify_attributes }}>button</div>
+
+            <div
+              data-cascade="{{ forloop.index | times: 0.05 }}"
+              class="image-text-row-block_card-container"
+              {{ block.shopify_attributes }}
+            >
+              <div class="image-text-row-block__card bg-human/40 flex flex-col-reverse gap-4 rounded-lg p-4 md:flex-row md:gap-8 md:p-8 ">
+                <div class="image-text-row-block-card__image flex-1">
+                  {%- if block.settings.image != blank -%}
+                    <div class="bg-human/40 aspect-square overflow-hidden rounded-lg">
+                      {{
+                        block.settings.image
+                        | image_url: width: 600
+                        | image_tag: width: 600, class: 'w-full h-full object-cover'
+                      }}
+                    </div>
+                  {%- else -%}
+                    <div class="bg-human/40 aspect-square overflow-hidden rounded-lg"></div>
+                  {%- endif -%}
+                </div>
+                <div class="image-text-row-block-card__content flex w-full flex-col gap-4 md:w-6/10 md:gap-6">
+                  <div class="image-text-row-block-card__content-badge tracking w-fit rounded-3xl bg-white px-6 py-2 font-bold tracking-[0.2em] uppercase">
+                    {%- if block.settings.badge_icon != blank -%}
+                      {{
+                        block.settings.badge_icon
+                        | image_url: width: 20
+                        | image_tag: width: 20, height: 20, class: 'w-4 h-4 inline align-middle mr-1'
+                      }}
+                    {%- endif -%}
+                    {%- if block.settings.badge_title != blank -%}
+                      <span class="inline align-middle">{{ block.settings.badge_title }}</span>
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.text != blank -%}
+                    <p>
+                      {{ block.settings.text }}
+                    </p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- when 'spacer' -%}
+            {%- assign mobile_height = block.settings.spacer_height
+              | times: block.settings.mobile_spacer_height_percentage
+              | divided_by: 100.00
+            -%}
+            <style>
+              .spacer-{{ section.id }}-{{ block.id }} {
+                height: {{ mobile_height }}px;
+              }
+
+              @media (min-width: 768px) {
+                .spacer-{{ section.id }}-{{ block.id }} {
+                  height: {{ block.settings.spacer_height }}px;
+                }
+              }
+            </style>
+            <div
+              class="spacer-{{ section.id }}-{{ block.id }}"
+              {{ block.shopify_attributes }}
+            ></div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Video text row",
+  "class": "section-video-text-row",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video poster"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "items-start",
+          "label": "Top"
+        },
+        {
+          "value": "items-center",
+          "label": "Center"
+        },
+        {
+          "value": "items-end",
+          "label": "Bottom"
+        },
+        {
+          "value": "items-stretch",
+          "label": "Stretch"
+        }
+      ],
+      "default": "items-center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Gait Analysis|<strong>By Top Podiatrists</strong>"
+        },
+        {
+          "type": "select",
+          "id": "font_size",
+          "label": "Font size",
+          "options": [
+            {
+              "value": "text-display-xl",
+              "label": "display xl"
+            },
+            {
+              "value": "text-display-l",
+              "label": "display large"
+            },
+            {
+              "value": "text-display-m",
+              "label": "display m"
+            },
+            {
+              "value": "text-h1",
+              "label": "h1"
+            },
+            {
+              "value": "text-h2",
+              "label": "h2"
+            },
+            {
+              "value": "text-h3",
+              "label": "h3"
+            },
+            {
+              "value": "text-h4",
+              "label": "h4"
+            },
+            {
+              "value": "text-h5",
+              "label": "h5"
+            },
+            {
+              "value": "text-h6",
+              "label": "h6"
+            }
+          ],
+          "default": "text-display-l"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Our bodies are constantly in motion. Orthotics made without gait analysis is like making a suit without taking measurements."
+        },
+        {
+          "type": "select",
+          "id": "font_size",
+          "label": "Font size",
+          "options": [
+            {
+              "value": "text-display-xl",
+              "label": "display xl"
+            },
+            {
+              "value": "text-display-l",
+              "label": "display large"
+            },
+            {
+              "value": "text-display-m",
+              "label": "display m"
+            },
+            {
+              "value": "text-h1",
+              "label": "h1"
+            },
+            {
+              "value": "text-h2",
+              "label": "h2"
+            },
+            {
+              "value": "text-h3",
+              "label": "h3"
+            },
+            {
+              "value": "text-h4",
+              "label": "h4"
+            },
+            {
+              "value": "text-h5",
+              "label": "h5"
+            },
+            {
+              "value": "text-h6",
+              "label": "h6"
+            },
+            {
+              "value": "text-body-l",
+              "label": "body l"
+            },
+            {
+              "value": "text-body-m",
+              "label": "body m"
+            },
+            {
+              "value": "text-body-s",
+              "label": "body s"
+            }
+          ],
+          "default": "text-body-m"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text color",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "text-muted",
+              "label": "Muted"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    },
+    {
+      "type": "richtext",
+      "name": "Richtext",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "richtext",
+          "label": "Richtext"
+        },
+        {
+          "type": "select",
+          "id": "font_size",
+          "label": "Font size",
+          "options": [
+            {
+              "value": "text-display-xl",
+              "label": "display xl"
+            },
+            {
+              "value": "text-display-l",
+              "label": "display large"
+            },
+            {
+              "value": "text-display-m",
+              "label": "display m"
+            },
+            {
+              "value": "text-h1",
+              "label": "h1"
+            },
+            {
+              "value": "text-h2",
+              "label": "h2"
+            },
+            {
+              "value": "text-h3",
+              "label": "h3"
+            },
+            {
+              "value": "text-h4",
+              "label": "h4"
+            },
+            {
+              "value": "text-h5",
+              "label": "h5"
+            },
+            {
+              "value": "text-h6",
+              "label": "h6"
+            },
+            {
+              "value": "text-body-l",
+              "label": "body l"
+            },
+            {
+              "value": "text-body-m",
+              "label": "body m"
+            },
+            {
+              "value": "text-body-s",
+              "label": "body s"
+            }
+          ],
+          "default": "text-body-m"
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "Spacer",
+      "settings": [
+        {
+          "type": "range",
+          "id": "spacer_height",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Spacer height",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "mobile_spacer_height_percentage",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "label": "Mobile spacer height %",
+          "default": 60,
+          "info": "Mobile spacer height as a percentage of the set height below"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video text row",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

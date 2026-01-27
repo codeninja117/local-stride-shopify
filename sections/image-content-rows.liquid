@@ -1,0 +1,179 @@
+{% comment %}
+  Image Content Rows Section
+{% endcomment %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.8 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.8 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 1190px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .image-column {
+      max-width: 379px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .content-column {
+    flex: 1;
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    {%- for block in section.blocks -%}
+      <div
+        class="mb-16 flex flex-col gap-8 last:mb-0 md:flex-row md:items-center md:gap-8"
+        {{ block.shopify_attributes }}
+      >
+        <div class="image-column min-h-[300px] md:min-h-[400px]">
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag: class: 'w-full h-full object-cover rounded-lg', alt: block.settings.image.alt
+              | default: block.settings.heading,
+                loading: 'lazy',
+                sizes: '(min-width: 768px) 379px, 100vw',
+                widths: '400, 600, 800, 1000, 1200'
+            }}
+          {%- else -%}
+            <div class="flex h-full w-full items-center justify-center rounded-lg bg-gray-200">
+              <span class="text-gray-500">No image selected</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="content-column flex flex-col justify-center">
+          {%- if block.settings.heading != blank -%}
+            <h2 class="mb-4 text-2xl leading-tight font-bold">{{ forloop.index }}. {{ block.settings.heading }}</h2>
+          {%- endif -%}
+
+          {%- if block.settings.content != blank -%}
+            <div class="prose max-w-none">
+              {{ block.settings.content }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image Content Rows",
+  "class": "section-image-content-rows",
+  "tag": "section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Image Content Row",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Your Heading Here"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Add your detailed content here. You can use <strong>bold text</strong> and <em>italic text</em> as needed.</p><h3>The Problem</h3><p>Describe the problem your product solves.</p><h3>The Solution</h3><p>Explain how your product provides the solution.</p><h3>Bottom Line</h3><p>Summarize the key benefits and results.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Content Rows",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "heading": "No More 'Walking on Broken Glass' Every Morning",
+            "content": "<h3>The Problem</h3><p>Your plantar fascia tightens overnight, causing those painful first steps.</p><h3>The StrideSoles Solution</h3><p>Custom 3D-engineered support that aligns your arch perfectly.</p><h3>Bottom Line</h3><p><strong>94% of users report significant morning pain reduction within 2 weeks.</strong></p>"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "heading": "The Best German Quality, 75% Less Cost",
+            "content": "<h3>The Reality</h3><p>Podiatrists mark up orthotics by 400% or more.</p><h3>The Insider Secret</h3><p>We use the same German lab as high-end clinics but sell direct.</p><h3>Bottom Line</h3><p><strong>Same materials, same craftsmanship, same results. Without the markup.</strong></p>"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "heading": "No Painful Clinic Visits While You're Suffering",
+            "content": "<h3>The Problem</h3><p>Getting to appointments when you're in pain is nearly impossible.</p><h3>Our Solution</h3><p>Complete your assessment from home in just 2 minutes.</p><h3>Bottom Line</h3><p><strong>Professional-grade orthotics delivered to your door.</strong></p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

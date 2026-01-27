@@ -1,0 +1,35 @@
+{
+  "name": "stridesoles-shopify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:vite": "vite build --watch",
+    "dev:tailwind": "tailwindcss -i ./assets/_dev-theme.css -o ./assets/theme.css --watch",
+    "dev:shopify": "shopify theme dev --store e8732c-aa",
+    "dev": "concurrently \"pnpm run dev:shopify\" \"npm run dev:tailwind\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@shopify/prettier-plugin-liquid": "^1.9.3",
+    "@tailwindcss/cli": "^4.1.11",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.11",
+    "concurrently": "^9.2.0",
+    "install": "^0.13.0",
+    "prettier": "^3.6.1",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "tailwindcss": "^4.1.11",
+    "terser": "^5.43.1",
+    "vite": "^7.0.0",
+    "vite-plugin-compression": "^0.5.1"
+  },
+  "dependencies": {
+    "swiper": "^11.2.8"
+  }
+}

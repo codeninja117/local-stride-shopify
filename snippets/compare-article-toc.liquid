@@ -1,0 +1,121 @@
+{% # theme-check-disable %}
+{%- liquid
+  assign article_content = article.content
+  assign h2_segments = article_content | split: '<h2'
+  assign toc_items = ''
+  assign processed_content = ''
+
+  # Process each segment to build TOC and add IDs
+  for segment in h2_segments
+    if forloop.first
+      assign processed_content = segment
+    else
+      if segment contains '</h2>'
+        # Split the segment into parts
+        assign h2_parts = segment | split: '>'
+        assign h2_attrs = h2_parts.first
+        assign h2_remainder = segment | remove_first: h2_attrs | remove_first: '>'
+
+        # Extract clean text from between H2 tags
+        assign h2_content = h2_remainder | split: '</h2>' | first
+        assign h2_text = h2_content | strip_html | strip
+
+        # Check if H2 has the "in-compare-template" class and skip it
+        assign should_skip = false
+        if h2_attrs contains 'class=' and h2_attrs contains 'in-compare-template'
+          assign should_skip = true
+        endif
+
+        if h2_text != '' and should_skip == false
+          # Create ID from text
+          assign h2_id = h2_text | handleize | prepend: 'toc-'
+
+          # Add to TOC
+          assign toc_items = toc_items | append: '<li><a href="#' | append: h2_id | append: '">' | append: h2_text | append: '</a></li>'
+
+          # Rebuild H2 with ID while preserving existing attributes
+          assign new_h2 = '<h2 id="' | append: h2_id | append: '" ' | append: h2_attrs | append: '>' | append: h2_remainder
+          assign processed_content = processed_content | append: new_h2
+        else
+          # If no text found, just rebuild original H2
+          assign processed_content = processed_content | append: '<h2' | append: segment
+        endif
+      else
+        # If no closing H2 tag, just rebuild original
+        assign processed_content = processed_content | append: '<h2' | append: segment
+      endif
+    endif
+  endfor
+
+  # Check if we need to inject CTAs
+  assign has_cta = false
+  if article.metafields.custom.inline_cta.value and processed_content contains '[article_inline_cta]'
+    assign has_cta = true
+    assign content_parts = processed_content | split: '[article_inline_cta]'
+  endif
+-%}
+{% # theme-check-enable %}
+
+{%- if toc_items != '' -%}
+  <div class="toc rounded-lg bg-black/5 p-4 lg:p-6">
+    <h2 class="text-h3 mt-0 mb-4"><span class="text-[#9D9FA9]">Table of</span> Contents:</h2>
+    <ul class="ml-6 list-decimal space-y-2" style="list-style: decimal;">
+      {{ toc_items }}
+    </ul>
+  </div>
+{%- endif -%}
+<script>
+  // TOC Accordion JavaScript
+  document.addEventListener('DOMContentLoaded', function() {
+      const tocContainer = document.querySelector('.toc');
+      if (!tocContainer) return;
+  
+      const tocHeader = tocContainer.querySelector('h2');
+      const tocList = tocContainer.querySelector('ul');
+      
+      if (!tocHeader || !tocList) return;
+  
+      // Create chevron icon
+      const chevron = document.createElement('div');
+      chevron.className = 'toc-chevron';
+      chevron.innerHTML = `
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 100%; height: 100%;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+      `;
+      
+      tocHeader.appendChild(chevron);
+      tocList.classList.remove('expanded');
+      
+      let isExpanded = false;
+  
+      tocHeader.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'A') {
+              e.preventDefault();
+              isExpanded = !isExpanded;
+              tocList.classList.toggle('expanded', isExpanded);
+              chevron.classList.toggle('expanded', isExpanded);
+              tocHeader.setAttribute('aria-expanded', isExpanded);
+          }
+      });
+  
+      tocHeader.setAttribute('role', 'button');
+      tocHeader.setAttribute('aria-expanded', 'false');
+      tocHeader.setAttribute('tabindex', '0');
+      
+      tocHeader.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              tocHeader.click();
+          }
+      });
+  });
+  </script>
+  <style>
+    .toc ul {
+      padding-left: 30px;
+    }
+    aside .toc ul.expanded {
+      max-height: 800px;
+    }
+  </style>

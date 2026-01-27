@@ -1,0 +1,414 @@
+{%- unless settings.cart_type == 'drawer' -%}
+  <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<cart-items class="{% if cart == empty %}is-empty{% else %}{% endif %} isolate block section-{{ section.id }}-padding">
+  <div class="mx-auto">
+    <div class="cart__title-wrapper mb-4 flex items-center justify-center md:mb-8 md:justify-between">
+      <h1 class=" text-2xl font-bold">{{ 'sections.cart.title' | t }}</h1>
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="hidden border-b border-current text-blue-600 hover:text-blue-800 md:block"
+      >
+        {{- 'general.continue_shopping' | t -}}
+      </a>
+    </div>
+
+    <div class="cart__warnings text-center">
+      <h1 class="cart__empty-text mb-4 text-xl font-medium">{{ 'sections.cart.empty' | t }}</h1>
+
+      {%- assign continue_shopping_text = 'general.continue_shopping' | t -%}
+
+      {% render 'button',
+        tag: 'a',
+        text: continue_shopping_text,
+        url: routes.all_products_collection_url,
+        variant: 'primary'
+      %}
+
+      {%- if shop.customer_accounts_enabled and customer == null -%}
+        <h2 class="cart__login-title mt-8 mb-2 text-lg font-medium">{{ 'sections.cart.login.title' | t }}</h2>
+        <p class="cart__login-paragraph">
+          {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
+      <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
+        <div class="js-contents">
+          {%- if cart != empty -%}
+            <div class="">
+              <div class="sr-only">
+                {{ 'sections.cart.title' | t }}
+              </div>
+
+              <!-- Cart header - desktop -->
+              <div class="hidden border-b border-gray-200 pb-3 md:grid md:grid-cols-12">
+                <div class="col-span-6 text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  {{ 'sections.cart.headings.product' | t }}
+                </div>
+                <div class="col-span-6 text-right text-xs font-medium tracking-wider text-gray-500 uppercase">
+                  {{ 'sections.cart.headings.quantity' | t }}
+                </div>
+              </div>
+
+              <ul role="list" class="divide-blue-fitness/50 divide-y">
+                {%- for item in cart.items -%}
+                  <li
+                    class="cart-item py-4"
+                    id="CartItem-{{ item.index | plus: 1 }}"
+                    data-properties="{{ item.properties | json | escape }}"
+                  >
+                    <div class="grid grid-cols-12 gap-4 md:grid-cols-12">
+                      <!-- Product image -->
+                      <div class="col-span-4 md:col-span-2">
+                        {% if item.image %}
+                          <a href="{{ item.url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+                          <div class="cart-item__image-container aspect-w-1 aspect-h-1 overflow-hidden rounded-md bg-gradient-to-b from-gray-100 to-gray-200">
+                            <img
+                              src="{{ item.image | image_url: width: 300 }}"
+                              class="cart-item__image object-cover"
+                              alt="{{ item.image.alt | escape }}"
+                              loading="lazy"
+                              width="150"
+                              height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                            >
+                          </div>
+                        {% endif %}
+                      </div>
+
+                      <!-- Product details -->
+                      <div class="col-span-8 flex flex-col md:col-span-4">
+                        <div class="jdgm-widget jdgm-preview-badge" data-id="{{ item.product.id }}">
+                          {{ item.product.metafields.judgeme.badge }}
+                        </div>
+                        <a href="{{ item.url }}" class="cart-item__name text-lg font-medium break-words text-gray-900">
+                          {{- item.product.title | escape -}}
+                        </a>
+
+                        {%- if item.original_price != item.final_price -%}
+                          <div class="mt-1 flex items-center">
+                            <s class="cart-item__old-price mr-2 text-sm text-gray-500">
+                              {{- item.original_price | money -}}
+                            </s>
+                            <strong class="cart-item__final-price text-sm font-medium text-red-600">
+                              {{ item.final_price | money }}
+                            </strong>
+                          </div>
+                        {%- else -%}
+                          <div class="mt-1 text-sm font-medium text-gray-900">
+                            {{ item.original_price | money }}
+                          </div>
+                        {%- endif -%}
+
+                        {%- if item.product.has_only_default_variant == false
+                          or item.properties.size != 0
+                          or item.selling_plan_allocation != null
+                        -%}
+                          <dl class="mt-2 space-y-1 text-sm text-gray-500">
+                            {%- if item.product.has_only_default_variant == false -%}
+                              {%- for option in item.options_with_values -%}
+                                <div class="flex">
+                                  <dt class="mr-1 font-medium">{{ option.name }}:</dt>
+                                  <dd>{{ option.value }}</dd>
+                                </div>
+                              {%- endfor -%}
+                            {%- endif -%}
+                          </dl>
+
+                          <p class="mt-1 text-sm text-gray-500">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                        {%- endif -%}
+
+                        <ul
+                          class="discounts mt-2 space-y-1 text-sm text-green-600"
+                          role="list"
+                          aria-label="{{ 'customer.order.discount' | t }}"
+                        >
+                          {%- for discount in item.line_level_discount_allocations -%}
+                            <li class="discounts__discount flex items-center">
+                              <svg
+                                class="mr-1 h-4 w-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M5 12H19M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                              {{ discount.discount_application.title | escape }}
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+
+                      {% comment %} Product Variant Selector {% endcomment %}
+                      <fieldset
+                        id="CartItemVariantSelect-{{ item.key }}"
+                        class="relative col-span-12 h-fit md:col-span-6"
+                      >
+                        {%- unless item.product.has_only_default_variant -%}
+                          {%- for option in item.product.options_with_values -%}
+                            <legend class="sr-only">
+                              {{ option.name }}
+                            </legend>
+
+                            <div class="flex flex-wrap gap-2 md:gap-2">
+                              {% render 'line-item-product-variant-options',
+                                product: item.product,
+                                option: option,
+                                item: item,
+                                picker_type: 'button'
+                              %}
+                            </div>
+                          {%- endfor -%}
+                        {%- endunless -%}
+
+                        {% render 'loading-spinner',
+                          class: 'variant-loading__spinner absolute inset-0 z-10 bg-transparent flex items-center justify-center hidden'
+                        %}
+                      </fieldset>
+                    </div>
+
+                    {%- if item.properties != blank -%}
+                      <div class="cart-item__customization bg-blue-fitness/10 mt-4 rounded-lg p-4">
+                        <h3 class="mb-4 flex items-center gap-2 font-semibold">
+                          <span class="h-6 w-6">{{ 'icon-sparkle.svg' | inline_asset_content }}</span>
+                          Your Customizations
+                        </h3>
+
+                        <ul class="gap-4 space-y-3 md:columns-2" style="">
+                          {%- for property in item.properties -%}
+                            {%- assign property_first_char = property.first | slice: 0 -%}
+                            {%- if property.last != blank and property_first_char != '_' -%}
+                              <li class="flex break-inside-avoid flex-col gap-1">
+                                <dt class="text-sm font-semibold whitespace-nowrap text-gray-500">
+                                  {{ property.first }}:
+                                </dt>
+                                <dd class="block text-sm text-gray-900">{{ property.last }}</dd>
+                              </li>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+
+                    <div class="col-span-12 mt-4 flex justify-end">
+                      <cart-remove-button
+                        id="Remove-{{ item.index | plus: 1 }}"
+                        data-index="{{ item.index | plus: 1 }}"
+                        class="text-xs  uppercase"
+                      >
+                        <a
+                          href="{{ item.url_to_remove }}"
+                          class="button button--tertiary"
+                          aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+                        >
+                          <span class="svg-wrapper"> Remove </span>
+                        </a>
+                      </cart-remove-button>
+                    </div>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <p class="sr-only" id="cart-live-region-text" aria-live="polite" role="status"></p>
+      <p
+        class="sr-only"
+        id="shopping-cart-line-item-status"
+        aria-live="polite"
+        aria-hidden="true"
+        role="status"
+      >
+        {{ 'accessibility.loading' | t }}
+      </p>
+    </form>
+  </div>
+</cart-items>
+
+{%- if section.blocks.size > 0 -%}
+  <div class="flex flex-col gap-10">
+    <div class="cart__premium-add-ons flex flex-col gap-4">
+      <h3 class="text-eyebrow font-bold text-[#525A63] uppercase">Premium Add-Ons</h3>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'premium-add-on' -%}
+            <product-quick-add-card class="border-blue-fitness/30 flex gap-4 rounded-lg border p-2">
+              {%- liquid
+                assign product = block.settings.product
+              -%}
+              <div class="product-quick-add-card__image h-23 w-23 shrink-0 overflow-hidden rounded-lg">
+                {%- if product.featured_image != blank -%}
+                  {{ product.featured_image | image_url: width: 192 | image_tag: class: 'w-full h-full object-cover' }}
+                {%- endif -%}
+              </div>
+              <div class="product-quick-add-card__content flex-1">
+                <h4 class="">{{ product.title }}</h4>
+                <h4 class="text-blue-fitness text-sm">{{ block.settings.subtitle }}</h4>
+                <p class="text-sm">{{ product.price | money }}</p>
+              </div>
+
+              <div class="product-quick-add-card__action">
+                <button class="bg-peach hover:bg-blue-fitness ease inline-flex h-7 w-7 items-center justify-center rounded-3xl whitespace-nowrap text-black duration-300 hover:text-white md:h-fit md:w-fit md:px-4 md:py-2">
+                  {{ 'icon-plus.svg' | inline_asset_content }}
+                  <span class="hidden md:inline">Add</span>
+                </button>
+              </div>
+            </product-quick-add-card>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="cart__premium-add-ons flex flex-col gap-4">
+      <div class="flex items-center gap-4 whitespace-nowrap">
+        <hr class="border-blue-fitness/30 w-full">
+        <h3 class="text-eyebrow font-bold text-[#525A63] uppercase">We also recommend</h3>
+        <hr class="border-blue-fitness/30 w-full">
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'recommended-add-on' -%}
+            <product-quick-add-card class="border-blue-fitness/30 flex flex-col items-center gap-4 rounded-lg border p-2 md:flex-row">
+              {%- liquid
+                assign product = block.settings.product
+              -%}
+              <div class="product-quick-add-card__image aspect-square shrink-0 overflow-hidden rounded-lg md:h-23 md:w-23">
+                {%- if product.featured_image != blank -%}
+                  {{ product.featured_image | image_url: width: 192 | image_tag: class: 'w-full h-full object-cover' }}
+                {%- endif -%}
+              </div>
+              <div class="product-quick-add-card__content flex-1">
+                <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+                  {{ product.metafields.judgeme.badge }}
+                </div>
+                <h4 class="md:text-body-l">{{ product.title }}</h4>
+                <h4 class="text-blue-fitness text-sm">{{ block.settings.subtitle }}</h4>
+                <p class="text-sm">{{ product.price | money }}</p>
+              </div>
+
+              <div class="product-quick-add-card__action">
+                <button class="bg-peach hover:bg-blue-fitness ease inline rounded-3xl px-4 py-2 text-sm whitespace-nowrap text-black duration-300 hover:text-white">
+                  + Add to Cart
+                </button>
+              </div>
+            </product-quick-add-card>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+  .cart-variant-updating {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .cart-variant-updating::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  .variant-loading__spinner {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(2px);
+  }
+</style>
+{% schema %}
+{
+  "name": "t:sections.main-cart-items.name",
+  "class": "section-main-cart-items",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "premium-add-on",
+      "name": "premium-add-on",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    },
+    {
+      "type": "recommended-add-on",
+      "name": "recommended-add-on",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

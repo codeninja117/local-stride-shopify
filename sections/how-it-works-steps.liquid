@@ -1,0 +1,1383 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+    --timeline-color: {{ section.settings.timeline_color | default: '#CCCCCC' }};
+    --step-indicator-color: {{ section.settings.step_indicator_color | default: '#333333' }};
+    --step-indicator-active-color: {{ section.settings.step_indicator_active_color | default: '#000000' }};
+  }
+
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }} .timeline-connector {
+    position: absolute;
+    left: 1rem;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background-color: var(--timeline-color);
+    z-index: 1;
+  }
+
+  .section-{{ section.id }} .step-indicator {
+    position: absolute;
+    left: 0;
+    top: 32px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--step-indicator-color);
+    border: 2px solid var(--timeline-color);
+    z-index: 2;
+  }
+
+  .section-{{ section.id }} .step-indicator.active {
+    background-color: var(--step-indicator-active-color);
+    width: 14px;
+    height: 14px;
+    left: -2px;
+  }
+
+  .section-{{ section.id }} .step-connector {
+    position: absolute;
+    left: 10px;
+    top: 36px;
+    width: 20px;
+    height: 2px;
+    background-color: var(--timeline-color);
+    z-index: 1;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+
+  .how-it-works-steps-list-{{ section.id }} {
+    gap: {{ section.settings.gap | divided_by: 2.00 }}px;
+    @media screen and (min-width: 750px) {
+      gap: {{ section.settings.gap }}px;
+    }
+  }
+
+  {% for block in section.blocks %}
+    .how-it-works-steps-item-{{ block.id }} {
+      --text-color: rgb({{block.settings.color_scheme.settings.text.red }}, {{block.settings.color_scheme.settings.text.green }}, {{block.settings.color_scheme.settings.text.blue }});
+      padding-top: {{ block.settings.padding_top | divided_by: 2.00 }}px;
+      padding-bottom: {{ block.settings.padding_bottom | divided_by: 2.00 }}px;
+      @media screen and (min-width: 750px) {
+        padding-top: {{ block.settings.padding_top }}px;
+        padding-bottom: {{ block.settings.padding_top }}px;
+      }
+    }
+  {% endfor %}
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} how-it-works-steps gradient flex flex-col gap-8 lg:gap-16 color-{{ section.settings.color_scheme }}">
+  <div class="section__header page-width text-center">
+    <div class="flex flex-col gap-2">
+      <h2 class="text-h1 section-title">{{ section.settings.title }}</h2>
+      <p class="text-muted text-base md:text-lg">{{ section.settings.subtitle }}</p>
+    </div>
+  </div>
+
+  <div class="relative {% if section.settings.show_steps_indicator %}page-width{% endif %}">
+    {%- if section.settings.show_steps_indicator -%}
+      <!-- Timeline connector - vertical line -->
+      <div class="timeline-connector"></div>
+    {%- endif -%}
+
+    <ul class="{% if section.settings.show_steps_indicator %}ml-8{% endif %} flex flex-col xl:mx-0 how-it-works-steps-list-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {% assign is_even = forloop.index | modulo: 2 %}
+        {% if forloop.index == 1 %}
+          {% assign is_active = true %}
+        {% else %}
+          {% assign is_active = false %}
+        {% endif %}
+
+        {%- case block.type -%}
+          {%- when 'step' -%}
+            <li
+              class="gradient color-{{ block.settings.color_scheme }} how-it-works-steps-item-{{ block.id }} js-section-color"
+              {{ block.shopify_attributes }}
+            >
+              <div class="{% unless section.settings.show_steps_indicator %}page-width{% endunless %} relative flex flex-col-reverse gap-[48px] md:flex-row lg:gap-[80px] {% unless section.settings.show_steps_indicator %}items-center{% endunless %} ">
+                <div class="flex flex-col gap-6 md:gap-8 lg:w-1/2">
+                  {% render 'steps-block-header',
+                    eyebrow: block.settings.eyebrow_text,
+                    title: block.settings.title,
+                    subtitle: block.settings.subtitle,
+                    text: block.settings.text
+                  %}
+
+                  {%- if block.settings.button_label != blank -%}
+                    <div class="section__footer flex flex-col items-center gap-2 text-center sm:w-fit">
+                      {% render 'button',
+                        tag: 'a',
+                        variant: 'primary',
+                        text: block.settings.button_label,
+                        url: block.settings.button_url
+                      %}
+                      <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+                        {{- block.settings.disclaimer -}}
+                      </span>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.video_button_label != blank -%}
+                    <modal-opener data-modal="#Section-{{ section.id }}-{{ block.id }}" class="w-fit">
+                      <button class="btn-primary">
+                        <div class="btn-primary__inner">
+                          <div class="btn-primary__text-wrapper">
+                            <span class="btn-primary__text">
+                              {{ block.settings.video_button_label }}
+                            </span>
+                            <span class="btn-primary__text">
+                              {{ block.settings.video_button_label }}
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    </modal-opener>
+
+                    <modal-dialog
+                      id="Section-{{ section.id }}-{{ block.id }}"
+                      class="invisible fixed inset-0 z-101 flex items-center justify-center overflow-hidden overflow-y-auto bg-black/30 opacity-0 backdrop-blur-lg transition-opacity duration-300 ease-in-out [&[open]]:visible [&[open]]:opacity-100"
+                      data-play-on-open
+                    >
+                      <div
+                        role="dialog"
+                        aria-label="{{ block.settings.video_button_label }}"
+                        aria-modal="true"
+                        class="w-[768px] max-w-full"
+                        tabindex="-1"
+                      >
+                        <button
+                          id="ModalClose-{{ section.id }}"
+                          type="button"
+                          class="absolute top-4 right-4 text-white"
+                          aria-label="{{ 'accessibility.close' | t }}"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="48"
+                            height="48"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.25"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-x"
+                          >
+                            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                          </svg>
+                        </button>
+
+                        {%- assign video_alt = block.settings.video_button_label.alt | default: shop.name -%}
+                        {{
+                          block.settings.video
+                          | video_tag:
+                            class: 'h-auto w-full ',
+                            controls: true,
+                            autoplay: false,
+                            muted: false,
+                            alt: video_alt
+                        }}
+                      </div>
+                    </modal-dialog>
+                  {%- endif -%}
+                </div>
+                <div class="flex w-full flex-col gap-10 lg:w-1/2">
+                  {%- if block.settings.eyebrow_text != blank -%}
+                    <span class="before:bg-muted after:bg-muted relative mb-1 w-fit rounded-4xl border border-[rgba(var(--color-foreground),0.2)] bg-[rgba(var(--color-foreground),0.06)] px-5 py-1 text-sm text-[rgba(var(--color-foreground),0.4)] before:absolute before:top-1/2 before:right-[calc(100%+0.5rem)] before:h-[1px] before:w-6 before:-translate-y-1/2 before:content-[''] after:absolute after:top-1/2 after:right-[calc(100%+.5rem)] after:h-2 after:w-2 after:-translate-y-1/2 after:rounded-full after:content-[''] md:hidden md:text-lg xl:before:right-[calc(100%+1rem)] xl:before:w-8">
+                      {{- block.settings.eyebrow_text -}}
+                    </span>
+                  {%- endif -%}
+
+                  <div class="aspect-square max-h-[400px] overflow-hidden">
+                    {%- if block.settings.image != blank -%}
+                      {%- assign block_image_alt = block.settings.image.alt | default: shop.name -%}
+                      {{
+                        block.settings.image
+                        | image_url: width: 3840
+                        | image_tag:
+                          width: block.settings.image.width,
+                          class: 'w-full h-full object-contain',
+                          sizes: '50vw',
+                          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+                          alt: block_image_alt
+                      }}
+                    {%- else -%}
+                      <div class="bg-slate/30 h-full w-full overflow-hidden rounded-xl"></div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </li>
+          {%- when 'step_with_callouts' -%}
+            <li
+              class="gradient color-{{ block.settings.color_scheme }} how-it-works-steps-item-{{ block.id }} js-section-color"
+              {{ block.shopify_attributes }}
+            >
+              <div class="{% unless section.settings.show_steps_indicator %}page-width{% endunless %} relative flex flex-col items-start gap-[30px] md:flex-row lg:gap-[80px] {% unless section.settings.show_steps_indicator %}items-center{% endunless %}">
+                <div class="flex flex-col gap-6 md:gap-8 md:py-[40px] lg:w-1/2">
+                  {% render 'steps-block-header',
+                    eyebrow: block.settings.eyebrow_text,
+                    title: block.settings.title,
+                    text: block.settings.text
+                  %}
+
+                  {% assign has_any_callout = false %}
+                  {% if block.settings.callout_title != blank
+                    or block.settings.callout_text != blank
+                    or block.settings.callout_2_title != blank
+                    or block.settings.callout_2_text != blank
+                    or block.settings.callout_3_title != blank
+                    or block.settings.callout_3_text != blank
+                  %}
+                    {% assign has_any_callout = true %}
+                  {% endif %}
+
+                  {% if has_any_callout %}
+                    <ul class="flex flex-col gap-6">
+                      {% render 'steps-callout',
+                        title: block.settings.callout_title,
+                        text: block.settings.callout_text
+                      %}
+                      {% render 'steps-callout',
+                        title: block.settings.callout_2_title,
+                        text: block.settings.callout_2_text
+                      %}
+                      {% render 'steps-callout',
+                        title: block.settings.callout_3_title,
+                        text: block.settings.callout_3_text
+                      %}
+                    </ul>
+                  {% endif %}
+
+                  {%- if block.settings.button_type -%}
+                    {%- case block.settings.button_type -%}
+                      {%- when 'normal' -%}
+                        {%- if block.settings.button_label != blank -%}
+                          <div class="section__footer inline-flex flex-col gap-2 text-center sm:w-fit">
+                            {% render 'button',
+                              tag: 'a',
+                              variant: 'primary',
+                              text: block.settings.button_label,
+                              url: block.settings.button_url
+                            %}
+                            <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+                              {{- block.settings.disclaimer -}}
+                            </span>
+                          </div>
+                        {%- endif -%}
+
+                      {%- when 'foam_box' -%}
+                        {%- if block.settings.alert_pill_title != blank or block.settings.button_label != blank -%}
+                          <div class="gradient color-{{ block.settings.alert_pill_color_scheme }} relative flex flex-col gap-2 rounded-xl p-6 text-center">
+                            {%- if block.settings.alert_pill_title != blank -%}
+                              <p class="font-bold md:text-3xl">{{ block.settings.alert_pill_title }}</p>
+                            {%- endif -%}
+
+                            {%- if block.settings.button_label != blank -%}
+                              <a href="{{ block.settings.button_url }}" class="text-base underline underline-offset-6">
+                                {{ block.settings.button_label }}
+                              </a>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                    {%- endcase -%}
+                  {%- endif -%}
+                </div>
+                <div class="flex w-full flex-col gap-10 lg:w-1/2">
+                  {%- if block.settings.image != blank -%}
+                    <div class="relative aspect-square overflow-hidden rounded-xl">
+                      {{
+                        block.settings.image
+                        | image_url: width: 3840
+                        | image_tag:
+                          width: block.settings.image.width,
+                          class: 'w-full h-auto',
+                          sizes: '50vw',
+                          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                      }}
+                    </div>
+                  {%- else -%}
+                    <div
+                      class="{% if is_even == 0 %}bg-white/30{% else %}bg-slate/30{% endif %} aspect-4/3 overflow-hidden rounded-xl"
+                    ></div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </li>
+          {%- when 'step_with_data_points' -%}
+            <li
+              class="gradient color-{{ block.settings.color_scheme }} how-it-works-steps-item-{{ block.id }} js-section-color"
+              {{ block.shopify_attributes }}
+            >
+              <div class="{% unless section.settings.show_steps_indicator %}page-width{% endunless %} relative flex flex-col gap-[48px] md:flex-row lg:gap-[80px] {% unless section.settings.show_steps_indicator %}items-center{% endunless %} ">
+                <div class="flex flex-col gap-8 lg:w-6/12">
+                  {% render 'steps-block-header',
+                    eyebrow: block.settings.eyebrow_text,
+                    title: block.settings.title,
+                    text: block.settings.text
+                  %}
+
+                  {%- comment -%}begin callouts{%- endcomment -%}
+                  <div class="grid grid-cols-3 gap-2 md:gap-4">
+                    {% render 'steps-pain-card', image: block.settings.callout_image, title: block.settings.title %}
+                    {% render 'steps-pain-card',
+                      image: block.settings.callout_2_image,
+                      title: block.settings.callout_2_title
+                    %}
+                    {% render 'steps-pain-card',
+                      image: block.settings.callout_3_image,
+                      title: block.settings.callout_3_title
+                    %}
+                    {% render 'steps-pain-card',
+                      image: block.settings.callout_4_image,
+                      title: block.settings.callout_4_title
+                    %}
+                    {% render 'steps-pain-card',
+                      image: block.settings.callout_5_image,
+                      title: block.settings.callout_5_title
+                    %}
+                    {% render 'steps-pain-card',
+                      image: block.settings.callout_6_image,
+                      title: block.settings.callout_6_title
+                    %}
+                  </div>
+
+                  {%- if block.settings.button_label != blank -%}
+                    <div class="section__footer inline-flex flex-col gap-2 text-center sm:w-fit">
+                      {% render 'button',
+                        tag: 'a',
+                        variant: 'primary',
+                        text: block.settings.button_label,
+                        url: block.settings.button_url
+                      %}
+                      <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+                        {{- block.settings.disclaimer -}}
+                      </span>
+                    </div>
+                  {%- endif -%}
+                </div>
+                <div class="flex w-full flex-col gap-10 lg:w-6/12">
+                  {%- if block.settings.image != blank -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 3840
+                      | image_tag:
+                        width: block.settings.image.width,
+                        class: 'w-full h-auto',
+                        sizes: '50vw',
+                        widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                    }}
+                  {%- else -%}
+                    <div class="bg-slate/30 aspect-4/3 overflow-hidden rounded-xl"></div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </li>
+        {%- endcase -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How it works steps",
+  "class": "section-how-it-works-steps js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_steps_indicator",
+      "label": "Show steps indicator",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "How it works",
+      "info": "Italic to lower opacity, | for line-break"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Once we receive your information, we craft custom soles tailored to your needs, using top-quality materials for the perfect fit."
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take our Quiz"
+    },
+    {
+      "type": "header",
+      "content": "Timeline Connector"
+    },
+    {
+      "type": "color",
+      "id": "timeline_color",
+      "label": "Timeline color",
+      "default": "#CCCCCC"
+    },
+    {
+      "type": "color",
+      "id": "step_indicator_color",
+      "label": "Step indicator color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "step_indicator_active_color",
+      "label": "Active step indicator color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    },
+    {
+      "type": "header",
+      "content": "Gap between steps"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "eyebrow_text",
+          "label": "Eyebrow text",
+          "default": "Step 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Intake Quiz"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Our award-winning team of podiatrists asks the same questions online as they do in clinic.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Button primary"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take our Quiz"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "disclaimer",
+          "label": "Disclaimer",
+          "default": "180 Day Return Policy"
+        },
+        {
+          "type": "header",
+          "content": "Video modal button"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "video_button_label",
+          "label": "Video button label"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "header",
+          "content": "Section padding"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 320,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 320,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "step_with_callouts",
+      "name": "Step with callouts",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "eyebrow_text",
+          "label": "Eyebrow text",
+          "default": "Step 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "3D Foot Scan"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Delivering unmatched precision for the perfect custom fit</p>"
+        },
+        {
+          "type": "header",
+          "content": "alert pill"
+        },
+        {
+          "type": "color_scheme",
+          "id": "alert_pill_color_scheme",
+          "label": "Alert pill color scheme",
+          "default": "scheme-5"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "alert_pill_title",
+          "label": "Alert pill title",
+          "default": "Why we are the best from the foam box"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Compare versus foam box"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "disclaimer",
+          "label": "Disclaimer",
+          "default": "180 Day Return Policy"
+        },
+        {
+          "type": "select",
+          "id": "button_type",
+          "label": "Button type",
+          "options": [
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "foam_box",
+              "label": "Foam box"
+            }
+          ],
+          "default": "normal"
+        },
+        {
+          "type": "header",
+          "content": "Callout #1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_title",
+          "label": "Callout title",
+          "default": "Easy to Use"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_text",
+          "label": "Callout text",
+          "default": "Effortlessly scan your feet in seconds."
+        },
+        {
+          "type": "header",
+          "content": "Callout #2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_title",
+          "label": "Callout title",
+          "default": "World-Class Tech"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_text",
+          "label": "Callout text",
+          "default": "Leverage the same 3D scanning tech used by the world's top doctors and podiatrists in the U.S. and abroad."
+        },
+        {
+          "type": "header",
+          "content": "Callout #3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_title",
+          "label": "Callout title",
+          "default": "The Perfect Position"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_text",
+          "label": "Callout text",
+          "default": "Our AI software virtually adjusts your model into a subtalar neutral position - the gold standard for orthotic casting."
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "header",
+          "content": "Section padding"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 320,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 320,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "step_with_data_points",
+      "name": "Step with data points",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "eyebrow_text",
+          "label": "Eyebrow text",
+          "default": "Step"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Intake Quiz"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Our award-winning team of podiatrists asks you the same questions online as they do in-clinic… Just this time it’s from home and takes one minute! </p><p>Our team is paying acute attention to key data points like:</p>"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Take the Quiz"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "disclaimer",
+          "label": "Disclaimer",
+          "default": "180 Day Return Policy"
+        },
+        {
+          "type": "header",
+          "content": "Callout #1"
+        },
+        {
+          "type": "image_picker",
+          "id": "callout_image",
+          "label": "Callout image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_title",
+          "label": "Callout title",
+          "default": "Shoe Type"
+        },
+        {
+          "type": "header",
+          "content": "Callout #2"
+        },
+        {
+          "type": "image_picker",
+          "id": "callout_2_image",
+          "label": "Callout image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_2_title",
+          "label": "Callout title",
+          "default": "Pain Areas"
+        },
+        {
+          "type": "header",
+          "content": "Callout #3"
+        },
+        {
+          "type": "image_picker",
+          "id": "callout_3_image",
+          "label": "Callout image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_3_title",
+          "label": "Callout title",
+          "default": "Foot Conditions"
+        },
+        {
+          "type": "header",
+          "content": "Callout #4"
+        },
+        {
+          "type": "image_picker",
+          "id": "callout_4_image",
+          "label": "Callout image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_4_title",
+          "label": "Callout title",
+          "default": "Arch Height"
+        },
+        {
+          "type": "header",
+          "content": "Callout #5"
+        },
+        {
+          "type": "image_picker",
+          "id": "callout_5_image",
+          "label": "Callout image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_5_title",
+          "label": "Callout title",
+          "default": "Goals"
+        },
+        {
+          "type": "header",
+          "content": "Callout #6"
+        },
+        {
+          "type": "image_picker",
+          "id": "callout_6_image",
+          "label": "Callout image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "callout_6_title",
+          "label": "Callout title",
+          "default": "Medical History"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "header",
+          "content": "Section padding"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 320,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 320,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works steps",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
+
+{% comment %}
+  {%- style -%}
+    #shopify-section-{{ section.id }} {
+      --background-color: {{ section.settings.background_color | default: '#E2E2E2' }};
+      --text-color: {{ section.settings.text_color | default: '#000000' }};
+      background-color: {{ section.settings.background_color | default: '#E2E2E2' }};
+      color: {{ section.settings.text_color | default: '#000000' }};
+    }
+
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div class="section-{{ section.id }} how-it-works-steps page-width flex flex-col gap-8 lg:gap-16">
+    <div class="section__header">
+      <div class="flex flex-col gap-2 md:gap-6 lg:w-1/2">
+        <h2 class="text-[44px] font-medium lg:text-5xl">{{ section.settings.title }}</h2>
+        <p class="text-xl md:text-2xl">{{ section.settings.subtitle }}</p>
+      </div>
+    </div>
+
+    <ul class="-mx-4 flex flex-col md:mx-0 md:gap-8">
+      {%- for block in section.blocks -%}
+        {% assign is_even = forloop.index | modulo: 2 %}
+
+        {%- case block.type -%}
+          {%- when 'step' -%}
+            <li class="flex  flex-col items-center gap-[48px] px-6 py-[64px] md:flex-row md:rounded-xl lg:gap-[80px] lg:p-10 {% if is_even == 0 %} md:flex-row-reverse bg-slate text-white{% else %}bg-white{% endif %}">
+              <div class="flex flex-col gap-1 md:gap-6 lg:w-1/2 ">
+                <span class="text-3xl">{{ block.settings.eyebrow_text }}</span>
+                <h2 class="text-h2">{{ block.settings.title }}</h2>
+
+                {%- if block.settings.text != blank -%}
+                  <div class="rte flex flex-col gap-4 text-xl">
+                    {% assign text_processed = block.settings.text | strip %}
+                    {% if text_processed contains '<i>' or text_processed contains '<em>' %}
+                      {{
+                        text_processed
+                        | replace: '<i>', '<span class="opacity-30">'
+                        | replace: '</i>', '</span>'
+                        | replace: '<em>', '<span class="opacity-30">'
+                        | replace: '</em>', '</span>'
+                      }}
+                    {% else %}
+                      {{ text_processed }}
+                    {% endif %}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank -%}
+                  <div class="mt-6">
+                    {% if is_even == 0 %}
+                      {% render 'button', tag: 'a', variant: 'secondary', text: block.settings.button_label %}
+                    {% else %}
+                      {% render 'button', tag: 'a', variant: 'primary', text: block.settings.button_label %}
+                    {% endif %}
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class="flex w-full flex-col gap-10 lg:w-1/2">
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 3840
+                    | image_tag:
+                      width: block.settings.image.width,
+                      class: 'w-full h-auto',
+                      sizes: '50vw',
+                      widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                  }}
+                {%- else -%}
+                  <div class="bg-slate/30 aspect-4/3 overflow-hidden rounded-xl"></div>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- when 'step_with_callouts' -%}
+            <li class="flex  flex-col items-start gap-[30px] p-5 py-[64px] md:flex-row md:rounded-xl md:p-6 lg:gap-[80px] lg:p-10 {% if is_even == 0 %} md:flex-row-reverse bg-slate text-white{% else %}bg-white{% endif %}">
+              <div class="flex flex-col gap-6 md:gap-8 md:py-[40px] lg:w-1/2">
+                <div class="flex flex-col gap-1 md:gap-3">
+                  <span class="text-3xl md:text-3xl">{{ block.settings.eyebrow_text }}</span>
+                  <h2 class="text-[44px] leading-[1.2] font-medium  md:text-[48px]">{{ block.settings.title }}</h2>
+
+                  {%- if block.settings.text != blank -%}
+                    <div class="rte flex flex-col gap-4 text-lg">
+                      {% assign text_processed = block.settings.text | strip %}
+                      {% if text_processed contains '<i>' or text_processed contains '<em>' %}
+                        {{
+                          text_processed
+                          | replace: '<i>', '<span class="opacity-30">'
+                          | replace: '</i>', '</span>'
+                          | replace: '<em>', '<span class="opacity-30">'
+                          | replace: '</em>', '</span>'
+                        }}
+                      {% else %}
+                        {{ text_processed }}
+                      {% endif %}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {% assign has_any_callout = false %}
+                {% if block.settings.callout_title != blank
+                  or block.settings.callout_text != blank
+                  or block.settings.callout_2_title != blank
+                  or block.settings.callout_2_text != blank
+                  or block.settings.callout_3_title != blank
+                  or block.settings.callout_3_text != blank
+                %}
+                  {% assign has_any_callout = true %}
+                {% endif %}
+
+                {% if has_any_callout %}
+                  <ul class="flex flex-col gap-6">
+                    {% if block.settings.callout_title != blank or block.settings.callout_text != blank %}
+                      <li class="flex flex-row items-start gap-4">
+                        <div class="mt-1 h-[30px] w-[30px] shrink-0">
+                          {{ 'svg-callout-chevron.svg' | inline_asset_content }}
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                          {%- if block.settings.callout_title != blank -%}
+                            <h3 class="text-lg">{{ block.settings.callout_title }}</h3>
+                          {%- endif -%}
+                          {%- if block.settings.callout_text != blank -%}
+                            <p class="text-lg">{{ block.settings.callout_text }}</p>
+                          {%- endif -%}
+                        </div>
+                      </li>
+                    {%- endif -%}
+
+                    {% if block.settings.callout_2_title != blank or block.settings.callout_2_text != blank %}
+                      <li class="flex flex-row items-start gap-4">
+                        <div class="mt-1 h-[30px] w-[30px] shrink-0">
+                          {{ 'svg-callout-chevron.svg' | inline_asset_content }}
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                          {%- if block.settings.callout_2_title != blank -%}
+                            <h3 class="text-lg">{{ block.settings.callout_2_title }}</h3>
+                          {%- endif -%}
+                          {%- if block.settings.callout_2_text != blank -%}
+                            <p class="text-lg">{{ block.settings.callout_2_text }}</p>
+                          {%- endif -%}
+                        </div>
+                      </li>
+                    {%- endif -%}
+
+                    {% if block.settings.callout_3_title != blank or block.settings.callout_3_text != blank %}
+                      <li class="flex flex-row items-start gap-4">
+                        <div class="mt-1 h-[30px] w-[30px] shrink-0">
+                          {{ 'svg-callout-chevron.svg' | inline_asset_content }}
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                          {%- if block.settings.callout_3_title != blank -%}
+                            <h3 class="text-lg">{{ block.settings.callout_3_title }}</h3>
+                          {%- endif -%}
+                          {%- if block.settings.callout_3_text != blank -%}
+                            <p class="text-lg">{{ block.settings.callout_3_text }}</p>
+                          {%- endif -%}
+                        </div>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                {% endif %}
+
+                {%- if block.settings.button_label != blank -%}
+                  <div>
+                    {% if is_even == 0 %}
+                      {% render 'button', tag: 'a', variant: 'secondary', text: block.settings.button_label %}
+                    {% else %}
+                      {% render 'button', tag: 'a', variant: 'primary', text: block.settings.button_label %}
+                    {% endif %}
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class="flex w-full flex-col gap-10 lg:w-1/2">
+                {%- if block.settings.image != blank -%}
+                  <div class="relative aspect-square overflow-hidden rounded-xl">
+                    {{
+                      block.settings.image
+                      | image_url: width: 3840
+                      | image_tag:
+                        width: block.settings.image.width,
+                        class: 'w-full h-auto',
+                        sizes: '50vw',
+                        widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                    }}
+                  </div>
+                {%- else -%}
+                  <div
+                    class="{% if is_even == 0 %}bg-white/30{% else %}bg-slate/30{% endif %} aspect-4/3 overflow-hidden rounded-xl"
+                  ></div>
+                {%- endif -%}
+              </div>
+            </li>
+        {%- endcase -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {% schema %}
+  {
+    "name": "How it works steps",
+    "class": "section-how-it-works-steps",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "inline_richtext",
+        "id": "title",
+        "label": "Title",
+        "default": "How it works",
+        "info": "Italic to lower opacity, | for line-break"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Once we receive your information, we craft custom soles tailored to your needs, using top-quality materials for the perfect fit."
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button url"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label",
+        "default": "Take our Quiz"
+      },
+      {
+        "type": "header",
+        "content": "Color"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#e2e2e2"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 56
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 56
+      }
+    ],
+    "blocks": [
+      {
+        "type": "step",
+        "name": "Step",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "eyebrow_text",
+            "label": "Eyebrow text",
+            "default": "Step 1"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "title",
+            "label": "Title",
+            "default": "Intake Quiz"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Our award-winning team of podiatrists asks the same questions online as they do in clinic.</p>"
+          },
+          {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button url"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "Take our Quiz"
+          }
+        ]
+      },
+      {
+        "type": "step_with_callouts",
+        "name": "Step with callouts",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "eyebrow_text",
+            "label": "Eyebrow text",
+            "default": "Step 2"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "title",
+            "label": "Title",
+            "default": "3D Foot Scan"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Delivering unmatched precision for the perfect custom fit</p>"
+          },
+          {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button url"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "Compare versus foam box"
+          },
+          {
+            "type": "select",
+            "id": "button_type",
+            "label": "Button type",
+            "options": [
+              {
+                "value": "normal",
+                "label": "Normal"
+              },
+              {
+                "value": "foam_box",
+                "label": "Foam box"
+              }
+            ],
+            "default": "normal"
+          },
+          {
+            "type": "header",
+            "content": "Callout #1"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "callout_title",
+            "label": "Callout title",
+            "default": "Easy to Use"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "callout_text",
+            "label": "Callout text",
+            "default": "Effortlessly scan your feet in seconds."
+          },
+          {
+            "type": "header",
+            "content": "Callout #2"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "callout_2_title",
+            "label": "Callout title",
+            "default": "World-Class Tech"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "callout_2_text",
+            "label": "Callout text",
+            "default": "Leverage the same 3D scanning tech used by the world’s top doctors and podiatrists in the U.S. and abroad."
+          },
+          {
+            "type": "header",
+            "content": "Callout #3"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "callout_3_title",
+            "label": "Callout title",
+            "default": "The Perfect Position"
+          },
+          {
+            "type": "inline_richtext",
+            "id": "callout_3_text",
+            "label": "Callout text",
+            "default": "Our AI software virtually adjusts your model into a subtalar neutral position - the gold standard for orthotic casting."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "How it works steps",
+        "settings": {}
+      }
+    ]
+  }
+  {% endschema %}
+{% endcomment %}

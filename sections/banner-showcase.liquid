@@ -1,0 +1,276 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .product-showcase-section {
+    padding-top: {{ section.settings.mobile_padding_top }}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    --color-button: 234, 203, 164;
+    --color-button-text: 32, 32, 32;
+  }
+  ui-header nav {
+    background-color: #F5F6F9;
+  }
+  .header-group.absolute {
+    position: static;
+  }
+  ui-header a,
+  ui-header .mobile-menu__toggle,
+  ui-header .smart-menu__panel-title,
+  ui-header .smart-menu__tab,
+  ui-header .smart-menu__tab::after,
+  ui-header .smart-menu__tab:hover,
+  ui-header .smart-menu__tab.active,
+  ui-header .smart-menu__grid .smart-menu__link,
+  ui-header .smart-menu__trigger {
+    color: black;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .product-showcase-section {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Mobile carousel styles */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .product-showcase-carousel {
+      overflow: hidden;
+    }
+
+    #shopify-section-{{ section.id }} .product-showcase-carousel .swiper-wrapper {
+      align-items: stretch;
+    }
+
+    #shopify-section-{{ section.id }} .product-showcase-carousel .swiper-slide {
+      height: auto;
+      display: flex;
+    }
+
+    #shopify-section-{{ section.id }} .product-showcase-carousel .swiper-slide .product-showcase-card {
+      width: 100%;
+      height: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .product-showcase-carousel .swiper-pagination {
+      position: relative;
+      margin-top: 1rem;
+    }
+
+    #shopify-section-{{ section.id }} .product-showcase-carousel .swiper-pagination-bullet {
+      background-color: #DDDEDA;
+      opacity: 0.5;
+    }
+
+    #shopify-section-{{ section.id }} .product-showcase-carousel .swiper-pagination-bullet-active {
+      background-color: #000000;
+      opacity: 1;
+    }
+  }
+{%- endstyle -%}
+
+<div class="product-showcase-section">
+  <div class="container mx-auto px-4">
+    {% if section.blocks.size > 0 %}
+      <!-- Desktop Grid Layout -->
+      <div class="mx-auto hidden max-w-4xl grid-cols-1 gap-10 md:grid md:grid-cols-2">
+        {% for block in section.blocks %}
+          <div
+            class="product-showcase-card rounded-xl border-2 border-blue-400 bg-white text-center"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.image != blank %}
+              <div class="mb-4">
+                <img
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.image.alt | default: block.settings.heading }}"
+                  class="mx-auto h-auto max-w-full"
+                  loading="lazy"
+                >
+              </div>
+            {% endif %}
+
+            {% if block.settings.heading != blank %}
+              <h3 class="mb-3 text-2xl font-bold text-gray-900">
+                {{ block.settings.heading }}
+              </h3>
+            {% endif %}
+
+            {% if block.settings.subheading != blank %}
+              <p class="mb-4  text-base leading-relaxed">
+                {{ block.settings.subheading }}
+              </p>
+            {% endif %}
+
+            {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+              <a href="{{ block.settings.button_link }}" class="btn-primary">
+                <div class="btn-primary__inner">
+                  <div class="btn-primary__text-wrapper">
+                    <div class="btn-primary__text">{{ block.settings.button_text }}</div>
+                    <div class="btn-primary__text">{{ block.settings.button_text }}</div>
+                  </div>
+                </div>
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Mobile Carousel Layout -->
+      <div class="md:hidden">
+        <ui-carousel
+          class="swiper product-showcase-carousel"
+          data-pagination="none"
+          data-slides-per-view="1.2"
+          data-space-between="16"
+          data-loop="true"
+          data-grab-cursor="true"
+        >
+          <div class="swiper-wrapper">
+            {% for block in section.blocks %}
+              <div class="swiper-slide">
+                <div
+                  class="product-showcase-card rounded-xl border-2 border-blue-400 bg-white text-center"
+                  {{ block.shopify_attributes }}
+                >
+                  {% if block.settings.image != blank %}
+                    <div class="mb-4">
+                      <img
+                        src="{{ block.settings.image | image_url: width: 300 }}"
+                        alt="{{ block.settings.image.alt | default: block.settings.heading }}"
+                        class="mx-auto h-auto max-w-full"
+                        loading="lazy"
+                      >
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.heading != blank %}
+                    <h3 class="mb-3 text-2xl font-bold text-gray-900">
+                      {{ block.settings.heading }}
+                    </h3>
+                  {% endif %}
+
+                  {% if block.settings.subheading != blank %}
+                    <p class="mb-4 text-base leading-relaxed">
+                      {{ block.settings.subheading }}
+                    </p>
+                  {% endif %}
+
+                  {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+                    <a href="{{ block.settings.button_link }}" class="btn-primary">
+                      <div class="btn-primary__inner">
+                        <div class="btn-primary__text-wrapper">
+                          <div class="btn-primary__text">{{ block.settings.button_text }}</div>
+                          <div class="btn-primary__text">{{ block.settings.button_text }}</div>
+                        </div>
+                      </div>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="swiper-pagination"></div>
+        </ui-carousel>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banner Showcase",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop padding top",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop padding bottom",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Showcase Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Product Title"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Product description goes here"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Showcase",
+      "category": "Uncategorized",
+      "blocks": [
+        {
+          "type": "product_card"
+        },
+        {
+          "type": "product_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

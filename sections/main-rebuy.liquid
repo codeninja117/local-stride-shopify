@@ -1,0 +1,186 @@
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.content_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+
+  }
+
+  #shopify-section-{{section.id }} .page-width {
+    max-width: {{ section.settings.content_width }}px;
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  .rebuy-header__logo {
+    max-width: {{ section.settings.logo_width }}px;
+  }
+
+  .rebuy__button > * {
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .rebuy__button .btn-primary {
+    --color-button: 234, 203, 164;
+    --color-button-text: 0, 0, 0;
+    --color-button-hover: 0, 0, 0;
+    --color-button-label-hover: 255, 255, 255;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-main gradient color-{{ section.settings.background_scheme }}">
+  <div class="page-width">
+    <div class="rebuy-header mb-10 text-center">
+      {%- if section.settings.logo != blank -%}
+        <div class="rebuy-header__logo mx-auto mb-6">
+          {{
+            section.settings.logo
+            | image_url: width: section.settings.logo_width
+            | image_tag: class: 'w-auto h-auto', width: section.settings.logo_width
+          }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h1 class="text-h2 mb-6 font-bold">{{ section.settings.title }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.content != blank -%}
+        <div class="rte">{{ section.settings.content }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="gradient flex flex-col gap-8 rounded-lg p-8 color-{{ section.settings.content_scheme }}">
+      {%- if section.settings.promo != blank -%}
+        <div class="rebuy__promo gradient flex items-center gap-2 rounded-xl bg-[#F4E5D1] p-4 font-medium">
+          <span class="inline-block">{{ 'icon-discount.svg' | inline_asset_content }}</span>
+          <span class="inline">{{ section.settings.promo }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <div class="rebuy__button">
+          {% render 'button',
+            tag: 'a',
+            variant: 'primary',
+            text: section.settings.button_label,
+            url: routes.account_login_url
+          %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rebuy",
+  "class": "section-rebuy",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 640,
+      "step": 20,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 160
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 320,
+      "max": 1020,
+      "step": 20,
+      "unit": "px",
+      "label": "Content width",
+      "default": 620
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Welcome Back!"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Your scans, quiz answers, and gait video are already saved. To purchase again, please sign in below.</p><p><strong>Note: If you purchased before May 1st, 2025 please fill out this form to begin the re-purchase process.</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Promo"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "promo",
+      "label": "Promo",
+      "default": "At checkout please enjoy a 20% loyalty discount with code \"Family20\""
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Continue to Sign In"
+    },
+    {
+      "type": "header",
+      "content": "Background main"
+    },
+    {
+      "type": "color_scheme",
+      "id": "background_scheme",
+      "label": "Background main",
+      "default": "scheme-9"
+    },
+    {
+      "type": "color_scheme",
+      "id": "content_scheme",
+      "label": "Content",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ]
+}
+{% endschema %}

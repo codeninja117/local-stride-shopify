@@ -1,0 +1,505 @@
+<!doctype html>
+<!-- testcomment -->
+<html class="js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <!-- Script to capture MSCLKID from URL and store it -->
+    <script>
+      (function () {
+        // Helper to get a URL parameter by name
+        function getParam(name) {
+          const params = new URLSearchParams(window.location.search);
+          return params.get(name);
+        }
+
+        const msclkid = getParam('msclkid');
+        if (msclkid) {
+          // Save MSCLKID in a cookie (90-day expiration)
+          const expiry = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toUTCString();
+          document.cookie = `msclkid=${msclkid}; expires=${expiry}; path=/; SameSite=Lax`;
+
+          // Also save in localStorage as a backup
+          try {
+            localStorage.setItem('msclkid', msclkid);
+          } catch (e) {
+            console.warn('Could not write msclkid to localStorage', e);
+          }
+        }
+      })();
+    </script>
+    {%- render 'ecom_header' -%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {% if template contains 'blog' or template == 'blog' or template == 'blogs' or template == 'blog.index' %}
+      {% if current_tags and current_tags.size > 0 %}
+        <!-- current_tags.size {{ current_tags.size }} -->
+        {% assign custom_title = '' %}
+        {% assign keyword = current_tags[0] | capitalize %}
+        {% for metaobject in shop.metaobjects.blog_tag_seo_info.values %}
+          {% assign downcaseKeyword = keyword | downcase | trim %}
+          {% assign downcaseMetaobjectTag = metaobject.tag.value | downcase | trim %}
+          {% if downcaseMetaobjectTag == downcaseKeyword and metaobject.title_in_page.value != blank %}
+            {% assign custom_title = metaobject.title_in_page.value %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        {% if custom_title != blank %}
+          <!-- custom title -->
+          <title>{{ custom_title }}</title>
+        {% else %}
+          <!-- custom title was blank ({{ custom_title }}), revert -->
+          <title>
+            {{ page_title }}
+            {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+            {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+            {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+          </title>
+        {% endif %}
+      {% else %}
+        <!-- no current tags -->
+        <title>
+          {{ page_title }}
+          {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+          {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+          {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+        </title>
+      {% endif %}
+    {% else %}
+      <!-- no blog template -->
+      <title>
+        {{ page_title }}
+        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      </title>
+    {% endif %}
+
+    {% if template contains 'blog' or template == 'blog' or template == 'blogs' or template == 'blog.index' %}
+      {% assign seo_meta_description = page_description | escape %}
+      {% assign keyword = 'blog' %}
+      {% if current_tags and current_tags.size > 0 %}
+        {% assign keyword = current_tags[0] | capitalize %}
+        {% for metaobject in shop.metaobjects.blog_tag_seo_info.values %}
+          {% if metaobject.tag.value == keyword %}
+            {% assign seo_meta_description = metaobject.meta_description.value %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        <meta name="description" content="{{ seo_meta_description | escape }}">
+      {% else %}
+        <meta name="description" content="{{ page_description | escape }}">
+      {% endif %}
+    {% elsif page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+
+    <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+
+    {% comment %} <script src="//embed.typeform.com/next/embed.js" defer></script> {% endcomment %}
+
+    {{ content_for_header }}
+
+    {{ 'Manrope-Light.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'Manrope-Regular.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'Manrope-Medium.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'Manrope-SemiBold.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'Manrope-Bold.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+
+    {% render 'fonts' %}
+
+    {% style %}
+       {% for scheme in settings.color_schemes -%}
+         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+         {% if forloop.index == 1 -%}
+           :root,
+         {%- endif %}
+         .color-{{ scheme.id }} {
+           --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+         {% if scheme.settings.background_gradient != empty %}
+           --gradient-background: {{ scheme.settings.background_gradient }};
+         {% else %}
+           --gradient-background: {{ scheme.settings.background }};
+         {% endif %}
+
+         --color-alternate-background: {{ scheme.settings.alternate_background.red }},{{ scheme.settings.alternate_background.green }},{{ scheme.settings.alternate_background.blue }};
+
+         {% liquid
+           assign background_color = scheme.settings.background
+           assign background_color_brightness = background_color | color_brightness
+           if background_color_brightness <= 26
+             assign background_color_contrast = background_color | color_lighten: 50
+           elsif background_color_brightness <= 65
+             assign background_color_contrast = background_color | color_lighten: 5
+           else
+             assign background_color_contrast = background_color | color_darken: 25
+           endif
+         %}
+         --color-accent: {{ scheme.settings.accent_color.red }},{{ scheme.settings.accent_color.green }},{{ scheme.settings.accent_color.blue }};
+         --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+         --color-foreground-muted: {{ scheme.settings.text_muted.red }},{{ scheme.settings.text_muted.green }},{{ scheme.settings.text_muted.blue }};
+         --color-foreground-overlay: {{ scheme.settings.text_overlay.red }},{{ scheme.settings.text_overlay.green }},{{ scheme.settings.text_overlay.blue }};
+         --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
+         --color-shadow: {{ scheme.settings.shadow.red }},{{ scheme.settings.shadow.green }},{{ scheme.settings.shadow.blue }};
+         --color-button: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
+         --color-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
+         --color-button-hover: {{ scheme.settings.button_hover.red }},{{ scheme.settings.button_hover.green }},{{ scheme.settings.button_hover.blue }};
+         --color-button-label-hover: {{ scheme.settings.button_label_hover.red }},{{ scheme.settings.button_label_hover.green }},{{ scheme.settings.button_label_hover.blue }};
+         --color-secondary-button: {{ scheme.settings.secondary_button_background.red }},{{ scheme.settings.secondary_button_background.green }},{{ scheme.settings.secondary_button_background.blue }};
+         --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+         --color-secondary-button-hover: {{ scheme.settings.secondary_button_hover.red }},{{ scheme.settings.secondary_button_hover.green }},{{ scheme.settings.secondary_button_hover.blue }};
+         --color-secondary-button-label-hover: {{ scheme.settings.secondary_button_label_hover.red }},{{ scheme.settings.secondary_button_label_hover.green }},{{ scheme.settings.secondary_button_label_hover.blue }};
+         --color-link: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+         --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+         --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+         --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+         --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
+         --color-carousel-navigation-background: {{ scheme.settings.carousel_navigation_background.red }},{{ scheme.settings.carousel_navigation_background.green }},{{ scheme.settings.carousel_navigation_background.blue }};
+         --color-carousel-navigation-foreground: {{ scheme.settings.carousel_navigation_foreground.red }},{{ scheme.settings.carousel_navigation_foreground.green }},{{ scheme.settings.carousel_navigation_foreground.blue }};
+       }
+       {% endfor %}
+
+       {{ scheme_classes | prepend: 'body' }} {
+         color: rgba(var(--color-foreground), 1);
+         background-color: rgb(var(--color-background));
+         --color-muted: rgba(var(--color-foreground-muted), 1);
+         --color-overlay: rgba(var(--color-foreground-muted), 1);
+
+       }
+
+       :root {
+         --page-width: {{ settings.page_width | default: 1280 }}px;
+         --font-body-family: 'Manrope', sans-serif;
+         --font-body-style: normal;
+         --font-body-weight: 400;
+         --font-body-weight-bold: 700;
+
+         --font-heading-family: 'Manrope', sans-serif;
+         --font-heading-style: normal;
+         --font-heading-weight: 700;
+
+         --theme-white: #ffffff;
+         --theme-black: #000000;
+         --theme-gray: #e2e2e2;
+         --theme-slate: #7b8794;
+         --theme-peach: #EACBA4;
+         --theme-muted: #a7aaad;
+         --theme-cool-gray: #9d9fa9;
+         --border-color: rgba(0, 0, 0, 0.25);
+
+         --color-human: {{ settings.theme_color_human | default: '#EACBA4' }};
+         --color-blue-fitness: {{ settings.theme_color_blue_fitness | default: '#9D9FA9' }};
+         --color-platinum-cool: {{ settings.theme_color_platinum_cool | default: '#DDDEDA' }};
+         --color-tech-grey: {{ settings.theme_color_tech_grey | default: '#ABABAB' }};
+
+         --font-size-display-xl-mobile: {{ settings.mobile_font_size_display_xl | default: 54 }}px;
+         --font-size-display-l-mobile: {{ settings.mobile_font_size_display_l | default: 48 }}px;
+         --font-size-display-m-mobile: {{ settings.mobile_font_size_display_m | default: 40 }}px;
+         --font-size-h1-mobile: {{ settings.mobile_font_size_h1 | default: 24 }}px;
+         --font-size-h2-mobile: {{ settings.mobile_font_size_h2 | default: 24 }}px;
+         --font-size-h3-mobile: {{ settings.mobile_font_size_h3 | default: 20 }}px;
+         --font-size-h4-mobile: {{ settings.mobile_font_size_h4 | default: 18 }}px;
+         --font-size-h5-mobile: {{ settings.mobile_font_size_h5 | default: 16 }}px;
+         --font-size-h6-mobile: {{ settings.mobile_font_size_h6 | default: 12 }}px;
+         --font-size-body-l-mobile: {{ settings.mobile_font_size_body_l | default: 18 }}px;
+         --font-size-body-m-mobile: {{ settings.mobile_font_size_body_m | default: 16 }}px;
+         --font-size-body-s-mobile: {{ settings.mobile_font_size_body_s | default: 14 }}px;
+         --font-size-body-xs-mobile: {{ settings.mobile_font_size_body_xss | default: 12 }}px;
+
+         --font-size-display-xl-desktop: {{ settings.font_size_display_xl | default: 80 }}px;
+         --font-size-display-l-desktop: {{ settings.font_size_display_l | default: 64 }}px;
+         --font-size-display-m-desktop: {{ settings.font_size_display_m | default: 48 }}px;
+         --font-size-h1-desktop: {{ settings.font_size_h1 | default: 40 }}px;
+         --font-size-h2-desktop: {{ settings.font_size_h2 | default: 32 }}px;
+         --font-size-h3-desktop: {{ settings.font_size_h3 | default: 24 }}px;
+         --font-size-h4-desktop: {{ settings.font_size_h4 | default: 20 }}px;
+         --font-size-h5-desktop: {{ settings.font_size_h5 | default: 16 }}px;
+         --font-size-h6-desktop: {{ settings.font_size_h6 | default: 12 }}px;
+         --font-size-body-l-desktop: {{ settings.font_size_body_l | default: 20 }}px;
+         --font-size-body-m-desktop: {{ settings.font_size_body_m | default: 16 }}px;
+         --font-size-body-s-desktop: {{ settings.font_size_body_s | default: 14 }}px;
+         --font-size-body-xs-desktop: {{ settings.font_size_body_xs | default: 12 }}px;
+
+         /* --header-background: rgba(255, 255, 255, 0.1); */
+         /* --header-color: var(--theme-white);
+         --header-background: rgba(255, 255, 255, 0.1); */
+       }
+
+       body.template-index {
+         --header-color: 255,255,255;
+         --header-background: 255,255,255;
+       }
+       body.template-404 {
+         --header-color: 255,255,255;
+         --header-background: 255,255,255;
+       }
+       body.template-page {
+         --header-color: 255,255,255;
+         --header-background: 255,255,255;
+      }
+       body.template-page--about {
+         --header-color: 255,255,255;
+          --header-background: 255,255,255;
+       }
+       body.template-page--how-it-works {
+         --header-color: 255,255,255;
+          --header-background: 255,255,255;
+       }
+       body.template-page--schedule-call {
+         --header-color: 255,255,255;
+          --header-background: 255,255,255;
+       }
+       body.template-page--reviews {
+         --header-color: 255,255,255;
+          --header-background: 255,255,255;
+       }
+       body.template-list-collections {
+         --header-color: 255,255,255;
+          --header-background: 255,255,255;
+       }
+       body.template-blog {
+         --header-color: var(--theme-black);
+         --header-background: 32,32,32;
+       }
+       body.template-collection {
+        --header-color: 255,255,255;
+         --header-background: 255,255,255;
+       }
+       body.template-product {
+         --header-color: var(--theme-black);
+         --header-background: 32,32,32;
+       }
+       body.template-article {
+          --header-color: 0,0,0;
+          --header-background: 32,32,32;
+       }
+
+       body.template-article[class*="template-article--compare"] {
+        --header-color: 0,0,0;
+        --header-background: 32,32,32;
+      }
+
+      body.template-page--innovation {
+        --header-color: var(--theme-black);
+        --header-background: 32,32,32;
+      }
+
+      body.template-page--sep-25-listicle {
+        --header-color: var(--theme-black);
+        --header-background: 32,32,32;
+      }
+       body.template-page--comparison {
+         --header-color: 255,255,255;
+         --header-background: 255,255,255;
+       }
+
+       body.template-page--aug-landing-plantar-fasciitis,
+       body.template-page--medical-partner,
+       body.template-page--sensorimotor, body.template-page--why-stride {
+         --header-color: 255,255,255;
+         --header-background: 255,255,255;
+       }
+      body.template-page--your-fit .header-group {
+         display: none;
+       }
+      body.template-page--your-fit .shopify-section-group-footer-group {
+         display: none;
+       }
+
+      body.template-page--your-fit-sandals .header-group {
+         display: none;
+       }
+      body.template-page--your-fit-sandals .shopify-section-group-footer-group {
+         display: none;
+       }
+
+       body.template-cart {
+         --header-color: 0,0,0;
+         --header-background: 32,32,32;
+       }
+
+      body.template-page--lp2 {
+        --header-color: 255,255,255;
+        --header-background: 255,255,255;
+      }
+    {% endstyle %}
+
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
+    {{ 'hundt.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+    {%- if content_for_header contains 'elevateab.app' -%}
+      {%- unless request.design_mode -%}
+        <script>try{window.eab_data={selectors:JSON.parse(`{{shop.metafields.elevateab.select}}`)||{},allTests:JSON.parse(`{{shop.metafields.elevateab.tests}}`)||{},currencyFormat:{% if settings.currency_code_enabled %}"{{ shop.money_with_currency_format}}"{% else %}"{{ shop.money_format}}"{% endif %}};}catch(error){console.log(error);window.eab_data={selectors:{},allTests:{},currencyFormat:{% if settings.currency_code_enabled %}"{{ shop.money_with_currency_format}}"{% else %}"{{ shop.money_format}}"{% endif %}};}
+        </script>
+        <script src="https://ds0wlyksfn0sb.cloudfront.net/redirect.js"></script>
+      {%- endunless -%}
+    {%- endif -%}
+
+    {% render 'collection-schema' %}
+
+  </head>
+
+  <body
+    class="body template-{{ request.page_type }}{% if template.suffix %} template-{{ request.page_type }}--{{ template.suffix }}{% endif %} antialiased"
+  >
+    <a class="skip-to-content-link button sr-only" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- unless page.handle == settings.quiz_page_url -%}
+      <header
+        class="header-group {% if request.path == '/' or request.path == '/pages/about' or request.path == '/pages/schedule-call' or request.path == '/pages/how-it-works' or request.path == '/pages/plantar-fasciitis' or request.page_type == 'article' or request.page_type == 'collection' or request.page_type == 'list-collections' or request.path == '/pages/reviews' or request.page_type == '404' or request.path == '/pages/comparison' or request.path == '/pages/medical-partner' or request.path == '/pages/sensorimotor' or request.path == '/pages/plantar-fasciitis-blog' or request.path == '/pages/why-stride' %}absolute{% else %}relative{% endif %} top-0 right-0 left-0 z-1000"
+        {{ page.template_suffix }}
+      >
+        {% sections 'header-group' %}
+      </header>
+    {%- endunless -%}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {%- unless page.handle == settings.quiz_page_url -%}
+      {% sections 'footer-group' %}
+    {%- endunless -%}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        cart_clear_url: '{{ routes.cart_clear_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+      };
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      };
+
+      window.quickOrderListStrings = {
+        itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+        itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+        itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+        itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+        viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+        each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+        min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
+        max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
+        step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
+      };
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+        recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
+        recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+        countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
+      };
+    </script>
+
+    <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- render 'ecom_footer' -%}
+    {% render 'freegifts-snippet' %}
+  </body>
+</html>
+
+{% comment %}
+  <!-- Begin Shopify-Afterpay JavaScript Snippet (v1.2.1) -->
+  {% if cart.currency.iso_code == shop.currency %}
+  <script type="text/javascript">
+  // Overrides:
+  var afterpay_msg_size = 'xs';  // Can be 'xs', 'sm', 'md' or 'lg'.
+  // var afterpay_bold_amount = true;
+   var afterpay_logo_theme = 'color';  // Can be 'colour', 'black' or 'white'.
+  // var afterpay_modal_open_icon = true;
+  // var afterpay_hide_upper_limit = false;
+  // var afterpay_hide_lower_limit = true;
+  // var afterpay_show_if_outside_limits = true;
+  // var afterpay_show_interest_free = false;
+
+  // var afterpay_product_integration_enabled = true;
+   var afterpay_product_selector = '.product__price-rating';
+  // var afterpay_variable_price_fallback = false;
+  // var afterpay_variable_price_fallback_selector = '';
+  // var afterpay_variable_price_fallback_method = 'mutation';  // Can be 'mutation' or 'interval'.
+
+  // var afterpay_cart_integration_enabled = true;
+   var afterpay_cart_static_selector = '.estimated-total';
+  // var afterpay_variable_subtotal_fallback = false;
+  // var afterpay_variable_subtotal_fallback_selector = '';
+  // var afterpay_variable_subtotal_fallback_method = 'mutation'; // Can be 'mutation' or 'interval'.
+
+  // var afterpay_dynamic_cart_integration_enabled = false;
+  // var afterpay_dynamic_cart_selector = '.cart-drawer__footer .totals';
+  // var afterpay_dynamic_cart_observer_target = '#CartDrawer';
+
+  // var afterpay_footer_logo_enabled = true;
+  // var afterpay_footer_logo_format = 'icon';  // Can be 'icon', 'stacked' or 'logo'.
+  // var afterpay_footer_logo_theme = 'colour'; // Can be 'colour', 'black' or 'white'.
+  // var afterpay_footer_logo_background = 'border';  // Can be 'border' or 'transparent'.
+  // var afterpay_footer_logo_container = 'footer ul.payment-icons';
+  // var afterpay_footer_logo_template = '<li class="payment-icon"><object data="{logo_path}" type="image/svg+xml"></object></li>';
+
+  // Non-editable fields:
+  var afterpay_js_language = {{ localization.language.iso_code | slice: 0, 2 | json }};
+  var afterpay_js_country = {{ localization.country.iso_code | json }};
+  var afterpay_shop_currency = {{ shop.currency | json }};
+  var afterpay_cart_currency = {{ cart.currency.iso_code | json }};
+  var afterpay_shop_money_format = {{ shop.money_format | json }};
+  var afterpay_shop_permanent_domain = {{ shop.permanent_domain | json }};
+  var afterpay_theme_name = {{ theme.name | json }};
+  var afterpay_product = {{ product | json }};
+  var afterpay_product_collections = {{ product.collections | map: 'title' | join: ',' | json }};
+  var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
+  var afterpay_cart_total_price = {{ cart.total_price | json }};
+  var afterpay_cart_skus = {{cart.items | map: 'sku' | join: ',' | json }};
+  var afterpay_cart_collections = {{cart.items | map: 'product' | map: 'collections' | map: 'title' | uniq | join: ',' | json }};
+  var afterpay_js_snippet_version = '1.2.1';
+  </script>
+  <script type="text/javascript" src="https://static.afterpay.com/shopify-afterpay-javascript.js"></script>
+  {% else %}
+  <!-- Afterpay disabled: {{ cart.currency.iso_code }} != {{ shop.currency }} -->
+  {% endif %}
+  <!-- End Shopify-Afterpay JavaScript Snippet (v1.2.1) -->
+{% endcomment %}

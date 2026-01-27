@@ -1,0 +1,321 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#F5F6F9' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    --btn-primary-bg-color: {{ section.settings.button_primary_bg_color | default: '#EACBA4' }};
+    --btn-primary-text-color: {{ section.settings.button_primary_text_color | default: '#000000' }};
+    --star-color: {{ section.settings.star_color | default: '#FFD700' }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }} .btn-primary  {
+    border-color: var(--btn-primary-bg-color);
+  }
+  .section-{{ section.id }} .btn-primary__inner {
+    background-color: var(--btn-primary-bg-color);
+  }
+  .section-{{ section.id }} .testimonials-multicolumn__testimonial .border {
+    border-color: #dadde2;
+  }
+  .section-{{ section.id }} .btn-primary__text {
+    color: var(--btn-primary-text-color);
+  }
+
+  .section-{{ section.id }} .testimonials-multicolumn__stars svg {
+    color: var(--star-color);
+  }
+
+  .section-{{ section.id }} .testimonials-multicolumn__testimonial .text-h4 {
+    font-weight: 700;
+  }
+
+  .section-{{ section.id }} .testimonials-multicolumn__testimonial .text-body-sm {
+    color: #9d9fa9;
+  }
+
+  .testimonials-multicolumn__grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 768px) {
+    .testimonials-multicolumn__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} testimonials-multicolumn gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width flex flex-col gap-12 md:gap-16">
+    <!-- Section Header -->
+    <div class="testimonials-multicolumn__header text-center">
+      <h1 class="text-h1 flex flex-col gap-2">
+        <span>{{ section.settings.title }}</span>
+        <span class="font-bold">{{ section.settings.subtitle }}</span>
+      </h1>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonials-multicolumn__grid grid gap-6 md:gap-8">
+      {%- for block in section.blocks -%}
+        <div class="testimonials-multicolumn__testimonial" {{ block.shopify_attributes }}>
+          <article class="flex h-full flex-col gap-4 overflow-hidden rounded-xl border border-[#DADDE2] bg-white p-6">
+            <!-- Star Rating -->
+            <div class="testimonials-multicolumn__stars flex flex-nowrap gap-1">
+              {%- for i in (1..5) -%}
+                {%- render 'svg-star', height: 20, width: 20 -%}
+              {%- endfor -%}
+            </div>
+
+            <!-- Quote Title -->
+            {%- if block.settings.quote_title != blank -%}
+              <h3 class="text-h3 font-bold">{{ block.settings.quote_title }}</h3>
+            {%- endif -%}
+
+            <!-- Quote Text -->
+            {%- if block.settings.quote_text != blank -%}
+              <p class="text-body-m">{{ block.settings.quote_text }}</p>
+            {%- endif -%}
+
+            <!-- Reviewer Info -->
+            <div class="">
+              {%- if block.settings.reviewer_name != blank -%}
+                <p class="text-h4 mb-0">{{ block.settings.reviewer_name }}</p>
+              {%- endif -%}
+              {%- if block.settings.reviewer_title != blank -%}
+                <p class="text-body-sm ">{{ block.settings.reviewer_title }}</p>
+              {%- endif -%}
+              {%- if block.settings.verification_text != blank -%}
+                <p class="text-xs ">{{ block.settings.verification_text }}</p>
+              {%- endif -%}
+            </div>
+          </article>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Call to Action -->
+    {%- if section.settings.button_label != blank -%}
+      <div class="testimonials-multicolumn__footer flex flex-col items-center gap-2 text-center">
+        {% render 'button',
+          tag: 'a',
+          text: section.settings.button_label,
+          url: section.settings.button_url,
+          variant: 'primary'
+        %}
+        {%- if section.settings.disclaimer != blank -%}
+          <span class="text-sm text-gray-500">{{ section.settings.disclaimer }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials multicolumn",
+  "class": "section-testimonials-multicolumn js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Real Patient Results"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Speak for Themselves"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take the Quiz"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_primary_bg_color",
+      "label": "Button background color",
+      "default": "#EACBA4"
+    },
+    {
+      "type": "color",
+      "id": "button_primary_text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5F6F9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "quote_title",
+          "label": "Quote title",
+          "default": "Finally, relief without bankruptcy"
+        },
+        {
+          "type": "textarea",
+          "id": "quote_text",
+          "label": "Quote text",
+          "default": "I went to my podiatrist who took a 3D image of my foot to make a custom orthotic. He wanted $440 a pair. This seemed crazy to me. I looked up StrideSoles, took my own 3D photo of my feet with my phone, and got the same quality orthotics for less than half the price. They work perfectly!"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "reviewer_name",
+          "label": "Reviewer name",
+          "default": "Michael R."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "reviewer_title",
+          "label": "Reviewer title/role",
+          "default": "Verified Purchase"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "verification_text",
+          "label": "Verification text",
+          "default": "Verified Purchase"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials multicolumn",
+      "category": "Uncategorized",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote_title": "Finally, relief without bankruptcy",
+            "quote_text": "I went to my podiatrist who took a 3D image of my foot to make a custom orthotic. He wanted $440 a pair. This seemed crazy to me. I looked up StrideSoles, took my own 3D photo of my feet with my phone, and got the same quality orthotics for less than half the price. They work perfectly!",
+            "reviewer_name": "Michael R.",
+            "reviewer_title": "Verified Purchase"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote_title": "My podiatrist recommended StrideSoles",
+            "quote_text": "My podiatrist actually recommended I try StrideSoles instead of getting another $600 pair from his office. Very helpful in making me not hate my day as a security guard where I used to constantly be in pain. Thank you!!",
+            "reviewer_name": "James H",
+            "reviewer_title": "Security Officer"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote_title": "28 years of running, finally found the solution",
+            "quote_text": "I'm a coach and athlete who's been competing for 28 years. StrideSoles are so easy to order - you don't have to go into a medical office. You just download the app, scan your feet, and they customize orthotics to your foot. And they're so affordable you can order multiple pairs for different shoes.",
+            "reviewer_name": "Nadia R.",
+            "reviewer_title": "Running Coach"
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"],
+      "settings": {
+        "title": "Real Patient Results",
+        "subtitle": "Speak for Themselves",
+        "button_label": "Take the Quiz",
+        "button_url": "",
+        "disclaimer": "Limited Time Offer",
+        "button_primary_bg_color": "#EACBA4",
+        "button_primary_text_color": "#000000",
+        "background_color": "#F5F6F9",
+        "text_color": "#000000",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  ]
+}
+{% endschema %}

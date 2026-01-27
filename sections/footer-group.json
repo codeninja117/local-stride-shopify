@@ -1,0 +1,57 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu_xVWiy4": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer",
+            "title": "<strong>Navigation</strong>"
+          }
+        },
+        "menu_WxH8KF": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer-2",
+            "title": "<strong>Conditions</strong>"
+          }
+        },
+        "menu_bdLFRL": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer-3",
+            "title": "<strong>Shoes</strong>"
+          }
+        }
+      },
+      "block_order": [
+        "menu_xVWiy4",
+        "menu_WxH8KF",
+        "menu_bdLFRL"
+      ],
+      "settings": {
+        "title": "Have a question?\nContact us at",
+        "email_address": "team@stridesoles.com",
+        "text": "The best orthotics in the world.\nGet started in only a few minutes.",
+        "footer_trust_logos": "shopify://shop_images/hiResTrustBadgeGerm.png",
+        "show_social_icons": true,
+        "hide_on_cart": true
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

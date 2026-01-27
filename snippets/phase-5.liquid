@@ -1,0 +1,45 @@
+<section id="{{ title_handle }}" class="bg-slate grid gap-8 rounded-xl p-8 text-white">
+  <div class="grid lg:grid-cols-2">
+    <div>
+      <span class="uppercase">Phase {{ index }}</span>
+      <h2 class="display flex flex-col">
+        {{
+          block.settings.title
+          | replace: '<em>', '<span class="opacity-40">'
+          | replace: '</em>', '</span>'
+          | replace: '|', '</span><span>'
+        }}
+      </h2>
+    </div>
+
+    {%- comment -%}start: 2 column row{%- endcomment -%}
+    <div class="grid gap-8">
+      {%- comment -%}image start{%- endcomment -%}
+      {%- if block.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 640 | image_tag: class: 'w-full h-auto' }}
+      {%- else -%}
+        <div class="aspect-4/3 w-full overflow-hidden rounded-xl bg-white/30"></div>
+      {%- endif -%}
+      <div class="flex flex-col gap-16">
+        <div class="flex flex-col gap-12">
+          <div class="flex flex-col gap-4 text-2xl">{{ block.settings.subtitle }}</div>
+        </div>
+
+        <div class="flex items-center gap-8">
+          {% render 'button',
+            tag: 'a',
+            text: block.settings.button_label,
+            url: block.settings.button_url,
+            variant: 'secondary-fade'
+          %}
+          <p class="flex flex-col">
+            {% assign disclaimer_parts = block.settings.disclaimers | split: '|' %}
+            {% for part in disclaimer_parts %}
+              <span>{{ part }}</span>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

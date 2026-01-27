@@ -1,0 +1,330 @@
+<script src="{{ 'component-pain-card-form.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  #shopify-section-{{section.id }} {
+    --text-color: rgb({{section.settings.color_scheme.settings.text.red }}, {{section.settings.color_scheme.settings.text.green }}, {{section.settings.color_scheme.settings.text.blue }});
+  }
+
+  .section-{{ section.id }}-main {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-main {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .pain-card {
+    width: calc((100% - 1rem) / 2);
+    min-width: auto;
+    @media screen and (min-width: 768px) {
+      width: calc((100% - 4.5rem) / 4)
+    }
+  }
+
+  .pain-card:after {
+    transition: border-color 0.3s ease;
+    border: 2px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    z-index: 1;
+    border-radius: var(--radius-lg);
+    pointer-events: none;
+  }
+  .pain-card.is-active:after {
+    border-color:#EACBA4;
+  }
+{%- endstyle -%}
+
+<div class="page-width section__main max-w-screen-xl section-{{ section.id }}-main gradient color-{{ section.settings.color_scheme }}">
+  <div class="section__header text-center">
+    {% if section.settings.title != blank %}
+      <h2 class="text-h1 section-title capitalize">
+        {{
+          section.settings.title
+          | replace: '<i>', '<span class="">'
+          | replace: '</i>', '</span>'
+          | replace: '<em>', '<span class="">'
+          | replace: '</em>', '</span>'
+        }}
+      </h2>
+    {% endif %}
+  </div>
+
+  <div class="section__content">
+    <pain-card-form>
+      <form id="pain-form" class="flex flex-wrap justify-center gap-x-4 gap-y-6 md:gap-6">
+        {%- for block in section.blocks -%}
+          {%- assign pain_card_img_alt = block.settings.title | default: shop.name -%}
+          <fieldset
+            class="pain-card gradient relative overflow-hidden rounded-lg color-{{ section.settings.card_color_scheme }} shadow-sm transition-shadow hover:shadow-md"
+            {% if block.type == 'no-foot-pain' %}
+              data-no-pain="true"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <legend class="sr-only">{{ block.settings.title }}</legend>
+
+            <div class="pain-card-content flex h-full cursor-pointer flex-col justify-between" tabindex="0">
+              {% if block.settings.image %}
+                <div class="pain-card-image relative h-20">
+                  {{
+                    block.settings.image
+                    | image_url: width: 400
+                    | image_tag: class: 'w-full h-full object-contain', loading: 'lazy', alt: pain_card_img_alt
+                  }}
+                </div>
+              {% endif %}
+
+              <div class="pain-card__details">
+                {% unless block.type == 'no-foot-pain' %}
+                  <h3 class="text-center text-xs md:text-base lg:text-lg ">
+                    {{ pain_card_img_alt }}
+                  </h3>
+                {% endunless %}
+
+                <div class="pain-location-buttons flex justify-center gap-2 p-3 md:gap-4">
+                  {%- case block.type -%}
+                    {%- when 'no-foot-pain' -%}
+                      <label class="pain-option w-full">
+                        <input
+                          type="checkbox"
+                          name="pain_{{ block.settings.title | handleize }}"
+                          class="peer sr-only"
+                          aria-label="No Foot Pain"
+                        >
+                        <div class="btn-checkbox w-full">
+                          <div class="btn-checkbox__inner">
+                            <div class="btn-checkbox__text-wrapper">
+                              <div class="btn-checkbox__text">
+                                {{ block.settings.checkbox_label | default: 'No Foot Pain' }}
+                              </div>
+                              <div class="btn-checkbox__text">
+                                {{ block.settings.checkbox_label | default: 'No Foot Pain' }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    {%- when 'card' -%}
+                      {% if block.settings.checkbox_label != blank %}
+                        <label class="pain-option flex-1">
+                          <input
+                            type="checkbox"
+                            name="pain_{{ block.settings.title | handleize }}_{{ block.settings.checkbox_label | handleize }}"
+                            class="peer sr-only"
+                            aria-label="{{ block.settings.checkbox_label }}"
+                          >
+                          <div class="btn-checkbox w-full">
+                            <div class="btn-checkbox__inner">
+                              <div class="btn-checkbox__text-wrapper">
+                                <div class="btn-checkbox__text">{{ block.settings.checkbox_label }}</div>
+                                <div class="btn-checkbox__text">{{ block.settings.checkbox_label }}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </label>
+                      {% endif %}
+
+                      {% if block.settings.checkbox_label_2 != blank %}
+                        <label class="pain-option flex-1">
+                          <input
+                            type="checkbox"
+                            name="pain_{{ block.settings.title | handleize }}_{{ block.settings.checkbox_label_2 | handleize }}"
+                            class="peer sr-only"
+                            aria-label="{{ block.settings.checkbox_label_2 }}"
+                          >
+                          <div class="btn-checkbox w-full">
+                            <div class="btn-checkbox__inner">
+                              <div class="btn-checkbox__text-wrapper">
+                                <div class="btn-checkbox__text">{{ block.settings.checkbox_label_2 }}</div>
+                                <div class="btn-checkbox__text">{{ block.settings.checkbox_label_2 }}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </label>
+                      {% endif %}
+                  {%- endcase -%}
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        {%- endfor -%}
+      </form>
+    </pain-card-form>
+  </div>
+
+  <div class="section__footer flex flex-col items-center gap-2 text-center">
+    {%- if section.settings.button_label != blank -%}
+      {% render 'button',
+        tag: 'a',
+        variant: 'primary',
+        text: section.settings.button_label,
+        url: section.settings.button_url
+      %}
+    {%- endif -%}
+
+    {%- if section.settings.disclaimer != blank -%}
+      <span class="inline-block text-sm text-[rgba(var(--color-foreground),0.6)]">
+        {{- section.settings.disclaimer -}}
+      </span>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pain cards",
+  "class": "section-pain-cards js-section-color",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italics to highlight a word or phrase."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Do you have pain in the</em> following areas?"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take The Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "card_color_scheme",
+      "label": "Card color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "no-foot-pain",
+      "name": "No Foot Pain",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "checkbox_label",
+          "label": "Checkbox label",
+          "default": "No Foot Pain"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "paragraph",
+          "content": "For the first option, no footpain, set hide title to true and for the title enter 'No Foot Pain'"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "header",
+          "content": "Checkbox 1",
+          "info": "Omit the checkbox label to hide it"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "checkbox_label",
+          "label": "Checkbox label"
+        },
+        {
+          "type": "header",
+          "content": "Checkbox 2",
+          "info": "Omit the checkbox label to hide it"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "checkbox_label_2",
+          "label": "Checkbox label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pain cards",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,493 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  #shopify-section-{{ section.id }} li.flex {
+    line-height: 1;
+  }
+  #shopify-section-{{ section.id }} .prose :where(img):not(:where([class~=not-prose],[class~=not-prose] *)) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  #shopify-section-{{ section.id }} .mt-0 {
+    margin-top: 0 !important;
+  }
+  #shopify-section-{{ section.id }} .mb-0 {
+    margin-bottom: 0 !important;
+  }
+  #shopify-section-{{ section.id }} .testimonial-stars {
+    height: 18px;
+    width: auto;
+  }
+  #shopify-section-{{ section.id }} .cta-flex-row {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 965px;
+  }
+  #shopify-section-{{ section.id }} .time-sensitive-row {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #shopify-section-{{ section.id }} .time-sensitive-row-outer {
+    max-width: 834px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid black;
+  }
+  #shopify-section-{{ section.id }} .time-sensitive-row-outer.time-sensitive-row-outer-testimonial {
+    border-bottom: none;
+  }
+  #shopify-section-{{ section.id }} .post-script-row {
+    max-width: 834px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .benefit-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .cta-box {
+    background-color: {{ section.settings.cta_background_color }};
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-width: 338px;
+  }
+  #shopify-section-{{ section.id }} .prose :where(h2):not(:where([class~="not-prose"])) {
+    font-weight: 400;
+  }
+  #shopify-section-{{ section.id }} .prose :where(h2):not(:where([class~="not-prose"])) strong {
+    font-weight: 700;
+  }
+  #shopify-section-{{ section.id }} .btn-primary__inner {
+    background-color: {{ section.settings.button_color }};
+  }
+
+  #shopify-section-{{ section.id }} .btn-primary {
+    border-color: {{ section.settings.button_color }};
+  }
+
+  #shopify-section-{{ section.id }} .btn-primary__text {
+    color: {{ section.settings.button_text_color }};
+  }
+
+  .cta-button {
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    border-radius: 9999px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .post-script-row {
+    background-color: {{ section.settings.endorsement_background_color }};
+    border-radius: 0.5rem;
+    padding: 0;
+    margin: 2rem 0;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="prose max-w-none">
+      <!-- Row 1: Main Heading -->
+      <div class="mb-6 text-center">
+        <div class="text-h3 mb-2">
+          {{ section.settings.main_heading }}
+        </div>
+        <p class="text-body-l">{{ section.settings.subheading }}</p>
+      </div>
+
+      <!-- Row 2: Two-column layout with benefits and CTA -->
+      <div class="cta-flex-row mb-8 flex flex-col items-center justify-between gap-8 lg:flex-row">
+        <!-- Left Column: Benefits List -->
+        <div class="flex-1">
+          <ul class="list-none space-y-4 pl-0">
+            {%- if section.settings.benefit_1 != blank -%}
+              <li class="flex items-start gap-3">
+                <span class="benefit-icon">🔥</span>
+                <span class="font-medium">{{ section.settings.benefit_1 }}</span>
+              </li>
+            {%- endif -%}
+            {%- if section.settings.benefit_2 != blank -%}
+              <li class="flex items-start gap-3">
+                <span class="benefit-icon">💰</span>
+                <span>{{ section.settings.benefit_2 }}</span>
+              </li>
+            {%- endif -%}
+            {%- if section.settings.benefit_3 != blank -%}
+              <li class="flex items-start gap-3">
+                <span class="benefit-icon">🚚</span>
+                <span>{{ section.settings.benefit_3 }}</span>
+              </li>
+            {%- endif -%}
+            {%- if section.settings.benefit_4 != blank -%}
+              <li class="flex items-start gap-3">
+                <span class="benefit-icon">✅</span>
+                <span>{{ section.settings.benefit_4 }}</span>
+              </li>
+            {%- endif -%}
+            {%- if section.settings.benefit_5 != blank -%}
+              <li class="flex items-start gap-3">
+                <span class="benefit-icon">💳</span>
+                <span>{{ section.settings.benefit_5 }}</span>
+              </li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+        <!-- Right Column: CTA Box -->
+        <div class="cta-box text-center">
+          {%- if section.settings.cta_title != blank -%}
+            <h3 class="mb-3 text-xl font-bold">{{ section.settings.cta_title }}</h3>
+          {%- endif -%}
+          {%- if section.settings.cta_code_text != blank -%}
+            <p class="mb-4 flex items-center justify-center gap-2">
+              <span class="text-xl">🏷️</span>
+              <span class="font-semibold">{{ section.settings.cta_code_text }}</span>
+            </p>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_url }}" class="btn-primary">
+              <div class="btn-primary__inner">
+                <div class="btn-primary__text-wrapper">
+                  <div class="btn-primary__text">{{ section.settings.button_label }}</div>
+                  <div class="btn-primary__text">{{ section.settings.button_label }}</div>
+                </div>
+              </div>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Row 3: Time sensitive message -->
+      {%- if section.settings.time_sensitive_text != blank or section.settings.wallet_text != blank -%}
+        <div class="time-sensitive-row-outer">
+          <div class="time-sensitive-row text-body-l mb-2 pt-6 pb-4 text-center">
+            {%- if section.settings.time_sensitive_text != blank -%}
+              {{ section.settings.time_sensitive_text }}
+            {%- endif -%}
+            {%- if section.settings.wallet_text != blank -%}
+              <p>{{ section.settings.wallet_text }}</p>
+            {%- endif -%}
+            {%- if section.settings.doctor_info != blank -%}
+              <div class="mb-4 text-center">
+                {{ section.settings.doctor_info }}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <!-- Row 3: testimonial message -->
+      {%- if section.settings.testimonial_text != blank or section.settings.five_star_image != blank -%}
+        <div class="time-sensitive-row-outer time-sensitive-row-outer-testimonial">
+          {%- if section.settings.five_star_image != blank -%}
+            <div class="pt-6 pb-2 text-center">
+              {{
+                section.settings.five_star_image
+                | image_url: width: 200
+                | image_tag:
+                  class: 'mx-auto testimonial-stars mt-0 mb-0 not-prose',
+                  alt: 'Five star rating',
+                  loading: 'lazy',
+                  sizes: '200px',
+                  widths: '100, 150, 200, 300'
+              }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.testimonial_text != blank -%}
+            <div class="time-sensitive-row text-body-l mb-2 pt-2 pb-4 text-center font-semibold">
+              {{ section.settings.testimonial_text }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Row 4: Post Script -->
+      {%- if section.settings.ps_text != blank or section.settings.pps_text != blank -%}
+        <div class="post-script-row">
+          {%- if section.settings.ps_text != blank -%}
+            <p class="mb-3">{{ section.settings.ps_text }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.pps_text != blank -%}
+            <p class="mb-3">{{ section.settings.pps_text }}</p>
+          {%- endif -%}
+          <!-- Final CTA -->
+          {%- if section.settings.final_cta != blank -%}
+            <p class="">{{ section.settings.final_cta }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Bottom Headline -->
+      {%- if section.settings.bottom_headline != blank -%}
+        <div class="bottom-headline mt-6 text-center">
+          <div class="prose text-h3 mx-auto max-w-none">
+            {{ section.settings.bottom_headline }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Listicle Promotional",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main Content"
+    },
+    {
+      "type": "richtext",
+      "id": "main_heading",
+      "label": "Main Heading",
+      "default": "<h1>Order your StrideSoles Custom Orthotics Now</h1>"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Special offer for readers dealing with heel pain:"
+    },
+    {
+      "type": "header",
+      "content": "Benefits List"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1 (with fire emoji)",
+      "default": "SPECIAL READER DISCOUNT: Save $50 with code TRUTH50"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2 (with moneybag emoji)",
+      "default": "Final Price: Just $149 (85% off clinic prices)"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3",
+      "label": "Benefit 3 (with truck emoji)",
+      "default": "Free Shipping Included"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4",
+      "label": "Benefit 4 (with checkmark emoji)",
+      "default": "6-Month Satisfaction Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "benefit_5",
+      "label": "Benefit 5 (with credit card emoji)",
+      "default": "FSA/HSA Eligible"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action Box"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "CTA Title",
+      "default": "Get Stridesoles for $149"
+    },
+    {
+      "type": "text",
+      "id": "cta_code_text",
+      "label": "CTA Code Text",
+      "default": "Use Code: TRUTH50 at checkout"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Get Stride Soles"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "CTA Box Background Color",
+      "default": "#f3e8ff"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Background Color",
+      "default": "#7c3aed"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Additional Content"
+    },
+    {
+      "type": "richtext",
+      "id": "time_sensitive_text",
+      "label": "Time Sensitive Text",
+      "default": "<p>Remember: This discount expires in 48 hours and won't be offered again.</p>"
+    },
+    {
+      "type": "text",
+      "id": "wallet_text",
+      "label": "Wallet Text",
+      "default": "Your feet - and your wallet - will thank you."
+    },
+    {
+      "type": "header",
+      "content": "Doctor Information"
+    },
+    {
+      "type": "richtext",
+      "id": "doctor_info",
+      "label": "Doctor Name & Title",
+      "default": "<p><strong>Dr. Stephanie Kane, DPM</strong><br>Foot & Ankle Surgeon, StrideSoles Medical Advisory Board</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "five_star_image",
+      "label": "Five Star Rating Image"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_text",
+      "label": "Testimonial Text",
+      "default": "<p>Remember: This discount expires in 48 hours and won't be offered again.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Post Script"
+    },
+    {
+      "type": "richtext",
+      "id": "ps_text",
+      "label": "P.S. Text",
+      "default": "<p>Current inventory is limited due to the handcrafted manufacturing process. If you see this page, we still have orthotics available for immediate production. But once we sell out, the next batch won't be available for 6-8 weeks.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "pps_text",
+      "label": "P.P.S. Text",
+      "default": "<p>Don't wait until it's too late.</p>"
+    },
+    {
+      "type": "text",
+      "id": "final_cta",
+      "label": "Final CTA",
+      "default": "Don't wait until it's too late."
+    },
+    {
+      "type": "header",
+      "content": "Bottom Headline"
+    },
+    {
+      "type": "richtext",
+      "id": "bottom_headline",
+      "label": "Bottom Headline",
+      "default": "<h2>Ready to End Your Morning Pain?</h2>"
+    },
+    {
+      "type": "color",
+      "id": "endorsement_background_color",
+      "label": "Endorsement Background Color",
+      "default": "#f9fafb"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Bottom Headline"
+    },
+    {
+      "type": "range",
+      "id": "headline_max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Headline max width",
+      "default": 800
+    }
+  ],
+  "presets": [
+    {
+      "name": "Listicle Promotional",
+      "category": "Uncategorized"
+    }
+  ]
+}
+{% endschema %}

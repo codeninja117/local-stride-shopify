@@ -1,0 +1,44 @@
+{% comment %}
+  button.liquid
+  Usage example:
+  {% render 'button',
+    tag: 'a' or 'button',
+    text: 'Button Text',
+    url: section.settings.url,   # Required when tag is 'a'
+    variant: 'primary' or 'primary-fade' or 'secondary' or 'secondary-fade'
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign button_class = 'btn-' | append: variant
+  assign final_url = url
+  assign final_text = text
+
+  if url contains '/pages/quiz' and cart.item_count > 0
+    assign final_url = '/checkout'
+    assign final_text = 'Buy now'
+  elsif url == '/pages/quiz'
+    assign final_url = url | append: '?pairs=1'
+    assign final_text = text
+  else
+    assign final_url = url
+    assign final_text = text
+  endif
+-%}
+
+{%- if tag == 'a' -%}
+  <a href="{{ final_url }}" class="{{ button_class }} {{ class }}" rel="nofollow">
+{%- else -%}
+  <button class="{{ button_class }}">
+{%- endif -%}
+<div class="{{ button_class }}__inner">
+  <div class="{{ button_class }}__text-wrapper">
+    <div class="{{ button_class }}__text">{{ final_text }}</div>
+    <div class="{{ button_class }}__text">{{ final_text }}</div>
+  </div>
+</div>
+{%- if tag == 'a' -%}
+  </a>
+{%- else -%}
+  </button>
+{%- endif -%}

@@ -1,0 +1,332 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="gradient color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
+  id="main-cart-footer"
+  data-id="{{ section.id }}"
+>
+  <div class="px-4 md:px-0">
+    <div class="cart__footer isolate section-{{ section.id }}-padding flex max-w-full">
+      {%- if settings.show_cart_note -%}
+        <cart-note class="cart__note field">
+          <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+          <textarea
+            class="text-area field__input"
+            name="note"
+            form="cart"
+            id="Cart-note"
+            placeholder="{{ 'sections.cart.note' | t }}"
+          >{{ cart.note }}</textarea>
+        </cart-note>
+      {%- endif -%}
+
+      <div class="cart__blocks flex w-full flex-col gap-4">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+            {%- when 'promo' -%}
+              {%- liquid
+                case block.settings.alignment
+                  when 'left'
+                    assign text_alignment = 'text-left'
+                  when 'center'
+                    assign text_alignment = 'text-center'
+                  when 'right'
+                    assign text_alignment = 'text-right'
+                endcase
+              -%}
+
+              <div
+                class="product__promo product__block-{{ block.id }} font-bold uppercase {{ text_alignment }} {% if block.settings.display == 'inline' %}space-x-2 inline{% else %}space-y-3 block{% endif %} rounded-lg p-2 leading-normal tracking-widest md:p-3"
+                style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.icon != blank -%}
+                  <style>
+                    .line-item__promo-icon {
+                      width: {{ block.settings.icon_size }}px;
+                      height: {{ block.settings.icon_size }}px;
+                    }
+                  </style>
+                  {{
+                    block.settings.icon
+                    | image_url: width: 48
+                    | image_tag: class: 'line-item__promo-icon inline align-middle'
+                  }}
+                {%- endif -%}
+                <span class="align-middle">
+                  {{- block.settings.title -}}
+                </span>
+
+                {%- if block.settings.button_label != blank -%}
+                  <a
+                    href="{{ block.settings.button_url }}"
+                    class="hover:bg-peach inline-block rounded-4xl bg-black px-6 py-2 align-middle text-xs text-white transition-colors duration-200 ease-in-out"
+                  >
+                    {{- block.settings.button_label -}}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- when 'discount' -%}
+              <div
+                class="line-item__discount line-item__block-{{ block.id }} bg-blue-fitness/10 border-blue-fitness/40 rounded-lg border p-2 leading-normal md:p-3"
+                {{ block.shopify_attributes }}
+              >
+                <div class="line-item__discount-title font-semibold tracking-widest">
+                  {{- block.settings.title -}}
+                </div>
+                <div class="line-item__discount-subtitle text-sm">
+                  {{- block.settings.subtitle -}}
+                </div>
+                <div class="line-item__discount-savings text-green text-sm">
+                  {{- block.settings.savings -}}
+                </div>
+              </div>
+            {%- when 'subtotal' -%}
+              <div class="js-contents flex flex-col gap-4 border-b border-black/30 py-4" {{ block.shopify_attributes }}>
+                <div class="">
+                  {%- if cart.cart_level_discount_applications.size > 0 -%}
+                    <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                      {%- for discount in cart.cart_level_discount_applications -%}
+                        <li class="discounts__discount discounts__discount--position">
+                          {{- 'icon-discount.svg' | inline_asset_content -}}
+                          {{ discount.title | escape }}
+                          (-{{ discount.total_allocated_amount | money }})
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+
+                <div class="totals flex items-center justify-between gap-2">
+                  <h2 class="totals__total text-3xl">{{ 'sections.cart.estimated_total' | t }}</h2>
+                  <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
+                </div>
+
+                <small class="tax-note caption-large rte">
+                  {%- if cart.duties_included and cart.taxes_included -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- elsif cart.duties_included == false and cart.taxes_included -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- elsif cart.duties_included and cart.taxes_included == false -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- elsif cart.duties_included == false and cart.taxes_included == false -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- endif -%}
+                </small>
+              </div>
+            {%- else -%}
+              <div class="cart__ctas py-4" {{ block.shopify_attributes }}>
+                <button
+                  type="submit"
+                  id="checkout"
+                  class="cart__checkout-button btn-primary w-full"
+                  name="checkout"
+                  {% if cart == empty %}
+                    disabled
+                  {% endif %}
+                  form="cart"
+                >
+                  <div class="btn-primary__inner">
+                    <div class="btn-primary__text-wrapper">
+                      <div class="btn-primary__text">{{ 'sections.cart.checkout' | t }}</div>
+                      <div class="btn-primary__text">{{ 'sections.cart.checkout' | t }}</div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              {%- if additional_checkout_buttons -%}
+                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {% endfor %}
+
+        <div id="cart-errors"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-footer.name",
+  "class": "section-main-cart-footer cart__footer-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subtotal",
+      "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+      "limit": 1
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.main-cart-footer.blocks.buttons.name",
+      "limit": 1
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "promo",
+      "name": "Promo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "SVG preferred"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "min": 8,
+          "max": 200,
+          "step": 4,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "180 Day Money-Back Guarantee"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#EACBA4"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Display settings"
+        },
+        {
+          "type": "select",
+          "id": "display",
+          "label": "Display",
+          "options": [
+            {
+              "value": "column",
+              "label": "Column"
+            },
+            {
+              "value": "inline",
+              "label": "Inline"
+            }
+          ],
+          "default": "inline"
+        },
+        {
+          "type": "text_alignment",
+          "id": "alignment",
+          "label": "Text alignment",
+          "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "discount",
+      "name": "Discount",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "75% OFF SUMMER SALE"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Discount Auto-applied"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "savings",
+          "label": "Savings",
+          "default": "Savings $451 (75% OFF)"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

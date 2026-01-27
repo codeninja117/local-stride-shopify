@@ -1,0 +1,207 @@
+{%- liquid
+  assign has_verdict = false
+  assign has_pros = false
+  assign has_cons = false
+
+  if article.metafields.custom.our_verdict != blank
+    assign has_verdict = true
+  endif
+
+  if article.metafields.custom.pros.value != blank
+    assign has_pros = true
+  endif
+
+  if article.metafields.custom.cons.value != blank
+    assign has_cons = true
+  endif
+
+  assign has_any_content = false
+  if has_verdict or has_pros or has_cons
+    assign has_any_content = true
+  endif
+-%}
+
+{%- if has_any_content -%}
+  <div class="article-pros-cons">
+    <h2 class="pros-cons__heading">Our Verdict</h2>
+
+    {%- if article.metafields.custom.our_verdict != blank -%}
+      <div class="pros-cons__description rte">
+        {{ article.metafields.custom.our_verdict | metafield_tag }}
+      </div>
+    {%- endif -%}
+
+    <div class="pros-cons__container">
+      {%- if article.metafields.custom.pros.value != blank -%}
+        <div class="pros-cons__section pros-cons__pros {% if block.settings.with_border %}with-border{% endif %}">
+          <h3 class="pros-cons__title pros-cons__title--pros">
+            <span class="pros-cons__icon pros-cons__icon--pros">✓</span>
+            Pros
+          </h3>
+          <ul class="pros-cons__list">
+            {%- for pro in article.metafields.custom.pros.value -%}
+              {%- if pro != blank -%}
+                <li class="pros-cons__item">{{ pro }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if article.metafields.custom.cons.value != blank -%}
+        <div class="pros-cons__section pros-cons__cons {% if block.settings.with_border %}with-border{% endif %}">
+          <h3 class="pros-cons__title pros-cons__title--cons">
+            <span class="pros-cons__icon pros-cons__icon--cons">✗</span>
+            Cons
+          </h3>
+          <ul class="pros-cons__list">
+            {%- for con in article.metafields.custom.cons.value -%}
+              {%- if con != blank -%}
+                <li class="pros-cons__item">{{ con }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <style>
+    .pros-cons__heading {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #000;
+    }
+
+    .pros-cons__description {
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #000000;
+    }
+
+    .pros-cons__container {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .pros-cons__container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .pros-cons__section {
+      background: #fff;
+      border-radius: 0;
+      border: none;
+    }
+    .pros-cons__section.with-border {
+      border: 2px solid transparent;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .pros-cons__pros {
+      border-color: #22c55e;
+    }
+
+    .pros-cons__cons {
+      border-color: #ef4444;
+    }
+
+    .pros-cons__title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      margin-top: 0;
+    }
+
+    .pros-cons__title--pros {
+      color: #000;
+    }
+
+    .pros-cons__title--cons {
+      color: #000;
+    }
+
+    .pros-cons__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .pros-cons__icon--pros {
+      background-color: #22c55e;
+    }
+
+    .pros-cons__icon--cons {
+      background-color: #ef4444;
+    }
+
+    .pros-cons__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .pros-cons__item {
+      position: relative;
+      padding-left: 1.5rem;
+      line-height: 1.5;
+      color: #000; */
+      font-weight: 500;
+    }
+
+    .pros-cons__pros .pros-cons__item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #000;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .pros-cons__cons .pros-cons__item::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #000;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    @media (max-width: 767px) {
+      .pros-cons__container {
+        gap: 1.5rem;
+      }
+
+      .pros-cons__section {
+        padding: 1.25rem;
+      }
+
+      .pros-cons__heading {
+        font-size: 1.75rem;
+      }
+
+      .pros-cons__title {
+        font-size: 1.125rem;
+      }
+    }
+  </style>
+{%- endif -%}

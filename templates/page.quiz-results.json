@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-quiz-results",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

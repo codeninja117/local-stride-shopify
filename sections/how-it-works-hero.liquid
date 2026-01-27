@@ -1,0 +1,101 @@
+{% if section.settings.image != blank and section.index == 1 %}
+  {{ section.settings.image | asset_url | preload_tag: as: 'image' }}
+{% endif %}
+
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+<div class="how-it-works-hero page-width relative flex min-h-[80dvh] items-end overflow-hidden py-4 text-white">
+  <div class="how-it-works-hero__content z-2 flex w-full items-end justify-between">
+    <div class="w-6/10">
+      <div class="flex flex-col gap-20">
+        <span class="uppercase">{{ section.settings.eyebrow_text }}</span>
+        <h2 class="display flex flex-col text-8xl">
+          {{
+            section.settings.title
+            | replace: '<em>', '<span class="opacity-40">'
+            | replace: '</em>', '</span>'
+            | replace: '|', '</span><span>'
+          }}
+        </h2>
+        <p class="text-2xl">{{ section.settings.subtitle }}</p>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <div>
+        {% render 'button', tag: 'a', text: 'Order Now', url: section.settings.button_url, variant: 'secondary' %}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image.width,
+        sizes: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+        alt: section.settings.title,
+        class: 'absolute inset-0 w-full h-full object-cover object-center scale-out-in',
+        fetchpriority: fetch_priority
+    }}
+  {%- endif -%}
+
+  <div class="absolute inset-0 z-1 bg-black/50"></div>
+</div>
+
+{% schema %}
+{
+  "name": "How-it-works hero",
+  "class": "section-how-it-works-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "How it works"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<em>Our Podiatrists</em>|Put Themselves|In Your Shoes",
+      "info": "Italic to lower opacity, | for line-break"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Stride brings the podiatry clinic straight to the soles of your feet. Our revolutionary orthotic design process is the first of its kind. It lets you send data about your pain, foot conditions, preferred footwear, and performance goals directly to our team of award-winning podiatrists in Baden-Württemberg, Germany."
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Create your Strides"
+    }
+  ],
+  "presets": [
+    {
+      "name": "How-it-works hero",
+      "category": "Uncategorized",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

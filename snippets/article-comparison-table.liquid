@@ -1,0 +1,370 @@
+{%- liquid
+  assign table_header = article.metafields.custom.comparison_table_header.value
+  assign table_body = article.metafields.custom.comparison_table_body.value
+
+  assign has_content = false
+  if table_header != blank and table_body != blank
+    assign has_content = true
+  endif
+-%}
+
+{%- if has_content -%}
+  <div class="article-comparison-table ">
+    {% comment %} Get metafield data {% endcomment %}
+    {%- assign table_header = article.metafields.custom.comparison_table_header.value -%}
+    {%- assign table_body = article.metafields.custom.comparison_table_body.value -%}
+
+    {% if table_header and table_body %}
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th class="comparison-table__header comparison-table__header--features"></th>
+              {% comment %} Render product headers from metaobjects {% endcomment %}
+              {% for entry in table_header %}
+                <th class="comparison-table__header comparison-table__header--product">
+                  {% if entry.featured_image %}
+                    {{
+                      entry.featured_image
+                      | image_url: width: 150, height: 100, crop: 'center'
+                      | image_tag: class: 'comparison-table__product-image'
+                    }}
+                  {% endif %}
+                  <h3 class="comparison-table__product-title">{{ entry.brand_name }}</h3>
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {%- assign row_count = 0 -%}
+
+            {% comment %} Work directly with the raw metafield data and split by empty lines {% endcomment %}
+            {% assign raw_content = table_body %}
+
+            {% comment %} Split the content by double newlines (empty lines) {% endcomment %}
+            {% assign sections = raw_content | split: '
+
+' %}
+
+            {% comment %} If that doesn't work, try splitting by the converted br tags {% endcomment %}
+            {% if sections.size == 1 %}
+              {% assign table_body_with_breaks = table_body | newline_to_br %}
+              {% assign sections = table_body_with_breaks | split: '<br><br>' %}
+            {% endif %}
+
+            {% for section in sections %}
+              {% assign section_trimmed = section | strip %}
+              {% unless section_trimmed == blank %}
+                {% comment %} Split each section into individual lines {% endcomment %}
+                {% assign lines = section_trimmed | split: '
+' %}
+
+                {% comment %} If no newlines found, try br tags {% endcomment %}
+                {% if lines.size == 1 %}
+                  {% assign lines = section_trimmed | split: '<br>' %}
+                {% endif %}
+
+                {% assign section_row_count = 0 %}
+
+                {% for line in lines %}
+                  {% assign trimmed_line = line | strip %}
+                  {% unless trimmed_line == blank %}
+                    {% assign line_parts = trimmed_line | split: ' | ' %}
+                    {% if line_parts.size >= 3 %}
+                      {%- assign row_count = row_count | plus: 1 -%}
+                      {%- assign section_row_count = section_row_count | plus: 1 -%}
+
+                      {% comment %} First row of each section is the header {% endcomment %}
+                      {% assign is_section_header = false %}
+                      {% if section_row_count == 1 %}
+                        {% assign is_section_header = true %}
+                      {% endif %}
+
+                      <tr class="comparison-table__row {% if is_section_header %}comparison-table__row--section-header{% endif %} {% if row_count > 5 %}comparison-table__row--hidden{% endif %}">
+                        {% for part in line_parts %}
+                          {% assign cell_content = part | strip %}
+                          {% if forloop.first %}
+                            <td class="comparison-table__cell comparison-table__cell--feature {% if is_section_header %}comparison-table__cell--section-header{% endif %}">
+                              {{ cell_content }}
+                            </td>
+                          {% else %}
+                            <td class="comparison-table__cell comparison-table__cell--value {% if is_section_header %}comparison-table__cell--section-header{% endif %}">
+                              {% if cell_content contains '✓'
+                                or cell_content contains '✗'
+                                or cell_content contains '⭐'
+                              %}
+                                <span class="comparison-table__icon">{{ cell_content }}</span>
+                              {% else %}
+                                {{ cell_content }}
+                              {% endif %}
+                            </td>
+                          {% endif %}
+                        {% endfor %}
+                      </tr>
+                    {% endif %}
+                  {% endunless %}
+                {% endfor %}
+              {% endunless %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="comparison-table__expand-wrapper">
+        <button onclick="toggleComparisonTable(this)" class="comparison-table__expand-btn">
+          See More
+          <span class="comparison-table__expand-icon">▼</span>
+        </button>
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    .article-comparison-table {
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .article-comparison-table {
+        max-width: calc(100vw - 32px);
+        overflow-x: scroll;
+      }
+    }
+
+    .comparison-table__heading {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #000;
+    }
+
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      border-radius: 0;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      min-width: 600px;
+      table-layout: fixed;
+    }
+
+    .comparison-table__header {
+      background-color: transparent;
+      border: 1px solid #dee2e6;
+      padding: 0;
+      text-align: center;
+      font-weight: bold;
+      vertical-align: top;
+    }
+
+    .comparison-table__header--features {
+      background-color: transparent;
+      text-align: left;
+      width: 7rem;
+    }
+
+    .comparison-table__header--highlighted {
+      background-color: transparent;
+    }
+
+    .comparison-table__product-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto 0.75rem;
+      display: block;
+    }
+    .comparison-table__header--product {
+      width: 175px;
+      min-width: 150px;
+    }
+    .comparison-table__product-title {
+      font-size: 1.125rem;
+      font-weight: bold;
+      margin: 0 0 0.5rem;
+      color: #000;
+    }
+
+    .comparison-table__highlight-badge {
+      background-color: #2563eb;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0;
+      font-size: 0.75rem;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .comparison-table__row {
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .comparison-table__row > *:first-child {
+      text-align: right;
+    }
+
+    .comparison-table__row--hidden {
+      display: none;
+    }
+
+    .comparison-table__row--section-header {
+      border-top: 2px solid #333;
+    }
+
+    .comparison-table--expanded .comparison-table__row--hidden {
+      display: table-row;
+    }
+
+    .comparison-table__cell {
+      border: 1px solid #dee2e6;
+      padding: 0.5rem;
+      vertical-align: middle;
+      font-size: 0.875rem;
+    }
+
+    .comparison-table__cell--feature {
+      background-color: transparent;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    .comparison-table__cell--value {
+      text-align: center;
+    }
+
+    .comparison-table__cell--highlighted {
+      background-color: transparent;
+    }
+
+    .comparison-table__cell--section-header {
+      background-color: transparent;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .comparison-table__icon {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .comparison-table__expand-wrapper {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .comparison-table__expand-btn {
+      background: none;
+      border: 2px solid #333;
+      padding: 0.75rem 2rem;
+      border-radius: 0;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      border-radius: 100px;
+    }
+
+    .comparison-table__expand-btn:hover {
+      background-color: #333;
+      color: white;
+    }
+
+    .comparison-table__expand-icon {
+      transition: transform 0.2s ease;
+    }
+
+    .comparison-table--expanded .comparison-table__expand-icon {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-table {
+        font-size: 0.875rem;
+        min-width: 100px;
+      }
+
+      .comparison-table__header,
+      .comparison-table__cell {
+        padding: 0.5rem 0.375rem;
+      }
+
+      .comparison-table__product-image {
+        width: 50px;
+        height: 50px;
+      }
+
+      .comparison-table__product-title {
+        font-size: 0.875rem;
+      }
+
+      .comparison-table__heading {
+        font-size: 1.5rem;
+      }
+
+      .comparison-table__header--features {
+        min-width: 100px;
+      }
+
+      .comparison-table__header--product {
+        min-width: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .comparison-table {
+        font-size: 0.75rem;
+      }
+
+      .comparison-table__header,
+      .comparison-table__cell {
+        padding: 0.375rem 0.25rem;
+      }
+
+      .comparison-table__product-image {
+        width: 40px;
+        height: 40px;
+      }
+
+      .comparison-table__product-title {
+        font-size: 0.75rem;
+      }
+
+      .comparison-table__heading {
+        font-size: 1.5rem;
+      }
+
+      .comparison-table__header--features {
+        min-width: 80px;
+      }
+
+      .comparison-table__header--product {
+        min-width: 60px;
+      }
+    }
+  </style>
+
+  <script>
+    function toggleComparisonTable(button) {
+      const tableWrapper = button.closest('.article-comparison-table');
+      const table = tableWrapper.querySelector('.comparison-table');
+      const icon = button.querySelector('.comparison-table__expand-icon');
+      const isExpanded = table.classList.contains('comparison-table--expanded');
+
+      if (isExpanded) {
+        table.classList.remove('comparison-table--expanded');
+        button.innerHTML = 'See More <span class="comparison-table__expand-icon">▼</span>';
+      } else {
+        table.classList.add('comparison-table--expanded');
+        button.innerHTML = 'See Less <span class="comparison-table__expand-icon">▲</span>';
+      }
+    }
+  </script>
+{% endif %}

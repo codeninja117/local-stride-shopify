@@ -1,0 +1,360 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#000000' }};
+    --btn-primary-bg-color: {{ section.settings.button_primary_bg_color | default: '#000000' }};
+    --btn-primary-text-color: {{ section.settings.button_primary_text_color | default: '#FFFFFF' }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }} .btn-primary  {
+    border-color: var(--btn-primary-bg-color);
+  }
+  .section-{{ section.id }} .btn-primary__inner {
+    background-color: var(--btn-primary-bg-color);
+  }
+
+  .section-{{ section.id }} .btn-primary__text {
+    color: var(--btn-primary-text-color);
+  }
+{%- endstyle -%}
+
+<div class="how-stride-works how-stride-works-advertorial section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
+  <div class="page-width page-width--narrow flex flex-col gap-16">
+    <div class="how-stride-works__header text-center ">
+      <h2 class="text-h1 section-title flex flex-col">
+        <span>{{ section.settings.title }}</span>
+        <span class="">{{ section.settings.subtitle }}</span>
+      </h2>
+    </div>
+
+    <div class="how-stride-works__steps hidden flex-col justify-center md:flex md:flex-row ">
+      {%- for block in section.blocks -%}
+        <div class="how-stride-works__step flex flex-1 flex-shrink-0 flex-col items-center gap-6 text-center">
+          <div class="how-stride-works__step-image h-[160px] w-[160px] overflow-hidden rounded-full md:h-[230px] md:w-[230px]">
+            {% comment %} {%- assign sizes = '(min-width: 768px) calc({{ settings.page_width }} / 3)px, calc({{ settings.page_width }})px' -%} {% endcomment %}
+            {{
+              block.settings.image
+              | image_url: width: 460
+              | image_tag:
+                class: 'h-auto object-cover object-center aspect-square overflow-hidden rounded-full',
+                loading: 'lazy'
+            }}
+          </div>
+          <div class="how-stride-works__step-content flex max-w-80 flex-col gap-2">
+            <h3 class="how-stride-works__step-title text-xl">{{ block.settings.title }}</h3>
+            <p class="how-stride-works__step-text">
+              {{
+                block.settings.text
+                | replace: '<i>', '<span class="opacity-60">'
+                | replace: '</i>', '</span>'
+                | replace: '<em>', '<span class="opacity-60">'
+                | replace: '</em>', '</span>'
+              }}
+            </p>
+          </div>
+        </div>
+
+        {% if forloop.index == 1 or forloop.index == 2 %}
+          <div class="flex flex-1 items-center justify-center px-4 py-8 lg:max-w-48 lg:items-start lg:py-20">
+            {% render 'svg-steps-line', class: 'w-full hidden md:block', type: 'desktop' %}
+            {% render 'svg-steps-line', class: 'w-auto h-16 md:hidden', type: 'mobile' %}
+          </div>
+        {% endif %}
+      {%- endfor -%}
+    </div>
+
+    <div class="md:hidden">
+      <ui-carousel class="swiper" data-pagination="bullets" data-navigation>
+        <div class="swiper-wrapper">
+          {%- for block in section.blocks -%}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              <div class="how-stride-works__step flex flex-1 flex-shrink-0 flex-col items-center gap-6 text-center">
+                <div class="how-stride-works__step-image h-[160px] w-[160px] overflow-hidden rounded-full">
+                  {%- if block.settings.image != blank -%}
+                    {%- assign step_image_alt = block.settings.title | default: shop.name -%}
+
+                    {{
+                      block.settings.image
+                      | image_url: width: 320
+                      | image_tag:
+                        class: 'h-auto object-cover object-center aspect-square overflow-hidden rounded-full',
+                        alt: step_image_alt,
+                        loading: 'lazy'
+                    }}
+                  {%- else -%}
+                    <div class="h-full w-full bg-black/20"></div>
+                  {%- endif -%}
+                </div>
+                <div class="how-stride-works__step-content flex max-w-80 flex-col gap-2">
+                  <h3 class="how-stride-works__step-title text-xl uppercase">{{ block.settings.title }}</h3>
+                  <p class="how-stride-works__step-text">
+                    {{
+                      block.settings.text
+                      | replace: '<i>', '<span class="">'
+                      | replace: '</i>', '</span>'
+                      | replace: '<em>', '<span class="">'
+                      | replace: '</em>', '</span>'
+                    }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="swiper-pagination mt-4 justify-center"></div>
+
+        {% render 'carousel-navigation' %}
+      </ui-carousel>
+    </div>
+    <div class="how-stride-works__footer flex flex-col gap-6">
+      <div class="flex flex-col items-center justify-center gap-4 md:flex-row">
+        {%- if section.settings.button_primary_label != blank -%}
+          {% render 'button',
+            tag: 'a',
+            text: section.settings.button_primary_label,
+            url: section.settings.button_primary_link,
+            variant: 'primary'
+          %}
+        {%- endif -%}
+
+        {%- if section.settings.button_secondary_label != blank -%}
+          <modal-opener data-modal="#HowStrideWorksModal-{{ section.id }}" class="w-fit">
+            <button class="btn-secondary">
+              <div class="btn-secondary__inner">
+                <div class="btn-secondary__text-wrapper">
+                  <span class="btn-secondary__text">{{ section.settings.button_secondary_label }}</span>
+                  <span class="btn-secondary__text">{{ section.settings.button_secondary_label }}</span>
+                </div>
+              </div>
+            </button>
+          </modal-opener>
+        {%- endif -%}
+        <modal-dialog
+          id="HowStrideWorksModal-{{ section.id }}"
+          class="invisible fixed inset-0 z-101 flex items-center justify-center overflow-hidden overflow-y-auto bg-black/30 opacity-0 backdrop-blur-lg transition-opacity duration-300 ease-in-out [&[open]]:visible [&[open]]:opacity-100"
+          data-play-on-open
+        >
+          <div
+            role="dialog"
+            aria-label="How Stride Works Video"
+            aria-modal="true"
+            class="w-[768px] max-w-full"
+            tabindex="-1"
+          >
+            <button
+              id="ModalClose-{{ section.id }}"
+              type="button"
+              class="absolute top-4 right-4 text-black"
+              aria-label="{{ 'accessibility.close' | t }}"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-x"
+              >
+                <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+              </svg>
+            </button>
+
+            {%- assign video_alt = section.settings.video.alt | default: shop.name -%}
+            {{
+              section.settings.video
+              | video_tag: class: 'h-auto w-full ', controls: true, autoplay: false, muted: false, alt: video_alt
+            }}
+          </div>
+        </modal-dialog>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "How it works advertorial",
+  "class": "how-stride-works how-stride-works-advertorial js-section-color",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "How Stride Works"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Just like a clinic, Just at home"
+    },
+    {
+      "type": "header",
+      "content": "Button Primary"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_primary_label",
+      "label": "Button primary label",
+      "default": "Take the Quiz"
+    },
+    {
+      "type": "url",
+      "id": "button_primary_link",
+      "label": "Button primary link"
+    },
+    {
+      "type": "color",
+      "id": "button_primary_bg_color",
+      "label": "Button primary background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_primary_text_color",
+      "label": "Button primary text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button secondary"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_secondary_label",
+      "label": "Button secondary label",
+      "default": "Watch video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Step",
+      "name": "step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works advertorial",
+      "category": "Uncategorized",
+      "blocks": {
+        "step_LJfh8M": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/Image1-1.jpg",
+            "title": "Take a short assessment aboutyour foot health",
+            "text": "The same detailed questions our award winning podiatrists ask in the clinic."
+          }
+        },
+        "step_ztPGLt": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/Image2-1.jpg",
+            "title": "3D scan from your phone.",
+            "text": "No waiting for a messy, inaccurate, and outdated foam impression kit."
+          }
+        },
+        "step_piPG6c": {
+          "type": "Step",
+          "settings": {
+            "image": "shopify://shop_images/group-new.jpg",
+            "title": "Upload gait video",
+            "text": "We evaluate your gait, pronation, stability & posture."
+          }
+        }
+      },
+      "block_order": ["step_LJfh8M", "step_ztPGLt", "step_piPG6c"],
+      "settings": {
+        "title": "How Stride Works",
+        "subtitle": "Just like a clinic, Just at home"
+      }
+    }
+  ]
+}
+{% endschema %}
