@@ -790,6 +790,42 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
+      },
+      {
+        "type": "text",
+        "id": "benefit_1_text",
+        "label": "Benefit 1 Text",
+        "default": "Renew for a different shoe: running, dress, cleats, or casual."
+      },
+      {
+        "type": "text",
+        "id": "benefit_1_tooltip",
+        "label": "Benefit 1 Tooltip",
+        "default": "Switch to any shoe type with each renewal"
+      },
+      {
+        "type": "text",
+        "id": "benefit_2_text",
+        "label": "Benefit 2 Text",
+        "default": "Tune your insole to perfection with each renewal"
+      },
+      {
+        "type": "text",
+        "id": "benefit_2_tooltip",
+        "label": "Benefit 2 Tooltip",
+        "default": "Adjust your insole preferences every time"
+      },
+      {
+        "type": "text",
+        "id": "benefit_3_text",
+        "label": "Benefit 3 Text",
+        "default": "Gift painless feet to a friend or family"
+      },
+      {
+        "type": "text",
+        "id": "benefit_3_tooltip",
+        "label": "Benefit 3 Tooltip",
+        "default": "Send subscription as a gift"
       }
     ]
   }

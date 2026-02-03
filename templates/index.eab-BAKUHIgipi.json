@@ -87,9 +87,9 @@
           "type": "features",
           "settings": {
             "feature_icon": "shopify://shop_images/icon__moneyback.png",
-            "feature_title": "180 Day Money-Back Guarantee",
+            "feature_title": "180 Day Satisfaction Guarantee",
             "feature_icon_2": "shopify://shop_images/icon__medicallyapproved.png",
-            "feature_title_2": "Podiatrist Designed"
+            "feature_title_2": "Free Shipping"
           }
         }
       },
@@ -118,96 +118,183 @@
         "padding_bottom": 20
       }
     },
-    "review_multicolumn_6QjFJn": {
-      "type": "review-multicolumn",
+    "compare_stride_zVaQib": {
+      "type": "compare-stride",
       "blocks": {
-        "review_im3H9j": {
-          "type": "review",
+        "header_wPi8Bc": {
+          "type": "header",
           "settings": {
-            "title": "Forbes",
-            "review": "\"...Stride is taking a stale orthotics industry and flipping it on it’s head.\"",
-            "logo": "shopify://shop_images/forbes-1-1_a54c84ab-e753-4b20-9380-977cc43e59d1.webp",
-            "logo_width": 150
+            "feature_1": "Order In Minutes",
+            "feature_1_checkbox": true,
+            "feature_2": "Gait-Informed Design",
+            "feature_2_checkbox": true,
+            "feature_3": "<a href=\"/pages/comparison\" title=\"Comparison\"><span style=\"text-decoration:underline\">3D Imaging</span></a>",
+            "feature_3_checkbox": true,
+            "feature_4": "Talk to a Clinician",
+            "feature_4_checkbox": true,
+            "price": "$90",
+            "shipping_time": "Delivery Time"
           }
         },
-        "review_qCpH3A": {
-          "type": "review",
+        "others_YVYbcH": {
+          "type": "others",
           "settings": {
-            "title": "Mashable",
-            "review": "\"Normally only available in clinics, Stride can now be bought from home in minutes.\"",
-            "logo": "shopify://shop_images/Mashable_Logo_2021_969cc899-1245-491b-8d15-f24ee9809824.webp",
-            "logo_width": 150
+            "color_scheme": "scheme-1",
+            "title": "Upstep",
+            "feature_1": "3D Foot Imaging",
+            "feature_1_checkbox": false,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": false,
+            "feature_3": "Award Winning",
+            "feature_3_checkbox": false,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": false,
+            "price": "$250+",
+            "shipping_time": "30-40 Days"
           }
         },
-        "review_ixbLAN": {
-          "type": "review",
+        "stride_AGJKCL": {
+          "type": "stride",
           "settings": {
-            "title": "Northwestern Medicine",
-            "review": "\"The result is an orthotic which matches the podiatrist in terms of quality and comfort\"",
-            "logo": "shopify://shop_images/Northwestern_Medicine_logo_8293d6d1-9f7e-4c39-b1e5-ebe9381be158.webp",
-            "logo_width": 150
+            "color_scheme": "scheme-5",
+            "logo": "shopify://shop_images/Stride_Logo_1.svg",
+            "title": "Stride Soles",
+            "feature_1": "Order In Minutes",
+            "feature_1_checkbox": true,
+            "feature_2": "<a href=\"/pages/comparison\" title=\"Comparison\"><span style=\"text-decoration:underline\"><strong>3D Imaging</strong></span></a>",
+            "feature_2_checkbox": true,
+            "feature_3": "5 Minute Ordering",
+            "feature_3_checkbox": true,
+            "feature_4": "Instant Ordering",
+            "feature_4_checkbox": true,
+            "price": "$249",
+            "shipping_time": "10-15 Days"
+          }
+        },
+        "others_tWac3Y": {
+          "type": "others",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "title": "Podiatrist",
+            "feature_1": "",
+            "feature_1_checkbox": false,
+            "feature_2": "Gait Analysis",
+            "feature_2_checkbox": false,
+            "feature_3": "Award Winning <em>(Sometimes)</em>",
+            "feature_3_checkbox": true,
+            "feature_4": "Podiatrist Prescribed",
+            "feature_4_checkbox": true,
+            "price": "$400-1000",
+            "shipping_time": "30-60 Days"
           }
         }
       },
       "block_order": [
-        "review_im3H9j",
-        "review_qCpH3A",
-        "review_ixbLAN"
+        "header_wPi8Bc",
+        "others_YVYbcH",
+        "stride_AGJKCL",
+        "others_tWac3Y"
       ],
       "settings": {
-        "enable_wrapper": true,
-        "background_color": "#f5f6f9",
-        "text_color": "#ffffff",
-        "padding_top": 16,
-        "padding_bottom": 8
+        "title": "<em>Stride's Superior Solution Offers</em>|<strong>The Best Of Both Worlds</strong>",
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Relieve My Foot Pain",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "mobile_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
-    "proven_trusted_FHiJM4": {
-      "type": "proven-trusted",
+    "mosaic_gallery": {
+      "type": "mosaic-gallery",
       "blocks": {
-        "item_KtqGxk": {
-          "type": "item",
+        "image_NbQ8wF": {
+          "type": "image",
           "settings": {
-            "image": "shopify://shop_images/PEDCAD-Sandro-Brezger-1257-scaled-1.jpg",
-            "eyebrow_text": "<a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Award Winning Team</strong></span></a>",
-            "title": "Proven",
-            "subtitle": "Dr. Dominik Walter, Stride Head of Design",
-            "text": "<em>\"After many years of development, we are finally able to bring our world class orthotic to you across the world. </em>Stride offers the same in-clinic experience and medical oversight as if you’d see me in person here in Germany, without any of the hassle or cost."
+            "image": "shopify://shop_images/Frame_2147223810.png",
+            "column_position": "1"
           }
         },
-        "item_FpXFqV": {
-          "type": "item",
+        "image_9QdPMc": {
+          "type": "image",
           "settings": {
-            "image": "shopify://shop_images/elsa.webp",
-            "eyebrow_text": "<a href=\"/pages/medical-partner\" title=\"Medical Partner\"><span style=\"text-decoration:underline\"><strong>Prescribed by Medical Professionals</strong></span></a>",
-            "title": "Trusted",
-            "subtitle": "Dr. Elsa Gould, DPT. Northwestern Medicine.",
-            "text": "<em>\"As a doctor of physical therapy specializing in foot pathology, I now solely recommend Stride for my patients.</em> Their insoles are superior in both medical quality and comfort to the in-clinic podiatric insoles my patients had previously been using...\""
+            "image": "shopify://shop_images/Frame_2147223817.png",
+            "column_position": "1"
+          }
+        },
+        "image_BLKhJg": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_2.jpg",
+            "column_position": "2"
+          }
+        },
+        "image_QGK6hx": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design.jpg",
+            "column_position": "2"
+          }
+        },
+        "image_CV4CAB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223813.png",
+            "column_position": "3"
+          }
+        },
+        "image_HT4RrB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223816.png",
+            "column_position": "3"
+          }
+        },
+        "image_w4TEHN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223814.png",
+            "column_position": "4"
+          }
+        },
+        "image_8xXxra": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223815_417cf910-40e9-4e95-b944-4c53b68347e7.png",
+            "column_position": "4"
+          }
+        },
+        "image_wCwNJn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147223818.png",
+            "column_position": "4"
           }
         }
       },
       "block_order": [
-        "item_KtqGxk",
-        "item_FpXFqV"
+        "image_NbQ8wF",
+        "image_9QdPMc",
+        "image_BLKhJg",
+        "image_QGK6hx",
+        "image_CV4CAB",
+        "image_HT4RrB",
+        "image_w4TEHN",
+        "image_8xXxra",
+        "image_wCwNJn"
       ],
       "settings": {
-        "enable_wrapper": true,
-        "backgound_color": "#f5f6f9",
-        "text_color": "#ffffff",
-        "padding_top": 8,
-        "padding_bottom": 16
-      }
-    },
-    "video": {
-      "type": "video",
-      "disabled": true,
-      "settings": {
-        "video_selector": "shopify",
-        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
-        "video_url": "",
-        "title": "<em>How It</em> Works",
-        "color_scheme": "scheme-1",
-        "padding_top": 120,
+        "title": "<em>Unlock your</em> <strong>potential</strong>",
+        "title_font_size": "text-h1",
+        "subtitle": "What will you achieve with Stride Soles?",
+        "subtitle_font_size": "text-body-m",
+        "make_subtitle_color_primary": false,
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Relieve My Foot Pain",
+        "disclaimer": "180 Day Return Policy",
+        "color_scheme": "",
+        "padding_top": 60,
         "padding_bottom": 60
       }
     },
@@ -253,15 +340,131 @@
         "video": "shopify://files/videos/8mb.video-St1-z3TlmFfq.mp4",
         "button_disclaimer": "Free Shipping",
         "button_disclaimer_2": "180-Day Money-Back Guarantee",
-        "color_scheme": "",
-        "background_color": "#ffffff",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "background_color": "#eeeeee",
         "text_color": "#000000",
         "padding_top": 56,
         "padding_bottom": 56
       }
     },
+    "image_text_review_D4dPrr": {
+      "type": "image-text-review",
+      "settings": {
+        "reverse_columns": false,
+        "container_size": "narrow",
+        "title": "<em>Award Winning</em> <strong>Podiatrists</strong>",
+        "review_title": "Dr. Dietmar Walter",
+        "review_subtitle": "Head of Podiatry, Stride Soles",
+        "review_text": "Each orthotic is custom designed in Germany by <a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Dr. Dietmar Walter</strong></span></a> and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
+        "supporting_image_height": 200,
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Relieve My Foot Pain",
+        "disclaimer": "180 Day Return Policy",
+        "image": "shopify://shop_images/Capture_88b49b56-a795-424d-8310-26be069569be.png",
+        "image_height": 440,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "review_multicolumn_6QjFJn": {
+      "type": "review-multicolumn",
+      "blocks": {
+        "review_im3H9j": {
+          "type": "review",
+          "settings": {
+            "title": "Forbes",
+            "review": "\"...Stride is taking a stale orthotics industry and flipping it on it’s head.\"",
+            "logo": "shopify://shop_images/forbes-1-1_a54c84ab-e753-4b20-9380-977cc43e59d1.webp",
+            "logo_width": 150
+          }
+        },
+        "review_qCpH3A": {
+          "type": "review",
+          "settings": {
+            "title": "Mashable",
+            "review": "\"Normally only available in clinics, Stride can now be bought from home in minutes.\"",
+            "logo": "shopify://shop_images/Mashable_Logo_2021_969cc899-1245-491b-8d15-f24ee9809824.webp",
+            "logo_width": 150
+          }
+        },
+        "review_ixbLAN": {
+          "type": "review",
+          "settings": {
+            "title": "Northwestern Medicine",
+            "review": "\"The result is an orthotic which matches the podiatrist in terms of quality and comfort\"",
+            "logo": "shopify://shop_images/Northwestern_Medicine_logo_8293d6d1-9f7e-4c39-b1e5-ebe9381be158.webp",
+            "logo_width": 150
+          }
+        }
+      },
+      "block_order": [
+        "review_im3H9j",
+        "review_qCpH3A",
+        "review_ixbLAN"
+      ],
+      "disabled": true,
+      "settings": {
+        "enable_wrapper": true,
+        "background_color": "#f5f6f9",
+        "text_color": "#ffffff",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
+    "proven_trusted_FHiJM4": {
+      "type": "proven-trusted",
+      "blocks": {
+        "item_KtqGxk": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/PEDCAD-Sandro-Brezger-1257-scaled-1.jpg",
+            "eyebrow_text": "<a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Award Winning Team</strong></span></a>",
+            "title": "Proven",
+            "subtitle": "Dr. Dominik Walter, Stride Head of Design",
+            "text": "<em>\"After many years of development, we are finally able to bring our world class orthotic to you across the world. </em>Stride offers the same in-clinic experience and medical oversight as if you’d see me in person here in Germany, without any of the hassle or cost."
+          }
+        },
+        "item_FpXFqV": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/elsa.webp",
+            "eyebrow_text": "<a href=\"/pages/medical-partner\" title=\"Medical Partner\"><span style=\"text-decoration:underline\"><strong>Prescribed by Medical Professionals</strong></span></a>",
+            "title": "Trusted",
+            "subtitle": "Dr. Elsa Gould, DPT. Northwestern Medicine.",
+            "text": "<em>\"As a doctor of physical therapy specializing in foot pathology, I now solely recommend Stride for my patients.</em> Their insoles are superior in both medical quality and comfort to the in-clinic podiatric insoles my patients had previously been using...\""
+          }
+        }
+      },
+      "block_order": [
+        "item_KtqGxk",
+        "item_FpXFqV"
+      ],
+      "disabled": true,
+      "settings": {
+        "enable_wrapper": true,
+        "backgound_color": "#f5f6f9",
+        "text_color": "#ffffff",
+        "padding_top": 8,
+        "padding_bottom": 16
+      }
+    },
+    "video": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "video_selector": "shopify",
+        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
+        "video_url": "",
+        "title": "<em>How It</em> Works",
+        "color_scheme": "scheme-1",
+        "padding_top": 120,
+        "padding_bottom": 60
+      }
+    },
     "get_started_cta_AinbpV": {
       "type": "get-started-cta",
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/stride_wide.jpg",
         "title": "Got Foot Pain?\nOrder Stride\nToday",
@@ -274,6 +477,103 @@
         "background_color": "",
         "text_color": "#ffffff",
         "color_scheme": "scheme-3"
+      }
+    },
+    "review_carousel_new_dV9C8m": {
+      "type": "review-carousel-new",
+      "blocks": {
+        "video_review_3FqViN": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Gabriel Kalen.mp4",
+            "video_poster": "shopify://shop_images/g.png",
+            "review": "StrideSoles have really helped me out, they are really affordable compared to what Iused to get at the doctors office. I was really impressed with how accurate thescan was, it molded to my feet pretty perfectly I would say… When I wear them,compared to normal insoles, I don't feel any pain when walking.",
+            "title": "Alex Franks",
+            "review_date": "June 23 2024"
+          }
+        },
+        "video_review_KqTMUa": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Snapinsta.app_video_AQMEYMYEv7mbimeBwJkDji3o7NkSU2RaxAcTbMY_56c0SF57VWa_McQZj98xg8HEg11eYg_zxH-kxAgnEWiba8maUzmMIbDGtrE7-78.mp4",
+            "video_poster": "shopify://shop_images/d.png",
+            "review": "I have been using the Stride Soles custom orthotics for about 2 months now in my Brooks running shoes. They customize everything... I selected my shoe type, sport, injuries, and my shoes types and they are perfect for my feet. I brought them by my physio therapist and they said it was exactly what I need to help with my low arch.",
+            "title": "Elliott Hall",
+            "review_date": "July 13, 2023"
+          }
+        },
+        "video_review_6agECT": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/lady.mp4",
+            "video_poster": "shopify://shop_images/ss.png",
+            "review": "It's been about a year now so I figure it's time for a review! I wear my Stride's in all of my shoes and love how supported my feet feel. I can walk, run, play tennis, and everything without my normal heel pain. I'm glad I found you guys!!!",
+            "title": "Janice Simon",
+            "review_date": "February 9, 2023"
+          }
+        },
+        "video_review_gtN6XD": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Video_1.mov",
+            "video_poster": "shopify://shop_images/naid.png",
+            "review": "I have been competing for 28 years and began using Stride for a performance boost. They are very easy to order, that is the #1 best thing about them... A nice little touch is they have 'Nadia' on the back.",
+            "title": "Nadia Ruiz",
+            "review_date": "May 5, 2025"
+          }
+        },
+        "video_review_nb6Uqi": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Stride2 (1).mp4",
+            "video_poster": "shopify://shop_images/1.png",
+            "review": "Before Stride Soles, I used to feel like a dog walking on a treadmill! Now I'm able to be on the treadmill, or my bike without pain. In fact, I'm getting ready to purchase another pair today.",
+            "title": "Jorge V",
+            "review_date": "June 14, 2024"
+          }
+        },
+        "video_review_Cr4mXp": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Copy of Snapinsta.app_video_FC4932D5F4A4D54162E12A4F6BE8E1AD_video_dashinit.mp4",
+            "video_poster": "shopify://shop_images/b.png",
+            "review": "As a podiatrist withyears of experience I have always advocated for my patients. I'm glad toendorse and prescribe Stride Soles for my patients. The scanner is extremelyaccurate, and that's why I even use it in-clinic. It's remarkable they've beenable to translate this experience to an at-home model.",
+            "title": "Dr. Stephanie Kane",
+            "review_date": "July 9, 2023"
+          }
+        },
+        "video_review_zP7XQB": {
+          "type": "video-review",
+          "settings": {
+            "video": "shopify://files/videos/Lucas Simon.mov",
+            "video_poster": "shopify://shop_images/22.png",
+            "review": "My Stride Soles inserts are absolutely amazing...A lot of my hip, knee, back pain, is relieved so I absolutely love them. I can't emphasize that enough. If you haven't gotten them already, go get them!",
+            "title": "Lucas Simon",
+            "review_date": "March 3, 2025"
+          }
+        }
+      },
+      "block_order": [
+        "video_review_3FqViN",
+        "video_review_KqTMUa",
+        "video_review_6agECT",
+        "video_review_gtN6XD",
+        "video_review_nb6Uqi",
+        "video_review_Cr4mXp",
+        "video_review_zP7XQB"
+      ],
+      "settings": {
+        "title": "What Our <em><strong>Customers Say</strong></em>",
+        "subtitle": "",
+        "trust_pilot_url": "",
+        "frontrowmd_snippet": "<div id=\"frontrow-badge\">\n    <script async type=\"text/javascript\" src=\"https://app.thefrontrowhealth.com/api/widgets/script?id=3113\"></script>\n    <iframe class=\"iframe-frontrow\" id=\"iframe-frontrow-brand\" src=\"https://app.thefrontrowhealth.com/api/widgets/3113\"></iframe>\n</div>\n<style>\n  #iframe-frontrow-brand {height: 0px;}\n  #frontrow-badge{position:relative;display:flex;}.iframe-frontrow{width:100%;margin:0}.iframe-modal-frontrow{display:none;position:fixed;z-index:99999999;left:0;top:0;right:0;bottom:0;width:100%;height:100%;overflow:hidden}\n</style>",
+        "slides_per_view": 3.6,
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Relieve My Foot Pain",
+        "disclaimer": "Free Shipping",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "call_to_action": {
@@ -444,6 +744,7 @@
         "feature_G96MdY",
         "feature_fj4jDt"
       ],
+      "disabled": true,
       "settings": {
         "title": "Expert Craftsman and\nCraftmanship",
         "text": "All Stride orthotics are custom designed for you in Baden-Württemberg, German by our team of expert podiatrists.",
@@ -512,6 +813,7 @@
         "callout_GRj3Rn",
         "callout_axpXTf"
       ],
+      "disabled": true,
       "settings": {
         "title": "A Look",
         "title_line_2": "<em>Inside</em> Stride",
@@ -522,283 +824,6 @@
         "color_scheme": "",
         "padding_top": 56,
         "padding_bottom": 56
-      }
-    },
-    "review_carousel_new_dV9C8m": {
-      "type": "review-carousel-new",
-      "blocks": {
-        "video_review_3FqViN": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/Gabriel Kalen.mp4",
-            "video_poster": "shopify://shop_images/g.png",
-            "review": "StrideSoles have really helped me out, they are really affordable compared to what Iused to get at the doctors office. I was really impressed with how accurate thescan was, it molded to my feet pretty perfectly I would say… When I wear them,compared to normal insoles, I don't feel any pain when walking.",
-            "title": "Alex Franks",
-            "review_date": "June 23 2024"
-          }
-        },
-        "video_review_KqTMUa": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/Snapinsta.app_video_AQMEYMYEv7mbimeBwJkDji3o7NkSU2RaxAcTbMY_56c0SF57VWa_McQZj98xg8HEg11eYg_zxH-kxAgnEWiba8maUzmMIbDGtrE7-78.mp4",
-            "video_poster": "shopify://shop_images/d.png",
-            "review": "I have been using the Stride Soles custom orthotics for about 2 months now in my Brooks running shoes. They customize everything... I selected my shoe type, sport, injuries, and my shoes types and they are perfect for my feet. I brought them by my physio therapist and they said it was exactly what I need to help with my low arch.",
-            "title": "Elliott Hall",
-            "review_date": "July 13, 2023"
-          }
-        },
-        "video_review_6agECT": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/lady.mp4",
-            "video_poster": "shopify://shop_images/ss.png",
-            "review": "It's been about a year now so I figure it's time for a review! I wear my Stride's in all of my shoes and love how supported my feet feel. I can walk, run, play tennis, and everything without my normal heel pain. I'm glad I found you guys!!!",
-            "title": "Janice Simon",
-            "review_date": "February 9, 2023"
-          }
-        },
-        "video_review_gtN6XD": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/Video_1.mov",
-            "video_poster": "shopify://shop_images/naid.png",
-            "review": "I have been competing for 28 years and began using Stride for a performance boost. They are very easy to order, that is the #1 best thing about them... A nice little touch is they have 'Nadia' on the back.",
-            "title": "Nadia Ruiz",
-            "review_date": "May 5, 2025"
-          }
-        },
-        "video_review_nb6Uqi": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/Stride2 (1).mp4",
-            "video_poster": "shopify://shop_images/1.png",
-            "review": "Before Stride Soles, I used to feel like a dog walking on a treadmill! Now I'm able to be on the treadmill, or my bike without pain. In fact, I'm getting ready to purchase another pair today.",
-            "title": "Jorge V",
-            "review_date": "June 14, 2024"
-          }
-        },
-        "video_review_Cr4mXp": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/Copy of Snapinsta.app_video_FC4932D5F4A4D54162E12A4F6BE8E1AD_video_dashinit.mp4",
-            "video_poster": "shopify://shop_images/b.png",
-            "review": "As a podiatrist withyears of experience I have always advocated for my patients. I'm glad toendorse and prescribe Stride Soles for my patients. The scanner is extremelyaccurate, and that's why I even use it in-clinic. It's remarkable they've beenable to translate this experience to an at-home model.",
-            "title": "Dr. Stephanie Kane",
-            "review_date": "July 9, 2023"
-          }
-        },
-        "video_review_zP7XQB": {
-          "type": "video-review",
-          "settings": {
-            "video": "shopify://files/videos/Lucas Simon.mov",
-            "video_poster": "shopify://shop_images/22.png",
-            "review": "My Stride Soles inserts are absolutely amazing...A lot of my hip, knee, back pain, is relieved so I absolutely love them. I can't emphasize that enough. If you haven't gotten them already, go get them!",
-            "title": "Lucas Simon",
-            "review_date": "March 3, 2025"
-          }
-        }
-      },
-      "block_order": [
-        "video_review_3FqViN",
-        "video_review_KqTMUa",
-        "video_review_6agECT",
-        "video_review_gtN6XD",
-        "video_review_nb6Uqi",
-        "video_review_Cr4mXp",
-        "video_review_zP7XQB"
-      ],
-      "settings": {
-        "title": "What Our <em><strong>Customers Say</strong></em>",
-        "subtitle": "",
-        "trust_pilot_url": "",
-        "frontrowmd_snippet": "<div id=\"frontrow-badge\">\n    <script async type=\"text/javascript\" src=\"https://app.thefrontrowhealth.com/api/widgets/script?id=3113\"></script>\n    <iframe class=\"iframe-frontrow\" id=\"iframe-frontrow-brand\" src=\"https://app.thefrontrowhealth.com/api/widgets/3113\"></iframe>\n</div>\n<style>\n  #iframe-frontrow-brand {height: 0px;}\n  #frontrow-badge{position:relative;display:flex;}.iframe-frontrow{width:100%;margin:0}.iframe-modal-frontrow{display:none;position:fixed;z-index:99999999;left:0;top:0;right:0;bottom:0;width:100%;height:100%;overflow:hidden}\n</style>",
-        "slides_per_view": 3.6,
-        "button_url": "shopify://pages/quiz",
-        "button_label": "Relieve My Foot Pain",
-        "disclaimer": "Free Shipping",
-        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "mosaic_gallery": {
-      "type": "mosaic-gallery",
-      "blocks": {
-        "image_NbQ8wF": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223810.png",
-            "column_position": "1"
-          }
-        },
-        "image_9QdPMc": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223817.png",
-            "column_position": "1"
-          }
-        },
-        "image_BLKhJg": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Untitled_design_2.jpg",
-            "column_position": "2"
-          }
-        },
-        "image_QGK6hx": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Untitled_design.jpg",
-            "column_position": "2"
-          }
-        },
-        "image_CV4CAB": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223813.png",
-            "column_position": "3"
-          }
-        },
-        "image_HT4RrB": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223816.png",
-            "column_position": "3"
-          }
-        },
-        "image_w4TEHN": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223814.png",
-            "column_position": "4"
-          }
-        },
-        "image_8xXxra": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223815_417cf910-40e9-4e95-b944-4c53b68347e7.png",
-            "column_position": "4"
-          }
-        },
-        "image_wCwNJn": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Frame_2147223818.png",
-            "column_position": "4"
-          }
-        }
-      },
-      "block_order": [
-        "image_NbQ8wF",
-        "image_9QdPMc",
-        "image_BLKhJg",
-        "image_QGK6hx",
-        "image_CV4CAB",
-        "image_HT4RrB",
-        "image_w4TEHN",
-        "image_8xXxra",
-        "image_wCwNJn"
-      ],
-      "settings": {
-        "title": "<em>Unlock your</em> <strong>potential</strong>",
-        "title_font_size": "text-h1",
-        "subtitle": "What will you achieve with Stride Soles?",
-        "subtitle_font_size": "text-body-m",
-        "make_subtitle_color_primary": false,
-        "button_url": "shopify://pages/quiz",
-        "button_label": "Relieve My Foot Pain",
-        "disclaimer": "180 Day Return Policy",
-        "color_scheme": "",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "compare_stride_zVaQib": {
-      "type": "compare-stride",
-      "blocks": {
-        "header_wPi8Bc": {
-          "type": "header",
-          "settings": {
-            "feature_1": "Talk to a Clinician",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "<a href=\"/pages/comparison\" title=\"Comparison\"><span style=\"text-decoration:underline\">3D Imaging</span></a>",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$90",
-            "shipping_time": "Delivery Time"
-          }
-        },
-        "others_YVYbcH": {
-          "type": "others",
-          "settings": {
-            "color_scheme": "scheme-1",
-            "title": "Upstep",
-            "feature_1": "Talk to a Clinician",
-            "feature_1_checkbox": false,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": false,
-            "feature_3": "3D Imaging",
-            "feature_3_checkbox": false,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": false,
-            "price": "$250+",
-            "shipping_time": "30-40 Days"
-          }
-        },
-        "stride_AGJKCL": {
-          "type": "stride",
-          "settings": {
-            "color_scheme": "scheme-5",
-            "logo": "shopify://shop_images/Stride_Logo_1.svg",
-            "title": "Stride Soles",
-            "feature_1": "Talk to a Clinician",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "3D Imaging",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$249",
-            "shipping_time": "10-15 Days"
-          }
-        },
-        "others_tWac3Y": {
-          "type": "others",
-          "settings": {
-            "color_scheme": "scheme-1",
-            "title": "Podiatrist",
-            "feature_1": "Talk to a Clinician",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "3D Imaging",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": false,
-            "price": "$400 - $1000",
-            "shipping_time": "30-60 Days"
-          }
-        }
-      },
-      "block_order": [
-        "header_wPi8Bc",
-        "others_YVYbcH",
-        "stride_AGJKCL",
-        "others_tWac3Y"
-      ],
-      "settings": {
-        "title": "<em>Stride's Superior Solution Offers</em>|<strong>The Best Of Both Worlds</strong>",
-        "button_url": "shopify://pages/quiz",
-        "button_label": "Relieve My Foot Pain",
-        "disclaimer": "180 Day Return Policy",
-        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "mobile_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "padding_top": 60,
-        "padding_bottom": 60
       }
     },
     "call_to_action_NcxDKj": {
@@ -855,26 +880,6 @@
         "content_box_padding_bottom": 32,
         "padding_top": 0,
         "padding_bottom": 0
-      }
-    },
-    "image_text_review_D4dPrr": {
-      "type": "image-text-review",
-      "settings": {
-        "reverse_columns": false,
-        "container_size": "narrow",
-        "title": "<em>Award Winning</em> <strong>Podiatrists</strong>",
-        "review_title": "Dr. Dietmar Walter",
-        "review_subtitle": "Head of Podiatry, Stride Soles",
-        "review_text": "Each orthotic is custom designed in Germany by <a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Dr. Dietmar Walter</strong></span></a> and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
-        "supporting_image_height": 200,
-        "button_url": "shopify://pages/quiz",
-        "button_label": "Relieve My Foot Pain",
-        "disclaimer": "180 Day Return Policy",
-        "image": "shopify://shop_images/Capture_88b49b56-a795-424d-8310-26be069569be.png",
-        "image_height": 440,
-        "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60
       }
     },
     "faq": {
@@ -985,20 +990,20 @@
   "order": [
     "banner_showcase_9bBDP6",
     "hero",
+    "compare_stride_zVaQib",
+    "mosaic_gallery",
+    "how_stride_works_zmJnPz",
+    "image_text_review_D4dPrr",
     "review_multicolumn_6QjFJn",
     "proven_trusted_FHiJM4",
     "video",
-    "how_stride_works_zmJnPz",
     "get_started_cta_AinbpV",
+    "review_carousel_new_dV9C8m",
     "call_to_action",
     "pain_cards",
     "feature_multicolumn_aCAExw",
     "feature_callouts_bDnchz",
-    "review_carousel_new_dV9C8m",
-    "mosaic_gallery",
-    "compare_stride_zVaQib",
     "call_to_action_NcxDKj",
-    "image_text_review_D4dPrr",
     "faq"
   ]
 }

@@ -17,8 +17,8 @@
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "title": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>",
-            "title_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>",
+            "title": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>",
+            "title_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>",
             "cta_text": "Take The Quiz",
             "cta_url": "shopify://pages/quiz",
             "cart_filled_cta_text": "Buy now",
@@ -39,8 +39,8 @@
         "autoplay_speed": 4,
         "ticker_speed": 17,
         "enable_ticker_animation": true,
-        "cart_title_override": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>",
-        "cart_title_override_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/24)</strong>"
+        "cart_title_override": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>",
+        "cart_title_override_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>"
       }
     },
     "header": {

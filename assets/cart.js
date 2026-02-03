@@ -127,10 +127,25 @@ class CartItems extends HTMLElement {
       return;
     }
 
-    // Handle variant radio button changes - simplified detection
-    if (event.target.type === 'radio' && event.target.dataset.variantId) {
-      this.handleVariantChange(event);
-      return;
+    // Distinguish between variant and selling plan radios
+    if (event.target.type === 'radio') {
+      // Check if this is a selling plan radio (has data-radio-type)
+      const isSellingPlanRadio =
+        event.target.dataset.radioType === 'selling_plan' || event.target.dataset.radioType === 'one_time_purchase';
+
+      // Check if this is a variant radio (has variant-id but NO radio-type)
+      const isVariantRadio = event.target.dataset.variantId && !isSellingPlanRadio;
+
+      if (isSellingPlanRadio) {
+        console.log('🔘 Selling plan radio - letting SellingPlanSelector handle it');
+        return; // EXIT - don't call handleVariantChange!
+      }
+
+      if (isVariantRadio) {
+        console.log('🔘 Variant radio - handling size change');
+        this.handleVariantChange(event);
+        return;
+      }
     }
   }
 
@@ -148,7 +163,6 @@ class CartItems extends HTMLElement {
     }
   }
 
-  // Handle line item variant change
   // Handle line item variant change
   async handleVariantChange(event) {
     const radioInput = event.target;
@@ -203,6 +217,21 @@ class CartItems extends HTMLElement {
       selectedOption: radioInput.value,
       properties, // This will now have the latest shoe type changes
     });
+
+    // Dispatch event BEFORE updating cart so selling-plan-selector can prepare
+    cartItem.dispatchEvent(
+      new CustomEvent('variant-changed', {
+        bubbles: true,
+        detail: {
+          variant: {
+            id: newVariantId,
+            // Add more variant data if available from currentItem
+            title: radioInput.value,
+            option1: radioInput.value,
+          },
+        },
+      }),
+    );
 
     this.updateVariant(lineKey, newVariantId, currentQuantity, cartItem, properties);
   }
@@ -263,7 +292,228 @@ class CartItems extends HTMLElement {
     return textArea.value;
   }
 
+  /**
+   * Both updateVariant methods are working.
+   * The first one is the one that's in production.
+   * The second one is the one that's in the dev.
+   *
+   */
   // Update variant/cart
+  // async updateVariant(lineKey, newVariantId, quantity, cartItem, properties = {}) {
+  //   // Check if already updating to prevent race conditions
+  //   if (cartItem.dataset.updating === 'true') {
+  //     console.log('Update already in progress, skipping');
+  //     return;
+  //   }
+
+  //   // Set updating flag
+  //   cartItem.dataset.updating = 'true';
+
+  //   // Find loading elements
+  //   const loadingSpinners = cartItem?.querySelectorAll('.loading__spinner');
+  //   const priceWrappers = cartItem?.querySelectorAll('.cart-item__price-wrapper');
+  //   const variantLoadingSpinner = cartItem.querySelector('.variant-loading__spinner');
+  //   const radioButtons = cartItem.querySelectorAll('input[type="radio"]');
+
+  //   try {
+  //     // Show loading state
+  //     loadingSpinners?.forEach((spinner) => spinner.classList.remove('hidden'));
+  //     priceWrappers?.forEach((wrapper) => wrapper.classList.add('hidden'));
+
+  //     if (variantLoadingSpinner) {
+  //       variantLoadingSpinner.classList.remove('hidden');
+  //     }
+
+  //     // Disable radio buttons
+  //     radioButtons.forEach((radio) => {
+  //       radio.disabled = true;
+  //     });
+
+  //     // Disable shoe type selectors
+  //     this.disableShoeTypeSelectors();
+
+  //     // Step 1: Get current cart state to find the item index
+  //     const cartResponse = await fetch(routes.cart_url + '.js', {
+  //       ...fetchConfig('javascript'),
+  //       method: 'GET',
+  //     });
+
+  //     if (!cartResponse.ok) {
+  //       throw new Error(`Failed to fetch cart: ${cartResponse.status}`);
+  //     }
+
+  //     const currentCart = await cartResponse.json();
+  //     console.log('Current cart:', currentCart);
+
+  //     // Step 2: Find the index of the item we're updating
+  //     const itemIndex = currentCart.items.findIndex((item) => item.key === lineKey);
+
+  //     if (itemIndex === -1) {
+  //       throw new Error('Item not found in cart');
+  //     }
+
+  //     console.log(`Found item at index ${itemIndex}:`, currentCart.items[itemIndex]);
+
+  //     // Step 3: Build new items array with the updated variant
+  //     const newItems = currentCart.items.map((item, index) => {
+  //       if (index === itemIndex) {
+  //         // Replace this item with the new variant
+  //         return {
+  //           id: newVariantId,
+  //           quantity: parseInt(quantity),
+  //           properties: properties,
+  //         };
+  //       } else {
+  //         // Keep existing items as-is
+  //         return {
+  //           id: item.variant_id,
+  //           quantity: item.quantity,
+  //           properties: item.properties || {},
+  //         };
+  //       }
+  //     });
+
+  //     // Reverse the items array to maintain correct order after cart/add.js
+  //     const reversedItems = newItems.reverse();
+
+  //     console.log('New items array (reversed):', reversedItems);
+
+  //     // Step 4: Clear the entire cart
+  //     const clearResponse = await fetch(routes.cart_clear_url, {
+  //       ...fetchConfig('javascript'),
+  //       method: 'POST',
+  //     });
+
+  //     if (!clearResponse.ok) {
+  //       throw new Error(`Failed to clear cart: ${clearResponse.status}`);
+  //     }
+
+  //     console.log('Cart cleared successfully');
+
+  //     // Step 5: Add all items back in the correct order (using reversed array)
+  //     const addBody = JSON.stringify({
+  //       items: reversedItems,
+  //       sections: this.getSectionsToRender().map((section) => section.section),
+  //       sections_url: window.location.pathname,
+  //     });
+
+  //     console.log('Adding items back to cart (reversed):', addBody);
+
+  //     const addResponse = await fetch(routes.cart_add_url, {
+  //       ...fetchConfig('javascript'),
+  //       method: 'POST',
+  //       body: addBody,
+  //     });
+
+  //     if (!addResponse.ok) {
+  //       throw new Error(`Failed to add items back: ${addResponse.status}`);
+  //     }
+
+  //     const state = await addResponse.text();
+  //     const parsedState = JSON.parse(state);
+
+  //     console.log('Cart rebuilt successfully:', parsedState);
+
+  //     // Step 6: Sync cart attributes with line item properties
+  //     const attributesUpdatePayload = {
+  //       attributes: {
+  //         ...parsedState.attributes, // Keep existing attributes
+  //         ...properties, // Overwrite with current line item properties
+  //       },
+  //     };
+
+  //     console.log('Syncing cart attributes with line item properties:', attributesUpdatePayload);
+
+  //     const attributesResponse = await fetch('/cart/update.js', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(attributesUpdatePayload),
+  //     });
+
+  //     if (!attributesResponse.ok) {
+  //       console.error('Failed to sync cart attributes');
+  //     } else {
+  //       console.log('Cart attributes synced successfully');
+  //     }
+
+  //     // Verify the updated item has properties
+  //     if (parsedState.items && parsedState.items[itemIndex]) {
+  //       const updatedItem = parsedState.items[itemIndex];
+  //       console.log(`Updated item at index ${itemIndex}:`, {
+  //         variant_id: updatedItem.variant_id,
+  //         properties: updatedItem.properties,
+  //         key: updatedItem.key,
+  //       });
+  //     }
+
+  //     if (parsedState.errors) {
+  //       // Hide loading state on error
+  //       loadingSpinners?.forEach((spinner) => spinner.classList.add('hidden'));
+  //       priceWrappers?.forEach((wrapper) => wrapper.classList.remove('hidden'));
+
+  //       if (variantLoadingSpinner) {
+  //         variantLoadingSpinner.classList.add('hidden');
+  //       }
+
+  //       this.updateLiveRegions(lineKey, parsedState.errors);
+  //       return;
+  //     }
+
+  //     // Update all sections
+  //     this.getSectionsToRender().forEach((section) => {
+  //       const elementToReplace =
+  //         document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
+  //       elementToReplace.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
+  //     });
+
+  //     // Re-inject quiz link after DOM update
+  //     setTimeout(() => {
+  //       this.reInjectQuizLink();
+  //     }, 100);
+
+  //     publish(PUB_SUB_EVENTS.cartUpdate, {
+  //       source: 'cart-items',
+  //       cartData: parsedState,
+  //       variantId: newVariantId,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error during variant update:', {
+  //       error,
+  //       lineKey,
+  //       newVariantId,
+  //       quantity,
+  //       properties,
+  //     });
+
+  //     // Hide loading state on error
+  //     loadingSpinners?.forEach((spinner) => spinner.classList.add('hidden'));
+  //     priceWrappers?.forEach((wrapper) => wrapper.classList.remove('hidden'));
+
+  //     if (variantLoadingSpinner) {
+  //       variantLoadingSpinner.classList.add('hidden');
+  //     }
+
+  //     // Re-enable radio buttons on error
+  //     radioButtons.forEach((radio) => {
+  //       radio.disabled = false;
+  //     });
+
+  //     // Re-enable ShoeTypeSelectors on error too
+  //     this.enableShoeTypeSelectors();
+
+  //     const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');
+  //     if (errors) {
+  //       errors.textContent = window.cartStrings.error;
+  //     }
+  //   } finally {
+  //     // Always clear the updating flag
+  //     cartItem.dataset.updating = 'false';
+  //   }
+  // }
+
+  // Update variant/cart - OPTIMIZED VERSION
   async updateVariant(lineKey, newVariantId, quantity, cartItem, properties = {}) {
     // Check if already updating to prevent race conditions
     if (cartItem.dataset.updating === 'true') {
@@ -297,7 +547,7 @@ class CartItems extends HTMLElement {
       // Disable shoe type selectors
       this.disableShoeTypeSelectors();
 
-      // Step 1: Get current cart state to find the item index
+      // Get current cart to check item count
       const cartResponse = await fetch(routes.cart_url + '.js', {
         ...fetchConfig('javascript'),
         method: 'GET',
@@ -310,59 +560,71 @@ class CartItems extends HTMLElement {
       const currentCart = await cartResponse.json();
       console.log('Current cart:', currentCart);
 
-      // Step 2: Find the index of the item we're updating
+      // Find the item we're updating
       const itemIndex = currentCart.items.findIndex((item) => item.key === lineKey);
 
       if (itemIndex === -1) {
         throw new Error('Item not found in cart');
       }
 
-      console.log(`Found item at index ${itemIndex}:`, currentCart.items[itemIndex]);
+      const currentItem = currentCart.items[itemIndex];
+      console.log('Found item to update:', currentItem);
 
-      // Step 3: Build new items array with the updated variant
-      const newItems = currentCart.items.map((item, index) => {
-        if (index === itemIndex) {
-          // Replace this item with the new variant
-          return {
-            id: newVariantId,
-            quantity: parseInt(quantity),
-            properties: properties,
-          };
-        } else {
-          // Keep existing items as-is
-          return {
-            id: item.variant_id,
-            quantity: item.quantity,
-            properties: item.properties || {},
-          };
-        }
-      });
+      // Extract selling plan if it exists
+      const currentSellingPlan = currentItem.selling_plan_allocation?.selling_plan?.id || null;
+      console.log('Current selling plan:', currentSellingPlan);
 
-      // Reverse the items array to maintain correct order after cart/add.js
-      const reversedItems = newItems.reverse();
-
-      console.log('New items array (reversed):', reversedItems);
-
-      // Step 4: Clear the entire cart
-      const clearResponse = await fetch(routes.cart_clear_url, {
-        ...fetchConfig('javascript'),
-        method: 'POST',
-      });
-
-      if (!clearResponse.ok) {
-        throw new Error(`Failed to clear cart: ${clearResponse.status}`);
+      // CHECK: Are we changing to the SAME variant? (just selling plan change)
+      if (currentItem.variant_id === parseInt(newVariantId)) {
+        console.log('⚠️ Same variant detected - this is a selling plan change only, not a variant change');
+        console.log('Skipping variant update - selling plan should be handled separately by selling-plan-selector');
+        return; // Exit early - let the selling plan widget handle it
       }
 
-      console.log('Cart cleared successfully');
+      // OPTIMIZATION: Use change.js + add.js for faster updates
+      // Step 1: Remove the old variant using change.js
+      const removeBody = JSON.stringify({
+        id: lineKey, // Use line key for precision
+        quantity: 0, // Set to 0 to remove
+      });
 
-      // Step 5: Add all items back in the correct order (using reversed array)
+      console.log('Removing old variant:', removeBody);
+
+      const removeResponse = await fetch(routes.cart_change_url, {
+        ...fetchConfig('javascript'),
+        method: 'POST',
+        body: removeBody,
+      });
+
+      if (!removeResponse.ok) {
+        const errorText = await removeResponse.text();
+        console.error('Remove response error:', errorText);
+        throw new Error(`Failed to remove old variant: ${removeResponse.status}`);
+      }
+
+      const removeState = await removeResponse.json();
+      console.log('Old variant removed:', removeState);
+
+      // Step 2: Add the new variant with properties AND selling plan
+      const newItem = {
+        id: newVariantId,
+        quantity: parseInt(quantity),
+        properties: properties,
+      };
+
+      // Include selling plan if one exists
+      if (currentSellingPlan) {
+        newItem.selling_plan = currentSellingPlan;
+        console.log('Preserving selling plan:', currentSellingPlan);
+      }
+
       const addBody = JSON.stringify({
-        items: reversedItems,
+        items: [newItem],
         sections: this.getSectionsToRender().map((section) => section.section),
         sections_url: window.location.pathname,
       });
 
-      console.log('Adding items back to cart (reversed):', addBody);
+      console.log('Adding new variant:', addBody);
 
       const addResponse = await fetch(routes.cart_add_url, {
         ...fetchConfig('javascript'),
@@ -371,19 +633,21 @@ class CartItems extends HTMLElement {
       });
 
       if (!addResponse.ok) {
-        throw new Error(`Failed to add items back: ${addResponse.status}`);
+        const errorText = await addResponse.text();
+        console.error('Add response error:', errorText);
+        throw new Error(`Failed to add new variant: ${addResponse.status}`);
       }
 
       const state = await addResponse.text();
       const parsedState = JSON.parse(state);
 
-      console.log('Cart rebuilt successfully:', parsedState);
+      console.log('New variant added successfully:', parsedState);
 
-      // Step 6: Sync cart attributes with line item properties
+      // Step 3: Sync cart attributes with line item properties
       const attributesUpdatePayload = {
         attributes: {
-          ...parsedState.attributes, // Keep existing attributes
-          ...properties, // Overwrite with current line item properties
+          ...parsedState.attributes,
+          ...properties,
         },
       };
 
@@ -403,25 +667,12 @@ class CartItems extends HTMLElement {
         console.log('Cart attributes synced successfully');
       }
 
-      // Verify the updated item has properties
-      if (parsedState.items && parsedState.items[itemIndex]) {
-        const updatedItem = parsedState.items[itemIndex];
-        console.log(`Updated item at index ${itemIndex}:`, {
-          variant_id: updatedItem.variant_id,
-          properties: updatedItem.properties,
-          key: updatedItem.key,
-        });
-      }
-
       if (parsedState.errors) {
-        // Hide loading state on error
         loadingSpinners?.forEach((spinner) => spinner.classList.add('hidden'));
         priceWrappers?.forEach((wrapper) => wrapper.classList.remove('hidden'));
-
         if (variantLoadingSpinner) {
           variantLoadingSpinner.classList.add('hidden');
         }
-
         this.updateLiveRegions(lineKey, parsedState.errors);
         return;
       }
@@ -465,7 +716,7 @@ class CartItems extends HTMLElement {
         radio.disabled = false;
       });
 
-      // Re-enable ShoeTypeSelectors on error too
+      // Re-enable ShoeTypeSelectors on error
       this.enableShoeTypeSelectors();
 
       const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');

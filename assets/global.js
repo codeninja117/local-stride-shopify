@@ -2244,3 +2244,947 @@ class CartPerformance {
     performance.measure(benchmarkName, `${metricName}:start`, `${metricName}:end`);
   }
 }
+
+/**
+ * SellingPlanSelector Custom Element
+ *
+ * Manages subscription/selling plan selection for Shopify products.
+ * Works on both product pages and cart pages.
+ *
+ * Features:
+ * - Shows/hides correct selling plan options based on selected variant
+ * - Updates prices when subscription options change
+ * - Syncs selection with hidden input for cart submission
+ * - Integrates with add-to-cart-button via data attributes
+ * - Updates cart in real-time when plans change on cart page
+ *
+ * @extends HTMLElement
+ */
+class SellingPlanSelector extends HTMLElement {
+  constructor() {
+    super();
+    this.hiddenClass = 'hidden';
+    // Detect context: are we on cart page or product page?
+    this.isCartPage = this.closest('cart-items') !== null;
+  }
+
+  connectedCallback() {
+    // NEW: Initialize from cart item if on cart page
+    if (this.isCartPage) {
+      this.initializeFromCartItem();
+    }
+
+    // Initialize the component when it's added to the DOM
+    this.updateSellingPlanInputsValues();
+    this.listenToVariantChange();
+    this.listenToSellingPlanFormRadioButtonChange();
+    this.setupFrequencyDropdownListeners();
+    this.updatePrice();
+  }
+
+  // ============================================================================
+  // GETTERS - Properties that derive values from the DOM
+  // ============================================================================
+
+  /**
+   * Gets the section ID from the data attribute
+   * Used to scope queries to the correct Shopify section
+   */
+  get sectionId() {
+    return this.getAttribute('data-section-id');
+  }
+
+  /**
+   * Gets the Shopify section element containing this component
+   * Used for finding price elements and other section-specific content
+   */
+  get shopifySection() {
+    return document.querySelector(`#shopify-section-${this.sectionId}`);
+  }
+
+  /**
+   * Gets the add-to-cart-button custom element on the page
+   * Used to sync selling plan ID for cart submission
+   */
+  get addToCartButton() {
+    return document.querySelector('add-to-cart-button');
+  }
+
+  /**
+   * Gets the current variant ID
+   * Priority: stored value (from variant change) → add-to-cart-button fallback
+   *
+   * @returns {string} The variant ID
+   */
+  get currentVariantId() {
+    const variantId = this._currentVariantId || this.addToCartButton?.dataset.variant;
+    console.log('📍 currentVariantId:', variantId);
+    return variantId;
+  }
+
+  /**
+   * Gets the price element in the section
+   * Used for updating price display when subscription is selected
+   */
+  get priceElement() {
+    return this.shopifySection?.querySelector('.price');
+  }
+
+  /**
+   * Gets the visible selling plan form for the current variant
+   * Only one form should be visible at a time
+   *
+   * @returns {HTMLElement|null} The section element for current variant
+   */
+  get visibleSellingPlanForm() {
+    const form = this.querySelector(`section[data-variant-id="${this.currentVariantId}"]`);
+    console.log('👁️ visibleSellingPlanForm:', form ? `Found for ${this.currentVariantId}` : 'NOT FOUND');
+    return form;
+  }
+
+  /**
+   * Gets the hidden input that stores the selected selling plan ID
+   * This input is submitted with the cart form
+   */
+  get sellingPlanInput() {
+    return this.querySelector('.selected-selling-plan-id');
+  }
+
+  /**
+   * Gets the regular price element (non-sale price display)
+   */
+  get regularPriceElement() {
+    return this.shopifySection?.querySelector('.price__regular');
+  }
+
+  /**
+   * Gets the sale price container element
+   */
+  get salePriceElement() {
+    return this.shopifySection?.querySelector('.price__sale');
+  }
+
+  /**
+   * Gets the sale price value element (discounted price)
+   */
+  get salePriceValue() {
+    return this.salePriceElement?.querySelector('.price-item--sale');
+  }
+
+  /**
+   * Gets the regular price value element (shown when there's a sale)
+   */
+  get regularPriceValue() {
+    return this.salePriceElement?.querySelector('.price-item--regular');
+  }
+
+  /**
+   * Gets the price from the selected purchase option's data attribute
+   * This is the subscription price (potentially discounted)
+   */
+  get selectedPurchaseOptionPrice() {
+    return this.selectedPurchaseOption?.dataset.variantPrice;
+  }
+
+  /**
+   * Gets the compare-at price from the selected option
+   * This is the original price before subscription discount
+   */
+  get selectedPurchaseOptionComparedAtPrice() {
+    return this.selectedPurchaseOption?.dataset.variantCompareAtPrice;
+  }
+
+  /**
+   * Gets the selling plan ID value to store in the hidden input
+   * Returns empty string if one-time purchase is selected
+   *
+   * @returns {string} The selling plan ID or empty string
+   */
+  get sellingPlanInputValue() {
+    return this.selectedPurchaseOption?.dataset.sellingPlanId ?? '';
+  }
+
+  /**
+   * Gets the currently selected purchase option (radio button)
+   * This could be "one-time purchase" or a subscription option
+   *
+   * @returns {HTMLInputElement|null} The checked radio button
+   */
+  get selectedPurchaseOption() {
+    const option = this.visibleSellingPlanForm?.querySelector('input[type="radio"]:checked');
+    console.log('🔘 selectedPurchaseOption:', option?.dataset);
+    return option;
+  }
+
+  /**
+   * Setter for selectedPurchaseOption (used internally for state management)
+   */
+  set selectedPurchaseOption(selectedPurchaseOption) {
+    this._selectedPurchaseOption = selectedPurchaseOption;
+  }
+
+  // ============================================================================
+  // INITIALIZATION METHODS
+  // ============================================================================
+
+  /**
+   * Initializes the component with the current variant from the cart item
+   * Called on cart pages to set initial state before any variant changes
+   */
+  initializeFromCartItem() {
+    // Only initialize once
+    if (this._initialized) {
+      console.log('ℹ️ Already initialized, skipping');
+      return;
+    }
+
+    const cartItem = this.closest('.cart-item');
+    if (!cartItem) {
+      console.warn('⚠️ Could not find parent cart-item');
+      return;
+    }
+
+    // Find the checked radio button (the currently selected variant option)
+    const checkedRadio = cartItem.querySelector('input[type="radio"]:checked');
+
+    if (checkedRadio && checkedRadio.dataset.variantId) {
+      const variantId = checkedRadio.dataset.variantId;
+      console.log('🛒 Initialized cart page with variant:', variantId);
+      this._currentVariantId = variantId;
+
+      // Show the correct section immediately
+      this.handleSellingPlanFormVisibility();
+
+      // Mark as initialized
+      this._initialized = true;
+    } else {
+      console.warn('⚠️ Could not find checked radio button with variant ID');
+    }
+  }
+
+  // ============================================================================
+  // VISIBILITY METHODS - Show/hide selling plan sections
+  // ============================================================================
+
+  /**
+   * Shows the selling plan form for the selected variant
+   * Removes the hidden class to make it visible
+   *
+   * @param {HTMLElement} sellingPlanFormForSelectedVariant - The section to show
+   */
+  showSellingPlanForm(sellingPlanFormForSelectedVariant) {
+    console.log('✅ Showing form:', sellingPlanFormForSelectedVariant?.dataset.variantId);
+    sellingPlanFormForSelectedVariant?.classList?.remove(this.hiddenClass);
+  }
+
+  /**
+   * Hides all selling plan forms that don't match the current variant
+   * Adds the hidden class to make them invisible
+   *
+   * @param {NodeList} sellingPlanFormsForUnselectedVariants - Forms to hide
+   */
+  hideSellingPlanForms(sellingPlanFormsForUnselectedVariants) {
+    sellingPlanFormsForUnselectedVariants.forEach((element) => {
+      console.log('❌ Hiding form:', element.dataset.variantId);
+      element.classList.add(this.hiddenClass);
+    });
+  }
+
+  /**
+   * Handles showing the correct selling plan section and hiding others
+   * Called when variant changes to swap which subscription options are visible
+   */
+  handleSellingPlanFormVisibility() {
+    console.log('🔍 handleSellingPlanFormVisibility called');
+    console.log('   currentVariantId:', this.currentVariantId, typeof this.currentVariantId);
+
+    if (!this.currentVariantId) {
+      console.log('   ⚠️ No current variant ID');
+      return;
+    }
+
+    // Debug: log all available sections
+    const allSections = this.querySelectorAll('section[data-variant-id]');
+    console.log(
+      '   All sections:',
+      Array.from(allSections).map((s) => s.dataset.variantId),
+    );
+
+    // Find the section for the current variant
+    const sellingPlanFormForSelectedVariant = this.querySelector(`section[data-variant-id="${this.currentVariantId}"]`);
+
+    // Find all other sections (to hide them)
+    const sellingPlanFormsForUnselectedVariants = this.querySelectorAll(
+      `.selling_plan_theme_integration:not([data-variant-id="${this.currentVariantId}"])`,
+    );
+
+    console.log('   Showing variant:', this.currentVariantId);
+    console.log('   Found section to show:', !!sellingPlanFormForSelectedVariant);
+    console.log('   Sections to hide:', sellingPlanFormsForUnselectedVariants.length);
+
+    // Show the correct section, hide all others
+    this.showSellingPlanForm(sellingPlanFormForSelectedVariant);
+    this.hideSellingPlanForms(sellingPlanFormsForUnselectedVariants);
+  }
+
+  // ============================================================================
+  // VARIANT CHANGE HANDLING
+  // ============================================================================
+
+  /**
+   * Main handler for variant changes
+   * Called when user selects a different variant (e.g., different "Pairs" option)
+   *
+   * Flow:
+   * 1. Store the new variant ID
+   * 2. Show/hide correct selling plan sections
+   * 3. Update hidden input values
+   * 4. Sync with add-to-cart-button
+   * 5. Re-attach radio button listeners
+   * 6. Update price display
+   *
+   * @param {Object} variant - The variant object from Shopify
+   * @param {number} variant.id - The variant ID
+   */
+  handleVariantChange(variant) {
+    console.log('🎯 handleVariantChange called with variant:', variant);
+
+    // Store the variant ID for immediate access (avoids timing issues)
+    this._currentVariantId = variant.id.toString();
+
+    // Execute all updates in sequence
+    this.handleSellingPlanFormVisibility();
+    this.updateSellingPlanInputsValues();
+    this.updateAddToCartButtonSellingPlan();
+    this.listenToSellingPlanFormRadioButtonChange();
+    this.setupFrequencyDropdownListeners();
+    this.updatePrice();
+  }
+
+  /**
+   * Sets up variant change listeners based on context (product vs cart page)
+   *
+   * Product page: Listens to optionValueSelectionChange (from variant-selects)
+   * Cart page: Listens to cart line item changes
+   */
+  listenToVariantChange() {
+    console.log('👂 Setting up variant change listener');
+    console.log('   Context:', this.isCartPage ? 'Cart Page' : 'Product Page');
+
+    if (this.isCartPage) {
+      // Cart page: listen to line item variant changes
+      this.listenToCartLineItemChanges();
+    } else {
+      // Product page: listen to variant-selects changes
+      this.listenToProductPageVariantChanges();
+    }
+  }
+
+  /**
+   * Listens to variant changes on product pages
+   * Subscribes to the optionValueSelectionChange event from variant-selects
+   */
+  listenToProductPageVariantChanges() {
+    this.variantChangeUnsubscribe = subscribe(PUB_SUB_EVENTS.optionValueSelectionChange, (event) => {
+      console.log('🔔 optionValueSelectionChange received:', event);
+
+      // Get the selected variant data from variant-selects element
+      const variantSelects = document.querySelector('variant-selects');
+      const selectedVariantJson = variantSelects?.querySelector('[data-selected-variant]')?.textContent.trim();
+
+      if (selectedVariantJson) {
+        try {
+          const variant = JSON.parse(selectedVariantJson);
+          console.log('🎯 Variant parsed:', variant);
+          this.handleVariantChange(variant);
+        } catch (e) {
+          console.error('Error parsing variant:', e);
+        }
+      }
+    });
+  }
+
+  /**
+   * Listens to variant changes on cart pages
+   * Sets up a listener for the custom 'variant-changed' event from line items
+   */
+  listenToCartLineItemChanges() {
+    // Find the cart item this selector belongs to
+    const cartItem = this.closest('.cart-item');
+    if (!cartItem) {
+      console.error('Could not find parent cart-item');
+      return;
+    }
+
+    // Listen for the custom variant-changed event dispatched by line item selector
+    cartItem.addEventListener('variant-changed', (event) => {
+      console.log('🛒 Cart variant changed:', event.detail);
+
+      if (event.detail && event.detail.variant) {
+        this.handleVariantChange(event.detail.variant);
+      }
+    });
+  }
+
+  // ============================================================================
+  // PRICE UPDATE METHODS
+  // ============================================================================
+
+  /**
+   * Updates the price display based on selected subscription option
+   *
+   * Logic:
+   * - If compare-at price exists and differs from selling price → show sale price
+   * - Otherwise → show regular price
+   *
+   * This handles subscription discounts (e.g., "Subscribe & Save 10%")
+   */
+  updatePrice() {
+    console.log('💰 updatePrice called');
+
+    // Skip price updates on cart page
+    if (this.isCartPage) {
+      console.log('ℹ️ Skipping price update on cart page');
+      return;
+    }
+
+    // Validation: need both a selected option and price element
+    if (!this.selectedPurchaseOption) {
+      console.log('⚠️ No selected purchase option');
+      return;
+    }
+
+    if (!this.priceElement) {
+      console.log('⚠️ No price element');
+      return;
+    }
+
+    console.log('Price:', this.selectedPurchaseOptionPrice);
+    console.log('Compare at:', this.selectedPurchaseOptionComparedAtPrice);
+
+    // Determine if there's a discount (compare-at price exists and is different)
+    if (
+      !this.selectedPurchaseOptionComparedAtPrice ||
+      this.selectedPurchaseOptionComparedAtPrice === this.selectedPurchaseOptionPrice
+    ) {
+      // No discount: show regular price
+      this.showRegularPrice();
+      this.hideSalePrice();
+      this.priceElement.classList.remove('price--on-sale');
+    } else {
+      // Has discount: show sale price
+      this.showSalePrice();
+      this.hideRegularPrice();
+      this.priceElement.classList.add('price--on-sale');
+    }
+  }
+
+  /**
+   * Hides the sale price element
+   */
+  hideSalePrice() {
+    if (this.salePriceElement) {
+      this.salePriceElement.style.display = 'none';
+    }
+  }
+
+  /**
+   * Hides the regular price element
+   */
+  hideRegularPrice() {
+    if (this.regularPriceElement) {
+      this.regularPriceElement.style.display = 'none';
+    }
+  }
+
+  /**
+   * Shows the regular price and hides sale pricing
+   */
+  showRegularPrice() {
+    if (this.regularPriceElement) {
+      this.regularPriceElement.style.display = 'block';
+    }
+    // Also ensure sale element is hidden
+    const saleElement = this.shopifySection?.querySelector('.price__sale');
+    if (saleElement) {
+      saleElement.style.display = 'none';
+    }
+  }
+
+  /**
+   * Shows the sale price with both the discounted and original prices
+   * Updates the HTML content to display the correct values
+   */
+  showSalePrice() {
+    if (this.salePriceElement) {
+      this.salePriceElement.style.display = 'block';
+    }
+    // Update the original (crossed-out) price
+    if (this.regularPriceValue) {
+      this.regularPriceValue.innerHTML = this.selectedPurchaseOptionComparedAtPrice;
+    }
+    // Update the sale (discounted) price
+    if (this.salePriceValue) {
+      this.salePriceValue.innerHTML = this.selectedPurchaseOptionPrice;
+    }
+  }
+
+  // ============================================================================
+  // HIDDEN INPUT & SYNC METHODS
+  // ============================================================================
+
+  /**
+   * Updates the hidden input value with the selected selling plan ID
+   * This input is submitted with the form when adding to cart
+   *
+   * Value is empty string for one-time purchase, or selling plan ID for subscriptions
+   */
+  updateSellingPlanInputsValues() {
+    const value = this.sellingPlanInputValue;
+    if (this.sellingPlanInput) {
+      this.sellingPlanInput.value = value;
+      console.log('📝 Updated hidden input to:', value);
+    }
+  }
+
+  /**
+   * Syncs the selling plan ID to the add-to-cart-button element
+   * The add-to-cart-button reads this when submitting to cart
+   */
+  updateAddToCartButtonSellingPlan() {
+    if (!this.addToCartButton) return;
+
+    const sellingPlanId = this.sellingPlanInputValue;
+    this.addToCartButton.dataset.sellingPlanId = sellingPlanId;
+    console.log('🛒 Updated add-to-cart-button selling plan to:', sellingPlanId);
+  }
+
+  // ============================================================================
+  // RADIO BUTTON EVENT HANDLING
+  // ============================================================================
+
+  /**
+   * Handles when user clicks a different subscription option radio button
+   *
+   * Flow:
+   * 1. Store the new selection
+   * 2. Update hidden input value
+   * 3. Sync with add-to-cart-button (product page) OR update cart (cart page)
+   * 4. Update price display
+   *
+   * @param {HTMLInputElement} selectedPurchaseOption - The radio button that was clicked
+   */
+  handleRadioButtonChange(selectedPurchaseOption) {
+    console.log('🔘 Radio button changed:', selectedPurchaseOption.dataset);
+
+    this.selectedPurchaseOption = selectedPurchaseOption;
+    this.updateSellingPlanInputsValues();
+
+    if (this.isCartPage) {
+      // On cart page: update the actual cart
+      this.handleCartSellingPlanUpdate();
+    } else {
+      // On product page: sync with add-to-cart button
+      this.updateAddToCartButtonSellingPlan();
+    }
+
+    this.updatePrice();
+  }
+
+  /**
+   * Handles updating the cart item when selling plan changes
+   * Only applicable on cart pages
+   */
+  async handleCartSellingPlanUpdate() {
+    if (!this.isCartPage) return;
+
+    const cartItem = this.closest('.cart-item');
+    const cartItemsElement = document.querySelector('cart-items');
+
+    if (!cartItem || !cartItemsElement) {
+      console.error('Missing required elements');
+      return;
+    }
+
+    const sellingPlanId = this.sellingPlanInputValue;
+    console.log('🔄 Updating cart with selling plan:', sellingPlanId);
+
+    const fieldset = cartItem.querySelector('fieldset[id^="CartItemVariantSelect-"]');
+    if (!fieldset) {
+      console.error('Could not find fieldset');
+      return;
+    }
+
+    const lineKey = fieldset.id.split('-')[1];
+
+    // Get current cart to preserve properties
+    const currentCart = await cartItemsElement.getCurrentCart();
+    if (!currentCart) {
+      console.error('Failed to get current cart');
+      return;
+    }
+
+    const currentItem = currentCart.items.find((item) => item.key === lineKey);
+    if (!currentItem) {
+      console.error('Could not find current item in cart');
+      return;
+    }
+
+    // Show loading state
+    this.showLoadingState();
+
+    try {
+      // Get section ID for rendering
+      const mainCartElement = document.getElementById('main-cart');
+      const sectionId = mainCartElement?.dataset.id;
+
+      // Update cart with selling plan
+      const body = JSON.stringify({
+        id: lineKey,
+        quantity: currentItem.quantity,
+        selling_plan: sellingPlanId || null,
+        properties: currentItem.properties || {},
+        sections: sectionId, // Request updated section HTML
+        sections_url: window.location.pathname,
+      });
+
+      const response = await fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update cart: ${response.status}`);
+      }
+
+      const parsedState = await response.json();
+      console.log('✅ Cart updated successfully with selling plan:', sellingPlanId);
+
+      // Update ONLY .js-contents to preserve selling-plan-selector state
+      if (parsedState.sections && parsedState.sections[sectionId]) {
+        const parser = new DOMParser();
+        const html = parser.parseFromString(parsedState.sections[sectionId], 'text/html');
+        const newJsContents = html.querySelector('.js-contents');
+
+        if (newJsContents) {
+          const currentJsContents = mainCartElement.querySelector('.js-contents');
+          if (currentJsContents) {
+            currentJsContents.innerHTML = newJsContents.innerHTML;
+            console.log('✅ Updated .js-contents');
+
+            // Re-inject quiz link
+            setTimeout(() => {
+              if (typeof cartItemsElement.reInjectQuizLink === 'function') {
+                cartItemsElement.reInjectQuizLink();
+              }
+            }, 100);
+          }
+        }
+      }
+
+      // Update cart icon bubble
+      const cartIconBubble = document.getElementById('cart-icon-bubble');
+      if (cartIconBubble && parsedState.sections && parsedState.sections['cart-icon-bubble']) {
+        const parser = new DOMParser();
+        const html = parser.parseFromString(parsedState.sections['cart-icon-bubble'], 'text/html');
+        const newBubble = html.querySelector('.shopify-section');
+        if (newBubble) {
+          cartIconBubble.innerHTML = newBubble.innerHTML;
+        }
+      }
+
+      // Publish cart update event
+      publish(PUB_SUB_EVENTS.cartUpdate, {
+        source: 'selling-plan-selector',
+        cartData: parsedState,
+      });
+
+      this.hideLoadingState();
+    } catch (error) {
+      console.error('Error updating cart with selling plan:', error);
+      // this.hideLoadingState();
+
+      // Show error to user
+      this.showErrorState(error.message || 'Failed to update subscription');
+    }
+  }
+
+  /**
+   * Refreshes cart sections using Shopify's section rendering API
+   * This updates both cart items and summary with new prices
+   */
+  async refreshCartDisplay() {
+    try {
+      const sections = ['main-cart'].filter((section) => document.getElementById(section)).join(',');
+
+      if (!sections) {
+        console.warn('No cart sections found to refresh');
+        return;
+      }
+
+      const response = await fetch(`${window.location.pathname}?sections=${sections}`);
+      const data = await response.json();
+
+      // Update each section
+      Object.entries(data).forEach(([sectionId, html]) => {
+        const sectionElement = document.getElementById(sectionId);
+        if (sectionElement) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = html;
+          const newContent = tempDiv.querySelector(`#${sectionId}`);
+
+          if (newContent) {
+            sectionElement.innerHTML = newContent.innerHTML;
+            console.log(`✅ Updated section: ${sectionId}`);
+          }
+        }
+      });
+
+      // Publish cart update event for other listeners
+      publish(PUB_SUB_EVENTS.cartUpdate, {
+        source: 'selling-plan-selector',
+      });
+    } catch (error) {
+      console.error('Error refreshing cart sections:', error);
+    }
+  }
+
+  /**
+   * Attaches change listeners to all radio buttons in the visible section
+   * Called when variant changes to ensure new radio buttons are interactive
+   *
+   * Note: Removes old listeners first to prevent duplicates
+   */
+  listenToSellingPlanFormRadioButtonChange() {
+    const radios = this.visibleSellingPlanForm?.querySelectorAll('input[type="radio"]');
+    console.log('👂 Setting up radio listeners, found:', radios?.length || 0, 'radios');
+
+    radios?.forEach((radio) => {
+      // Remove old listener if it exists (prevents duplicates)
+      if (radio._sellingPlanChangeHandler) {
+        radio.removeEventListener('change', radio._sellingPlanChangeHandler);
+      }
+
+      // Create and store the handler
+      radio._sellingPlanChangeHandler = (event) => {
+        this.handleRadioButtonChange(event.target);
+      };
+
+      // Add the listener
+      radio.addEventListener('change', radio._sellingPlanChangeHandler);
+    });
+  }
+
+  // ============================================================================
+  // FREQUENCY DROPDOWN HANDLING
+  // ============================================================================
+
+  /**
+   * Sets up listeners for frequency dropdown changes
+   * Updates pricing, discount badge, and hidden input when user selects different frequency
+   */
+  setupFrequencyDropdownListeners() {
+    const dropdowns = this.querySelectorAll('.selling-plan-frequency-select');
+
+    dropdowns.forEach((dropdown) => {
+      dropdown.addEventListener('change', (event) => {
+        this.handleFrequencyChange(event);
+      });
+    });
+
+    console.log('📦 Frequency dropdown listeners setup:', dropdowns.length);
+  }
+
+  /**
+   * Handles when user changes the delivery frequency dropdown
+   * @param {Event} event - The change event from the select element
+   */
+  handleFrequencyChange(event) {
+    const dropdown = event.target;
+    const selectedOption = dropdown.options[dropdown.selectedIndex];
+
+    // Get data from selected option
+    const sellingPlanId = selectedOption.value;
+    const newPrice = selectedOption.dataset.price;
+    const newComparePrice = selectedOption.dataset.comparePrice;
+    const newDiscount = selectedOption.dataset.discount;
+
+    console.log('📅 Frequency changed:', {
+      sellingPlanId,
+      newPrice,
+      newComparePrice,
+      newDiscount,
+    });
+
+    // Find the parent subscription card
+    const subscriptionCard = dropdown.closest('.selling-plan-option--subscription');
+    if (!subscriptionCard) {
+      console.error('Could not find parent subscription card');
+      return;
+    }
+
+    // Update the radio button's data attributes
+    const radioButton = subscriptionCard.querySelector('.selling-plan-radio--group');
+    if (radioButton) {
+      radioButton.dataset.sellingPlanId = sellingPlanId;
+      radioButton.dataset.variantPrice = newPrice;
+      radioButton.dataset.variantCompareAtPrice = newComparePrice;
+    }
+
+    // Update the displayed price
+    const priceElement = subscriptionCard.querySelector('.selling-plan-price--dynamic');
+    if (priceElement) {
+      priceElement.textContent = newPrice;
+    }
+
+    // Update the compare-at price
+    const comparePriceElement = subscriptionCard.querySelector('.selling-plan-compare-price--dynamic');
+    if (comparePriceElement) {
+      if (newComparePrice && newPrice !== newComparePrice) {
+        comparePriceElement.textContent = newComparePrice;
+        comparePriceElement.style.display = '';
+      } else {
+        comparePriceElement.style.display = 'none';
+      }
+    }
+
+    // Update the discount badge
+    const badgeElement = subscriptionCard.querySelector('.selling-plan-badge--dynamic');
+    if (badgeElement && newDiscount > 0) {
+      badgeElement.textContent = `${newDiscount}% OFF`;
+      badgeElement.style.display = '';
+    } else if (badgeElement) {
+      badgeElement.style.display = 'none';
+    }
+
+    // Update hidden input value
+    this.updateSellingPlanInputsValues();
+
+    // If this subscription option is currently selected, update the cart
+    if (radioButton && radioButton.checked) {
+      if (this.isCartPage) {
+        this.handleCartSellingPlanUpdate();
+      } else {
+        this.updateAddToCartButtonSellingPlan();
+      }
+    }
+  }
+
+  /**
+   * Shows loading state on the cart summary
+   */
+
+  showLoadingState() {
+    const cartItem = this.closest('.cart-item');
+
+    // Disable all radio buttons
+    const radios = this.querySelectorAll('input[type="radio"]');
+    radios.forEach((radio) => {
+      radio.disabled = true;
+    });
+
+    // Show loading spinner
+    const loadingSpinner = cartItem?.querySelector('.variant-loading__spinner');
+    if (loadingSpinner) {
+      loadingSpinner.classList.remove('hidden');
+    }
+
+    // Dim the selling plan form
+    const visibleForm = this.visibleSellingPlanForm;
+    if (visibleForm) {
+      visibleForm.style.opacity = '0.6';
+      visibleForm.style.pointerEvents = 'none';
+    }
+
+    // Dim cart summary
+    const cartSummary = document.querySelector('.main-cart-summary');
+    if (cartSummary) {
+      cartSummary.style.opacity = '0.6';
+      cartSummary.style.pointerEvents = 'none';
+    }
+
+    console.log('🔄 Loading state: ACTIVE');
+  }
+
+  /**
+   * Hides loading state on the cart summary
+   */
+  hideLoadingState() {
+    const cartItem = this.closest('.cart-item');
+
+    // Re-enable all radio buttons
+    const radios = this.querySelectorAll('input[type="radio"]');
+    radios.forEach((radio) => {
+      radio.disabled = false;
+    });
+
+    // Hide loading spinner
+    const loadingSpinner = cartItem?.querySelector('.variant-loading__spinner');
+    if (loadingSpinner) {
+      loadingSpinner.classList.add('hidden');
+    }
+
+    // Restore selling plan form
+    const visibleForm = this.visibleSellingPlanForm;
+    if (visibleForm) {
+      visibleForm.style.opacity = '1';
+      visibleForm.style.pointerEvents = 'auto';
+    }
+
+    // Restore cart summary
+    const cartSummary = document.querySelector('.main-cart-summary');
+    if (cartSummary) {
+      cartSummary.style.opacity = '1';
+      cartSummary.style.pointerEvents = 'auto';
+    }
+
+    console.log('✅ Loading state: CLEARED');
+  }
+
+  showErrorState(errorMessage = 'Failed to update subscription') {
+    this.hideLoadingState();
+
+    // Show error message near the radio buttons
+    const visibleForm = this.visibleSellingPlanForm;
+    if (!visibleForm) return;
+
+    // Remove existing error message
+    const existingError = visibleForm.querySelector('.selling-plan-error');
+    if (existingError) {
+      existingError.remove();
+    }
+
+    // Create and insert error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'selling-plan-error';
+    errorDiv.style.cssText = 'color: rgb(239, 68, 68); font-size: 0.875rem; margin-top: 0.5rem;';
+    errorDiv.textContent = errorMessage;
+
+    visibleForm.appendChild(errorDiv);
+
+    // Auto-remove error after 5 seconds
+    setTimeout(() => {
+      errorDiv.remove();
+    }, 5000);
+
+    console.error('❌ Error state:', errorMessage);
+  }
+
+  // ============================================================================
+  // LIFECYCLE METHODS
+  // ============================================================================
+
+  /**
+   * Cleanup when element is removed from DOM
+   * Unsubscribes from PubSub events to prevent memory leaks
+   */
+  disconnectedCallback() {
+    if (this.variantChangeUnsubscribe) {
+      this.variantChangeUnsubscribe();
+    }
+  }
+}
+
+// Register the custom element
+customElements.define('selling-plan-selector', SellingPlanSelector);

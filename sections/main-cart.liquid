@@ -27,6 +27,21 @@
   }
 {% endstyle %}
 
+<script>
+  // Temporary test code - add to cart page
+  window.testCartVariantChange = function (variantId) {
+    const cartItem = document.querySelector('.cart-item');
+    cartItem.dispatchEvent(
+      new CustomEvent('variant-changed', {
+        bubbles: true,
+        detail: {
+          variant: { id: variantId },
+        },
+      }),
+    );
+  };
+</script>
+
 <div
   id="main-cart"
   data-id="{{ section.id }}"
@@ -90,7 +105,7 @@
                       <ul role="list" class="divide-blue-fitness/50 divide-y">
                         {%- for item in cart.items -%}
                           <li
-                            class="cart-item py-4"
+                            class="cart-item flex flex-col gap-4 py-4"
                             id="CartItem-{{ item.index | plus: 1 }}"
                             data-properties="{{ item.properties | json | escape }}"
                           >
@@ -391,6 +406,10 @@
                                 %}
                               </fieldset>
                             </div>
+
+                            {% if item.product.selling_plan_groups.size > 0 %}
+                              {% render 'selling-plan-selector', section: section, item: item %}
+                            {% endif %}
                           </li>
                         {%- endfor -%}
                       </ul>
@@ -1132,21 +1151,130 @@
         -%}
       {%- endif -%}
 
+      {%- comment -%} Calculate selling plan/subscription savings {%- endcomment -%}
+      {%- assign total_selling_plan_savings = 0 -%}
+      {%- assign has_selling_plan_savings = false -%}
+
+      {%- comment -%} Calculate selling plan savings for each cart item {%- endcomment -%}
+      {%- for item in cart.items -%}
+        {%- if item.selling_plan_allocation -%}
+          {%- comment -%} Item has a selling plan/subscription {%- endcomment -%}
+
+          {%- comment -%} Get the compare-at price (price before subscription discount) {%- endcomment -%}
+          {%- assign price_before_subscription = item.selling_plan_allocation.compare_at_price -%}
+
+          {%- comment -%} Get the selling plan discounted price {%- endcomment -%}
+          {%- assign selling_plan_price = item.selling_plan_allocation.price -%}
+
+          {%- comment -%} Calculate savings per unit {%- endcomment -%}
+          {%- assign unit_savings = price_before_subscription | minus: selling_plan_price -%}
+
+          {%- comment -%} Calculate total savings for this item (savings per unit × quantity) {%- endcomment -%}
+          {%- if unit_savings > 0 -%}
+            {%- assign item_selling_plan_savings = unit_savings | times: item.quantity -%}
+            {%- assign total_selling_plan_savings = total_selling_plan_savings | plus: item_selling_plan_savings -%}
+            {%- assign has_selling_plan_savings = true -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Calculate individual discount percentages {%- endcomment -%}
+      {%- assign compare_at_percentage = 0 -%}
+      {%- assign selling_plan_percentage = 0 -%}
+
+      {%- if has_compare_at_savings and total_compare_at_price > 0 -%}
+        {%- assign compare_at_percentage = total_compare_at_savings
+          | times: 100.0
+          | divided_by: total_compare_at_price
+          | round
+        -%}
+      {%- endif -%}
+
+      {%- if has_selling_plan_savings -%}
+        {%- comment -%} Get the selling plan discount percentage from the first item {%- endcomment -%}
+        {%- for item in cart.items -%}
+          {%- if item.selling_plan_allocation -%}
+            {%- for adjustment in item.selling_plan_allocation.selling_plan.price_adjustments -%}
+              {%- if adjustment.value_type == 'percentage' -%}
+                {%- assign selling_plan_percentage = adjustment.value -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- comment -%} Calculate additive percentage (50% + 20% = 70%) {%- endcomment -%}
+      {%- assign additive_savings_percentage = compare_at_percentage | plus: selling_plan_percentage -%}
+
+      {%- comment -%} Now calculate total_all_savings including selling plan savings {%- endcomment -%}
       {%- assign total_all_savings = total_variant_savings
+        | plus: total_compare_at_savings
+        | plus: discount_code_savings
+        | plus: line_item_discount_savings
+        | plus: total_selling_plan_savings
+      -%}
+
+      {%- comment -%} Calculate subtotal savings WITHOUT selling plan savings (for subtotal display) {%- endcomment -%}
+      {%- assign subtotal_all_savings = total_variant_savings
         | plus: total_compare_at_savings
         | plus: discount_code_savings
         | plus: line_item_discount_savings
       -%}
 
+      {%- comment -%} Calculate actual percentage (additive % calcuation, not compound) {%- endcomment -%}
       {%- assign savings_percentage = 0 -%}
-      {%- assign total_before_all_discounts = cart.total_price | plus: total_all_savings -%}
-      {%- if total_all_savings > 0 and total_before_variant_discounts > 0 -%}
-        {%- assign savings_percentage = total_all_savings
-          | times: 100.0
-          | divided_by: total_before_all_discounts
-          | round
-        -%}
+
+      {%- comment -%} Add up all individual discount percentages {%- endcomment -%}
+      {%- if has_compare_at_savings
+        or has_variant_savings
+        or has_selling_plan_savings
+        or has_discount_codes
+        or has_line_item_discounts
+      -%}
+        {%- comment -%} Start with compare-at percentage {%- endcomment -%}
+        {%- assign savings_percentage = compare_at_percentage -%}
+
+        {%- comment -%} Add selling plan percentage {%- endcomment -%}
+        {%- if has_selling_plan_savings -%}
+          {%- assign savings_percentage = savings_percentage | plus: selling_plan_percentage -%}
+        {%- endif -%}
+
+        {%- comment -%} Add discount code percentage if any {%- endcomment -%}
+        {%- if has_discount_codes and discount_code_savings > 0 -%}
+          {%- assign total_before_discount_codes = cart.total_price | plus: discount_code_savings -%}
+          {%- assign discount_code_percentage = discount_code_savings
+            | times: 100.0
+            | divided_by: total_before_discount_codes
+            | round
+          -%}
+          {%- assign savings_percentage = savings_percentage | plus: discount_code_percentage -%}
+        {%- endif -%}
+
+        {%- comment -%} Add line item discount percentage if any {%- endcomment -%}
+        {%- if has_line_item_discounts and line_item_discount_savings > 0 -%}
+          {%- assign total_before_line_discounts = cart.total_price | plus: line_item_discount_savings -%}
+          {%- assign line_item_percentage = line_item_discount_savings
+            | times: 100.0
+            | divided_by: total_before_line_discounts
+            | round
+          -%}
+          {%- assign savings_percentage = savings_percentage | plus: line_item_percentage -%}
+        {%- endif -%}
       {%- endif -%}
+
+      {% comment %}
+        {%- assign savings_percentage = 0 -%}
+        {%- assign total_before_all_discounts = cart.total_price | plus: total_all_savings -%}
+        {%- if total_all_savings > 0 and total_before_variant_discounts > 0 -%}
+          {%- assign savings_percentage = total_all_savings
+            | times: 100.0
+            | divided_by: total_before_all_discounts
+            | round
+          -%}
+        {%- endif -%}
+      {% endcomment %}
 
       {%- comment -%} Debug: Complete savings summary {%- endcomment -%}
       <script>
@@ -1328,7 +1456,9 @@
                         <li class="totals flex items-center justify-between gap-2">
                           <h2 class="totals__total font-semibold">Subtotal:</h2>
                           <p class="totals__total-value">
-                            {{ cart.total_price | plus: total_all_savings | money_with_currency }}
+                            {% comment %} {{ cart.total_price | plus: total_all_savings | money_with_currency }} {% endcomment %}
+
+                            {{ cart.total_price | plus: subtotal_all_savings | money_with_currency }}
                           </p>
                         </li>
                         <li class="totals flex items-center justify-between gap-2">
@@ -1342,6 +1472,45 @@
                               -{{ total_all_savings | money_with_currency }}
                               {%- if savings_percentage > 0 -%}
                                 <span class="savings-percentage"> ({{ savings_percentage }}% OFF)</span>
+                              {%- endif -%}
+                              {% comment %}
+                                {%- if has_selling_plan_savings
+                                  and compare_at_percentage > 0
+                                  and selling_plan_percentage > 0
+                                -%}
+                                  <span class="savings-percentage mt-0.5 block text-xs" style="text-align: right;">
+                                    ({{ compare_at_percentage }}% + {{ selling_plan_percentage }}% subscription)
+                                  </span>
+                                {%- endif -%}
+                              {% endcomment %}
+                              {%- if has_selling_plan_savings
+                                and compare_at_percentage > 0
+                                and selling_plan_percentage > 0
+                              -%}
+                                <span class="savings-percentage mt-0.5 block text-xs" style="text-align: right;">
+                                  ({{ compare_at_percentage }}%
+                                  {%- if has_discount_codes and discount_code_percentage > 0 -%}
+                                    + {{ discount_code_percentage }}% code
+                                  {%- endif -%}
+                                  {%- if has_line_item_discounts and line_item_percentage > 0 -%}
+                                    + {{ line_item_percentage }}% discount
+                                  {%- endif -%}
+                                  + {{ selling_plan_percentage }}% subscription)
+                                </span>
+                              {%- elsif compare_at_percentage > 0 -%}
+                                {%- if has_discount_codes or has_line_item_discounts -%}
+                                  {%- comment -%} Show breakdown even without subscription if there are multiple discounts {%- endcomment -%}
+                                  <span class="savings-percentage mt-0.5 block text-xs" style="text-align: right;">
+                                    ({{ compare_at_percentage }}%
+                                    {%- if has_discount_codes and discount_code_percentage > 0 -%}
+                                      + {{ discount_code_percentage }}% code
+                                    {%- endif -%}
+                                    {%- if has_line_item_discounts and line_item_percentage > 0 -%}
+                                      + {{ line_item_percentage }}% discount
+                                    {%- endif -%}
+                                    )
+                                  </span>
+                                {%- endif -%}
                               {%- endif -%}
                             </p>
                           </li>
@@ -1390,17 +1559,76 @@
                             <span class="discount-amount">-{{ total_variant_savings | money }}</span>
                           </div>
                         {%- endif -%}
-                      </div>
-                      {%- comment -%}
-                        <div class="mt-4 flex items-center justify-center gap-1 text-[#00990F]">
-                          <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.5 21C17.4706 21 21.5 16.9706 21.5 12C21.5 7.02944 17.4706 3 12.5 3C7.52944 3 3.5 7.02944 3.5 12C3.5 16.9706 7.52944 21 12.5 21Z" fill="#00990F" stroke="#00990F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 12.5L11 15.5L17 9.5" stroke="#F5F6F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
 
-                          <span>Your order qualifies for FREE shipping</span>
-                        </div>
-                      {%- endcomment -%}
+                        {%- comment -%} NEW: Discount code savings {%- endcomment -%}
+                        {%- if has_discount_codes and discount_code_savings > 0 -%}
+                          <div class="discount-line discount-code-savings pb-1 pl-2">
+                            <span class="discount-label">
+                              <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="15"
+                                width="15"
+                                class="inline"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z"></path><path d="M12.79 21 3 11.21v2c0 .53.21 1.04.59 1.41l7.79 7.79c.78.78 2.05.78 2.83 0l6.21-6.21c.78-.78.78-2.05 0-2.83L12.79 21z"></path><path d="M11.38 17.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l6.21-6.21c.78-.78.78-2.05 0-2.83L12.62.58C12.25.21 11.74 0 11.21 0H5C3.9 0 3 .9 3 2v6.21c0 .53.21 1.04.59 1.41l7.79 7.79zM5 2h6.21L19 9.79 12.79 16 5 8.21V2z"></path><circle cx="7.25" cy="4.25" r="1.25"></circle>
+                              </svg>
+                              Discount Code:
+                            </span>
+                            <span class="discount-amount">-{{ discount_code_savings | money }}</span>
+                          </div>
+                        {%- endif -%}
+
+                        {%- comment -%} NEW: Line item discount savings {%- endcomment -%}
+                        {%- if has_line_item_discounts and line_item_discount_savings > 0 -%}
+                          <div class="discount-line line-item-discount pb-1 pl-2">
+                            <span class="discount-label">
+                              <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="15"
+                                width="15"
+                                class="inline"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z"></path><path d="M12.79 21 3 11.21v2c0 .53.21 1.04.59 1.41l7.79 7.79c.78.78 2.05.78 2.83 0l6.21-6.21c.78-.78.78-2.05 0-2.83L12.79 21z"></path><path d="M11.38 17.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l6.21-6.21c.78-.78.78-2.05 0-2.83L12.62.58C12.25.21 11.74 0 11.21 0H5C3.9 0 3 .9 3 2v6.21c0 .53.21 1.04.59 1.41l7.79 7.79zM5 2h6.21L19 9.79 12.79 16 5 8.21V2z"></path><circle cx="7.25" cy="4.25" r="1.25"></circle>
+                              </svg>
+                              Line Item Discount:
+                            </span>
+                            <span class="discount-amount">-{{ line_item_discount_savings | money }}</span>
+                          </div>
+                        {%- endif -%}
+
+                        {%- comment -%} NEW: Add selling plan savings line {%- endcomment -%}
+                        {%- if has_selling_plan_savings -%}
+                          <div class="discount-line selling-plan-discount pb-1 pl-2">
+                            <span class="discount-label">
+                              <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="15"
+                                width="15"
+                                class="inline"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path d="M12.79 21 3 11.21v2c0 .53.21 1.04.59 1.41l7.79 7.79c.78.78 2.05.78 2.83 0l6.21-6.21c.78-.78.78-2.05 0-2.83L12.79 21z"></path>
+                                <path d="M11.38 17.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l6.21-6.21c.78-.78.78-2.05 0-2.83L12.62.58C12.25.21 11.74 0 11.21 0H5C3.9 0 3 .9 3 2v6.21c0 .53.21 1.04.59 1.41l7.79 7.79zM5 2h6.21L19 9.79 12.79 16 5 8.21V2z"></path>
+                                <circle cx="7.25" cy="4.25" r="1.25"></circle>
+                              </svg>
+                              Subscription Savings:
+                            </span>
+                            <span class="discount-amount">-{{ total_selling_plan_savings | money }}</span>
+                          </div>
+                        {%- endif -%}
+                      </div>
                     </div>
 
                     <div
@@ -1772,6 +2000,10 @@
       "label": "Compare Savings Label",
       "info": "(without a colon)",
       "default": "Compare at savings"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Benefits"
     }
   ],
   "blocks": [

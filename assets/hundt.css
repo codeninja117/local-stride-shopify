@@ -100,7 +100,7 @@
   font-weight: 300;
   line-height: 115%;
 }
-#main-cart.main-cart-aug-2025 .cart-item label {
+#main-cart.main-cart-aug-2025 .cart-item label:not(selling-plan-selector label) {
   min-height: 90px;
 }
 #main-cart.main-cart-aug-2025 .cart-item__name {

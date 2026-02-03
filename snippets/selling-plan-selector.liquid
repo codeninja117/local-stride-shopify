@@ -1,0 +1,666 @@
+<style>
+  /* ============================================================================
+   SELLING PLAN SELECTOR - Enhanced Design with Collapsible Content
+   ========================================================================== */
+
+  /* Fieldset & Legend */
+  .selling-plan-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .selling-plan-legend {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  /* Options Container */
+  .selling-plan-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Individual Option Card */
+  .selling-plan-option {
+    position: relative;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .selling-plan-option:hover {
+    border-color: #d1d5db;
+  }
+
+  /* Checked State */
+  .selling-plan-option:has(input:checked) {
+    border-color: #111827;
+    background-color: #f9fafb;
+  }
+
+  /* Option Label */
+  .selling-plan-option-label {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.875rem;
+  }
+
+  /* Radio Button */
+  .selling-plan-radio {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.125rem;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    accent-color: #111827;
+  }
+
+  /* Option Content */
+  .selling-plan-option-content {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  /* Option Header (Title + Badge + Chevron) */
+  .selling-plan-option-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Option Title */
+  .selling-plan-option-title {
+    font-weight: 500;
+    color: #111827;
+  }
+
+  /* Discount Badge */
+  .selling-plan-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    background-color: #111827;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+  }
+
+  /* Chevron Icon */
+  .selling-plan-chevron {
+    margin-left: auto;
+    color: #6b7280;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  /* Rotate chevron when expanded */
+  .selling-plan-option:has(input:checked) .selling-plan-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Pricing */
+  .selling-plan-option-pricing {
+    display: flex;
+    gap: 0.5rem;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+
+  .selling-plan-price {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .selling-plan-compare-price {
+    font-weight: 400;
+    color: #6b7280;
+    text-decoration: line-through;
+    display: none;
+  }
+
+  /* One-time purchase specific - price on the right */
+  .selling-plan-option:not(.selling-plan-option--subscription) .selling-plan-option-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .selling-plan-option:not(.selling-plan-option--subscription) .selling-plan-option-pricing {
+    margin-left: auto;
+  }
+
+  /* Collapsible Details Container */
+  .selling-plan-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-in-out;
+  }
+
+  /* Expanded state */
+  .selling-plan-option:has(input:checked) .selling-plan-details {
+    grid-template-rows: 1fr;
+  }
+
+  /* Inner wrapper for smooth collapse */
+  .selling-plan-details-inner {
+    overflow: hidden;
+  }
+
+  /* Benefits List (only for subscription) */
+  .selling-plan-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .selling-plan-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  .selling-plan-benefit-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #10b981;
+    margin-top: 0.125rem;
+  }
+
+  /* Delivery Frequency Selector */
+  .selling-plan-frequency {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .selling-plan-frequency-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .selling-plan-frequency-select {
+    width: 100%;
+    padding: 0.625rem 2.5rem 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23111827' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    transition: border-color 0.15s ease-in-out;
+  }
+
+  .selling-plan-frequency-select:hover {
+    border-color: #9ca3af;
+  }
+
+  .selling-plan-frequency-select:focus {
+    outline: none;
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+  }
+
+  /* Loading State */
+  .selling-plan-option.is-loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* Disabled State */
+  .selling-plan-option:has(input:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .selling-plan-option:has(input:disabled) .selling-plan-option-label {
+    cursor: not-allowed;
+  }
+
+  /* Error Message */
+  .selling-plan-error {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.375rem;
+    color: #991b1b;
+    font-size: 0.875rem;
+  }
+
+  /* Loading Spinner (if you want to add one inside the card) */
+  .selling-plan-spinner {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #e5e7eb;
+    border-top-color: #111827;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-left: auto;
+  }
+
+  .selling-plan-option.is-loading .selling-plan-spinner {
+    display: block;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .selling-plan-option-content {
+      gap: 0.5rem;
+    }
+    .selling-plan-option-label {
+      padding: 0.875rem;
+    }
+
+    .selling-plan-benefits,
+    .selling-plan-frequency {
+      padding: 0.625rem 0.875rem;
+    }
+
+    .selling-plan-option-title {
+    }
+
+    .selling-plan-price {
+    }
+  }
+
+  /* Hidden class for variant switching */
+  .selling_plan_theme_integration.hidden {
+    display: none;
+  }
+
+  .tooltip-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: help;
+    margin-left: 4px;
+  }
+
+  .info-icon {
+    width: 16px;
+    height: 16px;
+    color: #666;
+    transition: color 0.2s;
+  }
+
+  .tooltip-wrapper:hover .info-icon {
+    color: #000;
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 10;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+  }
+
+  .tooltip-text::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: #333;
+  }
+
+  .tooltip-wrapper:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .tooltip-text {
+      /* Allow text wrapping on mobile */
+      white-space: normal;
+      max-width: 250px;
+      width: max-content;
+
+      /* Prevent going off-screen on left/right */
+      left: auto;
+      right: 0;
+      transform: translateX(0);
+    }
+
+    .tooltip-text::after {
+      /* Reposition arrow for right-aligned tooltip */
+      left: auto;
+      right: 10px;
+      transform: translateX(0);
+    }
+
+    /* Make tooltip tap-friendly on mobile */
+    .tooltip-wrapper {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Increase touch target size */
+    .info-icon {
+      padding: 4px;
+    }
+  }
+
+  /* Very small screens */
+  @media (max-width: 480px) {
+    .tooltip-text {
+      max-width: 200px;
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  }
+</style>
+
+{%- assign current_variant = item.product.selected_or_first_available_variant | default: item.product.variants.first -%}
+
+{%- comment -%} Get the current selling plan allocation from the cart item {%- endcomment -%}
+{%- assign current_selling_plan_id = item.selling_plan_allocation.selling_plan.id | default: null -%}
+
+<selling-plan-selector
+  class="selling_plan_app_container"
+  data-section-id="{{ section.id }}"
+>
+  {% for variant in item.product.variants %}
+    {% liquid
+      assign variant_price = variant.price | money
+      assign variant_compare_at_price = variant.compare_at_price | money
+    %}
+    {% if variant.selling_plan_allocations.size > 0 %}
+      <section
+        data-variant-id="{{ variant.id }}"
+        class="selling_plan_theme_integration {% if variant.id != current_variant.id %}hidden{% endif %}"
+      >
+        <fieldset class="selling-plan-fieldset">
+          <legend class="selling-plan-legend">PURCHASING OPTION</legend>
+
+          <div class="selling-plan-options">
+            {% unless item.product.requires_selling_plan %}
+              {%- comment -%} ONE-TIME PURCHASE OPTION {%- endcomment -%}
+              <div class="selling-plan-option">
+                <label class="selling-plan-option-label">
+                  <input
+                    type="radio"
+                    name="purchaseOption_{{ section.id }}_{{ variant.id }}"
+                    class="selling-plan-radio"
+                    aria-label="One-time purchase. Product price {{ variant_price }}"
+                    {% if variant.available == false %}
+                      disabled
+                    {% endif %}
+                    id="{{ section.id }}_one_time_purchase"
+                    data-radio-type="one_time_purchase"
+                    data-variant-id="{{ variant.id }}"
+                    data-variant-price="{{ variant_price }}"
+                    data-variant-compare-at-price="{{ variant_compare_at_price }}"
+                    {% if current_selling_plan_id == null or current_selling_plan_id == blank %}
+                      checked
+                    {% endif %}
+                  >
+                  <div class="selling-plan-option-content">
+                    <span class="selling-plan-option-title">One Time Purchase</span>
+                    <span class="selling-plan-option-price">{{ variant_price }}</span>
+                  </div>
+                </label>
+              </div>
+            {% endunless %}
+
+            {% assign group_ids = variant.selling_plan_allocations | map: 'selling_plan_group_id' | uniq %}
+
+            {% for group_id in group_ids %}
+              {% liquid
+                assign group = item.product.selling_plan_groups | where: 'id', group_id | first
+                assign allocations = variant.selling_plan_allocations | where: 'selling_plan_group_id', group_id
+
+                if forloop.first
+                  assign first_selling_plan_group = true
+                else
+                  assign first_selling_plan_group = false
+                endif
+
+                # Find which allocation is currently selected (if any)
+                assign selected_allocation = null
+                assign has_selected = false
+                for allocation in allocations
+                  if current_selling_plan_id == allocation.selling_plan.id
+                    assign selected_allocation = allocation
+                    assign has_selected = true
+                    break
+                  endif
+                endfor
+
+                # If no selection, use first as default
+                if has_selected == false and allocations.size > 0
+                  assign selected_allocation = allocations.first
+                endif
+
+                # Calculate selected allocation details
+                if selected_allocation
+                  assign selected_price = selected_allocation.price | money
+                  assign selected_compare_price = selected_allocation.compare_at_price | money
+
+                  assign discount_percentage = 0
+                  if selected_allocation.compare_at_price > selected_allocation.price
+                    assign price_diff = selected_allocation.compare_at_price | minus: selected_allocation.price
+                    assign discount_percentage = price_diff | times: 100 | divided_by: selected_allocation.compare_at_price | round
+                  endif
+                endif
+              %}
+
+              {%- comment -%} SINGLE SUBSCRIPTION CARD WITH DROPDOWN {%- endcomment -%}
+              <div
+                class="selling-plan-option selling-plan-option--subscription"
+                data-subscription-group="{{ group_id }}"
+              >
+                <label class="selling-plan-option-label">
+                  <input
+                    type="radio"
+                    name="purchaseOption_{{ section.id }}_{{ variant.id }}"
+                    class="selling-plan-radio selling-plan-radio--group"
+                    {% if variant.available == false %}
+                      disabled
+                    {% endif %}
+                    aria-label="Subscribe & Save. Product price {{ selected_price }}"
+                    data-radio-type="selling_plan"
+                    data-selling-plan-id="{{ selected_allocation.selling_plan.id }}"
+                    data-selling-plan-group-id="{{ section.id }}_{{ group_id }}_{{ variant.id }}"
+                    data-variant-price="{{ selected_price }}"
+                    data-variant-compare-at-price="{{ selected_compare_price }}"
+                    {% if has_selected %}
+                      checked
+                    {% endif %}
+                  >
+
+                  <div class="selling-plan-option-content">
+                    <div class="selling-plan-option-header">
+                      <span class="selling-plan-option-title">Subscribe & Save</span>
+                    </div>
+
+                    <div class="selling-plan-option-pricing">
+                      <span class="selling-plan-price selling-plan-price--dynamic">{{ selected_price }}</span>
+                      {% if selected_allocation.compare_at_price > selected_allocation.price %}
+                        <span class="selling-plan-compare-price selling-plan-compare-price--dynamic">
+                          {{- selected_compare_price -}}
+                        </span>
+                      {% endif %}
+
+                      {% if discount_percentage > 0 %}
+                        <span class="selling-plan-badge selling-plan-badge--dynamic">
+                          {{- discount_percentage }}% OFF</span
+                        >
+                      {% endif %}
+                    </div>
+
+                    <svg class="selling-plan-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </label>
+
+                {%- comment -%} COLLAPSIBLE DETAILS CONTAINER {%- endcomment -%}
+                <div class="selling-plan-details">
+                  <div class="selling-plan-details-inner">
+                    {%- comment -%} SUBSCRIPTION BENEFITS {%- endcomment -%}
+                    <div class="selling-plan-benefits">
+                      <div class="selling-plan-benefit">
+                        <svg class="selling-plan-benefit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill="currentColor"/>
+                        </svg>
+                        <span>{{ settings.benefit_1_text }}</span>
+                        {% if settings.benefit_1_tooltip != blank %}
+                        <span class="tooltip-wrapper">
+                          <svg class="info-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <text x="10" y="14" text-anchor="middle" font-size="12" fill="currentColor" font-weight="bold">i</text>
+                          </svg>
+                          <span class="tooltip-text">{{ settings.benefit_1_tooltip }}</span>
+                        </span>
+                        {% endif %}
+                      </div>
+
+                      <div class="selling-plan-benefit">
+                        <svg class="selling-plan-benefit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill="currentColor"/>
+                        </svg>
+                        <span>{{ settings.benefit_2_text }}</span>
+                        {% if settings.benefit_2_tooltip != blank %}
+                        <span class="tooltip-wrapper">
+                          <svg class="info-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <text x="10" y="14" text-anchor="middle" font-size="12" fill="currentColor" font-weight="bold">i</text>
+                          </svg>
+                          <span class="tooltip-text">{{ settings.benefit_2_tooltip }}</span>
+                        </span>
+                        {% endif %}
+                      </div>
+
+                      <div class="selling-plan-benefit">
+                        <svg class="selling-plan-benefit-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill="currentColor"/>
+                        </svg>
+                        <span>{{ settings.benefit_3_text }}</span>
+                        {% if settings.benefit_3_tooltip != blank %}
+                        <span class="tooltip-wrapper">
+                          <svg class="info-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <text x="10" y="14" text-anchor="middle" font-size="12" fill="currentColor" font-weight="bold">i</text>
+                          </svg>
+                          <span class="tooltip-text">{{ settings.benefit_3_tooltip }}</span>
+                        </span>
+                        {% endif %}
+                      </div>
+                    </div>
+
+                    {%- comment -%} DELIVERY FREQUENCY DROPDOWN {%- endcomment -%}
+                    <div class="selling-plan-frequency">
+                      <label class="selling-plan-frequency-label">DELIVERS EVERY</label>
+                      <select
+                        class="selling-plan-frequency-select"
+                        data-frequency-selector="{{ group_id }}"
+                        aria-label="Select delivery frequency"
+                      >
+                        {% for allocation in allocations %}
+                          {% liquid
+                            # Parse selling plan name to get clean display text
+                            assign plan_name = allocation.selling_plan.name
+                            assign plan_name_lower = plan_name | downcase
+
+                            assign display_frequency = 'Subscription'
+
+                            if plan_name_lower contains '6month'
+                              assign display_frequency = '6 Months'
+                            elsif plan_name_lower contains '1year' or plan_name_lower contains 'year'
+                              assign display_frequency = '1 Year'
+                            elsif plan_name_lower contains '3month'
+                              assign display_frequency = '3 Months'
+                            elsif plan_name_lower contains 'month'
+                              assign display_frequency = '1 Month'
+                            endif
+
+                            assign allocation_price = allocation.price | money
+                            assign allocation_compare_price = allocation.compare_at_price | money
+
+                            assign option_discount = 0
+                            if allocation.compare_at_price > allocation.price
+                              assign price_diff = allocation.compare_at_price | minus: allocation.price
+                              assign option_discount = price_diff | times: 100 | divided_by: allocation.compare_at_price | round
+                            endif
+                          %}
+                          <option
+                            value="{{ allocation.selling_plan.id }}"
+                            data-price="{{ allocation_price }}"
+                            data-compare-price="{{ allocation_compare_price }}"
+                            data-discount="{{ option_discount }}"
+                            {% if current_selling_plan_id == allocation.selling_plan.id %}
+                              selected
+                            {% endif %}
+                          >
+                            {% comment %} {{ display_frequency }} {% endcomment %}
+                            {{ allocation.selling_plan.name }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </fieldset>
+      </section>
+    {% endif %}
+  {% endfor %}
+</selling-plan-selector>
+
+<input
+  name="selling_plan"
+  class="selected-selling-plan-id"
+  type="hidden"
+  value="{{ current_selling_plan_id }}"
+>
