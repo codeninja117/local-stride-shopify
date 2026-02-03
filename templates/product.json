@@ -135,6 +135,31 @@
         "padding_bottom": 36
       }
     },
+    "education_articles": {
+      "type": "education-articles",
+      "settings": {},
+      "blocks": {
+        "slot_1": {
+          "type": "article",
+          "settings": {
+            "article": ""
+          }
+        },
+        "slot_2": {
+          "type": "article",
+          "settings": {
+            "article": ""
+          }
+        },
+        "slot_3": {
+          "type": "article",
+          "settings": {
+            "article": ""
+          }
+        }
+      },
+      "block_order": ["slot_1", "slot_2", "slot_3"]
+    },
     "how_stride_works_RbwijA": {
       "type": "how-stride-works",
       "blocks": {
@@ -837,6 +862,7 @@
   },
   "order": [
     "main",
+    "education_articles",
     "how_stride_works_RbwijA",
     "review_carousel_new_DNR6gF",
     "review_carousel",
