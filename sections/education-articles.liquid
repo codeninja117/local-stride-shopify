@@ -19,34 +19,44 @@
 
 <section class="education-articles">
   <div class="page-width max-w-screen-2xl">
-    <div class="education-articles__header mb-8 flex flex-col gap-3">
-      {%- if section.settings.kicker != blank -%}
-        <p class="text-sm uppercase tracking-widest text-black/60">{{ section.settings.kicker | escape }}</p>
-      {%- endif -%}
-      <h2 class="text-h2 font-extrabold">{{ section.settings.title | escape }}</h2>
-      {%- if section.settings.subtitle != blank -%}
-        <p class="max-w-3xl text-base text-black/60">{{ section.settings.subtitle | escape }}</p>
-      {%- endif -%}
+    <div class="education-articles__header mb-8 flex flex-col">
+      {%- assign education_title = section.settings.title -%}
+      {%- unless education_title contains '<strong>' or education_title contains '<em>' -%}
+        {%- assign education_title = education_title | replace: 'Education', '<strong>Education</strong>' -%}
+      {%- endunless -%}
+      <h2 class="text-h1 section-title capitalize">
+        {{
+          education_title
+          | replace: '<em>', '<span class="">'
+          | replace: '</em>', '</span>'
+          | replace: '|', '</span><br><span>'
+        }}
+      </h2>
     </div>
 
     <ul class="education-articles__grid">
-      {%- if section.blocks.size > 0 -%}
-        {%- for block in section.blocks -%}
-          {%- assign article = block.settings.article -%}
-          <li {{ block.shopify_attributes }}>
-            {%- if article != blank -%}
-              {% render 'article-card', article: article %}
-            {%- else -%}
-              <div class="flex h-full flex-col gap-4 rounded-xl bg-black/5 p-4">
-                <div class="aspect-video w-full rounded-xl bg-black/10"></div>
-                <div class="flex flex-1 flex-col gap-2">
-                  <h3 class="text-h3 font-extrabold">Select a blog post</h3>
-                  <p class="text-sm text-black/60">Choose an article for this slot in the section settings.</p>
-                </div>
-              </div>
-            {%- endif -%}
+      {%- if product != blank -%}
+        {%- assign slot_1 = product.metafields.custom.education_article_1.value -%}
+        {%- assign slot_2 = product.metafields.custom.education_article_2.value -%}
+        {%- assign slot_3 = product.metafields.custom.education_article_3.value -%}
+      {%- endif -%}
+
+      {%- if slot_1 or slot_2 or slot_3 -%}
+        {%- if slot_1 -%}
+          <li>
+            {% render 'article-card', article: slot_1 %}
           </li>
-        {%- endfor -%}
+        {%- endif -%}
+        {%- if slot_2 -%}
+          <li>
+            {% render 'article-card', article: slot_2 %}
+          </li>
+        {%- endif -%}
+        {%- if slot_3 -%}
+          <li>
+            {% render 'article-card', article: slot_3 %}
+          </li>
+        {%- endif -%}
       {%- else -%}
         {%- for i in (1..3) -%}
           <li>
@@ -54,7 +64,7 @@
               <div class="aspect-video w-full rounded-xl bg-black/10"></div>
               <div class="flex flex-1 flex-col gap-2">
                 <h3 class="text-h3 font-extrabold">Select a blog post</h3>
-                <p class="text-sm text-black/60">Choose an article for this slot in the section settings.</p>
+                <p class="text-sm text-black/60">Set product metafields for education articles.</p>
               </div>
             </div>
           </li>
@@ -71,22 +81,10 @@
   "class": "section",
   "settings": [
     {
-      "type": "text",
-      "id": "kicker",
-      "label": "Kicker",
-      "default": "Stride Education"
-    },
-    {
-      "type": "text",
+      "type": "inline_richtext",
       "id": "title",
       "label": "Title",
-      "default": "XXXX Education"
-    },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "Choose up to three blog posts to display on this product page."
+      "default": "XXXX <strong>Education</strong>"
     },
     {
       "type": "color",
@@ -115,28 +113,9 @@
       "default": 60
     }
   ],
-  "blocks": [
-    {
-      "type": "article",
-      "name": "Slot",
-      "settings": [
-        {
-          "type": "article",
-          "id": "article",
-          "label": "Article"
-        }
-      ]
-    }
-  ],
-  "max_blocks": 6,
   "presets": [
     {
-      "name": "Education articles",
-      "blocks": [
-        { "type": "article" },
-        { "type": "article" },
-        { "type": "article" }
-      ]
+      "name": "Education articles"
     }
   ]
 }
