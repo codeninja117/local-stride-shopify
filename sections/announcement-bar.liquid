@@ -151,6 +151,12 @@ Announcement Bar Section with Swiper
 {% endstyle %}
 
 <div class="announcement font-body" data-announcement>
+  {%- assign ends_date = '' -%}
+  {%- if section.settings.enable_auto_end_date -%}
+    {%- assign ends_offset_seconds = section.settings.ends_in_days | times: 86400 -%}
+    {%- assign ends_date_ts = 'now' | date: '%s' | plus: ends_offset_seconds -%}
+    {%- assign ends_date = ends_date_ts | date: section.settings.ends_date_format -%}
+  {%- endif -%}
   {%- if section.blocks.size == 1 or template contains 'cart' -%}
     {%- assign block = section.blocks.first -%}
     {%- liquid
@@ -168,6 +174,11 @@ Announcement Bar Section with Swiper
         assign current_title_mobile = block.settings.title_mobile
         assign current_cta_text = block.settings.cta_text
         assign current_cta_url = block.settings.cta_url
+      endif
+
+      if ends_date != blank
+        assign current_title = current_title | replace: '[ENDS_DATE]', ends_date
+        assign current_title_mobile = current_title_mobile | replace: '[ENDS_DATE]', ends_date
       endif
 
       assign url = current_cta_url
@@ -232,6 +243,11 @@ Announcement Bar Section with Swiper
             assign current_title_mobile = block.settings.title_mobile
             assign current_cta_text = block.settings.cta_text
             assign current_cta_url = block.settings.cta_url
+          endif
+
+          if ends_date != blank
+            assign current_title = current_title | replace: '[ENDS_DATE]', ends_date
+            assign current_title_mobile = current_title_mobile | replace: '[ENDS_DATE]', ends_date
           endif
 
           assign url = current_cta_url
@@ -527,6 +543,33 @@ Announcement Bar Section with Swiper
       "unit": "s",
       "label": "Ticker animation speed",
       "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Auto end date"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_auto_end_date",
+      "label": "Enable auto end date",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "ends_in_days",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "d",
+      "label": "Days from today",
+      "default": 1
+    },
+    {
+      "type": "text",
+      "id": "ends_date_format",
+      "label": "Date format",
+      "info": "Liquid date format (default M/D). Use token [ENDS_DATE] in the title.",
+      "default": "%-m/%-d"
     },
     {
       "type": "checkbox",
