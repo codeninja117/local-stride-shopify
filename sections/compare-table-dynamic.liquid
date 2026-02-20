@@ -1,0 +1,504 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table {
+    width: 100%;
+    min-width: 780px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    color: #202020;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table th,
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 14px 12px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table th:first-child,
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table td:first-child {
+    text-align: left;
+    width: 30%;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__stride-col {
+    background: {{ section.settings.stride_column_background }};
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.08);
+    font-size: 11px;
+    line-height: 1;
+    cursor: help;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__icon {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__icon--yes {
+    color: #15a35b;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__icon--no {
+    color: #e44747;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__desktop {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile {
+      display: grid;
+      gap: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row {
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #ffffff;
+      color: #202020;
+      padding: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 10px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="compare-table-dynamic">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="text-h1 section-title text-center">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="mx-auto mt-2 max-w-3xl text-center opacity-70">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="compare-table-dynamic__desktop mt-8">
+      <div class="compare-table-dynamic__table-wrap">
+        <table class="compare-table-dynamic__table">
+          <thead>
+            <tr>
+              <th>{{ section.settings.feature_header }}</th>
+              <th class="compare-table-dynamic__stride-col">
+                {%- if section.settings.stride_logo != blank -%}
+                  {{ section.settings.stride_logo | image_url: width: 120 | image_tag: loading: 'lazy', alt: section.settings.stride_title }}
+                {%- else -%}
+                  {{ section.settings.stride_title }}
+                {%- endif -%}
+                {%- if section.settings.stride_price != blank -%}
+                  <div>{{ section.settings.stride_price }}</div>
+                {%- endif -%}
+              </th>
+              <th>
+                {%- if section.settings.col_2_logo != blank -%}
+                  {{ section.settings.col_2_logo | image_url: width: 120 | image_tag: loading: 'lazy', alt: section.settings.col_2_title }}
+                {%- else -%}
+                  {{ section.settings.col_2_title }}
+                {%- endif -%}
+                {%- if section.settings.col_2_price != blank -%}
+                  <div>{{ section.settings.col_2_price }}</div>
+                {%- endif -%}
+              </th>
+              <th>
+                {%- if section.settings.col_3_logo != blank -%}
+                  {{ section.settings.col_3_logo | image_url: width: 120 | image_tag: loading: 'lazy', alt: section.settings.col_3_title }}
+                {%- else -%}
+                  {{ section.settings.col_3_title }}
+                {%- endif -%}
+                {%- if section.settings.col_3_price != blank -%}
+                  <div>{{ section.settings.col_3_price }}</div>
+                {%- endif -%}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              <tr {{ block.shopify_attributes }}>
+                <td>
+                  <span class="compare-table-dynamic__feature">
+                    <span>{{ block.settings.feature_label }}</span>
+                    {%- if block.settings.tooltip_content != blank -%}
+                      <span
+                        class="compare-table-dynamic__tooltip"
+                        title="{{ block.settings.tooltip_title }}{% if block.settings.tooltip_title != blank %}: {% endif %}{{ block.settings.tooltip_content | strip_html }}"
+                      >
+                        i
+                      </span>
+                    {%- endif -%}
+                  </span>
+                </td>
+                <td class="compare-table-dynamic__stride-col">
+                  {%- case block.settings.stride_value_type -%}
+                    {%- when 'yes' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                    {%- when 'no' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
+                    {%- else -%}
+                      {{ block.settings.stride_value_text }}
+                  {%- endcase -%}
+                </td>
+                <td>
+                  {%- case block.settings.col_2_value_type -%}
+                    {%- when 'yes' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                    {%- when 'no' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
+                    {%- else -%}
+                      {{ block.settings.col_2_value_text }}
+                  {%- endcase -%}
+                </td>
+                <td>
+                  {%- case block.settings.col_3_value_type -%}
+                    {%- when 'yes' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                    {%- when 'no' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
+                    {%- else -%}
+                      {{ block.settings.col_3_value_text }}
+                  {%- endcase -%}
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="compare-table-dynamic__mobile mt-8">
+      {%- for block in section.blocks -%}
+        <div class="compare-table-dynamic__mobile-row" {{ block.shopify_attributes }}>
+          <div class="compare-table-dynamic__feature">
+            <strong>{{ block.settings.feature_label }}</strong>
+            {%- if block.settings.tooltip_content != blank -%}
+              <span
+                class="compare-table-dynamic__tooltip"
+                title="{{ block.settings.tooltip_title }}{% if block.settings.tooltip_title != blank %}: {% endif %}{{ block.settings.tooltip_content | strip_html }}"
+              >
+                i
+              </span>
+            {%- endif -%}
+          </div>
+          <div class="compare-table-dynamic__mobile-grid">
+            <div>
+              <div class="text-xs opacity-60">{{ section.settings.stride_title }}</div>
+              {%- case block.settings.stride_value_type -%}
+                {%- when 'yes' -%}
+                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                {%- when 'no' -%}
+                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
+                {%- else -%}
+                  {{ block.settings.stride_value_text }}
+              {%- endcase -%}
+            </div>
+            <div>
+              <div class="text-xs opacity-60">{{ section.settings.col_2_title }}</div>
+              {%- case block.settings.col_2_value_type -%}
+                {%- when 'yes' -%}
+                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                {%- when 'no' -%}
+                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
+                {%- else -%}
+                  {{ block.settings.col_2_value_text }}
+              {%- endcase -%}
+            </div>
+            <div>
+              <div class="text-xs opacity-60">{{ section.settings.col_3_title }}</div>
+              {%- case block.settings.col_3_value_type -%}
+                {%- when 'yes' -%}
+                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                {%- when 'no' -%}
+                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
+                {%- else -%}
+                  {{ block.settings.col_3_value_text }}
+              {%- endcase -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
+      <div class="mt-8 text-center">
+        <a href="{{ section.settings.button_url }}" class="btn btn-primary">{{ section.settings.button_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Compare table dynamic",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Clinical Grade Orthotics"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Edit rows directly in blocks. No code needed."
+    },
+    {
+      "type": "text",
+      "id": "feature_header",
+      "label": "Feature column heading",
+      "default": "Features"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 - Stride"
+    },
+    {
+      "type": "text",
+      "id": "stride_title",
+      "label": "Title",
+      "default": "Stride"
+    },
+    {
+      "type": "text",
+      "id": "stride_price",
+      "label": "Price text",
+      "default": "$249"
+    },
+    {
+      "type": "image_picker",
+      "id": "stride_logo",
+      "label": "Logo"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "col_2_title",
+      "label": "Title",
+      "default": "Podiatrist"
+    },
+    {
+      "type": "text",
+      "id": "col_2_price",
+      "label": "Price text",
+      "default": "$400-$1K"
+    },
+    {
+      "type": "image_picker",
+      "id": "col_2_logo",
+      "label": "Logo"
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "text",
+      "id": "col_3_title",
+      "label": "Title",
+      "default": "Foam Impression Kit"
+    },
+    {
+      "type": "text",
+      "id": "col_3_price",
+      "label": "Price text",
+      "default": "$250+"
+    },
+    {
+      "type": "image_picker",
+      "id": "col_3_logo",
+      "label": "Logo"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Relieve My Foot Pain"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#202020"
+    },
+    {
+      "type": "color",
+      "id": "stride_column_background",
+      "label": "Stride column background",
+      "default": "#f2ebdf"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_label",
+          "label": "Feature label",
+          "default": "Gait Analysis"
+        },
+        {
+          "type": "text",
+          "id": "tooltip_title",
+          "label": "Tooltip title"
+        },
+        {
+          "type": "textarea",
+          "id": "tooltip_content",
+          "label": "Tooltip content"
+        },
+        {
+          "type": "select",
+          "id": "stride_value_type",
+          "label": "Stride value type",
+          "default": "yes",
+          "options": [
+            { "value": "yes", "label": "Check" },
+            { "value": "no", "label": "Cross" },
+            { "value": "text", "label": "Text" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "stride_value_text",
+          "label": "Stride text value"
+        },
+        {
+          "type": "select",
+          "id": "col_2_value_type",
+          "label": "Column 2 value type",
+          "default": "yes",
+          "options": [
+            { "value": "yes", "label": "Check" },
+            { "value": "no", "label": "Cross" },
+            { "value": "text", "label": "Text" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "col_2_value_text",
+          "label": "Column 2 text value"
+        },
+        {
+          "type": "select",
+          "id": "col_3_value_type",
+          "label": "Column 3 value type",
+          "default": "no",
+          "options": [
+            { "value": "yes", "label": "Check" },
+            { "value": "no", "label": "Cross" },
+            { "value": "text", "label": "Text" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "col_3_value_text",
+          "label": "Column 3 text value"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "Compare table dynamic",
+      "blocks": [
+        { "type": "row", "settings": { "feature_label": "Gait Analysis", "stride_value_type": "yes", "col_2_value_type": "yes", "col_3_value_type": "no" } },
+        { "type": "row", "settings": { "feature_label": "Clinician Access", "stride_value_type": "yes", "col_2_value_type": "yes", "col_3_value_type": "no" } },
+        { "type": "row", "settings": { "feature_label": "Full-Length Shell", "stride_value_type": "yes", "col_2_value_type": "no", "col_3_value_type": "no" } },
+        { "type": "row", "settings": { "feature_label": "3D Foot Scan", "stride_value_type": "yes", "col_2_value_type": "text", "col_2_value_text": "Select Clinics", "col_3_value_type": "no" } },
+        { "type": "row", "settings": { "feature_label": "Time to Start", "stride_value_type": "text", "stride_value_text": "5 Minutes", "col_2_value_type": "text", "col_2_value_text": "Appointment Required", "col_3_value_type": "text", "col_3_value_text": "Kit Shipped" } },
+        { "type": "row", "settings": { "feature_label": "Order to Delivery", "stride_value_type": "text", "stride_value_text": "10-15 Business Days", "col_2_value_type": "text", "col_2_value_text": "3-6 Weeks", "col_3_value_type": "text", "col_3_value_text": "3-5 Weeks" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
