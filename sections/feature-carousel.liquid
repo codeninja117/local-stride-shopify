@@ -1,0 +1,1342 @@
+{% style %}
+  .section-feature-carousel {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .feature-carousel {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .feature-carousel__header {
+    margin-bottom: 36px;
+  }
+
+  .feature-carousel__title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 500;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .feature-carousel__container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__header {
+      margin-bottom: 60px;
+    }
+
+    .feature-carousel__container {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .feature-carousel {
+      padding: 0 20px;
+    }
+  }
+
+  /* Wrapper for nav + list on desktop */
+  .feature-carousel__list-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    order: 2;
+    overflow: hidden;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__list-wrapper {
+      flex-direction: row;
+      gap: 16px;
+      align-items: flex-start;
+      order: 0;
+      grid-column: 1;
+    }
+  }
+
+  /* Feature List */
+  .feature-carousel__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 16px;
+    padding: 0 20px;
+    scroll-padding: 0 20px;
+  }
+
+  .feature-carousel__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Only enforce one-at-a-time when snap is active */
+  .feature-carousel__list.snap-active .feature-carousel__item {
+    scroll-snap-stop: always;
+    scroll-snap-align: center;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__list {
+      flex-direction: column;
+      overflow: visible;
+      scroll-snap-type: none;
+      gap: 12px;
+      flex: 1;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  /* Feature Items */
+  .feature-carousel__item {
+    transition: opacity 0.3s ease;
+    flex: 0 0 280px;
+    scroll-snap-align: center;
+  }
+
+  .feature-carousel__item:first-child {
+    scroll-snap-align: start;
+    margin-left: 0;
+  }
+
+  .feature-carousel__item:last-child {
+    scroll-snap-align: end;
+    margin-right: 0;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__item {
+      flex: 1 1 auto;
+      scroll-snap-align: unset;
+    }
+
+    .feature-carousel__item:first-child,
+    .feature-carousel__item:last-child {
+      scroll-snap-align: unset;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  /* Feature Button/Card */
+  .feature-carousel__button {
+    width: 100%;
+    background: #f5f5f7;
+    border: none;
+    border-radius: 28px;
+    padding: 18px 24px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__button {
+      display: block;
+      min-height: auto;
+    }
+
+    .feature-carousel__item:not(.is-active) .feature-carousel__button {
+      height: auto;
+    }
+  }
+
+  .feature-carousel__button:hover {
+    background: #e8e8ed;
+  }
+
+  /* Button Header (always visible) */
+  .feature-carousel__button-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .feature-carousel__button-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-carousel__button-icon::before,
+  .feature-carousel__button-icon::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-carousel__button-icon::before {
+    width: 10px;
+    height: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .feature-carousel__button-icon::after {
+    width: 2px;
+    height: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* When active, rotate the plus to an X */
+  .feature-carousel__item.is-active .feature-carousel__button-icon::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 12px;
+  }
+
+  .feature-carousel__item.is-active .feature-carousel__button-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+    height: 12px;
+  }
+
+  .feature-carousel__button-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    transition: font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__button-title {
+      font-size: 16px;
+    }
+  }
+
+  /* Button Content (expands when active) */
+  .feature-carousel__button-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 0;
+  }
+
+  .feature-carousel__button-content-inner {
+    overflow: hidden;
+  }
+
+  .feature-carousel__item.is-active .feature-carousel__button-content {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 16px;
+  }
+
+  .feature-carousel__button-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1d1d1f;
+    margin: 0;
+  }
+
+  .feature-carousel__button-text p {
+    margin: 0;
+  }
+
+  /* Desktop: Reduce opacity of inactive items when one is active */
+  @media (min-width: 990px) {
+    .feature-carousel.has-active-feature .feature-carousel__item:not(.is-active) {
+
+    }
+
+    .feature-carousel.has-active-feature .feature-carousel__item.is-active {
+      opacity: 1;
+    }
+
+    /* Still allow clicking inactive items */
+    .feature-carousel.has-active-feature .feature-carousel__item:not(.is-active) {
+      pointer-events: auto;
+    }
+
+    .feature-carousel__button-text {
+      font-size: 14px;
+    }
+  }
+
+  /* Image Container */
+  .feature-carousel__image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/1;
+    overflow: hidden;
+    border-radius: 0;
+    background: #f5f5f7;
+    order: 1;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__image-container {
+      order: 0;
+      grid-column: 2;
+      grid-row: 1;
+      border-radius: 20px;
+    }
+  }
+
+  .feature-carousel__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .feature-carousel__image.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .feature-carousel__image img,
+  .feature-carousel__image video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Hotspots - Only visible on initial state on desktop */
+  .feature-carousel__hotspot {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 989px) {
+    .feature-carousel__hotspot {
+      display: none;
+    }
+  }
+
+  .feature-carousel__hotspot.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .feature-carousel__hotspot:hover {
+    transform: scale(1.15);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .feature-carousel__hotspot::before,
+  .feature-carousel__hotspot::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+  }
+
+  .feature-carousel__hotspot::before {
+    width: 14px;
+    height: 2px;
+  }
+
+  .feature-carousel__hotspot::after {
+    width: 2px;
+    height: 14px;
+  }
+
+  /* Close Button */
+  .feature-carousel__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0);
+  }
+
+  .feature-carousel__close.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .feature-carousel__close:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+  }
+
+  .feature-carousel__close::before,
+  .feature-carousel__close::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .feature-carousel__close::before {
+    transform: rotate(45deg);
+  }
+
+  .feature-carousel__close::after {
+    transform: rotate(-45deg);
+  }
+
+  /* Navigation - Desktop: Left of nav items, vertical */
+  .feature-carousel__nav--desktop {
+    display: none;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__nav--desktop {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .feature-carousel__nav--desktop.is-visible {
+      opacity: 1;
+    }
+
+    .feature-carousel__nav--desktop .feature-carousel__nav-button--prev svg {
+      transform: rotate(90deg);
+    }
+
+    .feature-carousel__nav--desktop .feature-carousel__nav-button--next svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  /* Navigation - Mobile: Sides, horizontal */
+  .feature-carousel__nav--mobile {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__nav--mobile {
+      display: none;
+    }
+  }
+
+  .feature-carousel__nav--mobile.is-visible {
+    opacity: 1;
+  }
+
+  .feature-carousel__nav--mobile .feature-carousel__nav-button {
+    pointer-events: auto;
+  }
+
+  .feature-carousel__nav-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f5f5f7;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0);
+  }
+
+  .feature-carousel__nav-button:hover:not(:disabled) {
+    background: #f5f5f7;
+  }
+
+  .feature-carousel__nav-button:disabled {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  .feature-carousel__nav-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (min-width: 990px) {
+    .feature-carousel__nav-button {
+      width: 44px;
+      height: 44px;
+    }
+  }
+{% endstyle %}
+
+<div class="feature-carousel" data-carousel-wrapper>
+  <header class="feature-carousel__header page-width">
+    <h2 class="feature-carousel__title">{{ section.settings.title }}</h2>
+  </header>
+
+  <feature-carousel class="feature-carousel__container">
+    <div class="feature-carousel__image-container">
+      {%- comment -%} Central Media - Image or Video {%- endcomment -%}
+      {%- if section.settings.central_media_type == 'video' and section.settings.central_video -%}
+        <div class="feature-carousel__image is-active" data-image="initial">
+          <video
+            data-central-video
+            preload="metadata"
+            playsinline
+            {% if section.settings.central_video_loop %}
+              loop
+            {% endif %}
+            {% if section.settings.central_video_controls %}
+              controls
+            {% endif %}
+            muted
+            {% if section.settings.central_image %}
+              poster="{{ section.settings.central_image | image_url: width: 1800 }}"
+            {% endif %}
+          >
+            {%- # theme-check-disable RemoteAsset -%}
+            <source src="{{ section.settings.central_video.sources[0].url }}" type="video/mp4">
+            {%- # theme-check-enable RemoteAsset -%}
+          </video>
+        </div>
+      {%- elsif section.settings.central_image -%}
+        <div class="feature-carousel__image is-active" data-image="initial">
+          {{ section.settings.central_image | image_url: width: 1800 | image_tag: loading: 'lazy' }}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Feature Media - Images or Videos {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.media_type == 'video' and block.settings.video -%}
+          <div class="feature-carousel__image" data-image="{{ forloop.index0 }}">
+            <video
+              data-feature-video="{{ forloop.index0 }}"
+              preload="none"
+              playsinline
+              {% if block.settings.video_loop %}
+                loop
+              {% endif %}
+              {% if block.settings.video_muted %}
+                muted
+              {% endif %}
+              {% if block.settings.video_controls %}
+                controls
+              {% endif %}
+              {% if block.settings.video_poster %}
+                poster="{{ block.settings.video_poster | image_url: width: 1800 }}"
+              {% endif %}
+            >
+              {%- # theme-check-disable RemoteAsset -%}
+              <source src="{{ block.settings.video.sources[0].url }}" type="video/mp4">
+              {%- # theme-check-enable RemoteAsset -%}
+            </video>
+          </div>
+        {%- elsif block.settings.image -%}
+          <div class="feature-carousel__image" data-image="{{ forloop.index0 }}">
+            {{ block.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy' }}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Hotspots - placed on container, visible over central image {%- endcomment -%}
+      {%- if section.settings.enable_hotspots -%}
+        {%- for block in section.blocks -%}
+          <button
+            class="feature-carousel__hotspot"
+            data-hotspot="{{ forloop.index0 }}"
+            style="top: {{ block.settings.hotspot_y }}%; left: {{ block.settings.hotspot_x }}%; transform: translate(-50%, -50%);"
+            aria-label="View {{ block.settings.title }}"
+          ></button>
+        {%- endfor -%}
+      {%- endif -%}
+
+      <button class="feature-carousel__close" data-close aria-label="Close feature view"></button>
+
+      {%- comment -%} Mobile navigation - Sides of image {%- endcomment -%}
+      <nav class="feature-carousel__nav--mobile" aria-label="Feature navigation">
+        <button
+          class="feature-carousel__nav-button feature-carousel__nav-button--prev"
+          data-nav="prev"
+          data-nav-type="mobile"
+          aria-label="Previous feature"
+        >
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button
+          class="feature-carousel__nav-button feature-carousel__nav-button--next"
+          data-nav="next"
+          data-nav-type="mobile"
+          aria-label="Next feature"
+        >
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 1L13 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+
+    <div class="feature-carousel__list-wrapper">
+      {%- comment -%} Desktop navigation - Left of list {%- endcomment -%}
+      <nav class="feature-carousel__nav--desktop" aria-label="Feature navigation">
+        <button
+          class="feature-carousel__nav-button feature-carousel__nav-button--prev"
+          data-nav="prev"
+          data-nav-type="desktop"
+          aria-label="Previous feature"
+        >
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button
+          class="feature-carousel__nav-button feature-carousel__nav-button--next"
+          data-nav="next"
+          data-nav-type="desktop"
+          aria-label="Next feature"
+        >
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 1L13 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </nav>
+
+      <ul class="feature-carousel__list">
+        {%- for block in section.blocks -%}
+          <li class="feature-carousel__item" data-feature-item="{{ forloop.index0 }}">
+            <button
+              class="feature-carousel__button"
+              data-feature-button="{{ forloop.index0 }}"
+              aria-expanded="false"
+              aria-label="View {{ block.settings.title }}"
+            >
+              <div class="feature-carousel__button-header">
+                <span class="feature-carousel__button-icon" aria-hidden="true"></span>
+                <h3 class="feature-carousel__button-title">{{ block.settings.title }}</h3>
+              </div>
+              <div class="feature-carousel__button-content">
+                <div class="feature-carousel__button-content-inner">
+                  <div class="feature-carousel__button-text">
+                    {{ block.settings.content }}
+                  </div>
+                </div>
+              </div>
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </feature-carousel>
+</div>
+
+<script>
+  class FeatureCarousel extends HTMLElement {
+    constructor() {
+      super();
+      this.currentIndex = null;
+      this.isAnimating = false;
+      this.totalFeatures = 0;
+      this.isDesktop = window.innerWidth >= 990;
+    }
+
+    connectedCallback() {
+      this.featureButtons = this.querySelectorAll('[data-feature-button]');
+      this.featureItems = this.querySelectorAll('[data-feature-item]');
+      this.images = this.querySelectorAll('[data-image]');
+      this.hotspots = this.querySelectorAll('[data-hotspot]');
+      this.closeButton = this.querySelector('[data-close]');
+      this.navButtons = this.querySelectorAll('[data-nav]');
+      this.carouselWrapper = document.querySelector('[data-carousel-wrapper]');
+      this.featureList = this.querySelector('.feature-carousel__list');
+      this.desktopNav = this.querySelector('.feature-carousel__nav--desktop');
+      this.mobileNav = this.querySelector('.feature-carousel__nav--mobile');
+      this.featureVideos = this.querySelectorAll('[data-feature-video]');
+      this.centralVideo = this.querySelector('[data-central-video]');
+
+      this.totalFeatures = this.featureButtons.length;
+
+      this.bindEvents();
+      this.showInitialState();
+      this.handleResize();
+
+      // Set up Intersection Observer for central video autoplay
+      if (this.centralVideo) {
+        this.observeCentralVideo();
+      }
+    }
+
+    bindEvents() {
+      // Feature button clicks
+      this.featureButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+          if (this.isDesktop) {
+            this.openFeature(index);
+          } else {
+            this.toggleFeature(index);
+          }
+        });
+      });
+
+      // Hotspot clicks (desktop only)
+      this.hotspots.forEach((hotspot, index) => {
+        hotspot.addEventListener('click', () => this.openFeature(index));
+      });
+
+      // Close button
+      if (this.closeButton) {
+        this.closeButton.addEventListener('click', () => this.closeFeature());
+      }
+
+      // Navigation buttons
+      this.navButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const direction = btn.dataset.nav;
+          if (direction === 'prev') this.navigatePrev();
+          if (direction === 'next') this.navigateNext();
+        });
+      });
+
+      // Handle resize
+      window.addEventListener('resize', () => this.handleResize());
+    }
+
+    observeCentralVideo() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && this.currentIndex === null) {
+              // Only autoplay if we're in initial state
+              this.centralVideo.play().catch(() => {
+                // Autoplay failed (likely unmuted video) - that's okay
+              });
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
+
+      observer.observe(this.centralVideo);
+    }
+
+    handleResize() {
+      const wasDesktop = this.isDesktop;
+      this.isDesktop = window.innerWidth >= 990;
+
+      if (wasDesktop !== this.isDesktop) {
+        this.closeFeature();
+      }
+    }
+
+    scrollToFeature(index) {
+      if (!this.featureList || this.isDesktop) return;
+
+      const item = this.featureItems[index];
+      if (item) {
+        const itemLeft = item.offsetLeft;
+        const itemWidth = item.offsetWidth;
+        const listWidth = this.featureList.offsetWidth;
+        const scrollLeft = itemLeft - listWidth / 2 + itemWidth / 2;
+
+        this.featureList.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth',
+        });
+      }
+    }
+
+    showInitialState() {
+      const initialImage = this.querySelector('[data-image="initial"]');
+      if (initialImage) {
+        initialImage.classList.add('is-active');
+
+        // Show hotspots on desktop only
+        if (this.isDesktop) {
+          this.hotspots.forEach((hotspot) => {
+            hotspot.classList.add('is-visible');
+          });
+        }
+      }
+    }
+
+    toggleFeature(index) {
+      if (this.currentIndex === index) {
+        this.closeFeature();
+      } else {
+        this.openFeature(index);
+      }
+    }
+
+    openFeature(index) {
+      if (this.isAnimating) return;
+      if (this.currentIndex === index) return;
+
+      // Pause central video if playing
+      if (this.centralVideo) {
+        this.centralVideo.pause();
+      }
+
+      // Pause any currently playing feature video
+      if (this.currentIndex !== null) {
+        const currentVideo = this.querySelector(`[data-feature-video="${this.currentIndex}"]`);
+        if (currentVideo) {
+          currentVideo.pause();
+          currentVideo.currentTime = 0;
+        }
+      }
+
+      // CLEANUP: Remove all classes and inline styles from ALL images
+      this.images.forEach((img) => {
+        img.classList.remove('is-active', 'is-exiting-left', 'is-entering-right');
+        img.style.opacity = '';
+        img.style.transform = '';
+        img.style.transition = '';
+      });
+
+      const wasInitialState = this.currentIndex === null;
+      const previousIndex = this.currentIndex;
+      this.currentIndex = index;
+
+      if (wasInitialState) {
+        this.transitionFromInitial(index);
+      } else if (previousIndex !== index) {
+        this.transitionBetweenFeatures(previousIndex, index);
+      }
+
+      // Load and play feature video if present
+      const featureVideo = this.querySelector(`[data-feature-video="${index}"]`);
+      if (featureVideo) {
+        featureVideo.load(); // Start loading
+        featureVideo.play().catch(() => {
+          // Autoplay failed - that's okay
+        });
+      }
+
+      this.updateUIState();
+
+      // Mobile: scroll to active feature
+      if (!this.isDesktop) {
+        setTimeout(() => {
+          this.scrollToFeature(index);
+        }, 100);
+      }
+    }
+
+    transitionFromInitial(index) {
+      this.isAnimating = true;
+
+      // Hide initial image/video
+      const initialImage = this.querySelector('[data-image="initial"]');
+      if (initialImage) {
+        initialImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        initialImage.style.opacity = '0';
+        initialImage.style.transform = 'scale(0.9)';
+        initialImage.classList.remove('is-active');
+      }
+
+      // Hide hotspots
+      this.hotspots.forEach((hotspot) => {
+        hotspot.classList.remove('is-visible');
+      });
+
+      // Show new feature image/video
+      setTimeout(() => {
+        const newImage = this.querySelector(`[data-image="${index}"]`);
+        if (newImage) {
+          newImage.style.transform = 'scale(0.9)';
+          newImage.style.opacity = '0';
+          newImage.classList.add('is-active');
+
+          requestAnimationFrame(() => {
+            newImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            newImage.style.opacity = '1';
+            newImage.style.transform = 'scale(1)';
+          });
+        }
+
+        this.isAnimating = false;
+      }, 50);
+    }
+
+    transitionBetweenFeatures(fromIndex, toIndex) {
+      this.isAnimating = true;
+
+      const currentImage = this.querySelector(`[data-image="${fromIndex}"]`);
+      const nextImage = this.querySelector(`[data-image="${toIndex}"]`);
+
+      // Exit current image: fade out + scale down + slide left
+      if (currentImage) {
+        currentImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        currentImage.style.opacity = '0';
+        currentImage.style.transform = 'scale(0.9) translateX(-50px)';
+        currentImage.classList.remove('is-active');
+      }
+
+      // Enter next image: start from RIGHT, slide in + scale up
+      if (nextImage) {
+        nextImage.style.transform = 'scale(0.9) translateX(50px)';
+        nextImage.style.opacity = '0';
+        nextImage.style.transition = 'none';
+        nextImage.classList.add('is-active');
+
+        requestAnimationFrame(() => {
+          nextImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          nextImage.style.opacity = '1';
+          nextImage.style.transform = 'scale(1) translateX(0)';
+        });
+      }
+
+      setTimeout(() => {
+        this.isAnimating = false;
+      }, 500);
+    }
+
+    closeFeature() {
+      if (this.isAnimating || this.currentIndex === null) return;
+
+      this.isAnimating = true;
+
+      // Pause current feature video
+      const currentVideo = this.querySelector(`[data-feature-video="${this.currentIndex}"]`);
+      if (currentVideo) {
+        currentVideo.pause();
+        currentVideo.currentTime = 0;
+      }
+
+      const currentImage = this.querySelector(`[data-image="${this.currentIndex}"]`);
+
+      // Current feature scales down and fades out
+      if (currentImage) {
+        currentImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        currentImage.style.opacity = '0';
+        currentImage.style.transform = 'scale(0.9)';
+        currentImage.classList.remove('is-active');
+      }
+
+      // Initial image/video scales and fades in
+      setTimeout(() => {
+        const initialImage = this.querySelector('[data-image="initial"]');
+        if (initialImage) {
+          initialImage.style.transform = 'scale(1.1)';
+          initialImage.style.opacity = '0';
+          initialImage.classList.add('is-active');
+
+          requestAnimationFrame(() => {
+            initialImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            initialImage.style.opacity = '1';
+            initialImage.style.transform = 'scale(1)';
+          });
+        }
+
+        // Resume central video if it exists and was playing
+        if (this.centralVideo) {
+          this.centralVideo.play().catch(() => {});
+        }
+
+        // Show hotspots again (desktop only)
+        if (this.isDesktop) {
+          this.hotspots.forEach((hotspot) => {
+            hotspot.classList.add('is-visible');
+          });
+        }
+
+        this.currentIndex = null;
+        this.updateUIState();
+        this.isAnimating = false;
+      }, 50);
+    }
+
+    navigatePrev() {
+      if (this.currentIndex > 0) {
+        this.openFeature(this.currentIndex - 1);
+      }
+    }
+
+    navigateNext() {
+      if (this.currentIndex < this.totalFeatures - 1) {
+        this.openFeature(this.currentIndex + 1);
+      }
+    }
+
+    updateUIState() {
+      const isInitialState = this.currentIndex === null;
+
+      // Toggle snap behavior on mobile
+      if (!this.isDesktop && this.featureList) {
+        if (isInitialState) {
+          this.featureList.classList.remove('snap-active');
+        } else {
+          this.featureList.classList.add('snap-active');
+        }
+      }
+
+      // Update feature items active state
+      this.featureItems.forEach((item, index) => {
+        const button = item.querySelector('[data-feature-button]');
+        if (index === this.currentIndex) {
+          item.classList.add('is-active');
+          if (button) button.setAttribute('aria-expanded', 'true');
+        } else {
+          item.classList.remove('is-active');
+          if (button) button.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Desktop: Add class to wrapper for styling inactive items
+      if (this.carouselWrapper) {
+        this.carouselWrapper.classList.toggle('has-active-feature', !isInitialState);
+      }
+
+      // Toggle close button
+      if (this.closeButton) {
+        this.closeButton.classList.toggle('is-visible', !isInitialState);
+      }
+
+      // Toggle navigation - desktop
+      if (this.desktopNav) {
+        this.desktopNav.classList.toggle('is-visible', !isInitialState);
+      }
+
+      // Toggle navigation - mobile
+      if (this.mobileNav) {
+        const shouldShowNav = !isInitialState && (this.currentIndex > 0 || this.currentIndex < this.totalFeatures - 1);
+        this.mobileNav.classList.toggle('is-visible', shouldShowNav);
+      }
+
+      // Update nav button states
+      const prevBtns = this.querySelectorAll('[data-nav="prev"]');
+      const nextBtns = this.querySelectorAll('[data-nav="next"]');
+
+      if (!isInitialState) {
+        prevBtns.forEach((btn) => {
+          btn.disabled = this.currentIndex === 0;
+        });
+        nextBtns.forEach((btn) => {
+          btn.disabled = this.currentIndex === this.totalFeatures - 1;
+        });
+      }
+    }
+  }
+
+  customElements.define('feature-carousel', FeatureCarousel);
+</script>
+
+{% schema %}
+{
+  "name": "Feature carousel (apple)",
+  "class": "section-feature-carousel",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Take a closer look."
+    },
+    {
+      "type": "header",
+      "content": "Central media"
+    },
+    {
+      "type": "image_picker",
+      "id": "central_image",
+      "label": "Central image",
+      "info": "Used if 'Image' is selected below, or as video poster/fallback"
+    },
+    {
+      "type": "video",
+      "id": "central_video",
+      "label": "Central video",
+      "info": "Takes priority over image if 'Video' is selected below"
+    },
+    {
+      "type": "select",
+      "id": "central_media_type",
+      "label": "Display",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "checkbox",
+      "id": "central_video_loop",
+      "label": "Loop central video",
+      "default": true,
+      "info": "Only applies when 'Video' is selected"
+    },
+    {
+      "type": "checkbox",
+      "id": "central_video_controls",
+      "label": "Show central video controls",
+      "default": false,
+      "info": "Allows users to play/pause/seek"
+    },
+    {
+      "type": "header",
+      "content": "Hotspots"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hotspots",
+      "label": "Enable hotspots",
+      "default": true,
+      "info": "Show clickable hotspots on the central media (desktop only)"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Feature image",
+          "info": "Used if 'Image' is selected below"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Feature video",
+          "info": "Used if 'Video' is selected below"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster",
+          "label": "Video poster image (optional)",
+          "info": "Shown before video loads"
+        },
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_loop",
+          "label": "Loop video",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "video_muted",
+          "label": "Mute video",
+          "default": true,
+          "info": "Unmuted videos require user interaction to play (browser restriction)"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_controls",
+          "label": "Show video controls",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Sound quality"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>A new multiport acoustic architecture for deeper bass, a wider soundstage so you hear every note, and stunningly vivid vocal clarity.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Hotspot position"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Hotspot X position (horizontal)",
+          "default": 50,
+          "info": "0% = left edge, 100% = right edge"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Hotspot Y position (vertical)",
+          "default": 50,
+          "info": "0% = top edge, 100% = bottom edge"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature carousel (apple)",
+      "category": "STRIDE",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Sound quality",
+            "content": "<p>A new multiport acoustic architecture for deeper bass, a wider soundstage so you hear every note, and stunningly vivid vocal clarity.</p>",
+            "hotspot_x": 30,
+            "hotspot_y": 35
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Fit and feel",
+            "content": "<p>The ear tips are now rotated inward for a more secure fit, and a new layer of foam-infused microspheres increases noise cancellation.</p>",
+            "hotspot_x": 70,
+            "hotspot_y": 25
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Heart rate sensing",
+            "content": "<p>Our smallest heart rate sensor ever pulses invisible light to give you accurate workout metrics from the gym to the track.</p>",
+            "hotspot_x": 50,
+            "hotspot_y": 60
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Dust, sweat, and water resistance",
+            "content": "<p>The first AirPods to be IP57 certified, AirPods Pro 3 can handle the sweatiest workouts and even a sudden downpour.</p>",
+            "hotspot_x": 25,
+            "hotspot_y": 70
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Touch controls",
+            "content": "<p>Use simple gestures like pressing to play and swiping to adjust volume. And the new camera remote makes taking videos or pics a snap.</p>",
+            "hotspot_x": 75,
+            "hotspot_y": 65
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Charging case",
+            "content": "<p>Next-generation Ultra Wideband technology increases the distance of Precision Finding by 1.5x, so you don't lose track of your AirPods.</p>",
+            "hotspot_x": 45,
+            "hotspot_y": 45
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

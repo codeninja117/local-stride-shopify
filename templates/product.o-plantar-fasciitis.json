@@ -135,10 +135,6 @@
         "padding_bottom": 36
       }
     },
-    "education_articles": {
-      "type": "education-articles",
-      "settings": {}
-    },
     "how_stride_works_RbwijA": {
       "type": "how-stride-works",
       "blocks": {
@@ -561,6 +557,7 @@
         "feature_4jCKcm",
         "feature_NqgLYK"
       ],
+      "disabled": true,
       "name": "Feature carousel (apple)",
       "settings": {
         "title": "Plantar Fasciitis Specific Features",
@@ -935,7 +932,6 @@
   },
   "order": [
     "main",
-    "education_articles",
     "how_stride_works_RbwijA",
     "review_carousel_new_DNR6gF",
     "review_carousel",

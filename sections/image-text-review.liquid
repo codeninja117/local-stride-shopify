@@ -83,15 +83,26 @@
       </div>
       <div class="section__item flex flex-1 flex-col gap-4">
         <div class="section__content flex flex-col gap-1">
-          <h3 class="text-2xl md:text-[32px]">{{ section.settings.review_title }}</h3>
-          <p class="text-body-l font-semibold opacity-60">
-            {{ section.settings.review_subtitle }}
-          </p>
-        </div>
+          {%- if section.settings.review_title != blank -%}
+            <h3 class="text-2xl md:text-[32px]">{{ section.settings.review_title }}</h3>
+          {%- endif -%}
 
-        {%- if section.settings.review_text != blank -%}
-          <p class="text-lg text-[rgba(var(--color-foreground-muted),1)]">{{ section.settings.review_text }}</p>
-        {%- endif -%}
+          {%- if section.settings.review_subtitle != blank -%}
+            <p class="text-body-l font-semibold opacity-60">
+              {{ section.settings.review_subtitle }}
+            </p>
+          {%- endif -%}
+
+          {%- if section.settings.review_richtext != blank -%}
+            <div class="rte rte--marketing mt-4" style="--rte-body-text: #9D9FA9;">
+              {{ section.settings.review_richtext }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.review_text != blank -%}
+            <p class="mt-4 text-lg text-[rgba(var(--color-foreground-muted),1)]">{{ section.settings.review_text }}</p>
+          {%- endif -%}
+        </div>
 
         {%- if section.settings.supporting_image != blank -%}
           {{
@@ -178,6 +189,11 @@
       "id": "review_subtitle",
       "label": "Review subtitle",
       "default": "Head of Podiatry, Stride Soles"
+    },
+    {
+      "type": "richtext",
+      "id": "review_richtext",
+      "label": "Review richtext"
     },
     {
       "type": "inline_richtext",

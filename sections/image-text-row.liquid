@@ -238,8 +238,9 @@
               </p>
             {%- when 'richtext' -%}
               <div
-                class="{{ block.settings.font_size }} rte"
+                class="{{ block.settings.font_size }} rte rte--marketing"
                 data-cascade="{{ forloop.index | times: 0.05 }}"
+                style="--rte-body-text: #9D9FA9;"
                 {{ block.shopify_attributes }}
               >
                 {{ block.settings.text }}

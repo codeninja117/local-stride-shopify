@@ -135,9 +135,99 @@
         "padding_bottom": 36
       }
     },
-    "education_articles": {
-      "type": "education-articles",
-      "settings": {}
+    "feature_carousel_kU3gzm": {
+      "type": "feature-carousel",
+      "blocks": {
+        "feature_pPcjeC": {
+          "type": "feature",
+          "settings": {
+            "video": "shopify://files/videos/Untitled design (7).mp4",
+            "media_type": "video",
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "title": "Extended Heel ‘Tail’",
+            "content": "<p>Activates & strengthen ankle stabilizing muscles which improves overall stability and reduces heel pain.</p>",
+            "hotspot_x": 19,
+            "hotspot_y": 48
+          }
+        },
+        "feature_kYLqNE": {
+          "type": "feature",
+          "settings": {
+            "video": "shopify://files/videos/Untitled design (6).mp4",
+            "media_type": "video",
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "title": "Semi-rigid Medial Arch Support",
+            "content": "<p>Controls pronation and torsion. Stabilizes the foot for healing.</p>",
+            "hotspot_x": 32,
+            "hotspot_y": 52
+          }
+        },
+        "feature_hk3iHx": {
+          "type": "feature",
+          "settings": {
+            "video": "shopify://files/videos/Untitled design (4).mp4",
+            "media_type": "video",
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "title": "Heel Wedge",
+            "content": "<p>By slightly elevating the heel pressure is taken off the plantar fascia tendon during mid-stance. </p>",
+            "hotspot_x": 12,
+            "hotspot_y": 32
+          }
+        },
+        "feature_NB8jbR": {
+          "type": "feature",
+          "settings": {
+            "video": "shopify://files/videos/TB.mp4",
+            "media_type": "video",
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "title": "Toe Bench",
+            "content": "<p>Elevating the toes gently stretches the plantar fascia during push-off, helping reduce overall tension.</p>",
+            "hotspot_x": 72,
+            "hotspot_y": 41
+          }
+        },
+        "feature_MD7qQA": {
+          "type": "feature",
+          "settings": {
+            "video": "shopify://files/videos/grooveshapedrecess.mp4",
+            "media_type": "image",
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "title": "Groove Shaped Recess",
+            "content": "<p>Offset pressure on the plantar fascia to reduce pain</p>",
+            "hotspot_x": 42,
+            "hotspot_y": 24
+          }
+        }
+      },
+      "block_order": [
+        "feature_pPcjeC",
+        "feature_kYLqNE",
+        "feature_hk3iHx",
+        "feature_NB8jbR",
+        "feature_MD7qQA"
+      ],
+      "name": "Feature carousel (apple)",
+      "settings": {
+        "title": "Made For Plantar Fasciitis",
+        "central_image": "shopify://shop_images/Untitled_1800_x_1500_px_1400_x_1000_px_1400_x_700_px.png",
+        "central_video": "shopify://files/videos/Untitled design (1).mp4",
+        "central_media_type": "image",
+        "central_video_loop": true,
+        "central_video_controls": false,
+        "enable_hotspots": true,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     },
     "how_stride_works_RbwijA": {
       "type": "how-stride-works",
@@ -147,7 +237,7 @@
           "settings": {
             "image": "shopify://shop_images/HowItWorks-Stride_1.png",
             "title": "",
-            "text": "Take a short quiz about your pain and goals."
+            "text": "Take a short quiz about your heel pain and goals."
           }
         },
         "step_UFQ9Gp": {
@@ -264,7 +354,7 @@
       "settings": {
         "title": "What Our <em><strong>Customers Say</strong></em>",
         "subtitle": "",
-        "trustpilot_summary": "shopify://shop_images/trustpilot-summary.png",
+        "trustpilot_summary": "shopify://shop_images/Untitled_design_16.png",
         "trust_pilot_url": "",
         "frontrowmd_snippet": "",
         "slides_per_view": 3.6,
@@ -406,6 +496,7 @@
         "feature_4",
         "feature_5"
       ],
+      "disabled": true,
       "settings": {
         "title": "Fast & Precise | <strong>Custom Orthotics Experience</strong>",
         "subtitle": "Our Precision 3D scanner",
@@ -463,6 +554,7 @@
         "feature_4",
         "feature_2"
       ],
+      "disabled": true,
       "settings": {
         "title": "Features of Our <strong>Custom Orthotics</strong>",
         "text": "",
@@ -480,99 +572,6 @@
         "padding_bottom": 80
       }
     },
-    "feature_carousel_yhrgRK": {
-      "type": "feature-carousel",
-      "blocks": {
-        "feature_PrPMNT": {
-          "type": "feature",
-          "settings": {
-            "video": "shopify://files/videos/Plantar Fasciitis 2-1.mp4",
-            "media_type": "video",
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "title": "Groove Shape Recess",
-            "content": "<p>A new multiport acoustic architecture for deeper bass, a wider soundstage so you hear every note, and stunningly vivid vocal clarity.</p>",
-            "hotspot_x": 50,
-            "hotspot_y": 50
-          }
-        },
-        "feature_Nr7R7i": {
-          "type": "feature",
-          "settings": {
-            "video": "shopify://files/videos/Heel Tail.mp4",
-            "media_type": "video",
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "title": "Extended Heel ‘tail’",
-            "content": "<p>activates & strengthens ankle stabilizing muscles which improves stability and reduces heel pain.</p>",
-            "hotspot_x": 70,
-            "hotspot_y": 25
-          }
-        },
-        "feature_ijEneB": {
-          "type": "feature",
-          "settings": {
-            "video": "shopify://files/videos/Toe Bench.mp4",
-            "media_type": "video",
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "title": "Toe Bench",
-            "content": "<p>elevating toes stretches plantar fascia during push of gently to reduce the overall tension</p>",
-            "hotspot_x": 50,
-            "hotspot_y": 60
-          }
-        },
-        "feature_4jCKcm": {
-          "type": "feature",
-          "settings": {
-            "video": "shopify://files/videos/Medial Arch Support (1).mp4",
-            "media_type": "video",
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "title": "Semi-rigid arch support",
-            "content": "<p>controls pronation and torsion. Stabilizes foot for healing</p>",
-            "hotspot_x": 25,
-            "hotspot_y": 70
-          }
-        },
-        "feature_NqgLYK": {
-          "type": "feature",
-          "settings": {
-            "video": "shopify://files/videos/Heel Wedge.mp4",
-            "media_type": "video",
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "title": "Increased heel height",
-            "content": "<p>by slightly elevating it the pull on the tendon is reduced during stance</p>",
-            "hotspot_x": 75,
-            "hotspot_y": 65
-          }
-        }
-      },
-      "block_order": [
-        "feature_PrPMNT",
-        "feature_Nr7R7i",
-        "feature_ijEneB",
-        "feature_4jCKcm",
-        "feature_NqgLYK"
-      ],
-      "name": "Feature carousel (apple)",
-      "settings": {
-        "title": "Plantar Fasciitis Specific Features",
-        "central_image": "shopify://shop_images/Untitled_1800_x_1500_px_1400_x_1000_px_1400_x_700_px.png",
-        "central_media_type": "image",
-        "central_video_loop": true,
-        "central_video_controls": false,
-        "enable_hotspots": true,
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
     "feature_multicolumn_row_EBehmk": {
       "type": "feature-multicolumn-row",
       "blocks": {
@@ -580,7 +579,7 @@
           "type": "feature",
           "settings": {
             "icon": "shopify://shop_images/svg-clock_0eddc2bf-7257-4f56-9f56-3842951d4003.svg",
-            "title": "Reduces Pain",
+            "title": "Reduces Morning Pain",
             "text": "From flat feet to plantar fasciitis, our master podiatrists have seen it all"
           }
         },
@@ -615,8 +614,9 @@
         "feature_gPm4Ef",
         "feature_VqEK7c"
       ],
+      "disabled": true,
       "settings": {
-        "title": "How Stride <strong>Helps</strong>",
+        "title": "Eliminates<strong> Heel Pain</strong>",
         "button_url": "",
         "button_label": "",
         "disclaimer": "",
@@ -692,7 +692,7 @@
             "feature_4": "Instant Ordering",
             "feature_4_checkbox": true,
             "price": "$249",
-            "shipping_time": "15-20 Days"
+            "shipping_time": "10-15 Days"
           }
         },
         "others_gzWikK": {
@@ -743,7 +743,7 @@
         "button_url": "",
         "button_label": "",
         "disclaimer": "",
-        "image": "shopify://shop_images/stride_dr_walter.jpg",
+        "image": "shopify://shop_images/dietmar2.jpg",
         "image_height": 440,
         "color_scheme": "",
         "padding_top": 120,
@@ -900,6 +900,16 @@
         "include_margins": true
       }
     },
+    "education_articles_MECcyM": {
+      "type": "education-articles",
+      "name": "Education articles",
+      "settings": {
+        "title": "Plantar Fasciitis <strong>Education</strong>",
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
     "custom_liquid_X8bdVd": {
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
@@ -935,13 +945,12 @@
   },
   "order": [
     "main",
-    "education_articles",
+    "feature_carousel_kU3gzm",
     "how_stride_works_RbwijA",
     "review_carousel_new_DNR6gF",
     "review_carousel",
     "feature_text_overlay",
     "image_text_row_features",
-    "feature_carousel_yhrgRK",
     "feature_multicolumn_row_EBehmk",
     "image_text_overlay",
     "compare_stride_TdjTEP",
@@ -949,6 +958,7 @@
     "faq",
     "call_to_action",
     "17426185867dd1a699",
+    "education_articles_MECcyM",
     "custom_liquid_X8bdVd",
     "1756322077a22acaae"
   ]

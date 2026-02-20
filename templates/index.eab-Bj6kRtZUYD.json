@@ -9,6 +9,43 @@
  */
 {
   "sections": {
+    "banner_showcase_9bBDP6": {
+      "type": "banner-showcase",
+      "blocks": {
+        "product_card_yKahpU": {
+          "type": "product_card",
+          "settings": {
+            "image": "shopify://shop_images/onMyFeetAllDay.jpg",
+            "heading": "On My Feet All Day",
+            "subheading": "Our Best Seller! Ideal if you’ll wear it 4+ hours a day on your feet",
+            "button_text": "Shop Now",
+            "button_link": "shopify://products/on-my-feet-all-day"
+          }
+        },
+        "product_card_qxMLBq": {
+          "type": "product_card",
+          "settings": {
+            "image": "shopify://shop_images/Stride-Soles-Normal_1.jpg",
+            "heading": "Normal Everyday Activity",
+            "subheading": "100% custom-made.<br>\nGreat for day-to-day comfort.",
+            "button_text": "Shop Now",
+            "button_link": "shopify://products/sesamoiditis"
+          }
+        }
+      },
+      "block_order": [
+        "product_card_yKahpU",
+        "product_card_qxMLBq"
+      ],
+      "disabled": true,
+      "name": "Banner Showcase",
+      "settings": {
+        "padding_top": 220,
+        "padding_bottom": 100,
+        "mobile_padding_top": 140,
+        "mobile_padding_bottom": 40
+      }
+    },
     "hero": {
       "type": "hero-text-overlay",
       "blocks": {
@@ -24,7 +61,7 @@
         "title": {
           "type": "title",
           "settings": {
-            "title": "<em>Custom Orthotics </em>| Made Easier.",
+            "title": "<em>Think Outside</em> | <strong>The (Foam) Box</strong>",
             "title_font_size": "text-display-l",
             "inline_title": false
           }
@@ -32,7 +69,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "Scan your feet with your phone. German podiatrists analyze your gait and design a custom pair for <strong>$249.</strong> At your door in 10 days. If they don't help within 6 months, you can return them."
+            "text": "Order custom orthotics from home - powered by 3D scanning and gait analysis. Take our 30-sec assessment to get started"
           }
         },
         "buttons": {
@@ -161,6 +198,19 @@
         "padding_bottom": 16
       }
     },
+    "video": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "video_selector": "shopify",
+        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
+        "video_url": "",
+        "title": "<em>How It</em> Works",
+        "color_scheme": "scheme-1",
+        "padding_top": 120,
+        "padding_bottom": 60
+      }
+    },
     "how_stride_works_zmJnPz": {
       "type": "how-stride-works",
       "blocks": {
@@ -224,6 +274,132 @@
         "background_color": "",
         "text_color": "#ffffff",
         "color_scheme": "scheme-3"
+      }
+    },
+    "call_to_action": {
+      "type": "call-to-action",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "text_alignment": "center",
+            "title": "<strong>You can buy our orthotics in 3 interest-free payments with Klarna.</strong>",
+            "title_font_size": "text-h2",
+            "base_font_weight": "font-semibold",
+            "reduce_margin_bottom": false
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_url": "shopify://products/custom-orthotics",
+            "button_label": "Buy now",
+            "disclaimer": "",
+            "button_type": "tertiary"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "button"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "inner_color_scheme": "scheme-5",
+        "enable_wrapper": false,
+        "enable_border_radius": false,
+        "inner_width": "w-full",
+        "content_box_padding_top": 32,
+        "content_box_padding_bottom": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "pain_cards": {
+      "type": "pain-cards",
+      "blocks": {
+        "no_foot_pain_YA6qQc": {
+          "type": "no-foot-pain",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224545_e3339891-e0a5-43e2-bfae-efc6dcf24dab.png",
+            "checkbox_label": "No Foot Pain"
+          }
+        },
+        "card_y9MCBX": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224546_bec9ca60-d86d-47f7-997b-2e606f4b65b9.png",
+            "title": "The Arch",
+            "checkbox_label": "Left",
+            "checkbox_label_2": "Right"
+          }
+        },
+        "card_FwdCL8": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224548_5c55c6d9-5927-4e6c-9fea-fd2f7950c693.png",
+            "title": "The Heel",
+            "checkbox_label": "Left",
+            "checkbox_label_2": "Right"
+          }
+        },
+        "card_qDPkrd": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224547_86c5017f-896a-478b-9899-9505077df001.png",
+            "title": "The Forefoot",
+            "checkbox_label": "Left",
+            "checkbox_label_2": "Right"
+          }
+        },
+        "card_8tVebU": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224549_0aadf037-9dbc-4022-ab8c-5a9a5709d32f.png",
+            "title": "The Achilles Tendon",
+            "checkbox_label": "Left",
+            "checkbox_label_2": "Right"
+          }
+        },
+        "card_nRxjpi": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224550_f959cf70-0339-417c-a0fb-3dd5b9f4f5e2.png",
+            "title": "The Ankle",
+            "checkbox_label": "Left",
+            "checkbox_label_2": "Right"
+          }
+        },
+        "card_6T4cB4": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2147224551_970919d8-0ea1-4691-84ec-431174d75589.png",
+            "title": "All Over",
+            "checkbox_label": "Left",
+            "checkbox_label_2": "Right"
+          }
+        }
+      },
+      "block_order": [
+        "no_foot_pain_YA6qQc",
+        "card_y9MCBX",
+        "card_FwdCL8",
+        "card_qDPkrd",
+        "card_8tVebU",
+        "card_nRxjpi",
+        "card_6T4cB4"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "<em>Do you have pain in </em><em><strong>the</strong></em><strong> following areas?</strong>",
+        "button_url": "shopify://pages/quiz",
+        "button_label": "Take The Quiz",
+        "disclaimer": "180-Day Satisfaction Guarantee",
+        "color_scheme": "scheme-1",
+        "card_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "feature_multicolumn_aCAExw": {
@@ -668,6 +844,7 @@
         "text_grA6Tz",
         "button_h8x98T"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2",
         "inner_color_scheme": "",
@@ -688,13 +865,12 @@
         "title": "<em>Award Winning</em> <strong>Podiatrists</strong>",
         "review_title": "Dr. Dietmar Walter",
         "review_subtitle": "Head of Podiatry, Stride Soles",
-        "review_richtext": "",
         "review_text": "Each orthotic is custom designed in Germany by <a href=\"/pages/team\" title=\"Innovation\"><span style=\"text-decoration:underline\"><strong>Dr. Dietmar Walter</strong></span></a> and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
         "supporting_image_height": 200,
         "button_url": "shopify://pages/quiz",
         "button_label": "Relieve My Foot Pain",
         "disclaimer": "180 Day Return Policy",
-        "image": "shopify://shop_images/dietmar2.jpg",
+        "image": "shopify://shop_images/Capture_88b49b56-a795-424d-8310-26be069569be.png",
         "image_height": 440,
         "color_scheme": "scheme-1",
         "padding_top": 60,
@@ -807,11 +983,15 @@
     }
   },
   "order": [
+    "banner_showcase_9bBDP6",
     "hero",
     "review_multicolumn_6QjFJn",
     "proven_trusted_FHiJM4",
+    "video",
     "how_stride_works_zmJnPz",
     "get_started_cta_AinbpV",
+    "call_to_action",
+    "pain_cards",
     "feature_multicolumn_aCAExw",
     "feature_callouts_bDnchz",
     "review_carousel_new_dV9C8m",

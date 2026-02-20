@@ -17,30 +17,45 @@
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "title": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>",
-            "title_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>",
+            "title": "<strong>Spring Preview Sale: 50% Off</strong>",
+            "title_mobile": "<strong>Spring Preview Sale: 50% Off</strong>",
             "cta_text": "Take The Quiz",
             "cta_url": "shopify://pages/quiz",
             "cart_filled_cta_text": "Buy now",
             "cart_filled_cta_url": "/cart",
-            "cart_title": "<strong>50% OFF, NEW YEAR SALE! (Ends Jan 21)</strong>",
-            "cart_title_mobile": "<strong>50% OFF, NEW YEAR SALE! (Ends Jan 21)</strong>"
+            "cart_title": "President’s Day Sale: <strong>70% Off!</strong> — Code: <strong>President</strong>",
+            "cart_title_mobile": "President’s Day Sale: <strong>70% Off!</strong> — Code: <strong>President</strong>"
+          }
+        },
+        "announcement_gMFVJg": {
+          "type": "announcement",
+          "disabled": true,
+          "settings": {
+            "title": "<strong>Foot Pain? Join Our Live Q&A</strong>",
+            "title_mobile": "<strong>Foot Pain? Join Our Live Q&A</strong>",
+            "cta_text": "Add to Calendar",
+            "cta_url": "https://cdn.shopify.com/s/files/1/0578/4066/4640/files/stride-soles-doctor-ama.ics?v=1771296531",
+            "cart_filled_cta_text": "Add to Calendar",
+            "cart_filled_cta_url": "https://cdn.shopify.com/s/files/1/0578/4066/4640/files/stride-soles-doctor-ama.ics?v=1771296531",
+            "cart_title": "Complete your purchase now!",
+            "cart_title_mobile": "Complete your purchase now!"
           }
         }
       },
       "block_order": [
-        "announcement_1"
+        "announcement_1",
+        "announcement_gMFVJg"
       ],
       "settings": {
         "background_color": "#eacba4",
         "text_color": "#000000",
         "show_arrows": true,
         "arrow_color": "#202020",
-        "autoplay_speed": 4,
+        "autoplay_speed": 5,
         "ticker_speed": 17,
         "enable_ticker_animation": true,
-        "cart_title_override": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>",
-        "cart_title_override_mobile": "<strong>50% OFF NEW YEAR SALE!! (Ends 1/30)</strong>"
+        "cart_title_override": "<strong>Spring Preview Sale: 50% Off! </strong>",
+        "cart_title_override_mobile": "<strong>Spring Preview Sale: 50% Off! </strong>"
       }
     },
     "header": {

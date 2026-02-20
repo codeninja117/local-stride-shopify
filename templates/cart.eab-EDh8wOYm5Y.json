@@ -39,9 +39,9 @@
         "discount_HVxN73": {
           "type": "discount",
           "settings": {
-            "title": "50% OFF 'SPRING PREVIEW' SALE",
+            "title": "50% OFF NEW YEAR SALE",
             "subtitle": "Discount Auto-applied",
-            "savings": "Savings $250 (50% OFF)"
+            "savings": "Savings $199 (50% OFF)"
           }
         },
         "order_summary_kBqyHV": {
@@ -70,17 +70,15 @@
         },
         "recommended_add_on_zTdMgN": {
           "type": "recommended-add-on",
-          "disabled": true,
           "settings": {
-            "product": "custom-orthotics-for-high-arches",
+            "product": "custom-sandals",
             "subtitle": ""
           }
         },
         "recommended_add_on_CEzbEk": {
           "type": "recommended-add-on",
-          "disabled": true,
           "settings": {
-            "product": "custom-orthotics-for-high-arches",
+            "product": "stride-x-fuelme-copper-compression-socks",
             "subtitle": ""
           }
         }
@@ -104,7 +102,7 @@
         "padding_top": 36,
         "padding_bottom": 36,
         "hide_cart_header": false,
-        "compare_savings_label": "SPRING PREVIEW SALE"
+        "compare_savings_label": "NEW YEAR SALE"
       }
     }
   },

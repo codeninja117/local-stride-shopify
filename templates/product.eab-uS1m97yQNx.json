@@ -9,6 +9,64 @@
  */
 {
   "sections": {
+    "hero_text_overlay_pHdpfw": {
+      "type": "hero-text-overlay",
+      "blocks": {
+        "title_3emW4R": {
+          "type": "title",
+          "settings": {
+            "title": "Custom Orthotics\nFor The 21st Century",
+            "title_font_size": "text-display-xl",
+            "inline_title": false
+          }
+        },
+        "text_hDBpkD": {
+          "type": "text",
+          "settings": {
+            "text": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
+          }
+        },
+        "buttons_KDVADE": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Take The Quiz",
+            "button_url": "/pages/quiz",
+            "overwrite_button_bg_to_color_human": false,
+            "button_label_2": "Shop Now",
+            "button_url_2": ""
+          }
+        },
+        "features_weQg4y": {
+          "type": "features",
+          "settings": {
+            "feature_icon": "shopify://shop_images/icon__moneyback.png",
+            "feature_title": "365-day money-back guarantee",
+            "feature_icon_2": "shopify://shop_images/icon__medicallyapproved.png",
+            "feature_title_2": "100% Medically Approved"
+          }
+        }
+      },
+      "block_order": [
+        "title_3emW4R",
+        "text_hDBpkD",
+        "buttons_KDVADE",
+        "features_weQg4y"
+      ],
+      "name": "Hero text overlay",
+      "settings": {
+        "media_selector": "image",
+        "image": "shopify://shop_images/home-hero-bg.jpg",
+        "align_content": "left",
+        "enable_gradient_overlay": true,
+        "overlay_opacity": 0,
+        "min_height": 100,
+        "min_height_px": 700,
+        "vertical_alignment": "items-center",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 120
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -128,6 +186,7 @@
         "bogos_io_free_gift_gift_icon_view_Py4wHm",
         "accordions"
       ],
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "media_gallery_layout": "slideshow",
@@ -137,7 +196,12 @@
     },
     "education_articles": {
       "type": "education-articles",
-      "settings": {}
+      "settings": {
+        "title": "Plantar Fasciitis <strong>Education</strong>",
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     },
     "how_stride_works_RbwijA": {
       "type": "how-stride-works",
@@ -934,6 +998,7 @@
     }
   },
   "order": [
+    "hero_text_overlay_pHdpfw",
     "main",
     "education_articles",
     "how_stride_works_RbwijA",

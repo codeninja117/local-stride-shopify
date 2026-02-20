@@ -93,6 +93,10 @@ body.template-article main {
   margin-bottom: 0;
 }
 
+.rte--marketing li {
+  margin-bottom: 8px;
+}
+
 /* Nested lists */
 .rte ul ul,
 .rte ul ol,
@@ -275,6 +279,10 @@ body.template-article main {
     line-height: 32px;
   }
 
+  .rte--marketing {
+    font-size: 18px;
+  }
+
   .rte > * + * {
     margin-top: 1.5em;
   }
@@ -301,6 +309,10 @@ body.template-article main {
     margin-bottom: 30px;
   }
 
+  .rte--marketing p {
+    margin-bottom: 16px;
+  }
+
   .rte ul,
   .rte ol {
     padding-left: 1.5em;
@@ -310,6 +322,10 @@ body.template-article main {
   .rte li {
     margin-bottom: 30px;
     line-height: 32px;
+  }
+
+  .rte--marketing li {
+    margin-bottom: 8px;
   }
 
   .rte ul ul,
