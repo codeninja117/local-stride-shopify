@@ -45,6 +45,11 @@
     font-size: 14px;
   }
 
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table th + th,
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table td + td {
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
   #shopify-section-{{ section.id }} .compare-table-dynamic__table tr:last-child td {
     border-bottom: 0;
   }
@@ -160,7 +165,6 @@
     #shopify-section-{{ section.id }} .compare-table-dynamic__shell {
       padding: 44px 28px 32px;
     }
-
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__stride-col {
