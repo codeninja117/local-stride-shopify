@@ -6,11 +6,26 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
+  #shopify-section-{{ section.id }} .compare-table-dynamic__shell {
+    max-width: 1120px;
+    margin: 0 auto;
+    background: #f1f2f5;
+    border-radius: 10px;
+    padding: 56px 48px 48px;
+  }
+
   #shopify-section-{{ section.id }} .compare-table-dynamic__table-wrap {
-    overflow-x: auto;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    --feature-col-width: 30%;
+    position: relative;
+    overflow: visible;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
     background: #ffffff;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table-scroll {
+    overflow-x: auto;
+    border-radius: 8px;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table {
@@ -18,15 +33,16 @@
     min-width: 780px;
     border-collapse: collapse;
     table-layout: fixed;
-    color: #202020;
+    color: {{ section.settings.table_text_color }};
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table th,
   #shopify-section-{{ section.id }} .compare-table-dynamic__table td {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    padding: 14px 12px;
+    padding: 16px 12px;
     text-align: center;
     vertical-align: middle;
+    font-size: 14px;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table tr:last-child td {
@@ -35,8 +51,120 @@
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table th:first-child,
   #shopify-section-{{ section.id }} .compare-table-dynamic__table td:first-child {
-    text-align: left;
-    width: 30%;
+    text-align: center;
+    width: var(--feature-col-width);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table th {
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table thead th {
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col-head {
+    display: flex;
+    min-height: 98px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    padding-top: 22px;
+    padding-bottom: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col-head--stride {
+    padding-top: 22px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__thead-label {
+    display: block;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 600;
+    color: {{ section.settings.table_text_color }};
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__stride-logo {
+    display: block;
+    margin: 0 auto 0;
+    width: 74px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__thead-price {
+    display: block;
+    margin-top: 0;
+    font-size: 34px;
+    line-height: 1;
+    font-weight: 800;
+    color: {{ section.settings.table_text_color }};
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__best-value {
+    position: absolute;
+    top: 0;
+    left: calc(var(--feature-col-width) + ((100% - var(--feature-col-width)) / 6));
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    margin-bottom: 0;
+    border-radius: 999px;
+    background: #eacba4;
+    padding: 5px 14px;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #202020;
+    letter-spacing: 0.03em;
+    z-index: 2;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table thead th:first-child .compare-table-dynamic__feature-label {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
+    margin: 0;
+    text-align: center;
+    font-weight: 300;
+    font-size: clamp(36px, 5.2vw, 64px);
+    line-height: 1.1;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__section-title strong,
+  #shopify-section-{{ section.id }} .compare-table-dynamic__section-title b {
+    font-weight: inherit;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__section-title-accent {
+    display: block;
+    color: #e1bd90;
+    font-weight: 500;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
+    margin: 10px auto 0;
+    max-width: 760px;
+    text-align: center;
+    color: rgba(32, 32, 32, 0.55);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__shell {
+      padding: 44px 28px 32px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
+      font-size: clamp(34px, 5vw, 52px);
+    }
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__stride-col {
@@ -46,25 +174,184 @@
   #shopify-section-{{ section.id }} .compare-table-dynamic__feature {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__feature-label {
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__feature-text {
+    color: var(--feature-text-color, inherit);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__stride-text {
+    color: var(--stride-text-color, inherit);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col2-text {
+    color: var(--col2-text-color, inherit);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col3-text {
+    color: var(--col3-text-color, inherit);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__feature--header {
+    position: static;
+    padding-right: 0;
+    display: flex;
+    min-height: 98px;
+    align-items: flex-end;
+    justify-content: center;
+    padding-top: 22px;
+    padding-bottom: 2px;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip {
     display: inline-flex;
-    width: 16px;
-    height: 16px;
+    position: relative;
+    width: 14px;
+    height: 14px;
     border-radius: 999px;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.08);
-    font-size: 11px;
+    background: transparent;
+    border: 1px solid {{ section.settings.table_text_color }};
+    color: {{ section.settings.table_text_color }};
+    font-size: 9px;
+    font-weight: 600;
     line-height: 1;
     cursor: help;
   }
 
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-bubble {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+    width: min(380px, 82vw);
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    border-radius: 9px;
+    background: #ffffff;
+    color: #202020;
+    text-align: left;
+    padding: 0;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: auto;
+    transition: opacity 0.16s ease, visibility 0.16s ease;
+    z-index: 10;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-bubble::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -7px;
+    width: 12px;
+    height: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.14);
+    border-left: 1px solid rgba(0, 0, 0, 0.14);
+    background: #ffffff;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-title {
+    display: block;
+    margin: 0;
+    padding: 10px 14px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    background: #e2c79f;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-body {
+    display: block;
+    padding: 10px 14px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-intro {
+    display: block;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-item-title {
+    display: block;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-item-text {
+    display: block;
+    margin-top: 3px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-item-image {
+    display: block;
+    margin-top: 8px;
+    width: 100px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-note {
+    display: block;
+    padding: 10px 14px 11px;
+    background: #faf6ec;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-note strong {
+    color: #d08a2f;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip-text {
+    display: block;
+    font-size: 13px;
+    line-height: 1.42;
+    white-space: normal;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip:hover .compare-table-dynamic__tooltip-bubble {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__tooltip--header {
+    position: relative;
+    top: -2px;
+    transform: none;
+  }
+
   #shopify-section-{{ section.id }} .compare-table-dynamic__icon {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1;
   }
 
@@ -76,13 +363,57 @@
     color: #e44747;
   }
 
+  #shopify-section-{{ section.id }} .compare-table-dynamic__cta {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__cta-pill {
+    display: inline-block;
+    border-radius: 999px;
+    border: 1px dashed rgba(224, 188, 141, 0.95);
+    padding: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__cta .btn {
+    border-radius: 999px;
+    padding: 12px 28px;
+    background: #eacba4;
+    color: #202020;
+    border: 0;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__footnote {
+    margin-top: 8px;
+    text-align: center;
+    color: rgba(32, 32, 32, 0.45);
+    font-size: 12px;
+  }
+
   #shopify-section-{{ section.id }} .compare-table-dynamic__mobile {
     display: none;
   }
 
   @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__shell {
+      padding: 28px 16px 24px;
+    }
+
     #shopify-section-{{ section.id }} .compare-table-dynamic__desktop {
       display: none;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
+      font-size: clamp(30px, 8.4vw, 42px);
+      line-height: 1.12;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
+      font-size: 13px;
+      line-height: 1.4;
+      max-width: 520px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile {
@@ -104,168 +435,399 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       margin-top: 10px;
     }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__feature {
+      justify-content: flex-start;
+      padding-right: 0;
+      gap: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__tooltip {
+      position: static;
+      transform: none;
+      width: 14px;
+      height: 14px;
+      font-size: 9px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
+      font-size: clamp(28px, 9.2vw, 36px);
+      line-height: 1.14;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
+      font-size: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
   }
 {%- endstyle -%}
 
 <section class="compare-table-dynamic">
   <div class="page-width">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="text-h1 section-title text-center">{{ section.settings.heading }}</h2>
-    {%- endif -%}
+    <div class="compare-table-dynamic__shell">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="text-h1 section-title capitalize compare-table-dynamic__section-title">
+          {{ section.settings.heading | strip_html }}
+          {%- if section.settings.heading_accent != blank -%}
+            <span class="compare-table-dynamic__section-title-accent">{{ section.settings.heading_accent | strip_html }}</span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
 
-    {%- if section.settings.subheading != blank -%}
-      <p class="mx-auto mt-2 max-w-3xl text-center opacity-70">{{ section.settings.subheading }}</p>
-    {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="compare-table-dynamic__section-subtitle">{{ section.settings.subheading }}</p>
+      {%- endif -%}
 
-    <div class="compare-table-dynamic__desktop mt-8">
-      <div class="compare-table-dynamic__table-wrap">
-        <table class="compare-table-dynamic__table">
-          <thead>
-            <tr>
-              <th>{{ section.settings.feature_header }}</th>
-              <th class="compare-table-dynamic__stride-col">
-                {%- if section.settings.stride_logo != blank -%}
-                  {{ section.settings.stride_logo | image_url: width: 120 | image_tag: loading: 'lazy', alt: section.settings.stride_title }}
-                {%- else -%}
-                  {{ section.settings.stride_title }}
-                {%- endif -%}
-                {%- if section.settings.stride_price != blank -%}
-                  <div>{{ section.settings.stride_price }}</div>
-                {%- endif -%}
-              </th>
-              <th>
-                {%- if section.settings.col_2_logo != blank -%}
-                  {{ section.settings.col_2_logo | image_url: width: 120 | image_tag: loading: 'lazy', alt: section.settings.col_2_title }}
-                {%- else -%}
-                  {{ section.settings.col_2_title }}
-                {%- endif -%}
-                {%- if section.settings.col_2_price != blank -%}
-                  <div>{{ section.settings.col_2_price }}</div>
-                {%- endif -%}
-              </th>
-              <th>
-                {%- if section.settings.col_3_logo != blank -%}
-                  {{ section.settings.col_3_logo | image_url: width: 120 | image_tag: loading: 'lazy', alt: section.settings.col_3_title }}
-                {%- else -%}
-                  {{ section.settings.col_3_title }}
-                {%- endif -%}
-                {%- if section.settings.col_3_price != blank -%}
-                  <div>{{ section.settings.col_3_price }}</div>
-                {%- endif -%}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {%- for block in section.blocks -%}
-              <tr {{ block.shopify_attributes }}>
-                <td>
-                  <span class="compare-table-dynamic__feature">
-                    <span>{{ block.settings.feature_label }}</span>
-                    {%- if block.settings.tooltip_content != blank -%}
+      <div class="compare-table-dynamic__desktop mt-8">
+        <div class="compare-table-dynamic__table-wrap">
+          {%- if section.settings.best_value_text != blank -%}
+            <span class="compare-table-dynamic__best-value">{{ section.settings.best_value_text }}</span>
+          {%- endif -%}
+          <div class="compare-table-dynamic__table-scroll">
+          <table class="compare-table-dynamic__table">
+            <thead>
+              <tr>
+                <th>
+                  <span class="compare-table-dynamic__feature compare-table-dynamic__feature--header">
+                    <span class="compare-table-dynamic__feature-label">{{ section.settings.feature_header }}</span>
+                    {%- if section.settings.header_tooltip_content != blank or section.settings.header_tooltip_intro != blank or section.settings.header_tooltip_note != blank or section.settings.header_tooltip_item_1_title != blank or section.settings.header_tooltip_item_1_text != blank or section.settings.header_tooltip_item_1_image != blank or section.settings.header_tooltip_item_2_title != blank or section.settings.header_tooltip_item_2_text != blank or section.settings.header_tooltip_item_2_image != blank or section.settings.header_tooltip_item_3_title != blank or section.settings.header_tooltip_item_3_text != blank or section.settings.header_tooltip_item_3_image != blank -%}
                       <span
-                        class="compare-table-dynamic__tooltip"
-                        title="{{ block.settings.tooltip_title }}{% if block.settings.tooltip_title != blank %}: {% endif %}{{ block.settings.tooltip_content | strip_html }}"
+                        class="compare-table-dynamic__tooltip compare-table-dynamic__tooltip--header"
+                        tabindex="0"
+                        role="button"
+                        aria-label="{{ section.settings.header_tooltip_title | default: section.settings.feature_header }}"
                       >
                         i
+                        <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
+                          {%- if section.settings.header_tooltip_title != blank -%}
+                            <span class="compare-table-dynamic__tooltip-title">{{ section.settings.header_tooltip_title }}</span>
+                          {%- endif -%}
+                          <span class="compare-table-dynamic__tooltip-body">
+                            {%- if section.settings.header_tooltip_intro != blank -%}
+                              <span class="compare-table-dynamic__tooltip-intro">{{ section.settings.header_tooltip_intro | strip_html | escape | newline_to_br }}</span>
+                            {%- elsif section.settings.header_tooltip_content != blank -%}
+                              {%- assign header_parts = section.settings.header_tooltip_content | split: 'Note:' -%}
+                              <span class="compare-table-dynamic__tooltip-intro">{{ header_parts[0] | strip_html | escape | newline_to_br }}</span>
+                            {%- endif -%}
+
+                            <span class="compare-table-dynamic__tooltip-list">
+                              {%- if section.settings.header_tooltip_item_1_title != blank or section.settings.header_tooltip_item_1_text != blank or section.settings.header_tooltip_item_1_image != blank -%}
+                                <span class="compare-table-dynamic__tooltip-item">
+                                  {%- if section.settings.header_tooltip_item_1_title != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item-title">{{ section.settings.header_tooltip_item_1_title }}</span>
+                                  {%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_1_text != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item-text">{{ section.settings.header_tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>
+                                  {%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_1_image != blank -%}
+                                    {{ section.settings.header_tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: section.settings.header_tooltip_item_1_title }}
+                                  {%- endif -%}
+                                </span>
+                              {%- endif -%}
+                              {%- if section.settings.header_tooltip_item_2_title != blank or section.settings.header_tooltip_item_2_text != blank or section.settings.header_tooltip_item_2_image != blank -%}
+                                <span class="compare-table-dynamic__tooltip-item">
+                                  {%- if section.settings.header_tooltip_item_2_title != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item-title">{{ section.settings.header_tooltip_item_2_title }}</span>
+                                  {%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_2_text != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item-text">{{ section.settings.header_tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>
+                                  {%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_2_image != blank -%}
+                                    {{ section.settings.header_tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: section.settings.header_tooltip_item_2_title }}
+                                  {%- endif -%}
+                                </span>
+                              {%- endif -%}
+                              {%- if section.settings.header_tooltip_item_3_title != blank or section.settings.header_tooltip_item_3_text != blank or section.settings.header_tooltip_item_3_image != blank -%}
+                                <span class="compare-table-dynamic__tooltip-item">
+                                  {%- if section.settings.header_tooltip_item_3_title != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item-title">{{ section.settings.header_tooltip_item_3_title }}</span>
+                                  {%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_3_text != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item-text">{{ section.settings.header_tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>
+                                  {%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_3_image != blank -%}
+                                    {{ section.settings.header_tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: section.settings.header_tooltip_item_3_title }}
+                                  {%- endif -%}
+                                </span>
+                              {%- endif -%}
+                            </span>
+                          </span>
+                          {%- if section.settings.header_tooltip_note != blank -%}
+                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ section.settings.header_tooltip_note | strip_html | escape | newline_to_br }}</span>
+                          {%- elsif section.settings.header_tooltip_content contains 'Note:' -%}
+                            {%- assign header_note_parts = section.settings.header_tooltip_content | split: 'Note:' -%}
+                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ header_note_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
+                          {%- endif -%}
+                        </span>
                       </span>
+                    {%- else -%}
+                      <span class="compare-table-dynamic__tooltip compare-table-dynamic__tooltip--header" aria-hidden="true">i</span>
                     {%- endif -%}
                   </span>
-                </td>
-                <td class="compare-table-dynamic__stride-col">
-                  {%- case block.settings.stride_value_type -%}
-                    {%- when 'yes' -%}
-                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                    {%- when 'no' -%}
-                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
-                    {%- else -%}
-                      {{ block.settings.stride_value_text }}
-                  {%- endcase -%}
-                </td>
-                <td>
-                  {%- case block.settings.col_2_value_type -%}
-                    {%- when 'yes' -%}
-                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                    {%- when 'no' -%}
-                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
-                    {%- else -%}
-                      {{ block.settings.col_2_value_text }}
-                  {%- endcase -%}
-                </td>
-                <td>
-                  {%- case block.settings.col_3_value_type -%}
-                    {%- when 'yes' -%}
-                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                    {%- when 'no' -%}
-                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
-                    {%- else -%}
-                      {{ block.settings.col_3_value_text }}
-                  {%- endcase -%}
-                </td>
+                </th>
+                <th class="compare-table-dynamic__stride-col">
+                  <div class="compare-table-dynamic__col-head compare-table-dynamic__col-head--stride">
+                    {%- if section.settings.stride_logo != blank -%}
+                      {{ section.settings.stride_logo | image_url: width: 88 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__stride-logo', alt: 'Stride' }}
+                    {%- endif -%}
+                    {%- if section.settings.stride_price != blank -%}
+                      <span class="compare-table-dynamic__thead-price">{{ section.settings.stride_price }}</span>
+                    {%- endif -%}
+                  </div>
+                </th>
+                <th>
+                  <div class="compare-table-dynamic__col-head">
+                    <span class="compare-table-dynamic__thead-label">{{ section.settings.col_2_title }}</span>
+                    {%- if section.settings.col_2_price != blank -%}
+                      <span class="compare-table-dynamic__thead-price">{{ section.settings.col_2_price }}</span>
+                    {%- endif -%}
+                  </div>
+                </th>
+                <th>
+                  <div class="compare-table-dynamic__col-head">
+                    <span class="compare-table-dynamic__thead-label">{{ section.settings.col_3_title }}</span>
+                    {%- if section.settings.col_3_price != blank -%}
+                      <span class="compare-table-dynamic__thead-price">{{ section.settings.col_3_price }}</span>
+                    {%- endif -%}
+                  </div>
+                </th>
               </tr>
-            {%- endfor -%}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="compare-table-dynamic__mobile mt-8">
-      {%- for block in section.blocks -%}
-        <div class="compare-table-dynamic__mobile-row" {{ block.shopify_attributes }}>
-          <div class="compare-table-dynamic__feature">
-            <strong>{{ block.settings.feature_label }}</strong>
-            {%- if block.settings.tooltip_content != blank -%}
-              <span
-                class="compare-table-dynamic__tooltip"
-                title="{{ block.settings.tooltip_title }}{% if block.settings.tooltip_title != blank %}: {% endif %}{{ block.settings.tooltip_content | strip_html }}"
-              >
-                i
-              </span>
-            {%- endif -%}
-          </div>
-          <div class="compare-table-dynamic__mobile-grid">
-            <div>
-              <div class="text-xs opacity-60">{{ section.settings.stride_title }}</div>
-              {%- case block.settings.stride_value_type -%}
-                {%- when 'yes' -%}
-                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                {%- when 'no' -%}
-                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
-                {%- else -%}
-                  {{ block.settings.stride_value_text }}
-              {%- endcase -%}
-            </div>
-            <div>
-              <div class="text-xs opacity-60">{{ section.settings.col_2_title }}</div>
-              {%- case block.settings.col_2_value_type -%}
-                {%- when 'yes' -%}
-                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                {%- when 'no' -%}
-                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
-                {%- else -%}
-                  {{ block.settings.col_2_value_text }}
-              {%- endcase -%}
-            </div>
-            <div>
-              <div class="text-xs opacity-60">{{ section.settings.col_3_title }}</div>
-              {%- case block.settings.col_3_value_type -%}
-                {%- when 'yes' -%}
-                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                {%- when 'no' -%}
-                  <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">✕</span>
-                {%- else -%}
-                  {{ block.settings.col_3_value_text }}
-              {%- endcase -%}
-            </div>
+            </thead>
+            <tbody>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'row' -%}
+                <tr
+                  style="
+                    --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
+                    --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
+                    --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
+                    --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
+                  "
+                  {{ block.shopify_attributes }}
+                >
+                  <td>
+                    <span class="compare-table-dynamic__feature">
+                    <span class="compare-table-dynamic__feature-label compare-table-dynamic__feature-text">{{ block.settings.feature_label }}</span>
+                      {%- if block.settings.tooltip_content != blank or block.settings.tooltip_title != blank or block.settings.tooltip_intro != blank or block.settings.tooltip_note != blank or block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank or block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank or block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                        <span
+                          class="compare-table-dynamic__tooltip"
+                          tabindex="0"
+                          role="button"
+                          aria-label="{{ block.settings.tooltip_title | default: block.settings.feature_label }}"
+                        >
+                          i
+                          <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
+                            {%- if block.settings.tooltip_title != blank -%}
+                              <span class="compare-table-dynamic__tooltip-title">{{ block.settings.tooltip_title }}</span>
+                            {%- endif -%}
+                            {%- assign row_tooltip_parts = block.settings.tooltip_content | split: 'Note:' -%}
+                            <span class="compare-table-dynamic__tooltip-body">
+                              {%- if block.settings.tooltip_intro != blank -%}
+                                <span class="compare-table-dynamic__tooltip-intro">{{ block.settings.tooltip_intro | strip_html | escape | newline_to_br }}</span>
+                              {%- elsif row_tooltip_parts[0] != blank -%}
+                                <span class="compare-table-dynamic__tooltip-intro">{{ row_tooltip_parts[0] | strip_html | escape | newline_to_br }}</span>
+                              {%- endif -%}
+                              <span class="compare-table-dynamic__tooltip-list">
+                                {%- if block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank -%}
+                                  <span class="compare-table-dynamic__tooltip-item">
+                                    {%- if block.settings.tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_1_title }}</span>{%- endif -%}
+                                    {%- if block.settings.tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                    {%- if block.settings.tooltip_item_1_image != blank -%}{{ block.settings.tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_1_title }}{%- endif -%}
+                                  </span>
+                                {%- endif -%}
+                                {%- if block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank -%}
+                                  <span class="compare-table-dynamic__tooltip-item">
+                                    {%- if block.settings.tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_2_title }}</span>{%- endif -%}
+                                    {%- if block.settings.tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                    {%- if block.settings.tooltip_item_2_image != blank -%}{{ block.settings.tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_2_title }}{%- endif -%}
+                                  </span>
+                                {%- endif -%}
+                                {%- if block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                                  <span class="compare-table-dynamic__tooltip-item">
+                                    {%- if block.settings.tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_3_title }}</span>{%- endif -%}
+                                    {%- if block.settings.tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                    {%- if block.settings.tooltip_item_3_image != blank -%}{{ block.settings.tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_3_title }}{%- endif -%}
+                                  </span>
+                                {%- endif -%}
+                              </span>
+                            </span>
+                            {%- if block.settings.tooltip_note != blank -%}
+                              <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ block.settings.tooltip_note | strip_html | escape | newline_to_br }}</span>
+                            {%- elsif row_tooltip_parts.size > 1 -%}
+                              <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ row_tooltip_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
+                            {%- endif -%}
+                          </span>
+                        </span>
+                      {%- else -%}
+                        <span class="compare-table-dynamic__tooltip" aria-hidden="true">i</span>
+                      {%- endif -%}
+                    </span>
+                  </td>
+                  <td class="compare-table-dynamic__stride-col">
+                    {%- case block.settings.stride_value_type -%}
+                      {%- when 'yes' -%}
+                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                      {%- when 'no' -%}
+                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                      {%- else -%}
+                        <span class="compare-table-dynamic__stride-text">{{ block.settings.stride_value_text }}</span>
+                    {%- endcase -%}
+                  </td>
+                  <td>
+                    {%- case block.settings.col_2_value_type -%}
+                      {%- when 'yes' -%}
+                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                      {%- when 'no' -%}
+                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                      {%- else -%}
+                        <span class="compare-table-dynamic__col2-text">{{ block.settings.col_2_value_text }}</span>
+                    {%- endcase -%}
+                  </td>
+                  <td>
+                    {%- case block.settings.col_3_value_type -%}
+                      {%- when 'yes' -%}
+                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                      {%- when 'no' -%}
+                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                      {%- else -%}
+                        <span class="compare-table-dynamic__col3-text">{{ block.settings.col_3_value_text }}</span>
+                    {%- endcase -%}
+                  </td>
+                </tr>
+                {%- endif -%}
+              {%- endfor -%}
+            </tbody>
+          </table>
           </div>
         </div>
-      {%- endfor -%}
-    </div>
-
-    {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
-      <div class="mt-8 text-center">
-        <a href="{{ section.settings.button_url }}" class="btn btn-primary">{{ section.settings.button_label }}</a>
       </div>
-    {%- endif -%}
+
+      <div class="compare-table-dynamic__mobile mt-8">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'row' -%}
+          <div
+            class="compare-table-dynamic__mobile-row"
+            style="
+              --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
+              --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
+              --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
+              --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
+            "
+            {{ block.shopify_attributes }}
+          >
+            <div class="compare-table-dynamic__feature">
+              <strong class="compare-table-dynamic__feature-label compare-table-dynamic__feature-text">{{ block.settings.feature_label }}</strong>
+              {%- if block.settings.tooltip_content != blank or block.settings.tooltip_title != blank or block.settings.tooltip_intro != blank or block.settings.tooltip_note != blank or block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank or block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank or block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                <span
+                  class="compare-table-dynamic__tooltip"
+                  tabindex="0"
+                  role="button"
+                  aria-label="{{ block.settings.tooltip_title | default: block.settings.feature_label }}"
+                >
+                  i
+                  <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
+                    {%- if block.settings.tooltip_title != blank -%}
+                      <span class="compare-table-dynamic__tooltip-title">{{ block.settings.tooltip_title }}</span>
+                    {%- endif -%}
+                    {%- assign mobile_row_tooltip_parts = block.settings.tooltip_content | split: 'Note:' -%}
+                    <span class="compare-table-dynamic__tooltip-body">
+                      {%- if block.settings.tooltip_intro != blank -%}
+                        <span class="compare-table-dynamic__tooltip-intro">{{ block.settings.tooltip_intro | strip_html | escape | newline_to_br }}</span>
+                      {%- elsif mobile_row_tooltip_parts[0] != blank -%}
+                        <span class="compare-table-dynamic__tooltip-intro">{{ mobile_row_tooltip_parts[0] | strip_html | escape | newline_to_br }}</span>
+                      {%- endif -%}
+                      <span class="compare-table-dynamic__tooltip-list">
+                        {%- if block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank -%}
+                          <span class="compare-table-dynamic__tooltip-item">
+                            {%- if block.settings.tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_1_title }}</span>{%- endif -%}
+                            {%- if block.settings.tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                            {%- if block.settings.tooltip_item_1_image != blank -%}{{ block.settings.tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_1_title }}{%- endif -%}
+                          </span>
+                        {%- endif -%}
+                        {%- if block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank -%}
+                          <span class="compare-table-dynamic__tooltip-item">
+                            {%- if block.settings.tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_2_title }}</span>{%- endif -%}
+                            {%- if block.settings.tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                            {%- if block.settings.tooltip_item_2_image != blank -%}{{ block.settings.tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_2_title }}{%- endif -%}
+                          </span>
+                        {%- endif -%}
+                        {%- if block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                          <span class="compare-table-dynamic__tooltip-item">
+                            {%- if block.settings.tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_3_title }}</span>{%- endif -%}
+                            {%- if block.settings.tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                            {%- if block.settings.tooltip_item_3_image != blank -%}{{ block.settings.tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_3_title }}{%- endif -%}
+                          </span>
+                        {%- endif -%}
+                      </span>
+                    </span>
+                    {%- if block.settings.tooltip_note != blank -%}
+                      <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ block.settings.tooltip_note | strip_html | escape | newline_to_br }}</span>
+                    {%- elsif mobile_row_tooltip_parts.size > 1 -%}
+                      <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ mobile_row_tooltip_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
+                    {%- endif -%}
+                  </span>
+                </span>
+              {%- else -%}
+                <span class="compare-table-dynamic__tooltip" aria-hidden="true">i</span>
+              {%- endif -%}
+            </div>
+            <div class="compare-table-dynamic__mobile-grid">
+              <div>
+                <div class="text-xs opacity-60">Stride</div>
+                {%- case block.settings.stride_value_type -%}
+                  {%- when 'yes' -%}
+                    <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                  {%- when 'no' -%}
+                    <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                  {%- else -%}
+                    <span class="compare-table-dynamic__stride-text">{{ block.settings.stride_value_text }}</span>
+                {%- endcase -%}
+              </div>
+              <div>
+                <div class="text-xs opacity-60">{{ section.settings.col_2_title }}</div>
+                {%- case block.settings.col_2_value_type -%}
+                  {%- when 'yes' -%}
+                    <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                  {%- when 'no' -%}
+                    <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                  {%- else -%}
+                    <span class="compare-table-dynamic__col2-text">{{ block.settings.col_2_value_text }}</span>
+                {%- endcase -%}
+              </div>
+              <div>
+                <div class="text-xs opacity-60">{{ section.settings.col_3_title }}</div>
+                {%- case block.settings.col_3_value_type -%}
+                  {%- when 'yes' -%}
+                    <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                  {%- when 'no' -%}
+                    <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                  {%- else -%}
+                    <span class="compare-table-dynamic__col3-text">{{ block.settings.col_3_value_text }}</span>
+                {%- endcase -%}
+              </div>
+            </div>
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="compare-table-dynamic__cta">
+          <span class="compare-table-dynamic__cta-pill">
+            <a href="{{ section.settings.button_url | default: '#' }}" class="btn btn-primary">{{ section.settings.button_label }}</a>
+          </span>
+          {%- if section.settings.button_subtext != blank -%}
+            <p class="compare-table-dynamic__footnote">{{ section.settings.button_subtext }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 </section>
 
@@ -283,6 +845,12 @@
     },
     {
       "type": "inline_richtext",
+      "id": "heading_accent",
+      "label": "Heading accent line",
+      "default": "Without the Wait"
+    },
+    {
+      "type": "inline_richtext",
       "id": "subheading",
       "label": "Subheading",
       "default": "Edit rows directly in blocks. No code needed."
@@ -294,14 +862,96 @@
       "default": "Features"
     },
     {
+      "type": "text",
+      "id": "header_tooltip_title",
+      "label": "Header tooltip title",
+      "default": "Digital 3D Foot Scan"
+    },
+    {
+      "type": "textarea",
+      "id": "header_tooltip_content",
+      "label": "Header tooltip content",
+      "default": "There are three common methods for capturing foot shape used to produce custom orthotics."
+    },
+    {
+      "type": "textarea",
+      "id": "header_tooltip_intro",
+      "label": "Header tooltip intro text"
+    },
+    {
       "type": "header",
-      "content": "Column 1 - Stride"
+      "content": "Header tooltip article 1"
     },
     {
       "type": "text",
-      "id": "stride_title",
-      "label": "Title",
-      "default": "Stride"
+      "id": "header_tooltip_item_1_title",
+      "label": "Article 1 title",
+      "default": "1. 3D Digital Scanning"
+    },
+    {
+      "type": "textarea",
+      "id": "header_tooltip_item_1_text",
+      "label": "Article 1 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_tooltip_item_1_image",
+      "label": "Article 1 image"
+    },
+    {
+      "type": "header",
+      "content": "Header tooltip article 2"
+    },
+    {
+      "type": "text",
+      "id": "header_tooltip_item_2_title",
+      "label": "Article 2 title",
+      "default": "2. Foam Impression Box"
+    },
+    {
+      "type": "textarea",
+      "id": "header_tooltip_item_2_text",
+      "label": "Article 2 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_tooltip_item_2_image",
+      "label": "Article 2 image"
+    },
+    {
+      "type": "header",
+      "content": "Header tooltip article 3"
+    },
+    {
+      "type": "text",
+      "id": "header_tooltip_item_3_title",
+      "label": "Article 3 title",
+      "default": "3. Plaster Cast"
+    },
+    {
+      "type": "textarea",
+      "id": "header_tooltip_item_3_text",
+      "label": "Article 3 text"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_tooltip_item_3_image",
+      "label": "Article 3 image"
+    },
+    {
+      "type": "textarea",
+      "id": "header_tooltip_note",
+      "label": "Header tooltip note"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_row_tooltips",
+      "label": "Show tooltip icons on each row",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Column 1 - Stride"
     },
     {
       "type": "text",
@@ -367,9 +1017,21 @@
       "default": "Relieve My Foot Pain"
     },
     {
+      "type": "inline_richtext",
+      "id": "button_subtext",
+      "label": "Button subtext",
+      "default": "180 Day Return Policy"
+    },
+    {
       "type": "url",
       "id": "button_url",
       "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "best_value_text",
+      "label": "Best value badge text",
+      "default": "Best Value"
     },
     {
       "type": "header",
@@ -385,6 +1047,12 @@
       "type": "color",
       "id": "text_color",
       "label": "Text",
+      "default": "#202020"
+    },
+    {
+      "type": "color",
+      "id": "table_text_color",
+      "label": "Table text",
       "default": "#202020"
     },
     {
@@ -427,6 +1095,13 @@
         },
         {
           "type": "text",
+          "id": "feature_text_color",
+          "label": "Feature text color (hex)",
+          "default": "#202020",
+          "info": "Example: #15A35B"
+        },
+        {
+          "type": "text",
           "id": "tooltip_title",
           "label": "Tooltip title"
         },
@@ -434,6 +1109,73 @@
           "type": "textarea",
           "id": "tooltip_content",
           "label": "Tooltip content"
+        },
+        {
+          "type": "textarea",
+          "id": "tooltip_intro",
+          "label": "Tooltip intro text"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip article 1"
+        },
+        {
+          "type": "text",
+          "id": "tooltip_item_1_title",
+          "label": "Article 1 title"
+        },
+        {
+          "type": "textarea",
+          "id": "tooltip_item_1_text",
+          "label": "Article 1 text"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item_1_image",
+          "label": "Article 1 image"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip article 2"
+        },
+        {
+          "type": "text",
+          "id": "tooltip_item_2_title",
+          "label": "Article 2 title"
+        },
+        {
+          "type": "textarea",
+          "id": "tooltip_item_2_text",
+          "label": "Article 2 text"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item_2_image",
+          "label": "Article 2 image"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip article 3"
+        },
+        {
+          "type": "text",
+          "id": "tooltip_item_3_title",
+          "label": "Article 3 title"
+        },
+        {
+          "type": "textarea",
+          "id": "tooltip_item_3_text",
+          "label": "Article 3 text"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item_3_image",
+          "label": "Article 3 image"
+        },
+        {
+          "type": "textarea",
+          "id": "tooltip_note",
+          "label": "Tooltip note"
         },
         {
           "type": "select",
@@ -452,6 +1194,12 @@
           "label": "Stride text value"
         },
         {
+          "type": "text",
+          "id": "stride_text_color",
+          "label": "Stride text color (hex)",
+          "default": "#202020"
+        },
+        {
           "type": "select",
           "id": "col_2_value_type",
           "label": "Column 2 value type",
@@ -468,6 +1216,12 @@
           "label": "Column 2 text value"
         },
         {
+          "type": "text",
+          "id": "col_2_text_color",
+          "label": "Column 2 text color (hex)",
+          "default": "#202020"
+        },
+        {
           "type": "select",
           "id": "col_3_value_type",
           "label": "Column 3 value type",
@@ -482,11 +1236,16 @@
           "type": "text",
           "id": "col_3_value_text",
           "label": "Column 3 text value"
+        },
+        {
+          "type": "text",
+          "id": "col_3_text_color",
+          "label": "Column 3 text color (hex)",
+          "default": "#202020"
         }
       ]
     }
   ],
-  "max_blocks": 30,
   "presets": [
     {
       "name": "Compare table dynamic",
