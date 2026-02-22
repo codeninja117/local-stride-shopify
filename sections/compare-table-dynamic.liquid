@@ -131,18 +131,17 @@
     margin: 0;
     text-align: center;
     font-weight: 300;
-    font-size: clamp(36px, 5.2vw, 64px);
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__section-title strong,
   #shopify-section-{{ section.id }} .compare-table-dynamic__section-title b {
-    font-weight: inherit;
+    font-weight: 500;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__section-title-accent {
     display: block;
-    color: #e1bd90;
+    color: inherit;
     font-weight: 500;
     font-size: inherit;
     line-height: inherit;
@@ -162,9 +161,6 @@
       padding: 44px 28px 32px;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
-      font-size: clamp(34px, 5vw, 52px);
-    }
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__stride-col {
@@ -389,11 +385,6 @@
       display: none;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
-      font-size: clamp(30px, 8.4vw, 42px);
-      line-height: 1.12;
-    }
-
     #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
       font-size: 13px;
       line-height: 1.4;
@@ -436,11 +427,6 @@
   }
 
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} .compare-table-dynamic__section-title {
-      font-size: clamp(28px, 9.2vw, 36px);
-      line-height: 1.14;
-    }
-
     #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
       font-size: 12px;
     }
@@ -457,9 +443,19 @@
     <div class="compare-table-dynamic__shell">
       {%- if section.settings.heading != blank -%}
         <h2 class="text-h1 section-title capitalize compare-table-dynamic__section-title">
-          {{ section.settings.heading | strip_html }}
+          {{
+            section.settings.heading
+            | replace: '<em>', '<span class="">'
+            | replace: '</em>', '</span>'
+          }}
           {%- if section.settings.heading_accent != blank -%}
-            <span class="compare-table-dynamic__section-title-accent">{{ section.settings.heading_accent | strip_html }}</span>
+            <span class="compare-table-dynamic__section-title-accent">
+              {{
+                section.settings.heading_accent
+                | replace: '<em>', '<span class="">'
+                | replace: '</em>', '</span>'
+              }}
+            </span>
           {%- endif -%}
         </h2>
       {%- endif -%}
