@@ -199,6 +199,23 @@
     color: var(--col3-text-color, inherit);
   }
 
+  #shopify-section-{{ section.id }} .compare-table-dynamic__value-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__value-main {
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__value-sub {
+    font-size: 12px;
+    line-height: 1.2;
+    opacity: 0.7;
+  }
+
   #shopify-section-{{ section.id }} .compare-table-dynamic__feature--header {
     position: static;
     padding-right: 0;
@@ -655,32 +672,47 @@
                   </td>
                   <td class="compare-table-dynamic__stride-col">
                     {%- case block.settings.stride_value_type -%}
-                      {%- when 'yes' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                      {%- when 'no' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
-                      {%- else -%}
-                        <span class="compare-table-dynamic__stride-text">{{ block.settings.stride_value_text }}</span>
+                    {%- when 'yes' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                    {%- when 'no' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                    {%- else -%}
+                        <span class="compare-table-dynamic__stride-text compare-table-dynamic__value-stack">
+                          <span class="compare-table-dynamic__value-main">{{ block.settings.stride_value_text }}</span>
+                          {%- if block.settings.stride_value_subtext != blank -%}
+                            <span class="compare-table-dynamic__value-sub">{{ block.settings.stride_value_subtext }}</span>
+                          {%- endif -%}
+                        </span>
                     {%- endcase -%}
                   </td>
                   <td>
                     {%- case block.settings.col_2_value_type -%}
-                      {%- when 'yes' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                      {%- when 'no' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
-                      {%- else -%}
-                        <span class="compare-table-dynamic__col2-text">{{ block.settings.col_2_value_text }}</span>
+                    {%- when 'yes' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                    {%- when 'no' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                    {%- else -%}
+                        <span class="compare-table-dynamic__col2-text compare-table-dynamic__value-stack">
+                          <span class="compare-table-dynamic__value-main">{{ block.settings.col_2_value_text }}</span>
+                          {%- if block.settings.col_2_value_subtext != blank -%}
+                            <span class="compare-table-dynamic__value-sub">{{ block.settings.col_2_value_subtext }}</span>
+                          {%- endif -%}
+                        </span>
                     {%- endcase -%}
                   </td>
                   <td>
                     {%- case block.settings.col_3_value_type -%}
-                      {%- when 'yes' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
-                      {%- when 'no' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
-                      {%- else -%}
-                        <span class="compare-table-dynamic__col3-text">{{ block.settings.col_3_value_text }}</span>
+                    {%- when 'yes' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">✓</span>
+                    {%- when 'no' -%}
+                      <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                    {%- else -%}
+                        <span class="compare-table-dynamic__col3-text compare-table-dynamic__value-stack">
+                          <span class="compare-table-dynamic__value-main">{{ block.settings.col_3_value_text }}</span>
+                          {%- if block.settings.col_3_value_subtext != blank -%}
+                            <span class="compare-table-dynamic__value-sub">{{ block.settings.col_3_value_subtext }}</span>
+                          {%- endif -%}
+                        </span>
                     {%- endcase -%}
                   </td>
                 </tr>
@@ -770,7 +802,12 @@
                   {%- when 'no' -%}
                     <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
                   {%- else -%}
-                    <span class="compare-table-dynamic__stride-text">{{ block.settings.stride_value_text }}</span>
+                    <span class="compare-table-dynamic__stride-text compare-table-dynamic__value-stack">
+                      <span class="compare-table-dynamic__value-main">{{ block.settings.stride_value_text }}</span>
+                      {%- if block.settings.stride_value_subtext != blank -%}
+                        <span class="compare-table-dynamic__value-sub">{{ block.settings.stride_value_subtext }}</span>
+                      {%- endif -%}
+                    </span>
                 {%- endcase -%}
               </div>
               <div>
@@ -781,7 +818,12 @@
                   {%- when 'no' -%}
                     <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
                   {%- else -%}
-                    <span class="compare-table-dynamic__col2-text">{{ block.settings.col_2_value_text }}</span>
+                    <span class="compare-table-dynamic__col2-text compare-table-dynamic__value-stack">
+                      <span class="compare-table-dynamic__value-main">{{ block.settings.col_2_value_text }}</span>
+                      {%- if block.settings.col_2_value_subtext != blank -%}
+                        <span class="compare-table-dynamic__value-sub">{{ block.settings.col_2_value_subtext }}</span>
+                      {%- endif -%}
+                    </span>
                 {%- endcase -%}
               </div>
               <div>
@@ -792,7 +834,12 @@
                   {%- when 'no' -%}
                     <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
                   {%- else -%}
-                    <span class="compare-table-dynamic__col3-text">{{ block.settings.col_3_value_text }}</span>
+                    <span class="compare-table-dynamic__col3-text compare-table-dynamic__value-stack">
+                      <span class="compare-table-dynamic__value-main">{{ block.settings.col_3_value_text }}</span>
+                      {%- if block.settings.col_3_value_subtext != blank -%}
+                        <span class="compare-table-dynamic__value-sub">{{ block.settings.col_3_value_subtext }}</span>
+                      {%- endif -%}
+                    </span>
                 {%- endcase -%}
               </div>
             </div>
@@ -1182,6 +1229,11 @@
         },
         {
           "type": "text",
+          "id": "stride_value_subtext",
+          "label": "Stride subtext"
+        },
+        {
+          "type": "text",
           "id": "stride_text_color",
           "label": "Stride text color (hex)",
           "default": "#202020"
@@ -1201,6 +1253,11 @@
           "type": "text",
           "id": "col_2_value_text",
           "label": "Column 2 text value"
+        },
+        {
+          "type": "text",
+          "id": "col_2_value_subtext",
+          "label": "Column 2 subtext"
         },
         {
           "type": "text",
@@ -1226,6 +1283,11 @@
         },
         {
           "type": "text",
+          "id": "col_3_value_subtext",
+          "label": "Column 3 subtext"
+        },
+        {
+          "type": "text",
           "id": "col_3_text_color",
           "label": "Column 3 text color (hex)",
           "default": "#202020"
@@ -1242,7 +1304,7 @@
         { "type": "row", "settings": { "feature_label": "Full-Length Shell", "stride_value_type": "yes", "col_2_value_type": "no", "col_3_value_type": "no" } },
         { "type": "row", "settings": { "feature_label": "3D Foot Scan", "stride_value_type": "yes", "col_2_value_type": "text", "col_2_value_text": "Select Clinics", "col_3_value_type": "no" } },
         { "type": "row", "settings": { "feature_label": "Time to Start", "stride_value_type": "text", "stride_value_text": "5 Minutes", "col_2_value_type": "text", "col_2_value_text": "Appointment Required", "col_3_value_type": "text", "col_3_value_text": "Kit Shipped" } },
-        { "type": "row", "settings": { "feature_label": "Order to Delivery", "stride_value_type": "text", "stride_value_text": "10-15 Business Days", "col_2_value_type": "text", "col_2_value_text": "3-6 Weeks", "col_3_value_type": "text", "col_3_value_text": "3-5 Weeks" } }
+        { "type": "row", "settings": { "feature_label": "Order to Delivery", "stride_value_type": "text", "stride_value_text": "10-15 Business Days", "stride_value_subtext": "(5-7 days with express)", "stride_text_color": "#0C9F6E", "col_2_value_type": "text", "col_2_value_text": "3-6 Weeks", "col_3_value_type": "text", "col_3_value_text": "3-5 Weeks" } }
       ]
     }
   ]
