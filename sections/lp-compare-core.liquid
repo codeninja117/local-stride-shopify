@@ -5,24 +5,24 @@
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core {
-    max-width: 980px;
+    max-width: 1060px;
     margin: 0 auto;
-    padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__heading {
-    margin: 0 0 18px;
+    margin: 0 0 28px;
     text-align: center;
-    font-size: clamp(24px, 5vw, 40px);
-    line-height: 1.2;
-    font-weight: 600;
+    font-size: clamp(34px, 4.8vw, 58px);
+    line-height: 1.08;
+    font-weight: 700;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__table-wrap {
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    border: 0;
     overflow: hidden;
-    background: #fff;
+    background: transparent;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__table {
@@ -33,17 +33,17 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__table th,
   #shopify-section-{{ section.id }} .lp-compare-core__table td {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    padding: 14px 10px;
+    border-bottom: 1px solid #e5e7ea;
+    padding: 12px 18px;
     text-align: center;
     vertical-align: middle;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.25;
   }
 
-  #shopify-section-{{ section.id }} .lp-compare-core__table th + th,
-  #shopify-section-{{ section.id }} .lp-compare-core__table td + td {
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  #shopify-section-{{ section.id }} .lp-compare-core__table thead .lp-compare-core__feature-col {
+    font-size: 18px;
+    font-weight: 500;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__table tr:last-child td {
@@ -51,19 +51,44 @@
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
-    width: 28%;
+    width: 33.5%;
     text-align: left;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 1.04;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core--three-cols .lp-compare-core__feature-col {
+    width: 28%;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__stride-col {
     background: {{ section.settings.stride_background }};
   }
 
+  #shopify-section-{{ section.id }} .lp-compare-core__table thead th.lp-compare-core__stride-col {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table tbody tr:last-child td.lp-compare-core__stride-col {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__brand {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+  }
+
   #shopify-section-{{ section.id }} .lp-compare-core__col-title {
     display: block;
-    font-size: 19px;
-    line-height: 1.15;
+    font-size: 48px;
+    line-height: 1.06;
     font-weight: 700;
   }
 
@@ -76,28 +101,54 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__logo {
     display: block;
-    width: 78px;
-    margin: 0 auto 4px;
+    width: 92px;
+    margin: 0 auto 10px;
     height: auto;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__value-main {
     display: block;
-    font-size: 20px;
-    line-height: 1.2;
-    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 400;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__value-main--stride {
-    color: {{ section.settings.stride_main_color }};
+    color: {{ section.settings.text_color }};
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__value-sub {
     display: block;
     margin-top: 3px;
-    font-size: 12px;
-    line-height: 1.25;
-    color: {{ section.settings.stride_sub_color }};
+    font-size: 16px;
+    line-height: 1.35;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__value-main strong,
+  #shopify-section-{{ section.id }} .lp-compare-core__value-sub strong {
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__head-inner,
+  #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+    width: 100%;
+    max-width: 344px;
+    margin: 0 auto;
+    padding-inline: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__head-inner {
+    padding-block: 16px 14px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+    padding-block: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__feature-label {
+    display: block;
+    padding-inline: 8px;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__yes {
@@ -113,25 +164,17 @@
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__tldr {
-    margin: 14px 0 0;
-    font-size: 13px;
-    line-height: 1.45;
+    margin: 18px 0 0;
+    font-size: 18px;
+    line-height: 1.5;
     color: rgba(0, 0, 0, 0.72);
   }
 
-  #shopify-section-{{ section.id }} .lp-compare-core__cta {
-    margin-top: 22px;
-    text-align: center;
-  }
-
-  #shopify-section-{{ section.id }} .lp-compare-core__cta-note {
-    margin: 8px 0 0;
-    font-size: 14px;
-    line-height: 1.25;
-    color: rgba(var(--color-foreground), 0.62);
-  }
-
   @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .lp-compare-core {
+      padding-inline: 14px;
+    }
+
     #shopify-section-{{ section.id }} .lp-compare-core__table th,
     #shopify-section-{{ section.id }} .lp-compare-core__table td {
       padding: 10px 8px;
@@ -144,79 +187,112 @@
 
     #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
       width: 34%;
-      font-size: 12px;
+      font-size: 20px;
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__value-main {
       font-size: 16px;
     }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__value-sub {
+      font-size: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__head-inner,
+    #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+      max-width: none;
+      padding-inline: 0;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .lp-compare-core__table thead th {
+      padding-top: 18px;
+      padding-bottom: 10px;
+    }
   }
 {%- endstyle -%}
+
+{%- assign show_col_3 = section.settings.show_col_3 -%}
 
 <section class="lp-compare-core">
   {%- if section.settings.heading != blank -%}
     <h2 class="lp-compare-core__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
 
-  <div class="lp-compare-core__table-wrap">
+  <div class="lp-compare-core__table-wrap {% if show_col_3 %}lp-compare-core--three-cols{% endif %}">
     <table class="lp-compare-core__table">
       <thead>
         <tr>
           <th class="lp-compare-core__feature-col">{{ section.settings.feature_header }}</th>
           <th class="lp-compare-core__stride-col">
-            {%- if section.settings.stride_logo != blank -%}
-              {{ section.settings.stride_logo | image_url: width: 160 | image_tag: class: 'lp-compare-core__logo', loading: 'lazy', alt: section.settings.stride_title }}
-            {%- endif -%}
-            <span class="lp-compare-core__col-title">{{ section.settings.stride_title }}</span>
-            {%- if section.settings.stride_subtitle != blank -%}
-              <span class="lp-compare-core__col-sub">{{ section.settings.stride_subtitle }}</span>
-            {%- endif -%}
+            <div class="lp-compare-core__head-inner">
+              {%- if section.settings.stride_logo != blank -%}
+                {{ section.settings.stride_logo | image_url: width: 160 | image_tag: class: 'lp-compare-core__logo', loading: 'lazy', alt: section.settings.stride_title }}
+              {%- else -%}
+                <span class="lp-compare-core__brand">STRIDE</span>
+              {%- endif -%}
+              <span class="lp-compare-core__col-title">{{ section.settings.stride_title }}</span>
+              {%- if section.settings.stride_subtitle != blank -%}
+                <span class="lp-compare-core__col-sub">{{ section.settings.stride_subtitle }}</span>
+              {%- endif -%}
+            </div>
           </th>
           <th>
-            <span class="lp-compare-core__col-title">{{ section.settings.col_2_title }}</span>
-            {%- if section.settings.col_2_subtitle != blank -%}
-              <span class="lp-compare-core__col-sub">{{ section.settings.col_2_subtitle }}</span>
-            {%- endif -%}
+            <div class="lp-compare-core__head-inner">
+              <span class="lp-compare-core__col-title">{{ section.settings.col_2_title }}</span>
+              {%- if section.settings.col_2_subtitle != blank -%}
+                <span class="lp-compare-core__col-sub">{{ section.settings.col_2_subtitle }}</span>
+              {%- endif -%}
+            </div>
           </th>
-          <th>
-            <span class="lp-compare-core__col-title">{{ section.settings.col_3_title }}</span>
-            {%- if section.settings.col_3_subtitle != blank -%}
-              <span class="lp-compare-core__col-sub">{{ section.settings.col_3_subtitle }}</span>
-            {%- endif -%}
-          </th>
+          {%- if show_col_3 -%}
+            <th>
+              <span class="lp-compare-core__col-title">{{ section.settings.col_3_title }}</span>
+              {%- if section.settings.col_3_subtitle != blank -%}
+                <span class="lp-compare-core__col-sub">{{ section.settings.col_3_subtitle }}</span>
+              {%- endif -%}
+            </th>
+          {%- endif -%}
         </tr>
       </thead>
       <tbody>
         {%- for block in section.blocks -%}
           <tr {{ block.shopify_attributes }}>
-            <td class="lp-compare-core__feature-col">{{ block.settings.feature_label }}</td>
+            <td class="lp-compare-core__feature-col"><span class="lp-compare-core__feature-label">{{ block.settings.feature_label }}</span></td>
             <td class="lp-compare-core__stride-col">
-              {%- case block.settings.stride_type -%}
-                {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
-                {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
-                {%- else -%}
-                  <span class="lp-compare-core__value-main lp-compare-core__value-main--stride">{{ block.settings.stride_value }}</span>
-                  {%- if block.settings.stride_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.stride_sub }}</span>{%- endif -%}
-              {%- endcase -%}
+              <div class="lp-compare-core__cell-content">
+                {%- case block.settings.stride_type -%}
+                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                  {%- else -%}
+                    <span class="lp-compare-core__value-main lp-compare-core__value-main--stride">{{ block.settings.stride_value }}</span>
+                    {%- if block.settings.stride_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.stride_sub }}</span>{%- endif -%}
+                {%- endcase -%}
+              </div>
             </td>
             <td>
-              {%- case block.settings.col_2_type -%}
-                {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
-                {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
-                {%- else -%}
-                  <span class="lp-compare-core__value-main">{{ block.settings.col_2_value }}</span>
-                  {%- if block.settings.col_2_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_2_sub }}</span>{%- endif -%}
-              {%- endcase -%}
+              <div class="lp-compare-core__cell-content">
+                {%- case block.settings.col_2_type -%}
+                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                  {%- else -%}
+                    <span class="lp-compare-core__value-main">{{ block.settings.col_2_value }}</span>
+                    {%- if block.settings.col_2_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_2_sub }}</span>{%- endif -%}
+                {%- endcase -%}
+              </div>
             </td>
-            <td>
-              {%- case block.settings.col_3_type -%}
-                {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
-                {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
-                {%- else -%}
-                  <span class="lp-compare-core__value-main">{{ block.settings.col_3_value }}</span>
-                  {%- if block.settings.col_3_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_3_sub }}</span>{%- endif -%}
-              {%- endcase -%}
-            </td>
+            {%- if show_col_3 -%}
+              <td>
+                {%- case block.settings.col_3_type -%}
+                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                  {%- else -%}
+                    <span class="lp-compare-core__value-main">{{ block.settings.col_3_value }}</span>
+                    {%- if block.settings.col_3_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_3_sub }}</span>{%- endif -%}
+                {%- endcase -%}
+              </td>
+            {%- endif -%}
           </tr>
         {%- endfor -%}
       </tbody>
@@ -225,13 +301,6 @@
 
   {%- if section.settings.tldr != blank -%}
     <p class="lp-compare-core__tldr">{{ section.settings.tldr }}</p>
-  {%- endif -%}
-
-  {%- if section.settings.button_label != blank -%}
-    <div class="lp-compare-core__cta">
-      {% render 'button', tag: 'a', variant: 'primary', text: section.settings.button_label, url: section.settings.button_url %}
-      {%- if section.settings.button_note != blank -%}<p class="lp-compare-core__cta-note">{{ section.settings.button_note }}</p>{%- endif -%}
-    </div>
   {%- endif -%}
 </section>
 
@@ -248,6 +317,7 @@
     { "type": "image_picker", "id": "stride_logo", "label": "Stride logo" },
     { "type": "text", "id": "col_2_title", "label": "Column 2 title", "default": "Foam Impression Kit" },
     { "type": "text", "id": "col_2_subtitle", "label": "Column 2 subtitle" },
+    { "type": "checkbox", "id": "show_col_3", "label": "Show third comparison column", "default": false },
     { "type": "text", "id": "col_3_title", "label": "Column 3 title", "default": "Generic Insole" },
     { "type": "text", "id": "col_3_subtitle", "label": "Column 3 subtitle" },
     { "type": "textarea", "id": "tldr", "label": "TLDR text" },
@@ -256,7 +326,7 @@
     { "type": "inline_richtext", "id": "button_note", "label": "Button note", "default": "180 Day Return Policy" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#f1f2f5" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#1f1f1f" },
-    { "type": "color", "id": "stride_background", "label": "Stride column background", "default": "#e7cfaa" },
+    { "type": "color", "id": "stride_background", "label": "Stride column background", "default": "#f0ca9f" },
     { "type": "color", "id": "stride_main_color", "label": "Stride highlight", "default": "#0c9f6e" },
     { "type": "color", "id": "stride_sub_color", "label": "Subtext color", "default": "#159c77" },
     { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 },

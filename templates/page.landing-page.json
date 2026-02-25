@@ -19,11 +19,13 @@
           "settings": {
             "feature_label": "Fit",
             "stride_type": "text",
-            "stride_value": "3D Scan",
+            "stride_value": "Matched to your exact foot.<br><strong>100,000-point 3D scan.</strong><br>Takes 2 minutes.",
+            "stride_sub": "",
             "col_2_type": "text",
             "col_2_value": "Foam Impression Kit",
+            "col_2_sub": "Warped by your body weight<br>before the mold even sets.",
             "col_3_type": "text",
-            "col_3_value": "Generic Insole"
+            "col_3_value": ""
           }
         },
         "row_2": {
@@ -31,11 +33,12 @@
           "settings": {
             "feature_label": "Built For Your Body",
             "stride_type": "text",
-            "stride_value": "100,000+ data points",
+            "stride_value": "Designed around how you move<br>(gait analysis)",
+            "stride_sub": "",
             "col_2_type": "text",
-            "col_2_value": "Approx. pressure only",
+            "col_2_value": "Based on a single standing snapshot",
             "col_3_type": "text",
-            "col_3_value": "One-size fit"
+            "col_3_value": ""
           }
         },
         "row_3": {
@@ -43,11 +46,13 @@
           "settings": {
             "feature_label": "Cost",
             "stride_type": "text",
-            "stride_value": "$249",
+            "stride_value": "<strong>$249</strong> (HSA/FSA eligible)",
+            "stride_sub": "",
             "col_2_type": "text",
-            "col_2_value": "$600-$1000+",
+            "col_2_value": "<strong>$600-800</strong> at a podiatrist.",
+            "col_2_sub": "",
             "col_3_type": "text",
-            "col_3_value": "$30+"
+            "col_3_value": ""
           }
         },
         "row_4": {
@@ -55,33 +60,22 @@
           "settings": {
             "feature_label": "Guarantee",
             "stride_type": "text",
-            "stride_value": "180 Day Full Return",
+            "stride_value": "<strong>180 days.</strong> Full refund",
+            "stride_sub": "",
             "col_2_type": "text",
-            "col_2_value": "No trial",
+            "col_2_value": "30 days.",
             "col_3_type": "text",
-            "col_3_value": "None"
-          }
-        },
-        "row_5": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Order to Delivery",
-            "stride_type": "text",
-            "stride_value": "10-15 Business Days",
-            "stride_sub": "(5-7 days with express)",
-            "col_2_type": "text",
-            "col_2_value": "3-6 Weeks",
-            "col_3_type": "text",
-            "col_3_value": "3-5 Weeks"
+            "col_3_value": ""
           }
         }
       },
-      "block_order": ["row_1", "row_2", "row_3", "row_4", "row_5"],
+      "block_order": ["row_1", "row_2", "row_3", "row_4"],
       "settings": {
         "heading": "Read this BEFORE you buy your next pair of custom insoles!",
-        "feature_header": "Features",
+        "feature_header": "",
         "stride_title": "3D Scan",
         "col_2_title": "Foam Impression Kit",
+        "show_col_3": false,
         "col_3_title": "Generic Insole",
         "tldr": "TLDR: The choice is clear. Stride Soles' 3D scanning technology, paired with gait analysis by a German podiatrist, builds a custom orthotic that's far more likely to actually stop your foot pain.",
         "button_label": "Relieve My Foot Pain",
