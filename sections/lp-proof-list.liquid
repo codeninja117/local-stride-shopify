@@ -1,6 +1,6 @@
 {%- style -%}
   #shopify-section-{{ section.id }} .lp-proof-list {
-    max-width: 980px;
+    max-width: 1060px;
     margin: 0 auto;
     padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
   }
@@ -38,14 +38,14 @@
 
   #shopify-section-{{ section.id }} .lp-proof-list__timeline-title {
     margin: 0;
-    font-size: clamp(28px, 4.1vw, 56px);
-    line-height: 1.1;
+    font-size: clamp(20px, 2.8vw, 42px);
+    line-height: 1.12;
     font-weight: 700;
   }
 
   #shopify-section-{{ section.id }} .lp-proof-list__timeline-sub {
-    margin: 5px 0 18px;
-    font-size: 14px;
+    margin: 6px 0 20px;
+    font-size: 13px;
     line-height: 1.2;
     color: rgba(0, 0, 0, 0.35);
   }
@@ -210,11 +210,18 @@
     font-weight: 600;
   }
 
+  #shopify-section-{{ section.id }} .lp-proof-list__item-title {
+    margin: 0;
+    font-size: clamp(24px, 2.1vw, 48px);
+    line-height: 1.28;
+    font-weight: 600;
+  }
+
   #shopify-section-{{ section.id }} .lp-proof-list__text {
     margin: 0 0 0 30px;
-    font-size: 14px;
-    line-height: 1.45;
-    opacity: 0.82;
+    font-size: 18px;
+    line-height: 1.55;
+    opacity: 0.92;
   }
 
   #shopify-section-{{ section.id }} .lp-proof-list__button-wrap {
@@ -223,12 +230,16 @@
 
   @media screen and (min-width: 990px) {
     #shopify-section-{{ section.id }} .lp-proof-list__item {
-      grid-template-columns: minmax(300px, 460px) minmax(0, 1fr);
+      grid-template-columns: minmax(260px, 430px) minmax(0, 1fr);
       gap: 22px;
     }
 
     #shopify-section-{{ section.id }} .lp-proof-list__title {
       font-size: 36px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__item-title {
+      font-size: 24px;
     }
   }
 
@@ -253,6 +264,15 @@
 
     #shopify-section-{{ section.id }} .lp-proof-list__timeline-scale {
       font-size: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__item-title {
+      font-size: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__text {
+      font-size: 15px;
+      line-height: 1.5;
     }
 
     #shopify-section-{{ section.id }} .lp-proof-list__guarantee-card {
@@ -289,47 +309,23 @@
       <article class="lp-proof-list__item" {{ block.shopify_attributes }}>
         <div class="lp-proof-list__media">
           {%- if forloop.index == 8 -%}
-            <div class="lp-proof-list__timeline-card">
-              <p class="lp-proof-list__timeline-title">Production Timeline</p>
-              <p class="lp-proof-list__timeline-sub">Delivery estimate comparison</p>
-              <div class="lp-proof-list__timeline-row">
-                <p class="lp-proof-list__timeline-label">Foam Orthotics</p>
-                <div class="lp-proof-list__timeline-track">
-                  <span class="lp-proof-list__timeline-fill lp-proof-list__timeline-fill--foam"></span>
-                  <span class="lp-proof-list__timeline-chip">4-6 WEEKS</span>
-                </div>
-              </div>
-              <div class="lp-proof-list__timeline-row">
-                <p class="lp-proof-list__timeline-label">Stride Soles</p>
-                <div class="lp-proof-list__timeline-track">
-                  <span class="lp-proof-list__timeline-fill lp-proof-list__timeline-fill--stride"></span>
-                  <span class="lp-proof-list__timeline-chip">2-3 WEEKS</span>
-                </div>
-              </div>
-              <div class="lp-proof-list__timeline-scale">
-                <span>0w</span><span>1w</span><span>2w</span><span>3w</span><span>4w</span><span>5w</span><span>6w</span>
-              </div>
-            </div>
+            <img
+              class="lp-proof-list__image"
+              src="{{ 'landingpage-Rectangle 23.png' | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="604"
+              height="402"
+            >
           {%- elsif forloop.index == 10 -%}
-            <div class="lp-proof-list__guarantee-card">
-              <img
-                class="lp-proof-list__guarantee-shoe"
-                src="{{ 'landingpage-tempImageCDq3Iw 1.png' | asset_url }}"
-                alt="Orthotic insole"
-                loading="lazy"
-                width="225"
-                height="400"
-              >
-              <img
-                class="lp-proof-list__guarantee-badge"
-                src="{{ 'landingpage-Group 5.png' | asset_url }}"
-                alt="180-day guarantee"
-                loading="lazy"
-                width="206"
-                height="154"
-              >
-              <p class="lp-proof-list__guarantee-label">Six months. No risk.</p>
-            </div>
+            <img
+              class="lp-proof-list__image"
+              src="{{ 'landingpage-Rectangle 20.png' | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="604"
+              height="402"
+            >
           {%- elsif block.settings.fallback_asset != blank -%}
             <img
               class="lp-proof-list__image"
@@ -348,7 +344,7 @@
         <div class="lp-proof-list__content">
           <div class="lp-proof-list__title-row">
             <span class="lp-proof-list__index">{{ forloop.index }}</span>
-            <h3 class="h3" style="margin:0;">{{ block.settings.title }}</h3>
+            <h3 class="lp-proof-list__item-title">{{ block.settings.title }}</h3>
           </div>
           {%- if block.settings.text != blank -%}<p class="lp-proof-list__text">{{ block.settings.text }}</p>{%- endif -%}
           {%- if block.settings.button_label != blank -%}
@@ -379,6 +375,11 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "text", "id": "fallback_asset", "label": "Fallback asset path" },
+        { "type": "select", "id": "special_type", "label": "Special layout", "default": "normal", "options": [
+          { "value": "normal", "label": "Normal image card" },
+          { "value": "timeline", "label": "Timeline card" },
+          { "value": "guarantee", "label": "Guarantee card" }
+        ] },
         { "type": "text", "id": "badge", "label": "Badge text" },
         { "type": "text", "id": "title", "label": "Title", "default": "Foam crushes under your weight." },
         { "type": "textarea", "id": "text", "label": "Body" },

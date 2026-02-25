@@ -22,7 +22,7 @@
             "stride_value": "Matched to your exact foot.<br><strong>100,000-point 3D scan.</strong><br>Takes 2 minutes.",
             "stride_sub": "",
             "col_2_type": "text",
-            "col_2_value": "Foam Impression Kit",
+            "col_2_value": "",
             "col_2_sub": "Warped by your body weight<br>before the mold even sets.",
             "col_3_type": "text",
             "col_3_value": ""
@@ -77,7 +77,7 @@
         "col_2_title": "Foam Impression Kit",
         "show_col_3": false,
         "col_3_title": "Generic Insole",
-        "tldr": "TLDR: The choice is clear. Stride Soles' 3D scanning technology, paired with gait analysis by a German podiatrist, builds a custom orthotic that's far more likely to actually stop your foot pain.",
+        "tldr": "<strong>TLDR:</strong> The choice is clear. <strong>Stride Soles' 3D</strong> scanning technology, paired with gait analysis by a German podiatrist, builds a more precise orthotic that's far more likely to actually stop your foot pain.",
         "button_label": "Relieve My Foot Pain",
         "button_note": "180 Day Return Policy",
         "padding_top": 8,
@@ -153,7 +153,8 @@
         "item_8": {
           "type": "item",
           "settings": {
-            "fallback_asset": "landingpage-Group 8.png",
+            "fallback_asset": "landingpage-Rectangle 23.png",
+            "special_type": "normal",
             "badge": "",
             "title": "The foam process takes over a month. Your body can't wait.",
             "text": "Foam usually takes 30+ days end-to-end. Stride can ship in 10-15 days, with faster delivery available for urgent cases."
@@ -171,7 +172,8 @@
         "item_10": {
           "type": "item",
           "settings": {
-            "fallback_asset": "landingpage-Group 5.png",
+            "fallback_asset": "landingpage-Rectangle 20.png",
+            "special_type": "normal",
             "badge": "",
             "title": "180 days. Full refund. Because we trust the data.",
             "text": "Most foam companies offer a 30-day return policy. We give you six months. When your orthotic is built on 100,000+ data points and reviewed by a specialist, we're confident enough to let you decide on your own timeline.",

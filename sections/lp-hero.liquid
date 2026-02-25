@@ -1,10 +1,10 @@
 {%- style -%}
   #shopify-section-{{ section.id }} .lp-hero {
-    background: {{ section.settings.background_color }};
     color: {{ section.settings.text_color }};
     border-radius: 10px;
-    max-width: 1220px;
+    max-width: 1060px;
     margin: 0 auto;
+    box-sizing: border-box;
     padding: 40px 32px 36px;
   }
 
@@ -113,7 +113,7 @@
   }
 {%- endstyle -%}
 
-<section class="lp-hero page-width">
+<section class="lp-hero">
   {%- assign fallback_hero_asset = section.settings.fallback_hero_asset | replace: 'landingpage/', 'landingpage-' | replace: '@4x 2', '@4x2' -%}
   {%- assign fallback_avatar_asset = section.settings.fallback_avatar_asset | replace: 'landingpage/', 'landingpage-' -%}
   {%- assign fallback_content_asset = section.settings.fallback_content_asset | replace: 'landingpage/', 'landingpage-' -%}
@@ -201,14 +201,13 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Forget Foam Boxes" },
     { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Your Feet Deserve Better Than Guesswork!" },
     { "type": "image_picker", "id": "content_image", "label": "Left content image (optional)" },
-    { "type": "text", "id": "fallback_content_asset", "label": "Fallback left content asset", "default": "landingpage-Group 8.png" },
+    { "type": "text", "id": "fallback_content_asset", "label": "Fallback left content asset", "default": "landingpage-Group 8.png"  },
     { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
     { "type": "text", "id": "fallback_hero_asset", "label": "Fallback hero asset path", "default": "landingpage-hero-feet.png" },
     { "type": "image_picker", "id": "meta_image", "label": "Expert avatar" },
     { "type": "text", "id": "fallback_avatar_asset", "label": "Fallback avatar asset path", "default": "landingpage-avatar-zac.png" },
     { "type": "text", "id": "meta_name", "label": "Expert name", "default": "Dr. Zac Cartun, M.D." },
     { "type": "text", "id": "meta_role", "label": "Expert role", "default": "Co-Founder & CMO, Stride Soles" },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#f1f2f5" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#202020" },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#d2ab75" }
   ],
