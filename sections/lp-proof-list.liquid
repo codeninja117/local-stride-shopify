@@ -1,0 +1,173 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .lp-proof-list {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__items {
+    display: grid;
+    gap: 18px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__media {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ddd;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__image {
+    width: 100%;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__badge {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    margin: 0;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 600;
+    padding: 6px 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__content {
+    display: grid;
+    gap: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__title-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__index {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #171717;
+    color: #fff;
+    font-size: 11px;
+    line-height: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__title {
+    margin: 0;
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__text {
+    margin: 0 0 0 30px;
+    font-size: 14px;
+    line-height: 1.45;
+    opacity: 0.82;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__button-wrap {
+    margin: 8px 0 0 30px;
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .lp-proof-list__item {
+      grid-template-columns: minmax(220px, 360px) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__title {
+      font-size: 36px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="lp-proof-list">
+  {%- if section.settings.title != blank -%}
+    <h2 class="lp-proof-list__title">{{ section.settings.title }}</h2>
+  {%- endif -%}
+
+  <div class="lp-proof-list__items">
+    {%- for block in section.blocks -%}
+      <article class="lp-proof-list__item" {{ block.shopify_attributes }}>
+        <div class="lp-proof-list__media">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: class: 'lp-proof-list__image', loading: 'lazy', alt: block.settings.title }}
+          {%- elsif block.settings.fallback_asset != blank -%}
+            <img
+              class="lp-proof-list__image"
+              src="{{ block.settings.fallback_asset | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="604"
+              height="402"
+            >
+          {%- endif -%}
+          {%- if block.settings.badge != blank -%}<p class="lp-proof-list__badge">{{ block.settings.badge }}</p>{%- endif -%}
+        </div>
+
+        <div class="lp-proof-list__content">
+          <div class="lp-proof-list__title-row">
+            <span class="lp-proof-list__index">{{ forloop.index }}</span>
+            <h3 class="h3" style="margin:0;">{{ block.settings.title }}</h3>
+          </div>
+          {%- if block.settings.text != blank -%}<p class="lp-proof-list__text">{{ block.settings.text }}</p>{%- endif -%}
+          {%- if block.settings.button_label != blank -%}
+            <div class="lp-proof-list__button-wrap">
+              {% render 'button', tag: 'a', variant: 'primary', text: block.settings.button_label, url: block.settings.button_url %}
+            </div>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LP proof list",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "title", "label": "Section title" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "fallback_asset", "label": "Fallback asset path" },
+        { "type": "text", "id": "badge", "label": "Badge text" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Foam crushes under your weight." },
+        { "type": "textarea", "id": "text", "label": "Body" },
+        { "type": "text", "id": "button_label", "label": "Button label" },
+        { "type": "url", "id": "button_url", "label": "Button URL" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LP proof list",
+      "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,236 @@
+{
+  "sections": {
+    "hero": {
+      "type": "lp-hero",
+      "settings": {
+        "eyebrow": "Forget Foam Boxes",
+        "title": "Your Feet Deserve Better Than Guesswork!",
+        "meta_name": "Dr. Zac Cartun, M.D.",
+        "meta_role": "Co-Founder & CMO, Stride Soles",
+        "fallback_hero_asset": "landingpage-Artboard 2@4x2.png",
+        "fallback_avatar_asset": "landingpage-Ellipse 2.png"
+      }
+    },
+    "compare_core": {
+      "type": "lp-compare-core",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Fit",
+            "stride_type": "text",
+            "stride_value": "3D Scan",
+            "col_2_type": "text",
+            "col_2_value": "Foam Impression Kit",
+            "col_3_type": "text",
+            "col_3_value": "Generic Insole"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Built For Your Body",
+            "stride_type": "text",
+            "stride_value": "100,000+ data points",
+            "col_2_type": "text",
+            "col_2_value": "Approx. pressure only",
+            "col_3_type": "text",
+            "col_3_value": "One-size fit"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Cost",
+            "stride_type": "text",
+            "stride_value": "$249",
+            "col_2_type": "text",
+            "col_2_value": "$600-$1000+",
+            "col_3_type": "text",
+            "col_3_value": "$30+"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Guarantee",
+            "stride_type": "text",
+            "stride_value": "180 Day Full Return",
+            "col_2_type": "text",
+            "col_2_value": "No trial",
+            "col_3_type": "text",
+            "col_3_value": "None"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Order to Delivery",
+            "stride_type": "text",
+            "stride_value": "10-15 Business Days",
+            "stride_sub": "(5-7 days with express)",
+            "col_2_type": "text",
+            "col_2_value": "3-6 Weeks",
+            "col_3_type": "text",
+            "col_3_value": "3-5 Weeks"
+          }
+        }
+      },
+      "block_order": ["row_1", "row_2", "row_3", "row_4", "row_5"],
+      "settings": {
+        "heading": "Read this BEFORE you buy your next pair of custom insoles!",
+        "feature_header": "Features",
+        "stride_title": "3D Scan",
+        "col_2_title": "Foam Impression Kit",
+        "col_3_title": "Generic Insole",
+        "tldr": "TLDR: The choice is clear. Stride Soles' 3D scanning technology, paired with gait analysis by a German podiatrist, builds a custom orthotic that's far more likely to actually stop your foot pain.",
+        "button_label": "Relieve My Foot Pain",
+        "button_note": "180 Day Return Policy",
+        "padding_top": 8,
+        "padding_bottom": 24
+      }
+    },
+    "proof": {
+      "type": "lp-proof-list",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 1.png",
+            "badge": "Foam Box",
+            "title": "Foam crushes under your weight. The mold is wrong before it ships.",
+            "text": "Foam compresses unevenly under pressure. Matching your arches into the mold warps the soles. 3D scan captures 100,000+ data points with sub-millimeter precision. No compression, no distortion."
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 2.png",
+            "badge": "No one checks this",
+            "title": "Foam can make your orthotic worse than wearing nothing.",
+            "text": "Foam impressions capture your foot in one position that does not reflect how it actually functions. That distortion gets built into the orthotic and can worsen pain over time."
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 3.png",
+            "badge": "Standing still",
+            "title": "Foam doesn't know how you walk. That's where pain starts.",
+            "text": "Your gait has pronation, stride, and pressure shifts that foam misses. Stride includes video gait analysis reviewed by German podiatrists who design correction around motion."
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 4.png",
+            "badge": "Your problem baked in",
+            "title": "Whatever is wrong with your feet gets baked into the foam.",
+            "text": "If your feet overpronate and your step rolls inward, that pattern is captured in the foam and repeated in the orthotic. A 3D scan identifies the issue first so the orthotic corrects it."
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 10.png",
+            "badge": "Nobody checks this",
+            "title": "Once the foam leaves your hands, nobody checks it.",
+            "text": "Foam can shift, compress, or degrade during shipping. There is no way to verify that what arrives at the lab still matches your foot. Digital scans transmit instantly and keep full data integrity."
+          }
+        },
+        "item_6": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 23.png",
+            "badge": "Arch lost in foam",
+            "title": "Foam gets the most important measurement wrong most often.",
+            "text": "Arch height is the hardest dimension to capture accurately in foam. 3D scans measure the contour continuously across the full arch without compression error."
+          }
+        },
+        "item_7": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 22.png",
+            "badge": "Two different feet",
+            "title": "Your left foot and right foot are not the same. Foam doesn't care.",
+            "text": "Most people have one arch lower and one foot wider. Stride scans each foot independently and designs two separate devices, not one averaged shape."
+          }
+        },
+        "item_8": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 8.png",
+            "badge": "Production timeline",
+            "title": "The foam process takes over a month. Your body can't wait.",
+            "text": "Foam usually takes 30+ days end-to-end. Stride can ship in 10-15 days, with faster delivery available for urgent cases."
+          }
+        },
+        "item_9": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 5.png",
+            "badge": "No risk",
+            "title": "180 days. Full refund. Because we trust the data.",
+            "text": "Most foam companies offer short return windows. We include a 180 day full return policy because we trust scan accuracy and clinical review.",
+            "button_label": "Take your free scan"
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5", "item_6", "item_7", "item_8", "item_9"],
+      "settings": {
+        "padding_top": 8,
+        "padding_bottom": 24
+      }
+    },
+    "cta": {
+      "type": "lp-cta-band",
+      "settings": {
+        "eyebrow": "Custom orthotics from your phone",
+        "title": "Get Orthotics Built on Data, Not Guesswork. Only $249",
+        "button_label": "Take your free scan",
+        "fallback_background_asset": "landingpage-image 1.png"
+      }
+    },
+    "icon_strip": {
+      "type": "lp-icon-strip",
+      "blocks": {
+        "icon_1": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame.png",
+            "label": "100,000 data points"
+          }
+        },
+        "icon_2": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame (1).png",
+            "label": "HSA/FSA eligible"
+          }
+        },
+        "icon_3": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame (2).png",
+            "label": "No clinic visit"
+          }
+        },
+        "icon_4": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame (3).png",
+            "label": "Free shipping"
+          }
+        }
+      },
+      "block_order": ["icon_1", "icon_2", "icon_3", "icon_4"],
+      "settings": {
+        "title": "Get Orthotics Built on Data, Not Guesswork. Only $249",
+        "padding_top": 20,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": ["hero", "compare_core", "proof", "cta", "icon_strip"]
+}
+

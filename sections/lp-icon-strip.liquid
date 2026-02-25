@@ -1,0 +1,112 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .lp-icon-strip {
+    padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__title {
+    margin: 0 0 18px;
+    font-size: clamp(24px, 4.5vw, 44px);
+    line-height: 1.15;
+    color: {{ section.settings.title_color }};
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__item {
+    border-radius: 999px;
+    padding: 12px 10px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    margin: 0 auto 8px;
+    object-fit: contain;
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__label {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .lp-icon-strip__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+<section class="lp-icon-strip">
+  {%- if section.settings.title != blank -%}
+    <h2 class="lp-icon-strip__title">{{ section.settings.title }}</h2>
+  {%- endif -%}
+
+  <div class="lp-icon-strip__grid">
+    {%- for block in section.blocks -%}
+      <article class="lp-icon-strip__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          {{ block.settings.icon | image_url: width: 96 | image_tag: class: 'lp-icon-strip__icon', loading: 'lazy', alt: block.settings.label }}
+        {%- elsif block.settings.fallback_icon_asset != blank -%}
+          <img
+            class="lp-icon-strip__icon"
+            src="{{ block.settings.fallback_icon_asset | asset_url }}"
+            alt="{{ block.settings.label | escape }}"
+            loading="lazy"
+            width="24"
+            height="24"
+          >
+        {%- endif -%}
+        <p class="lp-icon-strip__label">{{ block.settings.label }}</p>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LP icon strip",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Get Orthotics Built on Data, Not Guesswork. Only $249" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#e9c999" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "fallback_icon_asset", "label": "Fallback icon asset path" },
+        { "type": "text", "id": "label", "label": "Label", "default": "100k+ data points" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LP icon strip",
+      "blocks": [
+        { "type": "item", "settings": { "label": "100,000 data points" } },
+        { "type": "item", "settings": { "label": "HSA/FSA eligible" } },
+        { "type": "item", "settings": { "label": "No clinic visit" } },
+        { "type": "item", "settings": { "label": "Free shipping" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
