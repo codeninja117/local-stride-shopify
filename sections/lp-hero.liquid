@@ -81,20 +81,47 @@
 
   @media screen and (max-width: 989px) {
     #shopify-section-{{ section.id }} .lp-hero {
-      padding: 30px 20px;
+      padding: 18px 14px 14px;
+      border-radius: 0;
     }
 
     #shopify-section-{{ section.id }} .lp-hero__eyebrow {
-      font-size: 34px;
+      margin-bottom: 6px;
+      font-size: 24px;
+      line-height: 1.1;
     }
 
     #shopify-section-{{ section.id }} .lp-hero__title {
       max-width: none;
-      font-size: clamp(30px, 8vw, 50px);
+      font-size: clamp(18px, 6vw, 28px);
+      line-height: 1.15;
     }
 
     #shopify-section-{{ section.id }} .lp-hero__content {
       min-height: auto;
+    }
+
+    #shopify-section-{{ section.id }} .lp-hero__meta {
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-hero__meta-image {
+      width: 36px;
+      height: 36px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-hero__meta-name {
+      font-size: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-hero__meta-role {
+      font-size: 11px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-hero__image {
+      max-width: 76%;
+      margin-top: 2px;
     }
   }
 

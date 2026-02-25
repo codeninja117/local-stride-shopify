@@ -56,6 +56,32 @@
     color: #3e3428;
   }
 
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .lp-icon-strip {
+      padding-inline: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-icon-strip__grid {
+      gap: 14px 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-icon-strip__icon-wrap {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-icon-strip__icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-icon-strip__label {
+      font-size: 10px;
+      line-height: 1.25;
+    }
+  }
+
   @media screen and (min-width: 750px) {
     #shopify-section-{{ section.id }} .lp-icon-strip__grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));

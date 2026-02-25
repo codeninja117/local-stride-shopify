@@ -230,8 +230,20 @@
   }
 
   @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .lp-proof-list {
+      padding-inline: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__items {
+      gap: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__item {
+      gap: 10px;
+    }
+
     #shopify-section-{{ section.id }} .lp-proof-list__timeline-title {
-      font-size: 24px;
+      font-size: 20px;
     }
 
     #shopify-section-{{ section.id }} .lp-proof-list__timeline-label {
@@ -253,12 +265,27 @@
     }
 
     #shopify-section-{{ section.id }} .lp-proof-list__item-title {
-      font-size: 18px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__index {
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      line-height: 18px;
+      margin-top: 1px;
     }
 
     #shopify-section-{{ section.id }} .lp-proof-list__text {
-      font-size: 15px;
+      margin-left: 28px;
+      font-size: 12px;
       line-height: 1.5;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__button-wrap {
+      margin-left: 28px;
+      margin-top: 6px;
     }
 
     #shopify-section-{{ section.id }} .lp-proof-list__guarantee-card {
