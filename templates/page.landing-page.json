@@ -201,28 +201,28 @@
           "type": "item",
           "settings": {
             "fallback_icon_asset": "landingpage-Frame.png",
-            "label": "100,000 data points"
+            "label": "180-Day Guarantee"
           }
         },
         "icon_2": {
           "type": "item",
           "settings": {
             "fallback_icon_asset": "landingpage-Frame (1).png",
-            "label": "HSA/FSA eligible"
+            "label": "HSA/FSA Eligible"
           }
         },
         "icon_3": {
           "type": "item",
           "settings": {
             "fallback_icon_asset": "landingpage-Frame (2).png",
-            "label": "No clinic visit"
+            "label": "No Office Visit"
           }
         },
         "icon_4": {
           "type": "item",
           "settings": {
             "fallback_icon_asset": "landingpage-Frame (3).png",
-            "label": "Free shipping"
+            "label": "Free Shipping"
           }
         }
       },

@@ -1,77 +1,86 @@
 {%- style -%}
   #shopify-section-{{ section.id }} .lp-icon-strip {
     padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
-    max-width: 980px;
+    background: #e5c8a0;
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__inner {
+    max-width: 860px;
     margin: 0 auto;
     text-align: center;
   }
 
-  #shopify-section-{{ section.id }} .lp-icon-strip__title {
-    margin: 0 0 18px;
-    font-size: clamp(24px, 4.5vw, 44px);
-    line-height: 1.15;
-    color: {{ section.settings.title_color }};
-    font-weight: 600;
-  }
-
   #shopify-section-{{ section.id }} .lp-icon-strip__grid {
     display: grid;
-    gap: 10px;
+    gap: 20px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   #shopify-section-{{ section.id }} .lp-icon-strip__item {
-    border-radius: 999px;
-    padding: 12px 10px;
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0;
+    background: transparent;
+    border: 0;
   }
 
   #shopify-section-{{ section.id }} .lp-icon-strip__icon {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     border-radius: 999px;
-    margin: 0 auto 8px;
+    margin: 0;
     object-fit: contain;
+  }
+
+  #shopify-section-{{ section.id }} .lp-icon-strip__icon-wrap {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 8px;
+    border-radius: 999px;
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.07);
   }
 
   #shopify-section-{{ section.id }} .lp-icon-strip__label {
     margin: 0;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.2;
     font-weight: 500;
+    color: #3e3428;
   }
 
   @media screen and (min-width: 750px) {
     #shopify-section-{{ section.id }} .lp-icon-strip__grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 26px;
     }
   }
 {%- endstyle -%}
 
 <section class="lp-icon-strip">
-  {%- if section.settings.title != blank -%}
-    <h2 class="lp-icon-strip__title">{{ section.settings.title }}</h2>
-  {%- endif -%}
-
-  <div class="lp-icon-strip__grid">
-    {%- for block in section.blocks -%}
-      <article class="lp-icon-strip__item" {{ block.shopify_attributes }}>
-        {%- if block.settings.icon != blank -%}
-          {{ block.settings.icon | image_url: width: 96 | image_tag: class: 'lp-icon-strip__icon', loading: 'lazy', alt: block.settings.label }}
-        {%- elsif block.settings.fallback_icon_asset != blank -%}
-          <img
-            class="lp-icon-strip__icon"
-            src="{{ block.settings.fallback_icon_asset | asset_url }}"
-            alt="{{ block.settings.label | escape }}"
-            loading="lazy"
-            width="24"
-            height="24"
-          >
-        {%- endif -%}
-        <p class="lp-icon-strip__label">{{ block.settings.label }}</p>
-      </article>
-    {%- endfor -%}
+  <div class="lp-icon-strip__inner">
+    <div class="lp-icon-strip__grid">
+      {%- for block in section.blocks -%}
+        <article class="lp-icon-strip__item" {{ block.shopify_attributes }}>
+          <div class="lp-icon-strip__icon-wrap">
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 96 | image_tag: class: 'lp-icon-strip__icon', loading: 'lazy', alt: block.settings.label }}
+            {%- elsif block.settings.fallback_icon_asset != blank -%}
+              <img
+                class="lp-icon-strip__icon"
+                src="{{ block.settings.fallback_icon_asset | asset_url }}"
+                alt="{{ block.settings.label | escape }}"
+                loading="lazy"
+                width="24"
+                height="24"
+              >
+            {%- endif -%}
+          </div>
+          <p class="lp-icon-strip__label">{{ block.settings.label }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
   </div>
 </section>
 
@@ -101,10 +110,10 @@
     {
       "name": "LP icon strip",
       "blocks": [
-        { "type": "item", "settings": { "label": "100,000 data points" } },
-        { "type": "item", "settings": { "label": "HSA/FSA eligible" } },
-        { "type": "item", "settings": { "label": "No clinic visit" } },
-        { "type": "item", "settings": { "label": "Free shipping" } }
+        { "type": "item", "settings": { "label": "180-Day Guarantee" } },
+        { "type": "item", "settings": { "label": "HSA/FSA Eligible" } },
+        { "type": "item", "settings": { "label": "No Office Visit" } },
+        { "type": "item", "settings": { "label": "Free Shipping" } }
       ]
     }
   ]

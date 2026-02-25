@@ -125,7 +125,7 @@
 
   #shopify-section-{{ section.id }} .lp-proof-list__guarantee-card {
     position: relative;
-    min-height: 240px;
+    aspect-ratio: 653 / 438;
     border-radius: 8px;
     background: #efdcc3;
     overflow: hidden;
@@ -133,34 +133,36 @@
 
   #shopify-section-{{ section.id }} .lp-proof-list__guarantee-shoe {
     position: absolute;
-    left: 28px;
+    left: 33%;
+    transform: translateX(-50%);
     bottom: 0;
-    width: 128px;
-    max-width: 42%;
+    width: 30%;
+    max-width: none;
     height: auto;
   }
 
   #shopify-section-{{ section.id }} .lp-proof-list__guarantee-badge {
     position: absolute;
-    right: 20px;
-    top: 18px;
-    width: 120px;
-    max-width: 34%;
+    right: 24%;
+    top: 10%;
+    width: 22%;
+    max-width: none;
     height: auto;
   }
 
   #shopify-section-{{ section.id }} .lp-proof-list__guarantee-label {
     position: absolute;
-    left: 16px;
-    bottom: 16px;
+    left: 3%;
+    bottom: 6%;
     margin: 0;
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
-    padding: 6px 10px;
-    font-size: 18px;
+    padding: 8px 12px;
+    font-size: clamp(10px, 1.6vw, 16px);
     line-height: 1.1;
     font-weight: 700;
+    white-space: nowrap;
   }
 
   #shopify-section-{{ section.id }} .lp-proof-list__badge {
@@ -251,6 +253,28 @@
 
     #shopify-section-{{ section.id }} .lp-proof-list__timeline-scale {
       font-size: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-card {
+      aspect-ratio: 653 / 438;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-shoe {
+      left: 32%;
+      width: 34%;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-badge {
+      right: 20%;
+      top: 10%;
+      width: 24%;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-label {
+      left: 3%;
+      bottom: 6%;
+      padding: 6px 10px;
+      font-size: clamp(10px, 2.8vw, 14px);
     }
   }
 {%- endstyle -%}

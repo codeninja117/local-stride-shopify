@@ -1,16 +1,20 @@
 {%- style -%}
   #shopify-section-{{ section.id }} .lp-cta-band {
     position: relative;
-    border-radius: 10px;
+    border-radius: 0;
     overflow: hidden;
     color: {{ section.settings.text_color }};
     background: #111;
-    min-height: 280px;
+    min-height: 230px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 48px 18px;
+    padding: 44px 18px 40px;
+    --color-button: 22, 22, 24;
+    --color-button-text: 255, 255, 255;
+    --color-button-hover: 22, 22, 24;
+    --color-button-label-hover: 255, 255, 255;
   }
 
   #shopify-section-{{ section.id }} .lp-cta-band::before {
@@ -32,27 +36,43 @@
   #shopify-section-{{ section.id }} .lp-cta-band__content {
     position: relative;
     z-index: 2;
-    max-width: 760px;
+    max-width: 560px;
   }
 
   #shopify-section-{{ section.id }} .lp-cta-band__eyebrow {
-    margin: 0 0 8px;
-    font-size: 12px;
+    margin: 0 0 6px;
+    font-size: 9px;
     line-height: 1.2;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    opacity: 0.85;
+    letter-spacing: 0.06em;
+    opacity: 0.9;
   }
 
   #shopify-section-{{ section.id }} .lp-cta-band__title {
-    margin: 0 0 16px;
-    font-size: clamp(30px, 5vw, 50px);
-    line-height: 1.1;
+    margin: 0 0 12px;
+    font-size: clamp(32px, 4.8vw, 50px);
+    line-height: 1.12;
     font-weight: 600;
+    color: #e7c28f;
   }
+
+  #shopify-section-{{ section.id }} .lp-cta-band .btn-primary {
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  #shopify-section-{{ section.id }} .lp-cta-band .btn-primary__inner {
+    background: #ffffff;
+    color: #141414;
+  }
+
+  #shopify-section-{{ section.id }} .lp-cta-band .btn-primary:hover .btn-primary__inner {
+    background: #ffffff;
+    color: #141414;
+  }
+
 {%- endstyle -%}
 
-<section class="lp-cta-band page-width">
+<section class="lp-cta-band">
   {%- if section.settings.background_image != blank -%}
     {{
       section.settings.background_image
