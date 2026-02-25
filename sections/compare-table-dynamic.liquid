@@ -575,7 +575,16 @@
                 <th class="compare-table-dynamic__stride-col">
                   <div class="compare-table-dynamic__col-head compare-table-dynamic__col-head--stride">
                     {%- if section.settings.stride_logo != blank -%}
-                      {{ section.settings.stride_logo | image_url: width: 88 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__stride-logo', alt: 'Stride' }}
+                      {{
+                        section.settings.stride_logo
+                        | image_url: width: 320
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '74,148,222,296',
+                          sizes: '74px',
+                          class: 'compare-table-dynamic__stride-logo',
+                          alt: 'Stride'
+                      }}
                     {%- endif -%}
                     {%- if section.settings.stride_price != blank -%}
                       <span class="compare-table-dynamic__thead-price">{{ section.settings.stride_price }}</span>
