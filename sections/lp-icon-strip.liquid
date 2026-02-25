@@ -1,9 +1,13 @@
 {%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-inline: 0;
+  }
+
   #shopify-section-{{ section.id }} .lp-icon-strip {
-    padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
     background: #e5c8a0;
-    max-width: 1060px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
   }
 
   #shopify-section-{{ section.id }} .lp-icon-strip__inner {

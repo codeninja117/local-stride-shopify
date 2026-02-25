@@ -14,7 +14,7 @@
     margin: 0 auto 28px;
     max-width: none;
     text-align: center;
-    font-size: clamp(24px, 3.8vw, 52px);
+    font-size: clamp(22px, 3.2vw, 46px);
     line-height: 1.12;
     font-weight: 700;
   }
@@ -55,7 +55,7 @@
     width: 33.5%;
     text-align: left;
     font-weight: 600;
-    font-size: 42px;
+    font-size: 32px;
     line-height: 1.06;
   }
 
@@ -88,7 +88,7 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__col-title {
     display: block;
-    font-size: 48px;
+    font-size: 40px;
     line-height: 1.06;
     font-weight: 700;
   }
@@ -167,10 +167,15 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__tldr {
     margin: 18px 0 0;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 1.45;
     color: #262626;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__tldr strong,
+  #shopify-section-{{ section.id }} .lp-compare-core__tldr b {
+    font-weight: 700;
   }
 
   @media screen and (max-width: 989px) {
@@ -185,12 +190,12 @@
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__col-title {
-      font-size: 14px;
+      font-size: 13px;
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
       width: 34%;
-      font-size: 16px;
+      font-size: 20px;
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__value-main {
@@ -261,6 +266,14 @@
       </thead>
       <tbody>
         {%- for block in section.blocks -%}
+          {%- assign stride_value_html = block.settings.stride_value
+            | replace: '100,000-point 3D scan.', '<strong>100,000-point 3D scan.</strong>'
+            | replace: '$249', '<strong>$249</strong>'
+            | replace: '180 days.', '<strong>180 days.</strong>'
+          -%}
+          {%- assign col_2_value_html = block.settings.col_2_value
+            | replace: '$600-800', '<strong>$600-800</strong>'
+          -%}
           <tr {{ block.shopify_attributes }}>
             <td class="lp-compare-core__feature-col"><span class="lp-compare-core__feature-label">{{ block.settings.feature_label }}</span></td>
             <td class="lp-compare-core__stride-col">
@@ -269,7 +282,7 @@
                   {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
                   {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
                   {%- else -%}
-                    <span class="lp-compare-core__value-main lp-compare-core__value-main--stride">{{ block.settings.stride_value }}</span>
+                    <span class="lp-compare-core__value-main lp-compare-core__value-main--stride">{{ stride_value_html }}</span>
                     {%- if block.settings.stride_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.stride_sub }}</span>{%- endif -%}
                 {%- endcase -%}
               </div>
@@ -280,7 +293,7 @@
                   {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
                   {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
                   {%- else -%}
-                    <span class="lp-compare-core__value-main">{{ block.settings.col_2_value }}</span>
+                    <span class="lp-compare-core__value-main">{{ col_2_value_html }}</span>
                     {%- if block.settings.col_2_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_2_sub }}</span>{%- endif -%}
                 {%- endcase -%}
               </div>
@@ -303,7 +316,11 @@
   </div>
 
   {%- if section.settings.tldr != blank -%}
-    <p class="lp-compare-core__tldr">{{ section.settings.tldr }}</p>
+    {%- assign tldr_html = section.settings.tldr
+      | replace: 'TLDR:', '<strong>TLDR:</strong>'
+      | replace: "Stride Soles' 3D", "<strong>Stride Soles' 3D</strong>"
+    -%}
+    <div class="lp-compare-core__tldr">{{ tldr_html }}</div>
   {%- endif -%}
 </section>
 
@@ -323,7 +340,7 @@
     { "type": "checkbox", "id": "show_col_3", "label": "Show third comparison column", "default": false },
     { "type": "text", "id": "col_3_title", "label": "Column 3 title", "default": "Generic Insole" },
     { "type": "text", "id": "col_3_subtitle", "label": "Column 3 subtitle" },
-    { "type": "textarea", "id": "tldr", "label": "TLDR text" },
+    { "type": "richtext", "id": "tldr", "label": "TLDR text" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Take your free scan" },
     { "type": "url", "id": "button_url", "label": "Button URL" },
     { "type": "inline_richtext", "id": "button_note", "label": "Button note", "default": "180 Day Return Policy" },

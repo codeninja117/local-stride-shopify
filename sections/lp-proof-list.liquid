@@ -165,20 +165,6 @@
     white-space: nowrap;
   }
 
-  #shopify-section-{{ section.id }} .lp-proof-list__badge {
-    position: absolute;
-    left: 8px;
-    top: 8px;
-    margin: 0;
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.72);
-    color: #fff;
-    font-size: 11px;
-    line-height: 1;
-    font-weight: 600;
-    padding: 6px 8px;
-  }
-
   #shopify-section-{{ section.id }} .lp-proof-list__content {
     display: grid;
     gap: 8px;
@@ -338,7 +324,6 @@
           {%- elsif block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 900 | image_tag: class: 'lp-proof-list__image', loading: 'lazy', alt: block.settings.title }}
           {%- endif -%}
-          {%- if block.settings.badge != blank -%}<p class="lp-proof-list__badge">{{ block.settings.badge }}</p>{%- endif -%}
         </div>
 
         <div class="lp-proof-list__content">
