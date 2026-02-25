@@ -3,27 +3,42 @@
     background: {{ section.settings.background_color }};
     color: {{ section.settings.text_color }};
     border-radius: 10px;
-    padding: 36px 28px;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 40px 32px 36px;
   }
 
   #shopify-section-{{ section.id }} .lp-hero__grid {
     display: grid;
-    gap: 24px;
+    gap: 28px;
     align-items: center;
   }
 
+  #shopify-section-{{ section.id }} .lp-hero__content {
+    width: min(100%, 629px);
+    min-height: 291px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-hero__content-image {
+    width: 100%;
+    max-width: 629px;
+    height: auto;
+    display: block;
+  }
+
   #shopify-section-{{ section.id }} .lp-hero__eyebrow {
-    margin: 0 0 6px;
+    margin: 0 0 8px;
     color: {{ section.settings.eyebrow_color }};
-    font-size: 18px;
-    line-height: 1.1;
+    font-size: 50px;
+    line-height: 1.08;
     font-weight: 500;
   }
 
   #shopify-section-{{ section.id }} .lp-hero__title {
     margin: 0;
-    font-size: clamp(38px, 7vw, 68px);
-    line-height: 1.05;
+    max-width: 629px;
+    font-size: clamp(34px, 4.2vw, 58px);
+    line-height: 1.04;
     font-weight: 700;
   }
 
@@ -31,7 +46,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 16px;
+    margin-top: 18px;
   }
 
   #shopify-section-{{ section.id }} .lp-hero__meta-image {
@@ -57,64 +72,104 @@
 
   #shopify-section-{{ section.id }} .lp-hero__image {
     width: 100%;
-    max-width: 320px;
+    max-width: 508px;
+    aspect-ratio: 508 / 533;
     margin-inline: auto;
     display: block;
+    object-fit: contain;
   }
 
-  @media screen and (min-width: 990px) {
+  @media screen and (max-width: 989px) {
     #shopify-section-{{ section.id }} .lp-hero {
-      padding: 48px 42px;
-    }
-
-    #shopify-section-{{ section.id }} .lp-hero__grid {
-      grid-template-columns: 1.2fr 1fr;
-      gap: 40px;
+      padding: 30px 20px;
     }
 
     #shopify-section-{{ section.id }} .lp-hero__eyebrow {
       font-size: 34px;
     }
+
+    #shopify-section-{{ section.id }} .lp-hero__title {
+      max-width: none;
+      font-size: clamp(30px, 8vw, 50px);
+    }
+
+    #shopify-section-{{ section.id }} .lp-hero__content {
+      min-height: auto;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .lp-hero__grid {
+      grid-template-columns: minmax(0, 628px) minmax(0, 508px);
+      justify-content: space-between;
+      gap: 36px;
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    #shopify-section-{{ section.id }} .lp-hero {
+      padding: 52px 48px 44px;
+    }
   }
 {%- endstyle -%}
 
 <section class="lp-hero page-width">
+  {%- assign fallback_hero_asset = section.settings.fallback_hero_asset | replace: 'landingpage/', 'landingpage-' | replace: '@4x 2', '@4x2' -%}
+  {%- assign fallback_avatar_asset = section.settings.fallback_avatar_asset | replace: 'landingpage/', 'landingpage-' -%}
+  {%- assign fallback_content_asset = section.settings.fallback_content_asset | replace: 'landingpage/', 'landingpage-' -%}
   <div class="lp-hero__grid">
-    <div>
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="lp-hero__eyebrow">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      {%- if section.settings.title != blank -%}
-        <h1 class="lp-hero__title">{{ section.settings.title }}</h1>
-      {%- endif -%}
+    <div class="lp-hero__content">
+      {%- if section.settings.content_image != blank -%}
+        {{
+          section.settings.content_image
+          | image_url: width: 1260
+          | image_tag: class: 'lp-hero__content-image', loading: 'lazy', alt: section.settings.title
+        }}
+      {%- elsif fallback_content_asset != blank -%}
+        <img
+          class="lp-hero__content-image"
+          src="{{ fallback_content_asset | asset_url }}"
+          alt="{{ section.settings.title | escape }}"
+          loading="lazy"
+          width="629"
+          height="291"
+        >
+      {%- else -%}
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="lp-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h1 class="lp-hero__title">{{ section.settings.title }}</h1>
+        {%- endif -%}
 
-    {%- if section.settings.meta_name != blank or section.settings.meta_role != blank -%}
-        <div class="lp-hero__meta">
-          {%- if section.settings.meta_image != blank -%}
-            {{
-              section.settings.meta_image
-              | image_url: width: 88
-              | image_tag: class: 'lp-hero__meta-image', loading: 'lazy', alt: section.settings.meta_name
-            }}
-          {%- elsif section.settings.fallback_avatar_asset != blank -%}
-            <img
-              class="lp-hero__meta-image"
-              src="{{ section.settings.fallback_avatar_asset | asset_url }}"
-              alt="{{ section.settings.meta_name | escape }}"
-              loading="lazy"
-              width="44"
-              height="44"
-            >
-          {%- endif -%}
-          <div>
-            {%- if section.settings.meta_name != blank -%}
-              <p class="lp-hero__meta-name">{{ section.settings.meta_name }}</p>
+        {%- if section.settings.meta_name != blank or section.settings.meta_role != blank -%}
+          <div class="lp-hero__meta">
+            {%- if section.settings.meta_image != blank -%}
+              {{
+                section.settings.meta_image
+                | image_url: width: 88
+                | image_tag: class: 'lp-hero__meta-image', loading: 'lazy', alt: section.settings.meta_name
+              }}
+            {%- elsif fallback_avatar_asset != blank -%}
+              <img
+                class="lp-hero__meta-image"
+                src="{{ fallback_avatar_asset | asset_url }}"
+                alt="{{ section.settings.meta_name | escape }}"
+                loading="lazy"
+                width="44"
+                height="44"
+              >
             {%- endif -%}
-            {%- if section.settings.meta_role != blank -%}
-              <p class="lp-hero__meta-role">{{ section.settings.meta_role }}</p>
-            {%- endif -%}
+            <div>
+              {%- if section.settings.meta_name != blank -%}
+                <p class="lp-hero__meta-name">{{ section.settings.meta_name }}</p>
+              {%- endif -%}
+              {%- if section.settings.meta_role != blank -%}
+                <p class="lp-hero__meta-role">{{ section.settings.meta_role }}</p>
+              {%- endif -%}
+            </div>
           </div>
-        </div>
+        {%- endif -%}
       {%- endif -%}
     </div>
 
@@ -124,10 +179,10 @@
         | image_url: width: 720
         | image_tag: class: 'lp-hero__image', loading: 'lazy', alt: section.settings.title
       }}
-    {%- elsif section.settings.fallback_hero_asset != blank -%}
+    {%- elsif fallback_hero_asset != blank -%}
       <img
         class="lp-hero__image"
-        src="{{ section.settings.fallback_hero_asset | asset_url }}"
+        src="{{ fallback_hero_asset | asset_url }}"
         alt="{{ section.settings.title | escape }}"
         loading="lazy"
         width="508"
@@ -145,10 +200,12 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Forget Foam Boxes" },
     { "type": "inline_richtext", "id": "title", "label": "Title", "default": "Your Feet Deserve Better Than Guesswork!" },
+    { "type": "image_picker", "id": "content_image", "label": "Left content image (optional)" },
+    { "type": "text", "id": "fallback_content_asset", "label": "Fallback left content asset", "default": "landingpage-Group 8.png" },
     { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
-    { "type": "text", "id": "fallback_hero_asset", "label": "Fallback hero asset path", "default": "landingpage-Artboard 2@4x2.png" },
+    { "type": "text", "id": "fallback_hero_asset", "label": "Fallback hero asset path", "default": "landingpage-hero-feet.png" },
     { "type": "image_picker", "id": "meta_image", "label": "Expert avatar" },
-    { "type": "text", "id": "fallback_avatar_asset", "label": "Fallback avatar asset path", "default": "landingpage-Ellipse 2.png" },
+    { "type": "text", "id": "fallback_avatar_asset", "label": "Fallback avatar asset path", "default": "landingpage-avatar-zac.png" },
     { "type": "text", "id": "meta_name", "label": "Expert name", "default": "Dr. Zac Cartun, M.D." },
     { "type": "text", "id": "meta_role", "label": "Expert role", "default": "Co-Founder & CMO, Stride Soles" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#f1f2f5" },

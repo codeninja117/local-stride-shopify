@@ -7,8 +7,8 @@
         "title": "Your Feet Deserve Better Than Guesswork!",
         "meta_name": "Dr. Zac Cartun, M.D.",
         "meta_role": "Co-Founder & CMO, Stride Soles",
-        "fallback_hero_asset": "landingpage-Artboard 2@4x2.png",
-        "fallback_avatar_asset": "landingpage-Ellipse 2.png"
+        "fallback_hero_asset": "landingpage-hero-feet.png",
+        "fallback_avatar_asset": "landingpage-avatar-zac.png"
       }
     },
     "compare_core": {
@@ -233,4 +233,5 @@
   },
   "order": ["hero", "compare_core", "proof", "cta", "icon_strip"]
 }
+
 
