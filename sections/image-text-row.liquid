@@ -19,6 +19,60 @@
   else
     assign mobile_aspect_padding_bottom = section.settings.mobile_aspect_ratio
   endif
+
+  assign legacy_eyebrow = ''
+  assign legacy_title = ''
+  assign legacy_body_primary = ''
+  assign legacy_body_primary_plain = ''
+  assign legacy_stat_count = 0
+  assign legacy_name_count = 0
+  assign legacy_button_label = section.settings.button_label | strip
+
+  for block in section.blocks
+    case block.type
+      when 'eyebrow'
+        if legacy_eyebrow == blank and block.settings.eyebrow_text != blank
+          assign legacy_eyebrow = block.settings.eyebrow_text
+        endif
+      when 'title'
+        if legacy_title == blank and block.settings.title != blank
+          assign legacy_title = block.settings.title
+        endif
+      when 'text'
+        if block.settings.text != blank
+          if legacy_body_primary == blank
+            assign legacy_body_primary = block.settings.text
+          endif
+        endif
+      when 'richtext'
+        if block.settings.text != blank
+          if legacy_body_primary == blank
+            assign legacy_body_primary = block.settings.text
+          endif
+        endif
+      when 'legacy_stat'
+        assign legacy_stat_count = legacy_stat_count | plus: 1
+      when 'legacy_name'
+        assign legacy_name_count = legacy_name_count | plus: 1
+    endcase
+  endfor
+
+  if legacy_eyebrow == blank
+    assign legacy_eyebrow = 'Made in Germany'
+  endif
+  if legacy_title == blank
+    assign legacy_title = '70 years of podiatry.|Now at <em>your door.</em>'
+  endif
+  if legacy_body_primary == blank
+    assign legacy_body_primary = 'Every Stride orthotic is designed in Oberkochen, Germany by <strong>Dietmar Walter</strong> and his third-generation clinic - the same team top hospitals and physical therapists around the world trust to prescribe orthotics to their own patients.'
+  endif
+  assign legacy_body_primary_plain = legacy_body_primary | strip_html | strip
+  if legacy_body_primary_plain == blank or legacy_body_primary_plain contains 'With over 200,000 orthotics made over 70 years'
+    assign legacy_body_primary_plain = 'Every Stride orthotic is designed in Oberkochen, Germany by Dietmar Walter and his third-generation clinic — the same team top hospitals and physical therapists around the world trust to prescribe orthotics to their own patients.'
+  endif
+  if legacy_button_label == blank or legacy_button_label == 'Learn more' or legacy_button_label == 'Learn More'
+    assign legacy_button_label = 'Learn the full story &rarr;'
+  endif
 -%}
 
 {%- style -%}
@@ -27,322 +81,266 @@
   }
 
   .section-{{ section.id }} {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
-
-  #shopify-section-{{section.id }} .aspect-ratio-container {
-    padding-bottom: {{ mobile_aspect_padding_bottom }};
+  #shopify-section-{{ section.id }} .section__main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: start;
   }
 
-  .video-play-button-wrapper {
+  #shopify-section-{{ section.id }} .legacy-photo-wrap {
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-photo-wrap::before {
+    content: '';
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: none;
+    top: -16px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    border-radius: 2px;
+    background: #eacba4;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 12px;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .image-text-row__image-caption {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.45;
+  }
+
+  #shopify-section-{{ section.id }} .image-text-row__image-caption p {
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-names {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 14px;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-name-tag {
+    border-left: 2px solid #eacba4;
+    padding-left: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-name-label {
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-name-sub {
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #6b7280;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e0b989;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    border-radius: 1px;
+    background: #e0b989;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-heading {
+    margin: 0;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: #111827;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-heading em,
+  #shopify-section-{{ section.id }} .legacy-heading span {
+    font-style: normal;
+    color: #eacba4;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-body {
+    margin: 0;
+    max-width: 480px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #1f2937;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-body strong {
+    color: #111827;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-body--muted {
+    color: #8d94a1;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(201, 169, 110, 0.25);
+  }
+
+  #shopify-section-{{ section.id }} .legacy-stat-number {
+    font-size: 24px;
+    line-height: 1.05;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-stat-label {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #6b7280;
+  }
+
+  #shopify-section-{{ section.id }} .legacy-link {
+    display: inline-flex;
+    width: fit-content;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    text-decoration: none;
+    border-bottom: 1.5px solid #eacba4;
+    padding-bottom: 2px;
+    margin-top: 2px;
   }
 
   @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .section__main { grid-template-columns: 1fr 1fr; gap: 80px; }
+  }
+
+  @media screen and (max-width: 900px) {
     .section-{{ section.id }} {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.6 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
     }
-    #shopify-section-{{ section.id }} .image-text-row__media-container {
-      width: {{ section.settings.media_width }}%;
-    }
-    #shopify-section-{{section.id }} .aspect-ratio-container {
-      padding-bottom: {{ aspect_padding_bottom }};
-    }
+
+    #shopify-section-{{ section.id }} .legacy-heading { font-size: 32px; }
+    #shopify-section-{{ section.id }} .legacy-body { font-size: 16px; line-height: 1.45; }
+    #shopify-section-{{ section.id }} .legacy-stats { grid-template-columns: 1fr; gap: 14px; }
+    #shopify-section-{{ section.id }} .legacy-names { grid-template-columns: 1fr; gap: 10px; }
   }
 {%- endstyle -%}
 
 <div class="section-{{ section.id }} gradient color-{{ section.settings.color_scheme }}">
   <div class="section__main page-width {%  if section.settings.container_size == 'narrow' %}md:max-w-screen-lg{% endif %}">
-    {%- case section.settings.button_label -%}
-      {%- when blank -%}
-        {% if section.settings.title != blank %}
-          <div class="section__header text-center">
-            <h2 class="text-h1 section-title capitalize">
-              {{
-                section.settings.title
-                | replace: '<em>', '<span class="">'
-                | replace: '</em>', '</span>'
-                | replace: '|', '</span><br><span>'
-              }}
-            </h2>
-          </div>
-        {% endif %}
+    <div class="legacy-photo-wrap">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1800
+          | image_tag: class: 'legacy-photo', loading: lazy_load, fetchpriority: fetch_priority, alt: section.settings.image.alt
+        }}
       {%- else -%}
-        {% if section.settings.title != blank %}
-          <div class="section__header flex justify-between text-center">
-            <h2 class="text-h1 section-title capitalize">
-              {{
-                section.settings.title
-                | replace: '<em>', '<span class="">'
-                | replace: '</em>', '</span>'
-                | replace: '|', '</span><br><span>'
-              }}
-            </h2>
-            <div class="section__button-container hidden md:block">
-              {% render 'button',
-                tag: 'a',
-                text: section.settings.button_label,
-                url: section.settings.button_url,
-                variant: 'primary'
-              %}
-            </div>
-          </div>
-        {% endif %}
-    {%- endcase -%}
+        {{ 'legacy-team.jpg' | asset_url | image_tag: class: 'legacy-photo', alt: 'Dietmar Walter and team in Oberkochen clinic' }}
+      {%- endif -%}
 
-    <div
-      class="image-text-row__content flex flex-col gap-8 {% if section.settings.reverse_columns %}md:flex-row-reverse{% else %} md:flex-row{% endif %} {{ section.settings.vertical_alignment }}"
-      data-animate
-    >
-      <div
-        class="image-text-row__media-container w-full self-start"
-      >
-        {%- if section.settings.image != blank -%}
-          {%- assign widths = '165, 360, 535, 750, 1070, 1500' -%}
-          {%- assign img_alt = section.settings.image.alt | default: shop.name -%}
-          {%- capture sizes -%}
-            (min-width: 1536px) 1024px,
-            (min-width: 750px) calc((100vw) / 2), calc((100vw) / 2)
-          {%- endcapture -%}
-
-          {%- assign image_class = 'w-full h-full absolute inset-0 ' | append: section.settings.object_fit -%}
-
-          <div
-            class="image-text-review__media-inner aspect-ratio-container relative overflow-hidden rounded-lg"
-          >
-            {{
-              section.settings.image
-              | image_url: width: section.settings.image.width
-              | image_tag:
-                class: image_class,
-                sizes: sizes,
-                widths: widths,
-                loading: lazy_load,
-                alt: img_alt,
-                fetchpriority: fetch_priority,
-                data-animate: 'scale-out'
-            }}
-            {%- for block in section.blocks -%}
-              {%- case block.type -%}
-                {%- when 'buttons' -%}
-                  {%- if block.settings.button_video_url != blank -%}
-                    <div class="hero-text-overlay__buttons video-play-button-wrapper color-scheme-3 flex items-center gap-2 md:flex-row lg:gap-6">
-                      <modal-opener data-modal="#HeroTextOverlayVideoModal-{{ section.id }}" class="w-fit">
-                        <button class="btn-video">
-                          <div class="btn-video__inner">
-                            <div class="btn-video__text-wrapper">
-                              <span class="btn-video__text">
-                                <span class="svg-wrapper text-human pointer-events-none h-4 w-4 md:h-4 md:w-4">
-                                  {{- 'icon-play.svg' | inline_asset_content -}}
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-                        </button>
-                      </modal-opener>
-
-                      <modal-dialog
-                        id="HeroTextOverlayVideoModal-{{ section.id }}"
-                        class="invisible fixed inset-0 z-101 flex items-center justify-center overflow-hidden overflow-y-auto bg-black/30 opacity-0 backdrop-blur-lg transition-opacity duration-300 ease-in-out [&[open]]:visible [&[open]]:opacity-100"
-                        data-play-on-open
-                      >
-                        <div
-                          role="dialog"
-                          aria-label="Stride video"
-                          aria-modal="true"
-                          class="w-[768px] max-w-full"
-                          tabindex="-1"
-                        >
-                          <button
-                            id="ModalClose-{{ section.id }}"
-                            type="button"
-                            class="absolute top-4 right-4 text-white"
-                            aria-label="{{ 'accessibility.close' | t }}"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="48"
-                              height="48"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="1.25"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="lucide lucide-x"
-                            >
-                              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-                            </svg>
-                          </button>
-
-                          {%- assign video_alt = block.settings.button_video_url.alt | default: shop.name -%}
-                          {{
-                            block.settings.button_video_url
-                            | video_tag:
-                              class: 'h-auto w-full ',
-                              controls: true,
-                              autoplay: false,
-                              muted: false,
-                              alt: video_alt
-                          }}
-                        </div>
-                      </modal-dialog>
-                    </div>
-                  {%- endif -%}
-              {%- endcase -%}
-            {%- endfor -%}
-          </div>
-
+      <div class="legacy-names">
+        {%- if legacy_name_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'legacy_name' -%}
+              <div class="legacy-name-tag" {{ block.shopify_attributes }}>
+                <div class="legacy-name-label">{{ block.settings.name_label }}</div>
+                <div class="legacy-name-sub">{{ block.settings.name_sub }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
         {%- else -%}
-          <div class="aspect-square rounded-xl bg-black/20 p-16">Image not set</div>
-        {%- endif -%}
-
-        {%- if section.settings.image_caption != blank -%}
-          <div class="image-text-row__image-caption mt-2">
-            <p class="text-sm opacity-60">{{ section.settings.image_caption }}</p>
+          <div class="legacy-name-tag">
+            <div class="legacy-name-label">Dietmar Walter</div>
+            <div class="legacy-name-sub">Orthopaedic Innovator &amp; Seifriz Award Winner</div>
+          </div>
+          <div class="legacy-name-tag">
+            <div class="legacy-name-label">Dominik Walter</div>
+            <div class="legacy-name-sub">Clinical Operations, Oberkochen</div>
           </div>
         {%- endif -%}
-      </div>
-
-      <div class="image-text-row__content-container flex flex-1 flex-col gap-4{% if section.settings.vertical_alignment == 'items-stretch' %} justify-between{% endif %}">
-        {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when 'title' -%}
-              <h2
-                class="{{ block.settings.font_size }} flex flex-col leading-[1.2]"
-                data-cascade="{{ forloop.index | times: 0.05 }}"
-                {{ block.shopify_attributes }}
-              >
-                {% comment %} {{ block.settings.title }} {% endcomment %}
-
-                {{
-                  block.settings.title
-                  | replace: '<em>', '<span class="">'
-                  | replace: '</em>', '</span>'
-                  | replace: '|', '</span> <span>'
-                }}
-              </h2>
-            {%- when 'text' -%}
-              <p
-                class="{{ block.settings.font_size }} {% if block.settings.text_color == 'text-muted' %}text-muted{% endif %}"
-                data-cascade="{{ forloop.index | times: 0.05 }}"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.text }}
-              </p>
-            {%- when 'richtext' -%}
-              <div
-                class="{{ block.settings.font_size }} rte rte--marketing"
-                data-cascade="{{ forloop.index | times: 0.05 }}"
-                style="--rte-body-text: #9D9FA9;"
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.text }}
-              </div>
-            {%- when 'button' -%}
-              <div data-cascade="{{ forloop.index | times: 0.05 }}" {{ block.shopify_attributes }}>button</div>
-            {%- when 'image' -%}
-              <div data-cascade="{{ forloop.index | times: 0.05 }}" {{ block.shopify_attributes }}>
-                {%- if block.settings.image != blank -%}
-                  {%- liquid
-                    assign image_width = block.settings.image_width | times: 2.0
-                  -%}
-
-                  <div
-                    class="image-text-row-block__image-container"
-                    style="width: {{ block.settings.image_width }}px;"
-                  >
-                    {{
-                      block.settings.image
-                      | image_url: width: image_width
-                      | image_tag: class: 'image-text-row__block-image-el'
-                    }}
-                  </div>
-                {%- endif -%}
-              </div>
-            {%- when 'card' -%}
-              <div
-                data-cascade="{{ forloop.index | times: 0.05 }}"
-                class="image-text-row-block_card-container"
-                {{ block.shopify_attributes }}
-              >
-                <div class="image-text-row-block__card bg-human/40 flex flex-col-reverse gap-4 rounded-lg p-4 md:flex-row md:gap-8 md:p-8 ">
-                  <div class="image-text-row-block-card__image flex-1">
-                    {%- if block.settings.image != blank -%}
-                      <div class="bg-human/40 aspect-square overflow-hidden rounded-lg">
-                        {{
-                          block.settings.image
-                          | image_url: width: 600
-                          | image_tag: width: 600, class: 'w-full h-full object-cover'
-                        }}
-                      </div>
-                    {%- else -%}
-                      <div class="bg-human/40 aspect-square overflow-hidden rounded-lg"></div>
-                    {%- endif -%}
-                  </div>
-                  <div class="image-text-row-block-card__content flex w-full flex-col gap-4 md:w-6/10 md:gap-6">
-                    <div class="image-text-row-block-card__content-badge tracking w-fit rounded-3xl bg-white px-6 py-2 font-bold tracking-[0.2em] uppercase">
-                      {%- if block.settings.badge_icon != blank -%}
-                        {{
-                          block.settings.badge_icon
-                          | image_url: width: 20
-                          | image_tag: width: 20, height: 20, class: 'w-4 h-4 inline align-middle mr-1'
-                        }}
-                      {%- endif -%}
-                      {%- if block.settings.badge_title != blank -%}
-                        <span class="inline align-middle">{{ block.settings.badge_title }}</span>
-                      {%- endif -%}
-                    </div>
-                    {%- if block.settings.text != blank -%}
-                      <p>
-                        {{ block.settings.text }}
-                      </p>
-                    {%- endif -%}
-                  </div>
-                </div>
-              </div>
-            {%- when 'spacer' -%}
-              {%- assign mobile_height = block.settings.spacer_height
-                | times: block.settings.mobile_spacer_height_percentage
-                | divided_by: 100.00
-              -%}
-              <style>
-                .spacer-{{ section.id }}-{{ block.id }} {
-                  height: {{ mobile_height }}px;
-                }
-
-                @media (min-width: 768px) {
-                  .spacer-{{ section.id }}-{{ block.id }} {
-                    height: {{ block.settings.spacer_height }}px;
-                  }
-                }
-              </style>
-              <div
-                class="spacer-{{ section.id }}-{{ block.id }} {% if block.settings.fill_height %}md:flex-1{% endif %}"
-                {{ block.shopify_attributes }}
-              ></div>
-          {%- endcase -%}
-        {%- endfor -%}
       </div>
     </div>
 
-    {% comment %} Section footer {% endcomment %}
-    {%- if section.settings.button_label != blank -%}
-      <div class="section__footer flex flex-col items-start md:hidden">
-        {% render 'button',
-          tag: 'a',
-          text: section.settings.button_label,
-          url: section.settings.button_url,
-          variant: 'primary'
-        %}
+    <div class="legacy-text">
+      <div class="legacy-eyebrow">{{ legacy_eyebrow }}</div>
+
+      <h2 class="legacy-heading">
+        {{
+          legacy_title
+          | replace: '<em>', '<span>'
+          | replace: '</em>', '</span>'
+          | replace: '|', '<br>'
+        }}
+      </h2>
+
+      <p class="legacy-body">{{ legacy_body_primary_plain | replace: 'Dietmar Walter', '<strong>Dietmar Walter</strong>' }}</p>
+
+      <div class="legacy-stats">
+        {%- if legacy_stat_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'legacy_stat' -%}
+              <div class="legacy-stat" {{ block.shopify_attributes }}>
+                <div class="legacy-stat-number">{{ block.settings.stat_number }}</div>
+                <div class="legacy-stat-label">{{ block.settings.stat_label | newline_to_br }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          <div class="legacy-stat">
+            <div class="legacy-stat-number">Est. 1995</div>
+            <div class="legacy-stat-label">Dr. Walter's clinic,<br>Oberkochen Germany</div>
+          </div>
+          <div class="legacy-stat">
+            <div class="legacy-stat-number">60+</div>
+            <div class="legacy-stat-label">Countries using<br>Dr. Walter's systems</div>
+          </div>
+          <div class="legacy-stat">
+            <div class="legacy-stat-number">Seifriz Award</div>
+            <div class="legacy-stat-label">Adalbert Seifriz Award<br>for innovation, 2000</div>
+          </div>
+        {%- endif -%}
       </div>
-    {%- endif -%}
+
+      <a href="{{ section.settings.button_url | default: '#' }}" class="legacy-link">{{ legacy_button_label }}</a>
+    </div>
   </div>
 </div>
 
@@ -408,12 +406,14 @@
     {
       "type": "inline_richtext",
       "id": "title",
-      "label": "Title"
+      "label": "Title",
+      "default": "70 years of podiatry.|Now at <em>your door.</em>"
     },
     {
       "type": "inline_richtext",
       "id": "button_label",
-      "label": "Button label"
+      "label": "Button label",
+      "default": "Learn the full story ->"
     },
     {
       "type": "url",
@@ -432,7 +432,8 @@
     {
       "type": "inline_richtext",
       "id": "image_caption",
-      "label": "Image caption"
+      "label": "Image caption",
+      "default": "Dr Dietmar Walter with Stride's award winning podiatry team"
     },
     {
       "type": "select",
@@ -623,7 +624,43 @@
           "type": "inline_richtext",
           "id": "eyebrow_text",
           "label": "Eyebrow text",
-          "default": "This is an eyebrow"
+          "default": "Made in Germany"
+        }
+      ]
+    },
+    {
+      "type": "legacy_stat",
+      "name": "Legacy stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_number",
+          "label": "Stat number",
+          "default": "60+"
+        },
+        {
+          "type": "textarea",
+          "id": "stat_label",
+          "label": "Stat label",
+          "default": "Countries using\nDr. Walter's systems"
+        }
+      ]
+    },
+    {
+      "type": "legacy_name",
+      "name": "Legacy name tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name_label",
+          "label": "Name",
+          "default": "Dietmar Walter"
+        },
+        {
+          "type": "text",
+          "id": "name_sub",
+          "label": "Subtitle",
+          "default": "Orthopaedic Innovator & Seifriz Award Winner"
         }
       ]
     },
@@ -635,7 +672,7 @@
           "type": "inline_richtext",
           "id": "title",
           "label": "Title",
-          "default": "This is a title"
+          "default": "70 years of podiatry.|Now at <em>your door.</em>"
         },
         {
           "type": "select",
@@ -691,7 +728,7 @@
           "type": "inline_richtext",
           "id": "text",
           "label": "Text",
-          "default": "This is text"
+          "default": "Every Stride orthotic is designed in Oberkochen, Germany by <strong>Dietmar Walter</strong> and his third-generation clinic - the same team top hospitals and physical therapists around the world trust to prescribe orthotics to their own patients."
         },
         {
           "type": "select",
@@ -941,16 +978,72 @@
     {
       "name": "Image text row",
       "category": "STRIDE",
-      "settings": {},
+      "settings": {
+        "button_label": "Learn the full story ->",
+        "image_caption": "Dr Dietmar Walter with Stride's award winning podiatry team"
+      },
       "blocks": [
         {
-          "type": "title",
-          "settings": {}
+          "type": "eyebrow",
+          "settings": {
+            "eyebrow_text": "Made in Germany"
+          }
         },
         {
-          "type": "richtext",
+          "type": "title",
           "settings": {
-            "text": "<p>The plantar fascia is a tough, fibrous band of tissue connecting the heel bone to the toes. This tissue helps support the arch and absorbs shock each time your foot strikes the ground (source: <a href=\"https://www.mayoclinic.org/diseases-conditions/plantar-fasciitis/symptoms-causes/syc-20354846\" target=\"_blank\" title=\"https://www.mayoclinic.org/diseases-conditions/plantar-fasciitis/symptoms-causes/syc-20354846\"><span style=\"text-decoration:underline\"><strong>Mayo Clinic</strong></span></a>). When this tissue becomes inflamed due to microtears caused by overstretching or overuse, the condition is called plantar fasciitis. </p><p>Over time, the inflammation leads to the sharp, stabbing heel pain that’s most noticeable when taking the first few steps in the morning. <a href=\"/blogs/articles/plantar-fasciitis-the-ultimate-guide\" title=\"/blogs/articles/plantar-fasciitis-the-ultimate-guide\"><span style=\"text-decoration:underline\"><strong>See Our Complete Plantar Fasciitis Guide</strong></span></a>. Many people also ask <a href=\"/blogs/articles/can-plantar-fasciitis-go-away\" title=\"/blogs/articles/can-plantar-fasciitis-go-away\"><span style=\"text-decoration:underline\"><strong>if plantar fasciitis will go away on its own</strong></span></a>, this is what the recovery process actually looks like.</p>"
+            "title": "70 years of podiatry.|Now at <em>your door.</em>"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Every Stride orthotic is designed in Oberkochen, Germany by <strong>Dietmar Walter</strong> and his third-generation clinic - the same team top hospitals and physical therapists around the world trust to prescribe orthotics to their own patients.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        {
+          "type": "legacy_stat",
+          "settings": {
+            "stat_number": "Est. 1995",
+            "stat_label": "Dr. Walter's clinic,\nOberkochen Germany"
+          }
+        },
+        {
+          "type": "legacy_stat",
+          "settings": {
+            "stat_number": "60+",
+            "stat_label": "Countries using\nDr. Walter's systems"
+          }
+        },
+        {
+          "type": "legacy_stat",
+          "settings": {
+            "stat_number": "Seifriz Award",
+            "stat_label": "Adalbert Seifriz Award\nfor innovation, 2000"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Our design process is so revered, top hospitals, podiatrists, and physical therapists around the world prescribe Stride.",
+            "font_size": "text-body-l",
+            "text_color": "text-muted"
+          }
+        },
+        {
+          "type": "legacy_name",
+          "settings": {
+            "name_label": "Dietmar Walter",
+            "name_sub": "Orthopaedic Innovator & Seifriz Award Winner"
+          }
+        },
+        {
+          "type": "legacy_name",
+          "settings": {
+            "name_label": "Dominik Walter",
+            "name_sub": "Clinical Operations, Oberkochen"
           }
         }
       ]
@@ -958,3 +1051,5 @@
   ]
 }
 {% endschema %}
+
+
