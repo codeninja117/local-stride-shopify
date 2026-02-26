@@ -232,7 +232,10 @@
     display: inline-flex;
     position: relative;
     width: 14px;
+    min-width: 14px;
     height: 14px;
+    min-height: 14px;
+    flex: 0 0 14px;
     border-radius: 999px;
     align-items: center;
     justify-content: center;
@@ -432,138 +435,156 @@
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile {
-      display: grid;
-      gap: 16px;
-    }
-
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card {
+      display: block;
       position: relative;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      background: #ffffff;
-      color: #202020;
+      padding-top: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-wrap {
       overflow: visible;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      background: #ffffff;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card--stride {
-      background: {{ section.settings.stride_column_background }};
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table {
+      width: 100%;
+      min-width: 0;
+      border-collapse: collapse;
+      table-layout: fixed;
+      color: {{ section.settings.table_text_color }};
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card--stride .compare-table-dynamic__mobile-card-header {
-      padding-top: 30px;
-    }
-
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-header {
-      padding: 18px 18px 14px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table th,
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table td {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      border-left: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 12px 8px;
       text-align: center;
+      vertical-align: middle;
+      font-size: 14px;
+      line-height: 1.28;
+      background: #ffffff;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-title {
-      display: block;
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 800;
-      margin-top: 6px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table th:first-child,
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table td:first-child {
+      border-left: 0;
+      width: 29%;
+      text-align: left;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-label {
-      display: block;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head {
+      font-weight: 600;
+      font-size: 13px;
+      position: relative;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head--feature {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-head {
+      display: flex;
+      min-height: 86px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-title {
       font-size: 12px;
       line-height: 1.2;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      opacity: 0.92;
+      font-weight: 500;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-label--normal {
-      font-size: 34px;
-      line-height: 1.05;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-price {
+      font-size: 14px;
+      line-height: 1.15;
+      font-weight: 700;
       letter-spacing: 0;
-      font-weight: 500;
-      margin-top: 4px;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head--stride,
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table td.compare-table-dynamic__stride-col {
+      background: {{ section.settings.stride_column_background }};
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-best-value {
       position: absolute;
-      top: -13px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: inline-block;
+      top: 12px;
+      left: calc(29% + (71% / 6));
+      transform: translate(-50%, -50%);
       border-radius: 999px;
       background: #eacba4;
-      padding: 6px 14px;
-      font-size: 12px;
+      padding: 3px 6px;
+      font-size: 9px;
       line-height: 1;
       font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.01em;
       color: #202020;
       white-space: nowrap;
+      z-index: 3;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-rows {
-      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head--stride .compare-table-dynamic__mobile-col-head {
+      padding-top: 12px;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 18px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      overflow: visible;
-    }
-
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row.is-tooltip-open {
-      z-index: 40;
-    }
-
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row:last-child {
-      border-bottom: 0;
-    }
-
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row .compare-table-dynamic__feature {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-feature {
       display: inline-flex;
-      justify-content: flex-start;
-      width: auto;
-      min-width: 0;
-      flex: 1 1 auto;
-      text-align: left;
+      align-items: center;
       gap: 6px;
+      justify-content: flex-start;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row .compare-table-dynamic__feature-label {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-feature .compare-table-dynamic__feature-label {
       text-align: left;
       font-size: 12px;
-      line-height: 1.35;
+      line-height: 1.3;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-value {
-      min-width: 0;
-      flex: 0 0 auto;
-      text-align: right;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__tooltip {
+      width: 14px;
+      min-width: 14px;
+      height: 14px;
+      min-height: 14px;
+      flex: 0 0 14px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      font-size: 9px;
+      font-weight: 500;
+      line-height: 1;
+      padding: 0;
+      text-transform: none;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-value .compare-table-dynamic__value-stack {
-      align-items: flex-end;
-      text-align: right;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-stack {
+      align-items: center;
       gap: 2px;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-value .compare-table-dynamic__value-main {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-main {
       font-size: 12px;
-      line-height: 1.25;
+      line-height: 1.15;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-value .compare-table-dynamic__value-sub {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-sub {
       font-size: 10px;
       line-height: 1.2;
-      opacity: 0.7;
+      opacity: 0.82;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-value .compare-table-dynamic__icon {
-      font-size: 30px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__icon {
+      font-size: 18px;
       line-height: 1;
     }
 
@@ -574,12 +595,21 @@
       width: 14px;
       height: 14px;
       border-radius: 999px;
-      border: 1px solid rgba(32, 32, 32, 0.68);
+      border: 1px solid rgba(32, 32, 32, 0.75);
       font-size: 9px;
       line-height: 1;
-      color: rgba(32, 32, 32, 0.75);
+      color: rgba(32, 32, 32, 0.82);
       flex: 0 0 auto;
-      margin-top: 1px;
+      text-transform: none;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row {
+      position: relative;
+      overflow: visible;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row.is-tooltip-open {
+      z-index: 40;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__tooltip {
@@ -587,35 +617,36 @@
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__tooltip-bubble {
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
+      transform: none;
       top: calc(100% + 8px);
-      width: min(260px, calc(100vw - 72px));
-      max-width: calc(100vw - 72px);
+      width: min(260px, calc(100vw - 40px));
+      max-width: calc(100vw - 40px);
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__tooltip-bubble::before {
-      left: 50%;
-      transform: translateX(-50%) rotate(45deg);
+      left: 12px;
+      transform: rotate(45deg);
     }
   }
 
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-header {
-      padding: 16px 14px 12px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table th,
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table td {
+      padding: 10px 6px;
+      font-size: 12px;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-row {
-      padding: 12px 14px;
-      gap: 10px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-title {
+      font-size: 12px;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-title {
-      font-size: 26px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-price {
+      font-size: 13px;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-card-label--normal {
-      font-size: 30px;
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-main {
+      font-size: 12px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
@@ -898,90 +929,65 @@
         </div>
       </div>
 
-      <div class="compare-table-dynamic__mobile mt-8">
-        <article class="compare-table-dynamic__mobile-card compare-table-dynamic__mobile-card--stride">
-          {%- if section.settings.best_value_text != blank -%}
-            <span class="compare-table-dynamic__mobile-best-value">{{ section.settings.best_value_text }}</span>
-          {%- endif -%}
-          <header class="compare-table-dynamic__mobile-card-header">
-            {%- if section.settings.stride_logo != blank -%}
-              {{
-                section.settings.stride_logo
-                | image_url: width: 320
-                | image_tag:
-                  loading: 'lazy',
-                  widths: '74,148,222',
-                  sizes: '74px',
-                  class: 'compare-table-dynamic__stride-logo',
-                  alt: 'Stride'
-              }}
-            {%- endif -%}
-            {%- if section.settings.stride_price != blank -%}
-              <span class="compare-table-dynamic__mobile-card-title">{{ section.settings.stride_price }}</span>
-            {%- endif -%}
-          </header>
-          <div class="compare-table-dynamic__mobile-rows">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'row' -%}
-                <div
-                  class="compare-table-dynamic__mobile-row"
-                  style="
-                    --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
-                    --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
-                    --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
-                    --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
-                  "
-                  {{ block.shopify_attributes }}
-                >
-                  <span class="compare-table-dynamic__feature">
-                    <span class="compare-table-dynamic__feature-label compare-table-dynamic__feature-text">{{ block.settings.feature_label }}</span>
-                    {%- if block.settings.tooltip_content != blank or block.settings.tooltip_title != blank or block.settings.tooltip_intro != blank or block.settings.tooltip_note != blank or block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank or block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank or block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+            <div class="compare-table-dynamic__mobile mt-8">
+        {%- if section.settings.best_value_text != blank -%}
+          <span class="compare-table-dynamic__mobile-best-value">{{ section.settings.best_value_text }}</span>
+        {%- endif -%}
+        <div class="compare-table-dynamic__mobile-wrap">
+          <table class="compare-table-dynamic__mobile-table">
+            <thead>
+              <tr>
+                <th class="compare-table-dynamic__mobile-head compare-table-dynamic__mobile-head--feature">
+                  <span class="compare-table-dynamic__mobile-feature">
+                    <span class="compare-table-dynamic__feature-label">{{ section.settings.feature_header }}</span>
+                    {%- if section.settings.header_tooltip_content != blank or section.settings.header_tooltip_intro != blank or section.settings.header_tooltip_note != blank or section.settings.header_tooltip_item_1_title != blank or section.settings.header_tooltip_item_1_text != blank or section.settings.header_tooltip_item_1_image != blank or section.settings.header_tooltip_item_2_title != blank or section.settings.header_tooltip_item_2_text != blank or section.settings.header_tooltip_item_2_image != blank or section.settings.header_tooltip_item_3_title != blank or section.settings.header_tooltip_item_3_text != blank or section.settings.header_tooltip_item_3_image != blank -%}
                       <span
-                        class="compare-table-dynamic__tooltip"
+                        class="compare-table-dynamic__tooltip compare-table-dynamic__tooltip--header"
                         tabindex="0"
                         role="button"
-                        aria-label="{{ block.settings.tooltip_title | default: block.settings.feature_label }}"
+                        aria-label="{{ section.settings.header_tooltip_title | default: section.settings.feature_header }}"
                       >
                         i
                         <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
-                          {%- if block.settings.tooltip_title != blank -%}
-                            <span class="compare-table-dynamic__tooltip-title">{{ block.settings.tooltip_title }}</span>
+                          {%- if section.settings.header_tooltip_title != blank -%}
+                            <span class="compare-table-dynamic__tooltip-title">{{ section.settings.header_tooltip_title }}</span>
                           {%- endif -%}
-                          {%- assign mobile_row_tooltip_parts = block.settings.tooltip_content | split: 'Note:' -%}
                           <span class="compare-table-dynamic__tooltip-body">
-                            {%- if block.settings.tooltip_intro != blank -%}
-                              <span class="compare-table-dynamic__tooltip-intro">{{ block.settings.tooltip_intro | strip_html | escape | newline_to_br }}</span>
-                            {%- elsif mobile_row_tooltip_parts[0] != blank -%}
-                              <span class="compare-table-dynamic__tooltip-intro">{{ mobile_row_tooltip_parts[0] | strip_html | escape | newline_to_br }}</span>
+                            {%- if section.settings.header_tooltip_intro != blank -%}
+                              <span class="compare-table-dynamic__tooltip-intro">{{ section.settings.header_tooltip_intro | strip_html | escape | newline_to_br }}</span>
+                            {%- elsif section.settings.header_tooltip_content != blank -%}
+                              {%- assign mobile_header_parts = section.settings.header_tooltip_content | split: 'Note:' -%}
+                              <span class="compare-table-dynamic__tooltip-intro">{{ mobile_header_parts[0] | strip_html | escape | newline_to_br }}</span>
                             {%- endif -%}
                             <span class="compare-table-dynamic__tooltip-list">
-                              {%- if block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank -%}
+                              {%- if section.settings.header_tooltip_item_1_title != blank or section.settings.header_tooltip_item_1_text != blank or section.settings.header_tooltip_item_1_image != blank -%}
                                 <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_1_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_1_image != blank -%}{{ block.settings.tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_1_title }}{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ section.settings.header_tooltip_item_1_title }}</span>{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ section.settings.header_tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_1_image != blank -%}{{ section.settings.header_tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: section.settings.header_tooltip_item_1_title }}{%- endif -%}
                                 </span>
                               {%- endif -%}
-                              {%- if block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank -%}
+                              {%- if section.settings.header_tooltip_item_2_title != blank or section.settings.header_tooltip_item_2_text != blank or section.settings.header_tooltip_item_2_image != blank -%}
                                 <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_2_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_2_image != blank -%}{{ block.settings.tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_2_title }}{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ section.settings.header_tooltip_item_2_title }}</span>{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ section.settings.header_tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_2_image != blank -%}{{ section.settings.header_tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: section.settings.header_tooltip_item_2_title }}{%- endif -%}
                                 </span>
                               {%- endif -%}
-                              {%- if block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                              {%- if section.settings.header_tooltip_item_3_title != blank or section.settings.header_tooltip_item_3_text != blank or section.settings.header_tooltip_item_3_image != blank -%}
                                 <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_3_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_3_image != blank -%}{{ block.settings.tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_3_title }}{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ section.settings.header_tooltip_item_3_title }}</span>{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ section.settings.header_tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                  {%- if section.settings.header_tooltip_item_3_image != blank -%}{{ section.settings.header_tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: section.settings.header_tooltip_item_3_title }}{%- endif -%}
                                 </span>
                               {%- endif -%}
                             </span>
                           </span>
-                          {%- if block.settings.tooltip_note != blank -%}
-                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ block.settings.tooltip_note | strip_html | escape | newline_to_br }}</span>
-                          {%- elsif mobile_row_tooltip_parts.size > 1 -%}
-                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ mobile_row_tooltip_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
+                          {%- if section.settings.header_tooltip_note != blank -%}
+                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ section.settings.header_tooltip_note | strip_html | escape | newline_to_br }}</span>
+                          {%- elsif section.settings.header_tooltip_content contains 'Note:' -%}
+                            {%- assign mobile_header_note_parts = section.settings.header_tooltip_content | split: 'Note:' -%}
+                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ mobile_header_note_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
                           {%- endif -%}
                         </span>
                       </span>
@@ -989,220 +995,149 @@
                       <span class="compare-table-dynamic__mobile-info" aria-hidden="true">i</span>
                     {%- endif -%}
                   </span>
-                  <span class="compare-table-dynamic__mobile-value">
-                    {%- case block.settings.stride_value_type -%}
-                      {%- when 'yes' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">&#10003;</span>
-                      {%- when 'no' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
-                      {%- else -%}
-                        <span class="compare-table-dynamic__stride-text compare-table-dynamic__value-stack">
-                          <span class="compare-table-dynamic__value-main">{{ block.settings.stride_value_text }}</span>
-                          {%- if block.settings.stride_value_subtext != blank -%}
-                            <span class="compare-table-dynamic__value-sub">{{ block.settings.stride_value_subtext }}</span>
-                          {%- endif -%}
-                        </span>
-                    {%- endcase -%}
-                  </span>
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </article>
-
-        <article class="compare-table-dynamic__mobile-card">
-          <header class="compare-table-dynamic__mobile-card-header">
-            <span class="compare-table-dynamic__mobile-card-label">{{ section.settings.col_2_title }}</span>
-            {%- if section.settings.col_2_price != blank -%}
-              <span class="compare-table-dynamic__mobile-card-label compare-table-dynamic__mobile-card-label--normal">{{ section.settings.col_2_price }}</span>
-            {%- endif -%}
-          </header>
-          <div class="compare-table-dynamic__mobile-rows">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'row' -%}
-                <div
-                  class="compare-table-dynamic__mobile-row"
-                  style="
-                    --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
-                    --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
-                    --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
-                    --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
-                  "
-                  {{ block.shopify_attributes }}
-                >
-                  <span class="compare-table-dynamic__feature">
-                    <span class="compare-table-dynamic__feature-label compare-table-dynamic__feature-text">{{ block.settings.feature_label }}</span>
-                    {%- if block.settings.tooltip_content != blank or block.settings.tooltip_title != blank or block.settings.tooltip_intro != blank or block.settings.tooltip_note != blank or block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank or block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank or block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
-                      <span
-                        class="compare-table-dynamic__tooltip"
-                        tabindex="0"
-                        role="button"
-                        aria-label="{{ block.settings.tooltip_title | default: block.settings.feature_label }}"
-                      >
-                        i
-                        <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
-                          {%- if block.settings.tooltip_title != blank -%}
-                            <span class="compare-table-dynamic__tooltip-title">{{ block.settings.tooltip_title }}</span>
-                          {%- endif -%}
-                          {%- assign mobile_row_tooltip_parts = block.settings.tooltip_content | split: 'Note:' -%}
-                          <span class="compare-table-dynamic__tooltip-body">
-                            {%- if block.settings.tooltip_intro != blank -%}
-                              <span class="compare-table-dynamic__tooltip-intro">{{ block.settings.tooltip_intro | strip_html | escape | newline_to_br }}</span>
-                            {%- elsif mobile_row_tooltip_parts[0] != blank -%}
-                              <span class="compare-table-dynamic__tooltip-intro">{{ mobile_row_tooltip_parts[0] | strip_html | escape | newline_to_br }}</span>
-                            {%- endif -%}
-                            <span class="compare-table-dynamic__tooltip-list">
-                              {%- if block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank -%}
-                                <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_1_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_1_image != blank -%}{{ block.settings.tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_1_title }}{%- endif -%}
-                                </span>
+                </th>
+                <th class="compare-table-dynamic__mobile-head compare-table-dynamic__mobile-head--stride">
+                  <div class="compare-table-dynamic__mobile-col-head">
+                    {%- if section.settings.stride_logo != blank -%}
+                      {{
+                        section.settings.stride_logo
+                        | image_url: width: 320
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '74,148,222',
+                          sizes: '74px',
+                          class: 'compare-table-dynamic__stride-logo',
+                          alt: 'Stride'
+                      }}
+                    {%- endif -%}
+                    {%- if section.settings.stride_price != blank -%}
+                      <span class="compare-table-dynamic__mobile-col-price">{{ section.settings.stride_price }}</span>
+                    {%- endif -%}
+                  </div>
+                </th>
+                <th class="compare-table-dynamic__mobile-head">
+                  <div class="compare-table-dynamic__mobile-col-head">
+                    <span class="compare-table-dynamic__mobile-col-title">{{ section.settings.col_2_title }}</span>
+                    {%- if section.settings.col_2_price != blank -%}
+                      <span class="compare-table-dynamic__mobile-col-price">{{ section.settings.col_2_price }}</span>
+                    {%- endif -%}
+                  </div>
+                </th>
+                <th class="compare-table-dynamic__mobile-head">
+                  <div class="compare-table-dynamic__mobile-col-head">
+                    <span class="compare-table-dynamic__mobile-col-title">{{ section.settings.col_3_title }}</span>
+                    {%- if section.settings.col_3_price != blank -%}
+                      <span class="compare-table-dynamic__mobile-col-price">{{ section.settings.col_3_price }}</span>
+                    {%- endif -%}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'row' -%}
+                  <tr
+                    class="compare-table-dynamic__mobile-row"
+                    style="
+                      --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
+                      --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
+                      --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
+                      --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
+                    "
+                    {{ block.shopify_attributes }}
+                  >
+                    <td>
+                      <span class="compare-table-dynamic__mobile-feature">
+                        <span class="compare-table-dynamic__feature-label compare-table-dynamic__feature-text">{{ block.settings.feature_label }}</span>
+                        {%- if block.settings.tooltip_content != blank or block.settings.tooltip_title != blank or block.settings.tooltip_intro != blank or block.settings.tooltip_note != blank or block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank or block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank or block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                          <span class="compare-table-dynamic__tooltip" tabindex="0" role="button" aria-label="{{ block.settings.tooltip_title | default: block.settings.feature_label }}">
+                            i
+                            <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
+                              {%- if block.settings.tooltip_title != blank -%}
+                                <span class="compare-table-dynamic__tooltip-title">{{ block.settings.tooltip_title }}</span>
                               {%- endif -%}
-                              {%- if block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank -%}
-                                <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_2_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_2_image != blank -%}{{ block.settings.tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_2_title }}{%- endif -%}
+                              {%- assign mobile_row_tooltip_parts = block.settings.tooltip_content | split: 'Note:' -%}
+                              <span class="compare-table-dynamic__tooltip-body">
+                                {%- if block.settings.tooltip_intro != blank -%}
+                                  <span class="compare-table-dynamic__tooltip-intro">{{ block.settings.tooltip_intro | strip_html | escape | newline_to_br }}</span>
+                                {%- elsif mobile_row_tooltip_parts[0] != blank -%}
+                                  <span class="compare-table-dynamic__tooltip-intro">{{ mobile_row_tooltip_parts[0] | strip_html | escape | newline_to_br }}</span>
+                                {%- endif -%}
+                                <span class="compare-table-dynamic__tooltip-list">
+                                  {%- if block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item">
+                                      {%- if block.settings.tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_1_title }}</span>{%- endif -%}
+                                      {%- if block.settings.tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                      {%- if block.settings.tooltip_item_1_image != blank -%}{{ block.settings.tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_1_title }}{%- endif -%}
+                                    </span>
+                                  {%- endif -%}
+                                  {%- if block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item">
+                                      {%- if block.settings.tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_2_title }}</span>{%- endif -%}
+                                      {%- if block.settings.tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                      {%- if block.settings.tooltip_item_2_image != blank -%}{{ block.settings.tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_2_title }}{%- endif -%}
+                                    </span>
+                                  {%- endif -%}
+                                  {%- if block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
+                                    <span class="compare-table-dynamic__tooltip-item">
+                                      {%- if block.settings.tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_3_title }}</span>{%- endif -%}
+                                      {%- if block.settings.tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
+                                      {%- if block.settings.tooltip_item_3_image != blank -%}{{ block.settings.tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_3_title }}{%- endif -%}
+                                    </span>
+                                  {%- endif -%}
                                 </span>
-                              {%- endif -%}
-                              {%- if block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
-                                <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_3_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_3_image != blank -%}{{ block.settings.tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_3_title }}{%- endif -%}
-                                </span>
+                              </span>
+                              {%- if block.settings.tooltip_note != blank -%}
+                                <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ block.settings.tooltip_note | strip_html | escape | newline_to_br }}</span>
+                              {%- elsif mobile_row_tooltip_parts.size > 1 -%}
+                                <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ mobile_row_tooltip_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
                               {%- endif -%}
                             </span>
                           </span>
-                          {%- if block.settings.tooltip_note != blank -%}
-                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ block.settings.tooltip_note | strip_html | escape | newline_to_br }}</span>
-                          {%- elsif mobile_row_tooltip_parts.size > 1 -%}
-                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ mobile_row_tooltip_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
-                          {%- endif -%}
-                        </span>
+                        {%- else -%}
+                          <span class="compare-table-dynamic__mobile-info" aria-hidden="true">i</span>
+                        {%- endif -%}
                       </span>
-                    {%- else -%}
-                      <span class="compare-table-dynamic__mobile-info" aria-hidden="true">i</span>
-                    {%- endif -%}
-                  </span>
-                  <span class="compare-table-dynamic__mobile-value">
-                    {%- case block.settings.col_2_value_type -%}
-                      {%- when 'yes' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">&#10003;</span>
-                      {%- when 'no' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
-                      {%- else -%}
-                        <span class="compare-table-dynamic__col2-text compare-table-dynamic__value-stack">
-                          <span class="compare-table-dynamic__value-main">{{ block.settings.col_2_value_text }}</span>
-                          {%- if block.settings.col_2_value_subtext != blank -%}
-                            <span class="compare-table-dynamic__value-sub">{{ block.settings.col_2_value_subtext }}</span>
-                          {%- endif -%}
-                        </span>
-                    {%- endcase -%}
-                  </span>
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </article>
-
-        <article class="compare-table-dynamic__mobile-card">
-          <header class="compare-table-dynamic__mobile-card-header">
-            <span class="compare-table-dynamic__mobile-card-label">{{ section.settings.col_3_title }}</span>
-            {%- if section.settings.col_3_price != blank -%}
-              <span class="compare-table-dynamic__mobile-card-label compare-table-dynamic__mobile-card-label--normal">{{ section.settings.col_3_price }}</span>
-            {%- endif -%}
-          </header>
-          <div class="compare-table-dynamic__mobile-rows">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'row' -%}
-                <div
-                  class="compare-table-dynamic__mobile-row"
-                  style="
-                    --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
-                    --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
-                    --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
-                    --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
-                  "
-                  {{ block.shopify_attributes }}
-                >
-                  <span class="compare-table-dynamic__feature">
-                    <span class="compare-table-dynamic__feature-label compare-table-dynamic__feature-text">{{ block.settings.feature_label }}</span>
-                    {%- if block.settings.tooltip_content != blank or block.settings.tooltip_title != blank or block.settings.tooltip_intro != blank or block.settings.tooltip_note != blank or block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank or block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank or block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
-                      <span
-                        class="compare-table-dynamic__tooltip"
-                        tabindex="0"
-                        role="button"
-                        aria-label="{{ block.settings.tooltip_title | default: block.settings.feature_label }}"
-                      >
-                        i
-                        <span class="compare-table-dynamic__tooltip-bubble" role="tooltip">
-                          {%- if block.settings.tooltip_title != blank -%}
-                            <span class="compare-table-dynamic__tooltip-title">{{ block.settings.tooltip_title }}</span>
-                          {%- endif -%}
-                          {%- assign mobile_row_tooltip_parts = block.settings.tooltip_content | split: 'Note:' -%}
-                          <span class="compare-table-dynamic__tooltip-body">
-                            {%- if block.settings.tooltip_intro != blank -%}
-                              <span class="compare-table-dynamic__tooltip-intro">{{ block.settings.tooltip_intro | strip_html | escape | newline_to_br }}</span>
-                            {%- elsif mobile_row_tooltip_parts[0] != blank -%}
-                              <span class="compare-table-dynamic__tooltip-intro">{{ mobile_row_tooltip_parts[0] | strip_html | escape | newline_to_br }}</span>
-                            {%- endif -%}
-                            <span class="compare-table-dynamic__tooltip-list">
-                              {%- if block.settings.tooltip_item_1_title != blank or block.settings.tooltip_item_1_text != blank or block.settings.tooltip_item_1_image != blank -%}
-                                <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_1_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_1_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_1_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_1_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_1_image != blank -%}{{ block.settings.tooltip_item_1_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_1_title }}{%- endif -%}
-                                </span>
-                              {%- endif -%}
-                              {%- if block.settings.tooltip_item_2_title != blank or block.settings.tooltip_item_2_text != blank or block.settings.tooltip_item_2_image != blank -%}
-                                <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_2_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_2_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_2_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_2_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_2_image != blank -%}{{ block.settings.tooltip_item_2_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_2_title }}{%- endif -%}
-                                </span>
-                              {%- endif -%}
-                              {%- if block.settings.tooltip_item_3_title != blank or block.settings.tooltip_item_3_text != blank or block.settings.tooltip_item_3_image != blank -%}
-                                <span class="compare-table-dynamic__tooltip-item">
-                                  {%- if block.settings.tooltip_item_3_title != blank -%}<span class="compare-table-dynamic__tooltip-item-title">{{ block.settings.tooltip_item_3_title }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_3_text != blank -%}<span class="compare-table-dynamic__tooltip-item-text">{{ block.settings.tooltip_item_3_text | strip_html | escape | newline_to_br }}</span>{%- endif -%}
-                                  {%- if block.settings.tooltip_item_3_image != blank -%}{{ block.settings.tooltip_item_3_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'compare-table-dynamic__tooltip-item-image', alt: block.settings.tooltip_item_3_title }}{%- endif -%}
-                                </span>
-                              {%- endif -%}
-                            </span>
+                    </td>
+                    <td class="compare-table-dynamic__stride-col">
+                      {%- case block.settings.stride_value_type -%}
+                        {%- when 'yes' -%}<span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">&#10003;</span>
+                        {%- when 'no' -%}<span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                        {%- else -%}
+                          <span class="compare-table-dynamic__stride-text compare-table-dynamic__value-stack">
+                            <span class="compare-table-dynamic__value-main">{{ block.settings.stride_value_text }}</span>
+                            {%- if block.settings.stride_value_subtext != blank -%}<span class="compare-table-dynamic__value-sub">{{ block.settings.stride_value_subtext }}</span>{%- endif -%}
                           </span>
-                          {%- if block.settings.tooltip_note != blank -%}
-                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ block.settings.tooltip_note | strip_html | escape | newline_to_br }}</span>
-                          {%- elsif mobile_row_tooltip_parts.size > 1 -%}
-                            <span class="compare-table-dynamic__tooltip-note"><strong>Note:</strong> {{ mobile_row_tooltip_parts[1] | strip_html | strip | escape | newline_to_br }}</span>
-                          {%- endif -%}
-                        </span>
-                      </span>
-                    {%- else -%}
-                      <span class="compare-table-dynamic__mobile-info" aria-hidden="true">i</span>
-                    {%- endif -%}
-                  </span>
-                  <span class="compare-table-dynamic__mobile-value">
-                    {%- case block.settings.col_3_value_type -%}
-                      {%- when 'yes' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">&#10003;</span>
-                      {%- when 'no' -%}
-                        <span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
-                      {%- else -%}
-                        <span class="compare-table-dynamic__col3-text compare-table-dynamic__value-stack">
-                          <span class="compare-table-dynamic__value-main">{{ block.settings.col_3_value_text }}</span>
-                          {%- if block.settings.col_3_value_subtext != blank -%}
-                            <span class="compare-table-dynamic__value-sub">{{ block.settings.col_3_value_subtext }}</span>
-                          {%- endif -%}
-                        </span>
-                    {%- endcase -%}
-                  </span>
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </article>
+                      {%- endcase -%}
+                    </td>
+                    <td>
+                      {%- case block.settings.col_2_value_type -%}
+                        {%- when 'yes' -%}<span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">&#10003;</span>
+                        {%- when 'no' -%}<span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                        {%- else -%}
+                          <span class="compare-table-dynamic__col2-text compare-table-dynamic__value-stack">
+                            <span class="compare-table-dynamic__value-main">{{ block.settings.col_2_value_text }}</span>
+                            {%- if block.settings.col_2_value_subtext != blank -%}<span class="compare-table-dynamic__value-sub">{{ block.settings.col_2_value_subtext }}</span>{%- endif -%}
+                          </span>
+                      {%- endcase -%}
+                    </td>
+                    <td>
+                      {%- case block.settings.col_3_value_type -%}
+                        {%- when 'yes' -%}<span class="compare-table-dynamic__icon compare-table-dynamic__icon--yes">&#10003;</span>
+                        {%- when 'no' -%}<span class="compare-table-dynamic__icon compare-table-dynamic__icon--no">&times;</span>
+                        {%- else -%}
+                          <span class="compare-table-dynamic__col3-text compare-table-dynamic__value-stack">
+                            <span class="compare-table-dynamic__value-main">{{ block.settings.col_3_value_text }}</span>
+                            {%- if block.settings.col_3_value_subtext != blank -%}<span class="compare-table-dynamic__value-sub">{{ block.settings.col_3_value_subtext }}</span>{%- endif -%}
+                          </span>
+                      {%- endcase -%}
+                    </td>
+                  </tr>
+                {%- endif -%}
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {%- if section.settings.button_label != blank -%}
@@ -1255,7 +1190,6 @@
       tooltipEl.setAttribute('aria-expanded', 'false');
 
       tooltipEl.addEventListener('click', function (event) {
-        if (!isMobileView()) return;
         if (event.target.closest('.compare-table-dynamic__tooltip-bubble')) return;
         event.stopPropagation();
         event.preventDefault();
@@ -1281,8 +1215,6 @@
     });
 
     document.addEventListener('click', function (event) {
-      if (!isMobileView()) return;
-
       if (!sectionRoot.contains(event.target)) {
         closeAll();
         return;
@@ -1750,6 +1682,7 @@
   ]
 }
 {% endschema %}
+
 
 
 
