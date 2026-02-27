@@ -4,7 +4,7 @@
     color: {{ section.settings.text_color }};
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
-    overflow-x: hidden;
+    overflow: visible;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__shell {
@@ -13,26 +13,36 @@
     background: #f1f2f5;
     border-radius: 10px;
     padding: 56px 48px 48px;
+    overflow: visible !important;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table-wrap {
     --feature-col-width: 30%;
     position: relative;
     overflow: visible;
-    border-radius: 8px;
+    border-radius: 16px;
     border: 1px solid rgba(0, 0, 0, 0.06);
     background: #ffffff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table-scroll {
-    overflow-x: auto;
-    border-radius: 8px;
+    overflow: visible !important;
+    border-radius: 16px;
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__table-scroll {
+      overflow-x: auto !important;
+      overflow-y: visible !important;
+    }
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table {
     width: 100%;
     min-width: 780px;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     table-layout: fixed;
     color: {{ section.settings.table_text_color }};
   }
@@ -44,6 +54,7 @@
     text-align: center;
     vertical-align: middle;
     font-size: 14px;
+    background-clip: padding-box;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table th + th,
@@ -53,6 +64,19 @@
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table tr:last-child td {
     border-bottom: 0;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tbody td {
+    color: inherit;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tbody td:first-child {
+    color: rgba(32, 32, 32, 0.7);
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tbody td:nth-child(3),
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tbody td:nth-child(4) {
+    background: #f7f8fb;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table th:first-child,
@@ -67,6 +91,26 @@
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__table thead th {
     position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table thead th:first-child {
+    border-top-left-radius: 16px;
+    overflow: visible;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table thead th:last-child {
+    border-top-right-radius: 16px;
+    overflow: visible;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 16px;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 16px;
+    overflow: hidden;
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__col-head {
@@ -111,7 +155,7 @@
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__best-value {
     position: absolute;
-    top: 0;
+    top: 0px;
     left: calc(var(--feature-col-width) + ((100% - var(--feature-col-width)) / 6));
     transform: translate(-50%, -50%);
     display: inline-block;
@@ -123,6 +167,8 @@
     line-height: 1;
     font-weight: 700;
     text-transform: uppercase;
+    text-align: center;
+    white-space: normal;
     color: #202020;
     letter-spacing: 0.03em;
     z-index: 2;
@@ -200,6 +246,17 @@
     color: var(--col3-text-color, inherit);
   }
 
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col2-text .compare-table-dynamic__value-main,
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col3-text .compare-table-dynamic__value-main {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col2-text .compare-table-dynamic__value-sub,
+  #shopify-section-{{ section.id }} .compare-table-dynamic__col3-text .compare-table-dynamic__value-sub {
+    font-size: 11px;
+  }
+
   #shopify-section-{{ section.id }} .compare-table-dynamic__value-stack {
     display: inline-flex;
     flex-direction: column;
@@ -209,6 +266,7 @@
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__value-main {
     line-height: 1.2;
+    font-weight: var(--stride-value-weight, 400);
   }
 
   #shopify-section-{{ section.id }} .compare-table-dynamic__value-sub {
@@ -443,14 +501,16 @@
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-wrap {
       overflow: visible;
       border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 8px;
+      border-radius: 20px;
       background: #ffffff;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table {
       width: 100%;
       min-width: 0;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       table-layout: fixed;
       color: {{ section.settings.table_text_color }};
     }
@@ -462,9 +522,34 @@
       padding: 12px 8px;
       text-align: center;
       vertical-align: middle;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.28;
       background: #ffffff;
+      background-clip: padding-box;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table thead th {
+      vertical-align: bottom;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table thead th:first-child {
+      border-top-left-radius: 20px;
+      overflow: visible;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table thead th:last-child {
+      border-top-right-radius: 20px;
+      overflow: visible;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody tr:last-child td:first-child {
+      border-bottom-left-radius: 20px;
+      overflow: hidden;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody tr:last-child td:last-child {
+      border-bottom-right-radius: 20px;
+      overflow: hidden;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table th:first-child,
@@ -474,25 +559,42 @@
       text-align: left;
     }
 
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody td:first-child {
+      text-align: center;
+    }
+
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody tr:last-child td {
       border-bottom: 0;
     }
 
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody td {
+      color: inherit;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody td:first-child {
+      color: rgba(32, 32, 32, 0.7);
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody td:nth-child(3),
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody td:nth-child(4) {
+      background: #f7f8fb;
+    }
+
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head {
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       position: relative;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head--feature {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-head {
       display: flex;
-      min-height: 86px;
+      min-height: 68px;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
@@ -500,13 +602,13 @@
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-title {
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.2;
       font-weight: 500;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-price {
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.15;
       font-weight: 700;
       letter-spacing: 0;
@@ -519,9 +621,9 @@
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-best-value {
       position: absolute;
-      top: 12px;
+      top: 25px;
       left: calc(29% + (71% / 6));
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       border-radius: 999px;
       background: #eacba4;
       padding: 3px 6px;
@@ -530,8 +632,9 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.01em;
+      text-align: center;
+      white-space: normal;
       color: #202020;
-      white-space: nowrap;
       z-index: 3;
     }
 
@@ -544,12 +647,26 @@
       align-items: center;
       gap: 6px;
       justify-content: flex-start;
+      min-height: 0;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-head--feature .compare-table-dynamic__mobile-feature {
+      align-items: flex-end;
+      min-height: 68px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-feature .compare-table-dynamic__feature-label {
       text-align: left;
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.3;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody .compare-table-dynamic__mobile-feature {
+      justify-content: center;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table tbody .compare-table-dynamic__mobile-feature .compare-table-dynamic__feature-label {
+      text-align: center;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile .compare-table-dynamic__tooltip {
@@ -573,14 +690,25 @@
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-main {
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.15;
     }
 
-    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-sub {
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__col2-text .compare-table-dynamic__value-main,
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__col3-text .compare-table-dynamic__value-main {
       font-size: 10px;
+      font-weight: 400;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-sub {
+      font-size: 9px;
       line-height: 1.2;
       opacity: 0.82;
+    }
+
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__col2-text .compare-table-dynamic__value-sub,
+    #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__col3-text .compare-table-dynamic__value-sub {
+      font-size: 8px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__icon {
@@ -634,19 +762,19 @@
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table th,
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table td {
       padding: 10px 6px;
-      font-size: 12px;
+      font-size: 11px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-title {
-      font-size: 12px;
+      font-size: 10px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-price {
-      font-size: 13px;
+      font-size: 11px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table .compare-table-dynamic__value-main {
-      font-size: 12px;
+      font-size: 10px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__section-subtitle {
@@ -811,9 +939,10 @@
                 <tr
                   style="
                     --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
-                    --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
-                    --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
-                    --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
+                    --stride-text-color: {%- if block.settings.feature_label == 'Time to Start' or block.settings.feature_label == 'Order to Delivery' -%}#0C9F6E{%- else -%}{{ block.settings.stride_text_color | default: '#202020' }}{%- endif -%};
+                    --stride-value-weight: {%- if block.settings.feature_label == 'Time to Start' or block.settings.feature_label == 'Order to Delivery' -%}700{%- else -%}400{%- endif -%};
+                    --col2-text-color: {{ block.settings.col_2_text_color | default: '#6b6b6b' }};
+                    --col3-text-color: {{ block.settings.col_3_text_color | default: '#6b6b6b' }};
                   "
                   {{ block.shopify_attributes }}
                 >
@@ -931,7 +1060,7 @@
 
             <div class="compare-table-dynamic__mobile mt-8">
         {%- if section.settings.best_value_text != blank -%}
-          <span class="compare-table-dynamic__mobile-best-value">{{ section.settings.best_value_text }}</span>
+          <span class="compare-table-dynamic__mobile-best-value">{{ section.settings.best_value_text | replace: ' ', '<br>' }}</span>
         {%- endif -%}
         <div class="compare-table-dynamic__mobile-wrap">
           <table class="compare-table-dynamic__mobile-table">
@@ -1001,10 +1130,10 @@
                     {%- if section.settings.stride_logo != blank -%}
                       {{
                         section.settings.stride_logo
-                        | image_url: width: 320
+                        | image_url: width: 640
                         | image_tag:
                           loading: 'lazy',
-                          widths: '74,148,222',
+                          widths: '74,148,222,296,370,444',
                           sizes: '74px',
                           class: 'compare-table-dynamic__stride-logo',
                           alt: 'Stride'
@@ -1040,9 +1169,10 @@
                     class="compare-table-dynamic__mobile-row"
                     style="
                       --feature-text-color: {{ block.settings.feature_text_color | default: '#202020' }};
-                      --stride-text-color: {{ block.settings.stride_text_color | default: '#202020' }};
-                      --col2-text-color: {{ block.settings.col_2_text_color | default: '#202020' }};
-                      --col3-text-color: {{ block.settings.col_3_text_color | default: '#202020' }};
+                      --stride-text-color: {%- if block.settings.feature_label == 'Time to Start' or block.settings.feature_label == 'Order to Delivery' -%}#0C9F6E{%- else -%}{{ block.settings.stride_text_color | default: '#202020' }}{%- endif -%};
+                      --stride-value-weight: {%- if block.settings.feature_label == 'Time to Start' or block.settings.feature_label == 'Order to Delivery' -%}700{%- else -%}400{%- endif -%};
+                      --col2-text-color: {{ block.settings.col_2_text_color | default: '#6b6b6b' }};
+                      --col3-text-color: {{ block.settings.col_3_text_color | default: '#6b6b6b' }};
                     "
                     {{ block.shopify_attributes }}
                   >
