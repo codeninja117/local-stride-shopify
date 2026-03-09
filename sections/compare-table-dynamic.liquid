@@ -53,7 +53,7 @@
     padding: 16px 12px;
     text-align: center;
     vertical-align: middle;
-    font-size: 14px;
+    font-size: {{ section.settings.table_body_font_size }}px;
     background-clip: padding-box;
   }
 
@@ -522,7 +522,7 @@
       padding: 12px 8px;
       text-align: center;
       vertical-align: middle;
-      font-size: 12px;
+      font-size: {{ section.settings.table_body_font_size_mobile }}px;
       line-height: 1.28;
       background: #ffffff;
       background-clip: padding-box;
@@ -762,7 +762,7 @@
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table th,
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-table td {
       padding: 10px 6px;
-      font-size: 11px;
+      font-size: {{ section.settings.table_body_font_size_mobile }}px;
     }
 
     #shopify-section-{{ section.id }} .compare-table-dynamic__mobile-col-title {
@@ -1596,6 +1596,26 @@
       "id": "stride_column_background",
       "label": "Stride column background",
       "default": "#f2ebdf"
+    },
+    {
+      "type": "range",
+      "id": "table_body_font_size",
+      "label": "Table body font size (desktop)",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "table_body_font_size_mobile",
+      "label": "Table body font size (mobile)",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
     },
     {
       "type": "range",

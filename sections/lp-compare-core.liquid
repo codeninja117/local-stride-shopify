@@ -1,6 +1,12 @@
 {%- style -%}
+  {{ section.settings.table_content_font | font_face: font_display: 'swap' }}
+
   #shopify-section-{{ section.id }} {
     color: {{ section.settings.text_color }};
+    --lp-compare-feature-label-font-size: {{ section.settings.feature_label_font_size }}px;
+    --lp-compare-feature-label-font-size-mobile: {{ section.settings.feature_label_font_size_mobile }}px;
+    --lp-compare-content-font-size: {{ section.settings.table_content_font_size }}px;
+    --lp-compare-content-font-size-mobile: {{ section.settings.table_content_font_size_mobile }}px;
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core {
@@ -53,7 +59,7 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
     width: 33.5%;
-    text-align: left;
+    text-align: center;
     font-weight: 600;
     font-size: 32px;
     line-height: 1.06;
@@ -88,7 +94,7 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__col-title {
     display: block;
-    font-size: 40px;
+    font-size: {{ section.settings.table_header_font_size }}px;
     line-height: 1.06;
     font-weight: 700;
   }
@@ -109,9 +115,12 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__value-main {
     display: block;
-    font-size: 16px;
+    font-size: var(--lp-compare-row-content-font-size, var(--lp-compare-content-font-size));
     line-height: 1.35;
     font-weight: 400;
+    font-family: {{ section.settings.table_content_font.family }}, {{ section.settings.table_content_font.fallback_families }};
+    font-style: {{ section.settings.table_content_font.style }};
+    font-weight: {{ section.settings.table_content_font.weight }};
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__value-main--stride {
@@ -121,9 +130,12 @@
   #shopify-section-{{ section.id }} .lp-compare-core__value-sub {
     display: block;
     margin-top: 3px;
-    font-size: 16px;
+    font-size: var(--lp-compare-row-content-font-size, var(--lp-compare-content-font-size));
     line-height: 1.35;
     color: rgba(0, 0, 0, 0.8);
+    font-family: {{ section.settings.table_content_font.family }}, {{ section.settings.table_content_font.fallback_families }};
+    font-style: {{ section.settings.table_content_font.style }};
+    font-weight: {{ section.settings.table_content_font.weight }};
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__value-main strong,
@@ -145,12 +157,17 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
     padding-block: 8px;
+    text-align: var(--lp-compare-row-content-alignment, center);
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__feature-label {
     display: block;
     padding-inline: 8px;
-    text-align: left;
+    text-align: var(--lp-compare-row-feature-label-alignment, center);
+    font-size: var(--lp-compare-row-feature-label-font-size, var(--lp-compare-feature-label-font-size));
+    font-family: {{ section.settings.table_content_font.family }}, {{ section.settings.table_content_font.fallback_families }};
+    font-style: {{ section.settings.table_content_font.style }};
+    font-weight: {{ section.settings.table_content_font.weight }};
   }
 
   #shopify-section-{{ section.id }} .lp-compare-core__yes {
@@ -167,7 +184,7 @@
 
   #shopify-section-{{ section.id }} .lp-compare-core__tldr {
     margin: 18px 0 0;
-    font-size: 18px;
+    font-size: {{ section.settings.tldr_font_size }}px;
     font-weight: 400;
     line-height: 1.45;
     color: #262626;
@@ -197,7 +214,7 @@
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__col-title {
-      font-size: clamp(13px, 4.6vw, 18px);
+      font-size: {{ section.settings.table_header_font_size_mobile }}px;
       line-height: 1.05;
     }
 
@@ -208,18 +225,17 @@
 
     #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
       width: 34%;
-      font-size: 9px;
       line-height: 1.2;
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__value-main {
-      font-size: 9px;
+      font-size: var(--lp-compare-row-content-font-size-mobile, var(--lp-compare-content-font-size-mobile));
       line-height: 1.3;
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__value-sub {
       margin-top: 2px;
-      font-size: 9px;
+      font-size: var(--lp-compare-row-content-font-size-mobile, var(--lp-compare-content-font-size-mobile));
       line-height: 1.25;
     }
 
@@ -239,11 +255,12 @@
 
     #shopify-section-{{ section.id }} .lp-compare-core__feature-label {
       padding-inline: 0;
+      font-size: var(--lp-compare-row-feature-label-font-size-mobile, var(--lp-compare-feature-label-font-size-mobile));
     }
 
     #shopify-section-{{ section.id }} .lp-compare-core__tldr {
       margin-top: 12px;
-      font-size: 12px;
+      font-size: {{ section.settings.tldr_font_size_mobile }}px;
       line-height: 1.45;
     }
   }
@@ -306,11 +323,33 @@
             | replace: '$249', '<strong>$249</strong>'
             | replace: '180 days.', '<strong>180 days.</strong>'
           -%}
-          {%- assign col_2_value_html = block.settings.col_2_value
+        {%- assign col_2_value_html = block.settings.col_2_value
             | replace: '$600-800', '<strong>$600-800</strong>'
           -%}
-          <tr {{ block.shopify_attributes }}>
-            <td class="lp-compare-core__feature-col"><span class="lp-compare-core__feature-label">{{ block.settings.feature_label }}</span></td>
+          {%- capture row_style -%}
+            {%- if block.settings.feature_label_font_size != blank and block.settings.feature_label_font_size > 0 -%}
+              --lp-compare-row-feature-label-font-size: {{ block.settings.feature_label_font_size }}px;
+              --lp-compare-row-feature-label-font-size-mobile: {{ block.settings.feature_label_font_size }}px;
+            {%- endif -%}
+            {%- if block.settings.feature_label_alignment != blank and block.settings.feature_label_alignment != 'inherit' -%}
+              --lp-compare-row-feature-label-alignment: {{ block.settings.feature_label_alignment }};
+            {%- endif -%}
+            {%- if block.settings.content_font_size != blank and block.settings.content_font_size > 0 -%}
+              --lp-compare-row-content-font-size: {{ block.settings.content_font_size }}px;
+              --lp-compare-row-content-font-size-mobile: {{ block.settings.content_font_size }}px;
+            {%- endif -%}
+            {%- if block.settings.content_alignment != blank and block.settings.content_alignment != 'inherit' -%}
+              --lp-compare-row-content-alignment: {{ block.settings.content_alignment }};
+            {%- endif -%}
+          {%- endcapture -%}
+          <tr
+            {{ block.shopify_attributes }}
+            {%- assign row_style_clean = row_style | strip -%}
+            {%- if row_style_clean != blank -%} style="{{ row_style_clean }}"{%- endif -%}
+          >
+            <td class="lp-compare-core__feature-col">
+              <span class="lp-compare-core__feature-label">{{ block.settings.feature_label }}</span>
+            </td>
             <td class="lp-compare-core__stride-col">
               <div class="lp-compare-core__cell-content">
                 {%- case block.settings.stride_type -%}
@@ -335,13 +374,15 @@
             </td>
             {%- if show_col_3 -%}
               <td>
-                {%- case block.settings.col_3_type -%}
-                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
-                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
-                  {%- else -%}
-                    <span class="lp-compare-core__value-main">{{ block.settings.col_3_value }}</span>
-                    {%- if block.settings.col_3_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_3_sub }}</span>{%- endif -%}
-                {%- endcase -%}
+                <div class="lp-compare-core__cell-content">
+                  {%- case block.settings.col_3_type -%}
+                    {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                    {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                    {%- else -%}
+                      <span class="lp-compare-core__value-main">{{ block.settings.col_3_value }}</span>
+                      {%- if block.settings.col_3_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_3_sub }}</span>{%- endif -%}
+                  {%- endcase -%}
+                </div>
               </td>
             {%- endif -%}
           </tr>
@@ -375,7 +416,16 @@
     { "type": "checkbox", "id": "show_col_3", "label": "Show third comparison column", "default": false },
     { "type": "text", "id": "col_3_title", "label": "Column 3 title", "default": "Generic Insole" },
     { "type": "text", "id": "col_3_subtitle", "label": "Column 3 subtitle" },
+    { "type": "range", "id": "table_header_font_size", "label": "Table header font size (desktop)", "min": 14, "max": 48, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "table_header_font_size_mobile", "label": "Table header font size (mobile)", "min": 10, "max": 28, "step": 1, "unit": "px", "default": 16 },
+    { "type": "font_picker", "id": "table_content_font", "label": "Table content font", "default": "assistant_n4" },
+    { "type": "range", "id": "feature_label_font_size", "label": "Feature label font size (desktop)", "min": 12, "max": 28, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "feature_label_font_size_mobile", "label": "Feature label font size (mobile)", "min": 10, "max": 22, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "table_content_font_size", "label": "Table content font size (desktop)", "min": 12, "max": 28, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "table_content_font_size_mobile", "label": "Table content font size (mobile)", "min": 10, "max": 22, "step": 1, "unit": "px", "default": 12 },
     { "type": "richtext", "id": "tldr", "label": "TLDR text" },
+    { "type": "range", "id": "tldr_font_size", "label": "TLDR font size (desktop)", "min": 12, "max": 30, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "tldr_font_size_mobile", "label": "TLDR font size (mobile)", "min": 10, "max": 24, "step": 1, "unit": "px", "default": 12 },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Take your free scan" },
     { "type": "url", "id": "button_url", "label": "Button URL" },
     { "type": "inline_richtext", "id": "button_note", "label": "Button note", "default": "180 Day Return Policy" },
@@ -392,6 +442,20 @@
       "name": "Row",
       "settings": [
         { "type": "text", "id": "feature_label", "label": "Feature label", "default": "Order to Delivery" },
+        { "type": "range", "id": "feature_label_font_size", "label": "Feature label font size (0 = use section)", "min": 0, "max": 28, "step": 1, "unit": "px", "default": 0 },
+        { "type": "select", "id": "feature_label_alignment", "label": "Feature label alignment", "default": "inherit", "options": [
+          { "value": "inherit", "label": "Use section" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ] },
+        { "type": "range", "id": "content_font_size", "label": "Content font size (0 = use section)", "min": 0, "max": 28, "step": 1, "unit": "px", "default": 0 },
+        { "type": "select", "id": "content_alignment", "label": "Content alignment", "default": "inherit", "options": [
+          { "value": "inherit", "label": "Use section" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ] },
         { "type": "select", "id": "stride_type", "label": "Stride type", "default": "text", "options": [
           { "value": "yes", "label": "Check" },
           { "value": "no", "label": "Cross" },
