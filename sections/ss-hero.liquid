@@ -1,0 +1,936 @@
+{%- liquid
+  assign hero_image = section.settings.hero_image
+  assign headline_line1 = section.settings.headline_line1
+  assign headline_line2 = section.settings.headline_line2
+  assign subheadline = section.settings.subheadline
+  assign cta_label = section.settings.cta_label
+  assign cta_url = section.settings.cta_url
+  assign video_label = section.settings.video_label
+  assign button_video_url = section.settings.button_video_url
+  assign eyebrow_text = section.settings.eyebrow_text
+  assign review_count_text = section.settings.review_count_text
+  assign price_display = section.settings.price_display
+  assign price_description = section.settings.price_description
+  assign price_shipping = section.settings.price_shipping
+  assign overwrite_button_bg = section.settings.overwrite_button_bg_to_color_human
+  assign review_count_url = section.settings.review_count_url
+  assign review_pill_tag = 'div'
+  if section.settings.review_count_url != blank
+    assign review_pill_tag = 'a'
+  endif
+-%}
+
+<style>
+  #ss-hero-{{ section.id }} {
+    --cream: #f5f6f9;
+    --dark: #1A1A1A;
+    --gold: #EACBA4;
+    --mid: #6B6B6B;
+    --white: #FFFFFF;
+  }
+
+  /* Header overrides — only when this hero section is on the page */
+  body.template-index {
+    --header-color: 0, 0, 0;
+    --header-background: 255, 255, 255;
+  }
+
+  @media (max-width: 768px) {
+    body.template-index {
+      --header-color: 255, 255, 255;
+      --header-background: 255, 255, 255;
+    }
+  }
+
+  #ss-hero-{{ section.id }} {
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  {% if overwrite_button_bg %}
+    #ss-hero-{{ section.id }} .btn-primary {
+      --color-button: {{ settings.theme_color_human.red }},{{ settings.theme_color_human.green }},{{ settings.theme_color_human.blue }};
+    }
+    #ss-hero-{{ section.id }} .btn-primary:hover > .btn-primary__inner {
+      --color-button-hover: 255,255,255;
+      --color-button-label-hover: 0,0,0;
+    }
+  {% endif %}
+
+  /* =====================
+     DESKTOP LAYOUT
+  ===================== */
+  #ss-hero-{{ section.id }} .ss-hero {
+    min-height: 70vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* LEFT */
+  #ss-hero-{{ section.id }} .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 180px 64px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  #ss-hero-{{ section.id }} .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    animation: ss-fadeUp 0.6s 0.0s ease both;
+  }
+
+  #ss-hero-{{ section.id }} .stars { display: flex; gap: 2px; }
+  #ss-hero-{{ section.id }} .star {
+    width: 14px; height: 14px;
+    fill: var(--gold);
+  }
+
+  #ss-hero-{{ section.id }} .eyebrow-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  #ss-hero-{{ section.id }} .hero-headline {
+    margin-bottom: 20px;
+    animation: ss-fadeUp 0.6s 0.1s ease both;
+  }
+
+  #ss-hero-{{ section.id }} .hero-headline-line1 {
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--gold);
+    display: block;
+  }
+
+  #ss-hero-{{ section.id }} .hero-headline-line2 {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--dark);
+    display: block;
+  }
+
+  #ss-hero-{{ section.id }} .hero-sub {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #3A3A3A;
+    max-width: 440px;
+    margin-bottom: 36px;
+    animation: ss-fadeUp 0.6s 0.2s ease both;
+  }
+
+  #ss-hero-{{ section.id }} .hero-sub p { margin: 0; }
+
+  #ss-hero-{{ section.id }} .hero-cta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 56px;
+    animation: ss-fadeUp 0.6s 0.3s ease both;
+  }
+
+  /* Video button */
+  #ss-hero-{{ section.id }} .btn-video-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mid);
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: none;
+  }
+
+  #ss-hero-{{ section.id }} .btn-video-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(26,26,26,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  #ss-hero-{{ section.id }} .btn-video-circle svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--dark);
+    margin-left: 2px;
+  }
+
+  /* TRUST BAR */
+  #ss-hero-{{ section.id }} .trust-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(234,203,164,0.3);
+    animation: ss-fadeUp 0.6s 0.4s ease both;
+  }
+
+  #ss-hero-{{ section.id }} .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #ss-hero-{{ section.id }} .trust-item img {
+    flex-shrink: 0;
+    stroke: var(--dark);
+  }
+
+  #ss-hero-{{ section.id }} .trust-item svg {
+    flex-shrink: 0;
+    color: var(--dark);
+  }
+
+  #ss-hero-{{ section.id }} .trust-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+
+  #ss-hero-{{ section.id }} .trust-text span {
+    display: block;
+    font-weight: 400;
+    color: var(--mid);
+    font-size: 11px;
+  }
+
+  /* APMA first block */
+  #ss-hero-{{ section.id }} .trust-item--featured {
+    background: rgba(234,203,164,0.15);
+    border: 1px solid rgba(234,203,164,0.5);
+    border-radius: 8px;
+    padding: 8px 14px;
+  }
+
+  #ss-hero-{{ section.id }} .apma-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--white);
+    border-radius: 6px;
+    border: 1px solid rgba(234,203,164,0.4);
+    flex-shrink: 0;
+  }
+
+  #ss-hero-{{ section.id }} .apma-logo .apma-big {
+    font-size: 11px;
+    font-weight: 800;
+    color: #1B4F8A;
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  #ss-hero-{{ section.id }} .apma-logo .apma-small {
+    font-size: 6px;
+    font-weight: 600;
+    color: #1B4F8A;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* RIGHT — desktop */
+  #ss-hero-{{ section.id }} .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #ss-hero-{{ section.id }} .orthotic-bg {
+    position: absolute;
+    inset: 0 0 0 -60px;
+    background: var(--dark);
+    border-radius: 60% 0 0 40% / 50% 0 0 50%;
+    overflow: hidden;
+  }
+
+  #ss-hero-{{ section.id }} .orthotic-bg img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+    opacity: 0.95;
+    filter: brightness(0.88);
+  }
+
+  #ss-hero-{{ section.id }} .orthotic-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, rgba(0,0,0,0) 40%, rgba(26,26,26,0.4) 100%);
+    pointer-events: none;
+  }
+
+  /* Floating cards — desktop */
+  #ss-hero-{{ section.id }} .review-pill {
+    position: absolute;
+    top: 180px;
+    right: 24px;
+    background: var(--white);
+    border-radius: 100px;
+    padding: 10px 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    animation: ss-fadeUp 0.8s 0.6s ease both;
+  }
+
+  #ss-hero-{{ section.id }} .product-label {
+    position: absolute;
+    bottom: 56px;
+    left: 56px;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 16px 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    z-index: 20;
+    animation: ss-fadeUp 0.8s 0.5s ease both;
+    width: 220px;
+  }
+
+  #ss-hero-{{ section.id }} .review-avatars { display: flex; }
+
+  #ss-hero-{{ section.id }} .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+  }
+
+  #ss-hero-{{ section.id }} .avatar:first-child { margin-left: 0; background: #8B7355; }
+  #ss-hero-{{ section.id }} .avatar:nth-child(2) { background: #6B8E6B; }
+  #ss-hero-{{ section.id }} .avatar:nth-child(3) { background: #7B8FA0; }
+
+  #ss-hero-{{ section.id }} .review-text { font-size: 12px; font-weight: 600; color: var(--dark); line-height: 1.3; }
+  #ss-hero-{{ section.id }} .review-stars { display: flex; gap: 1px; align-items: center; }
+  #ss-hero-{{ section.id }} .review-star { width: 11px; height: 11px; fill: var(--gold); }
+  #ss-hero-{{ section.id }} .review-avg { font-size: 11px; font-weight: 600; color: var(--gold); margin-left: 4px; }
+
+  #ss-hero-{{ section.id }} .product-label-price {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  #ss-hero-{{ section.id }} .product-label-price sup {
+    font-size: 16px;
+    vertical-align: super;
+    font-weight: 600;
+  }
+
+  #ss-hero-{{ section.id }} .product-label-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--mid);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  #ss-hero-{{ section.id }} .product-label-shipping {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* hero-cards (left side) — hidden on desktop */
+  #ss-hero-{{ section.id }} .hero-cards {
+    display: none;
+  }
+
+  /* =====================
+     MOBILE — max-width: 768px
+     Full-background approach: hero-right stretches
+     behind hero-left absolutely
+  ===================== */
+  @media (max-width: 768px) {
+
+    /* Collapse to single column, give it relative context for bg positioning */
+    #ss-hero-{{ section.id }} .ss-hero {
+      grid-template-columns: 1fr;
+      min-height: 100svh;
+      position: relative;
+    }
+
+    /* Hero-left takes full width, sits on top */
+    #ss-hero-{{ section.id }} .hero-left {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 120px 24px 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hero-right stretches full section as background layer */
+    #ss-hero-{{ section.id }} .hero-right {
+      grid-column: 1;
+      grid-row: 1;
+      position: relative;
+      z-index: 0;
+    }
+
+    /* Remove curve, fill full section */
+    #ss-hero-{{ section.id }} .orthotic-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 0;
+    }
+
+    /* Dark overlay on mobile */
+    #ss-hero-{{ section.id }} .orthotic-bg::after {
+      background: rgba(0,0,0,0.55);
+    }
+
+    /* Flip text to white on mobile */
+    #ss-hero-{{ section.id }} .hero-headline-line2 { color: var(--white); }
+    #ss-hero-{{ section.id }} .hero-sub { color: rgba(255,255,255,0.85); }
+    #ss-hero-{{ section.id }} .eyebrow-text { color: var(--white); }
+    #ss-hero-{{ section.id }} .trust-text { color: var(--white); }
+    #ss-hero-{{ section.id }} .trust-text span { color: rgba(255,255,255,0.65); }
+    #ss-hero-{{ section.id }} .btn-video-trigger { color: rgba(255,255,255,0.75); }
+    #ss-hero-{{ section.id }} .btn-video-circle { border-color: rgba(255,255,255,0.35); }
+    #ss-hero-{{ section.id }} .btn-video-circle svg { fill: var(--white); }
+    #ss-hero-{{ section.id }} .trust-bar { border-top-color: rgba(255,255,255,0.15); }
+    #ss-hero-{{ section.id }} .trust-item--featured {
+      background: rgba(234,203,164,0.15);
+      border-color: rgba(234,203,164,0.4);
+    }
+
+    /* Headline scales down */
+    #ss-hero-{{ section.id }} .hero-headline-line1,
+    #ss-hero-{{ section.id }} .hero-headline-line2 {
+      font-size: 40px;
+    }
+
+    #ss-hero-{{ section.id }} .hero-sub {
+      font-size: 16px;
+      max-width: 100%;
+    }
+
+    #ss-hero-{{ section.id }} .hero-cta {
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    #ss-hero-{{ section.id }} .btn-primary-wrap {
+      width: 100%;
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    #ss-hero-{{ section.id }} .btn-primary-wrap .btn-primary {
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      color: var(--dark);
+      border-color: var(--cream);
+    }
+
+    #ss-hero-{{ section.id }} .btn-primary-wrap .btn-primary__inner {
+      padding-top: 18px;
+      padding-bottom: 18px;
+      background: var(--white);
+      color: var(--dark);
+    }
+
+    /* Trust bar: 2-col, consistent compact card style on mobile */
+    #ss-hero-{{ section.id }} .trust-bar {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding-top: 24px;
+    }
+
+    /* All trust items get uniform card treatment — no height blowout */
+    #ss-hero-{{ section.id }} .trust-item,
+    #ss-hero-{{ section.id }} .trust-item--featured {
+      align-items: flex-start;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+    }
+
+    /* Keep gold tint on APMA */
+    #ss-hero-{{ section.id }} .trust-item--featured {
+      background: rgba(234,203,164,0.12);
+      border-color: rgba(234,203,164,0.4);
+    }
+
+    /* Shrink APMA logo so it doesn't stretch the cell */
+    #ss-hero-{{ section.id }} .apma-logo {
+      width: 32px;
+      height: 32px;
+    }
+
+    #ss-hero-{{ section.id }} .apma-logo .apma-big { font-size: 9px; }
+    #ss-hero-{{ section.id }} .apma-logo .apma-small { font-size: 5px; }
+
+    /* Tighten text to prevent wrapping */
+    #ss-hero-{{ section.id }} .trust-text { font-size: 11px; }
+    #ss-hero-{{ section.id }} .trust-text span { font-size: 10px; }
+    #ss-hero-{{ section.id }} .trust-item svg { color: var(--white); }
+
+    /* Cards: flow naturally in hero-left, remove absolute positioning */
+    #ss-hero-{{ section.id }} .review-pill {
+      position: static;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-top: 24px;
+      align-self: flex-start;
+    }
+
+    #ss-hero-{{ section.id }} .product-label {
+      position: static;
+      width: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Hide right-side floating cards on mobile — left-side cards take over */
+    #ss-hero-{{ section.id }} .hero-right .review-pill,
+    #ss-hero-{{ section.id }} .hero-right .product-label {
+      display: none;
+    }
+
+    /* Lay cards out side by side below trust bar */
+    #ss-hero-{{ section.id }} .hero-cards {
+      display: none;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+  }
+
+  @keyframes ss-fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<section id="ss-hero-{{ section.id }}" class="ss-hero-wrapper">
+  <div class="ss-hero">
+    {%- comment -%} LEFT — content column {%- endcomment -%}
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="stars">
+          {%- for i in (1..5) -%}
+            <svg class="star" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <span class="eyebrow-text">{{ eyebrow_text }}</span>
+      </div>
+
+      <div class="hero-headline">
+        <span class="hero-headline-line1">{{ headline_line1 }}</span>
+        <span class="hero-headline-line2">{{ headline_line2 }}</span>
+      </div>
+
+      <div class="hero-sub">
+        {{ subheadline }}
+      </div>
+
+      <div class="hero-cta">
+        {%- if cta_label != blank -%}
+          <div class="btn-primary-wrap">
+            {%- render 'button', tag: 'a', text: cta_label, url: cta_url, variant: 'primary' -%}
+          </div>
+        {%- endif -%}
+
+        {%- if button_video_url != blank -%}
+          <modal-opener data-modal="#HeroVideoModal-{{ section.id }}" class="w-fit">
+            <button class="btn-video-trigger">
+              <div class="btn-video-circle">
+                <svg viewBox="0 0 24 24">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </div>
+              {%- if video_label != blank -%}{{ video_label }}{%- endif -%}
+            </button>
+          </modal-opener>
+
+          <modal-dialog
+            id="HeroVideoModal-{{ section.id }}"
+            class="invisible fixed inset-0 z-101 flex items-center justify-center overflow-hidden overflow-y-auto bg-black/30 opacity-0 backdrop-blur-lg transition-opacity duration-300 ease-in-out [&[open]]:visible [&[open]]:opacity-100"
+            data-play-on-open
+          >
+            <div
+              role="dialog"
+              aria-label="{{ shop.name }} hero video"
+              aria-modal="true"
+              class="w-[768px] max-w-full"
+              tabindex="-1"
+            >
+              <button
+                id="ModalClose-{{ section.id }}"
+                type="button"
+                class="absolute top-4 right-4 text-white"
+                aria-label="{{ 'accessibility.close' | t }}"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
+              </button>
+              {%- assign video_alt = button_video_url.alt | default: shop.name -%}
+              {{
+                button_video_url
+                | video_tag: class: 'h-auto w-full', controls: true, autoplay: false, muted: false, alt: video_alt
+              }}
+            </div>
+          </modal-dialog>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Trust bar {%- endcomment -%}
+      {%- if section.blocks.size > 0 -%}
+        <div class="trust-bar">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'trust_item' -%}
+              <div
+                class="trust-item{% if forloop.first %} trust-item--featured{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if forloop.first -%}
+                  <div class="apma-logo">
+                    <span class="apma-big">APMA</span>
+                    <span class="apma-small">ACCEPTED</span>
+                  </div>
+                {%- elsif block.settings.icon != blank -%}
+                  {%- render 'ss-icon', icon: block.settings.icon, size: 20 -%}
+                {%- endif -%}
+                <div class="trust-text">
+                  {{ block.settings.title }}
+                  {%- if block.settings.description != blank -%}
+                    <span>{{ block.settings.description }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Cards wrapper — hidden on desktop, visible on mobile as inline flow
+        below trust bar since hero-right is a background layer on mobile.
+      {%- endcomment -%}
+      <div class="hero-cards">
+        <{{ review_pill_tag }}
+          class="review-pill"
+          {% if section.settings.review_count_url != blank %}
+            href="{{ section.settings.review_count_url }}"
+          {% endif %}
+        >
+          <div class="review-avatars">
+            <div class="avatar">S</div>
+            <div class="avatar">L</div>
+            <div class="avatar">A</div>
+          </div>
+          <div>
+            <div class="review-text">{{ review_count_text }}</div>
+            <div class="review-stars">
+              {%- for i in (1..5) -%}
+                <svg class="review-star" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              {%- endfor -%}
+              <span class="review-avg">4.9 average</span>
+            </div>
+          </div>
+        </{{ review_pill_tag }}>
+
+        <div class="product-label">
+          <div class="product-label-price"><sup>$</sup>{{ price_display }}</div>
+          <div class="product-label-desc">{{ price_description }}</div>
+          <div class="product-label-shipping">&#10022; {{ price_shipping }}</div>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} RIGHT — image panel {%- endcomment -%}
+    <div class="hero-right">
+      <div class="orthotic-bg">
+        {%- if hero_image != blank -%}
+          {{
+            hero_image
+            | image_url: width: 1200
+            | image_tag: loading: 'eager', fetchpriority: 'high', alt: hero_image.alt
+            | default: shop.name, widths: '600, 900, 1200'
+          }}
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Desktop-only floating cards — hidden on mobile via display:none {%- endcomment -%}
+      <{{ review_pill_tag }}
+        class="review-pill"
+        {% if section.settings.review_count_url != blank %}
+          href="{{ section.settings.review_count_url }}"
+        {% endif %}
+      >
+        <div class="review-avatars">
+          <div class="avatar">S</div>
+          <div class="avatar">L</div>
+          <div class="avatar">A</div>
+        </div>
+        <div>
+          <div class="review-text">{{ review_count_text }}</div>
+          <div class="review-stars">
+            {%- for i in (1..5) -%}
+              <svg class="review-star" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            {%- endfor -%}
+            <span class="review-avg">4.9 average</span>
+          </div>
+        </div>
+      </{{ review_pill_tag }}>
+
+      <div class="product-label">
+        <div class="product-label-price"><sup>$</sup>{{ price_display }}</div>
+        <div class="product-label-desc">{{ price_description }}</div>
+        <div class="product-label-shipping">&#10022; {{ price_shipping }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS Hero",
+  "tag": "section",
+  "class": "ss-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "2,000+ Verified 5-Star Reviews"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "headline_line1",
+      "label": "Headline — line 1 (gold)",
+      "default": "End Foot Pain"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "headline_line2",
+      "label": "Headline — line 2 (dark)",
+      "default": "For Good."
+    },
+    {
+      "type": "richtext",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "<p>German podiatrists design your custom orthotic from a 3D scan of your foot. At your door in 10–15 days, for $249. If they don't help, return them — no questions asked.</p>"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Get My Custom Orthotics"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "overwrite_button_bg_to_color_human",
+      "label": "Override button color with brand color",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "text",
+      "id": "video_label",
+      "label": "Video button label",
+      "default": "See how it works"
+    },
+    {
+      "type": "video",
+      "id": "button_video_url",
+      "label": "Hero video"
+    },
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "header",
+      "content": "Review pill"
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Review count label",
+      "default": "2,000+ happy customers"
+    },
+    {
+      "type": "url",
+      "id": "review_count_url",
+      "label": "Review count URL"
+    },
+    {
+      "type": "header",
+      "content": "Price card"
+    },
+    {
+      "type": "text",
+      "id": "price_display",
+      "label": "Price (number only)",
+      "default": "249"
+    },
+    {
+      "type": "text",
+      "id": "price_description",
+      "label": "Price card description",
+      "default": "Custom 3D-printed orthotics, designed by podiatrists"
+    },
+    {
+      "type": "text",
+      "id": "price_shipping",
+      "label": "Shipping note",
+      "default": "Free shipping included"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Trust badge"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "shield",
+          "options": [
+            { "value": "shield", "label": "Shield (guarantee)" },
+            { "value": "globe", "label": "Globe (origin)" },
+            { "value": "card", "label": "Card (payment)" },
+            { "value": "check", "label": "Checkmark" },
+            { "value": "truck", "label": "Truck (shipping)" },
+            { "value": "star", "label": "Star" },
+            { "value": "lock", "label": "Lock (security)" },
+            { "value": "leaf", "label": "Leaf (eco)" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "award", "label": "Award" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Hero",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "APMA Accepted",
+            "description": "American Podiatric Medical Association"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "180-Day Guarantee",
+            "description": "Full refund, no hassle",
+            "icon": "shield"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Made in Germany",
+            "description": "Expert podiatry team",
+            "icon": "globe"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "FSA/HSA Accepted",
+            "description": "Use pre-tax dollars",
+            "icon": "card"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

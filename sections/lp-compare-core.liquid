@@ -1,0 +1,432 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    color: {{ section.settings.text_color }};
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core {
+    max-width: 1060px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__heading {
+    margin: 0 auto 28px;
+    max-width: none;
+    text-align: center;
+    font-size: clamp(22px, 3.2vw, 46px);
+    line-height: 1.12;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table-wrap {
+    border-radius: 0;
+    border: 0;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table th,
+  #shopify-section-{{ section.id }} .lp-compare-core__table td {
+    border-bottom: 1px solid #e5e7ea;
+    padding: 12px 18px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table thead .lp-compare-core__feature-col {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
+    width: 33.5%;
+    text-align: left;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.06;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core--three-cols .lp-compare-core__feature-col {
+    width: 28%;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__stride-col {
+    background: {{ section.settings.stride_background }};
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table thead th.lp-compare-core__stride-col {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__table tbody tr:last-child td.lp-compare-core__stride-col {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__brand {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__col-title {
+    display: block;
+    font-size: 40px;
+    line-height: 1.06;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__col-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    opacity: 0.72;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__logo {
+    display: block;
+    width: 92px;
+    margin: 0 auto 10px;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__value-main {
+    display: block;
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 400;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__value-main--stride {
+    color: {{ section.settings.text_color }};
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__value-sub {
+    display: block;
+    margin-top: 3px;
+    font-size: 16px;
+    line-height: 1.35;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__value-main strong,
+  #shopify-section-{{ section.id }} .lp-compare-core__value-sub strong {
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__head-inner,
+  #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+    width: 100%;
+    max-width: 344px;
+    margin: 0 auto;
+    padding-inline: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__head-inner {
+    padding-block: 16px 14px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+    padding-block: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__feature-label {
+    display: block;
+    padding-inline: 8px;
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__yes {
+    font-size: 26px;
+    line-height: 1;
+    color: #109e66;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__no {
+    font-size: 26px;
+    line-height: 1;
+    color: #d73c3c;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__tldr {
+    margin: 18px 0 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #262626;
+  }
+
+  #shopify-section-{{ section.id }} .lp-compare-core__tldr strong,
+  #shopify-section-{{ section.id }} .lp-compare-core__tldr b {
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .lp-compare-core {
+      padding-inline: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__heading {
+      margin-bottom: 14px;
+      font-size: clamp(16px, 5.3vw, 24px);
+      line-height: 1.2;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__table th,
+    #shopify-section-{{ section.id }} .lp-compare-core__table td {
+      padding: 8px 6px;
+      font-size: 10px;
+      line-height: 1.25;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__col-title {
+      font-size: clamp(13px, 4.6vw, 18px);
+      line-height: 1.05;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__logo {
+      width: 52px;
+      margin-bottom: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__feature-col {
+      width: 34%;
+      font-size: 9px;
+      line-height: 1.2;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__value-main {
+      font-size: 9px;
+      line-height: 1.3;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__value-sub {
+      margin-top: 2px;
+      font-size: 9px;
+      line-height: 1.25;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__head-inner,
+    #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+      max-width: none;
+      padding-inline: 0;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__head-inner {
+      padding-block: 10px 8px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__cell-content {
+      padding-block: 4px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__feature-label {
+      padding-inline: 0;
+    }
+
+    #shopify-section-{{ section.id }} .lp-compare-core__tldr {
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .lp-compare-core__table thead th {
+      padding-top: 18px;
+      padding-bottom: 10px;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign show_col_3 = section.settings.show_col_3 -%}
+
+<section class="lp-compare-core">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="lp-compare-core__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="lp-compare-core__table-wrap {% if show_col_3 %}lp-compare-core--three-cols{% endif %}">
+    <table class="lp-compare-core__table">
+      <thead>
+        <tr>
+          <th class="lp-compare-core__feature-col">{{ section.settings.feature_header }}</th>
+          <th class="lp-compare-core__stride-col">
+            <div class="lp-compare-core__head-inner">
+              {%- if section.settings.stride_logo != blank -%}
+                {{ section.settings.stride_logo | image_url: width: 160 | image_tag: class: 'lp-compare-core__logo', loading: 'lazy', alt: section.settings.stride_title }}
+              {%- else -%}
+                <span class="lp-compare-core__brand">STRIDE</span>
+              {%- endif -%}
+              <span class="lp-compare-core__col-title">{{ section.settings.stride_title }}</span>
+              {%- if section.settings.stride_subtitle != blank -%}
+                <span class="lp-compare-core__col-sub">{{ section.settings.stride_subtitle }}</span>
+              {%- endif -%}
+            </div>
+          </th>
+          <th>
+            <div class="lp-compare-core__head-inner">
+              <span class="lp-compare-core__col-title">{{ section.settings.col_2_title }}</span>
+              {%- if section.settings.col_2_subtitle != blank -%}
+                <span class="lp-compare-core__col-sub">{{ section.settings.col_2_subtitle }}</span>
+              {%- endif -%}
+            </div>
+          </th>
+          {%- if show_col_3 -%}
+            <th>
+              <span class="lp-compare-core__col-title">{{ section.settings.col_3_title }}</span>
+              {%- if section.settings.col_3_subtitle != blank -%}
+                <span class="lp-compare-core__col-sub">{{ section.settings.col_3_subtitle }}</span>
+              {%- endif -%}
+            </th>
+          {%- endif -%}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for block in section.blocks -%}
+          {%- assign stride_value_html = block.settings.stride_value
+            | replace: '100,000-point 3D scan.', '<strong>100,000-point 3D scan.</strong>'
+            | replace: '$249', '<strong>$249</strong>'
+            | replace: '180 days.', '<strong>180 days.</strong>'
+          -%}
+          {%- assign col_2_value_html = block.settings.col_2_value
+            | replace: '$600-800', '<strong>$600-800</strong>'
+          -%}
+          <tr {{ block.shopify_attributes }}>
+            <td class="lp-compare-core__feature-col"><span class="lp-compare-core__feature-label">{{ block.settings.feature_label }}</span></td>
+            <td class="lp-compare-core__stride-col">
+              <div class="lp-compare-core__cell-content">
+                {%- case block.settings.stride_type -%}
+                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                  {%- else -%}
+                    <span class="lp-compare-core__value-main lp-compare-core__value-main--stride">{{ stride_value_html }}</span>
+                    {%- if block.settings.stride_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.stride_sub }}</span>{%- endif -%}
+                {%- endcase -%}
+              </div>
+            </td>
+            <td>
+              <div class="lp-compare-core__cell-content">
+                {%- case block.settings.col_2_type -%}
+                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                  {%- else -%}
+                    <span class="lp-compare-core__value-main">{{ col_2_value_html }}</span>
+                    {%- if block.settings.col_2_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_2_sub }}</span>{%- endif -%}
+                {%- endcase -%}
+              </div>
+            </td>
+            {%- if show_col_3 -%}
+              <td>
+                {%- case block.settings.col_3_type -%}
+                  {%- when 'yes' -%}<span class="lp-compare-core__yes">&#10003;</span>
+                  {%- when 'no' -%}<span class="lp-compare-core__no">&times;</span>
+                  {%- else -%}
+                    <span class="lp-compare-core__value-main">{{ block.settings.col_3_value }}</span>
+                    {%- if block.settings.col_3_sub != blank -%}<span class="lp-compare-core__value-sub">{{ block.settings.col_3_sub }}</span>{%- endif -%}
+                {%- endcase -%}
+              </td>
+            {%- endif -%}
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+
+  {%- if section.settings.tldr != blank -%}
+    {%- assign tldr_html = section.settings.tldr
+      | replace: 'TLDR:', '<strong>TLDR:</strong>'
+      | replace: "Stride Soles' 3D", "<strong>Stride Soles' 3D</strong>"
+    -%}
+    <div class="lp-compare-core__tldr">{{ tldr_html }}</div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "LP compare core",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Read this BEFORE you buy your next pair of custom insoles!" },
+    { "type": "text", "id": "feature_header", "label": "Feature header", "default": "Features" },
+    { "type": "text", "id": "stride_title", "label": "Stride title", "default": "3D Scan" },
+    { "type": "text", "id": "stride_subtitle", "label": "Stride subtitle" },
+    { "type": "image_picker", "id": "stride_logo", "label": "Stride logo" },
+    { "type": "text", "id": "col_2_title", "label": "Column 2 title", "default": "Foam Impression Kit" },
+    { "type": "text", "id": "col_2_subtitle", "label": "Column 2 subtitle" },
+    { "type": "checkbox", "id": "show_col_3", "label": "Show third comparison column", "default": false },
+    { "type": "text", "id": "col_3_title", "label": "Column 3 title", "default": "Generic Insole" },
+    { "type": "text", "id": "col_3_subtitle", "label": "Column 3 subtitle" },
+    { "type": "richtext", "id": "tldr", "label": "TLDR text" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Take your free scan" },
+    { "type": "url", "id": "button_url", "label": "Button URL" },
+    { "type": "inline_richtext", "id": "button_note", "label": "Button note", "default": "180 Day Return Policy" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#1f1f1f" },
+    { "type": "color", "id": "stride_background", "label": "Stride column background", "default": "#f0ca9f" },
+    { "type": "color", "id": "stride_main_color", "label": "Stride highlight", "default": "#0c9f6e" },
+    { "type": "color", "id": "stride_sub_color", "label": "Subtext color", "default": "#159c77" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "feature_label", "label": "Feature label", "default": "Order to Delivery" },
+        { "type": "select", "id": "stride_type", "label": "Stride type", "default": "text", "options": [
+          { "value": "yes", "label": "Check" },
+          { "value": "no", "label": "Cross" },
+          { "value": "text", "label": "Text" }
+        ] },
+        { "type": "text", "id": "stride_value", "label": "Stride value", "default": "10-15 Business Days" },
+        { "type": "text", "id": "stride_sub", "label": "Stride subtext", "default": "(5-7 days with express)" },
+        { "type": "select", "id": "col_2_type", "label": "Column 2 type", "default": "text", "options": [
+          { "value": "yes", "label": "Check" },
+          { "value": "no", "label": "Cross" },
+          { "value": "text", "label": "Text" }
+        ] },
+        { "type": "text", "id": "col_2_value", "label": "Column 2 value", "default": "3-6 Weeks" },
+        { "type": "text", "id": "col_2_sub", "label": "Column 2 subtext" },
+        { "type": "select", "id": "col_3_type", "label": "Column 3 type", "default": "text", "options": [
+          { "value": "yes", "label": "Check" },
+          { "value": "no", "label": "Cross" },
+          { "value": "text", "label": "Text" }
+        ] },
+        { "type": "text", "id": "col_3_value", "label": "Column 3 value", "default": "3-5 Weeks" },
+        { "type": "text", "id": "col_3_sub", "label": "Column 3 subtext" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LP compare core",
+      "blocks": [
+        { "type": "row", "settings": { "feature_label": "Fit", "stride_value": "3D Scan", "col_2_value": "Foam Impression Kit", "col_3_value": "Generic Insole" } },
+        { "type": "row", "settings": { "feature_label": "Built For Your Body", "stride_value": "100,000+ data points", "col_2_value": "Approx. pressure only", "col_3_value": "One-size fit" } },
+        { "type": "row", "settings": { "feature_label": "Cost", "stride_value": "$249", "col_2_value": "$600-$1000+", "col_3_value": "$30+" } },
+        { "type": "row", "settings": { "feature_label": "Guarantee", "stride_value": "180 Day Full Return", "col_2_value": "No trial", "col_3_value": "None" } },
+        { "type": "row", "settings": { "feature_label": "Order to Delivery", "stride_value": "10-15 Business Days", "stride_sub": "(5-7 days with express)", "col_2_value": "3-6 Weeks", "col_3_value": "3-5 Weeks" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

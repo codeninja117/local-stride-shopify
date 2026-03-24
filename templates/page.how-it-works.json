@@ -47,7 +47,7 @@
         "media_selector": "video",
         "image": "shopify://shop_images/about_bg_new.jpg",
         "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
-        "layout": "overlay",
+        "align_content": "left",
         "enable_gradient_overlay": true,
         "overlay_opacity": 10,
         "min_height": 70,
@@ -364,92 +364,181 @@
         "padding_bottom": 60
       }
     },
-    "compare_stride_ByMkd6": {
-      "type": "compare-stride",
+    "ss_comparison_tab9Je": {
+      "type": "ss-comparison",
       "blocks": {
-        "header_bBiVgB": {
-          "type": "header",
+        "row_B93Nyq": {
+          "type": "row",
           "settings": {
-            "feature_1": "Talk to Clinicians",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "3D Imaging",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$137",
-            "shipping_time": "Delivery Time"
+            "label": "Gait Analysis",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "check",
+            "col2_text": "",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Biomechanical Gait Assessment",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
           }
         },
-        "others_3drwqq": {
-          "type": "others",
+        "row_4NbBx4": {
+          "type": "row",
           "settings": {
-            "color_scheme": "scheme-1",
-            "title": "Upstep",
-            "feature_1": "3D Foot Imaging",
-            "feature_1_checkbox": false,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": false,
-            "feature_3": "Award Winning",
-            "feature_3_checkbox": false,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$250+",
-            "shipping_time": "30-40 Days"
+            "label": "Clinician Access",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "check",
+            "col2_text": "",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Speak With a Clinician",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
           }
         },
-        "stride_8mcRpn": {
-          "type": "stride",
+        "row_BWzME7": {
+          "type": "row",
           "settings": {
-            "color_scheme": "scheme-5",
-            "logo": "shopify://shop_images/Stride_Logo_1.svg",
-            "title": "Stride",
-            "feature_1": "Talk to Clinicians",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "3D imaging",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$199",
-            "shipping_time": "15-20 Days"
+            "label": "Full-Length Shell",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "cross",
+            "col2_text": "",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Full Length Shell",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
           }
         },
-        "others_WJGFUA": {
-          "type": "others",
+        "row_QMcYkg": {
+          "type": "row",
           "settings": {
-            "color_scheme": "scheme-1",
-            "title": "Podiatrist",
-            "feature_1": "3D Foot Imaging",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "Award Winning <em>(Sometimes)</em>",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": false,
-            "price": "$400-1000",
-            "shipping_time": "20-60 Days"
+            "label": "3D Foot Scan",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "text",
+            "col2_text": "Select Clinics",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Digital 3D Foot Scan",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_cMPxVB": {
+          "type": "row",
+          "settings": {
+            "label": "Time to Start",
+            "col1_value": "text",
+            "col1_text": "5 Minutes",
+            "col2_value": "text",
+            "col2_text": "Appointment Required",
+            "col3_value": "text",
+            "col3_text": "Kit Shipped (Return Required)",
+            "tooltip_title": "Fully Mobile Process",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_xmJTb7": {
+          "type": "row",
+          "settings": {
+            "label": "Order to Delivery",
+            "col1_value": "text",
+            "col1_text": "10–15 Days",
+            "col2_value": "text",
+            "col2_text": "3–6 Weeks",
+            "col3_value": "text",
+            "col3_text": "3–5 Weeks",
+            "tooltip_title": "",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
           }
         }
       },
       "block_order": [
-        "header_bBiVgB",
-        "others_3drwqq",
-        "stride_8mcRpn",
-        "others_WJGFUA"
+        "row_B93Nyq",
+        "row_4NbBx4",
+        "row_BWzME7",
+        "row_QMcYkg",
+        "row_cMPxVB",
+        "row_xmJTb7"
       ],
+      "name": "SS Comparison",
       "settings": {
-        "title": "<em>Stride's Superior Solution Offers</em>|<strong>The Best Of Both Worlds</strong>",
-        "button_url": "/pages/quiz?pairs=1",
-        "button_label": "Take The Quiz",
-        "disclaimer": "180 Day Return Policy",
-        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "mobile_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "eyebrow": "Why Stride",
+        "heading_line1": "Clinical Grade Orthotics",
+        "heading_line2": "<em>Without the Wait</em>",
+        "subheading": "Get podiatrist-level biomechanical analysis without appointments, kits, or weeks of waiting.",
+        "col1_name": "STRIDE",
+        "col1_price": "$249",
+        "col1_badge": "Best Value",
+        "col2_name": "Podiatrist",
+        "col2_price": "$400–$1K",
+        "col3_name": "Foam Impression Kit",
+        "col3_price": "$250+",
+        "button_label": "Relieve My Foot Pain",
+        "button_url": "",
+        "cta_note": "180 Day Return Policy",
+        "color_scheme": "",
+        "padding_top": 80,
+        "padding_bottom": 72
       }
     }
   },
@@ -459,6 +548,6 @@
     "details",
     "about_timeline_jaPmi3",
     "image_with_text_Dqc3QB",
-    "compare_stride_ByMkd6"
+    "ss_comparison_tab9Je"
   ]
 }

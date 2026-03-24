@@ -1,0 +1,70 @@
+{% comment %}
+  ss-icon.liquid
+  Usage:
+  {% render 'ss-icon', icon: block.settings.icon, size: 20 %}
+
+  Available icons:
+  shield, globe, card, check, truck, star, lock, leaf, heart, award
+{% endcomment %}
+
+{%- liquid
+  assign icon_size = size | default: 20
+-%}
+
+<svg
+  width="{{ icon_size }}"
+  height="{{ icon_size }}"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {%- case icon -%}
+
+    {%- when 'shield' -%}
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+
+    {%- when 'globe' -%}
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+
+    {%- when 'card' -%}
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+      <line x1="1" y1="10" x2="23" y2="10"/>
+
+    {%- when 'check' -%}
+      <polyline points="20 6 9 17 4 12"/>
+
+    {%- when 'truck' -%}
+      <rect x="1" y="3" width="15" height="13" rx="1"/>
+      <path d="M16 8h4l3 4v4h-7V8z"/>
+      <circle cx="5.5" cy="18.5" r="2.5"/>
+      <circle cx="18.5" cy="18.5" r="2.5"/>
+
+    {%- when 'star' -%}
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+
+    {%- when 'lock' -%}
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+
+    {%- when 'leaf' -%}
+      <path d="M17 8C8 10 5.9 16.17 3.82 22c2.5-1.5 6.35-2 9.18-2C17 20 21 16 21 10c0-1-.09-2-.18-3A12 12 0 0 0 17 8z"/>
+
+    {%- when 'heart' -%}
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+
+    {%- when 'award' -%}
+      <circle cx="12" cy="8" r="6"/>
+      <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+
+    {%- else -%}
+      {%- comment -%} Fallback: simple circle so nothing breaks if key is wrong {%- endcomment -%}
+      <circle cx="12" cy="12" r="10"/>
+
+  {%- endcase -%}
+</svg>

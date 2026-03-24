@@ -17,26 +17,39 @@
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "title": "<strong>Spring Preview Sale: 50% Off</strong>",
-            "title_mobile": "<strong>Spring Preview Sale: 50% Off</strong>",
+            "title": "<strong>180-Day Money-Back Guarantee</strong>",
+            "title_mobile": "<strong>180-Day Money Back Guarantee</strong>",
             "cta_text": "Take The Quiz",
             "cta_url": "shopify://pages/quiz",
             "cart_filled_cta_text": "Buy now",
             "cart_filled_cta_url": "/cart",
-            "cart_title": "President’s Day Sale: <strong>70% Off!</strong> — Code: <strong>President</strong>",
-            "cart_title_mobile": "President’s Day Sale: <strong>70% Off!</strong> — Code: <strong>President</strong>"
+            "cart_title": "<strong>180-Day Money-Back Guarantee</strong>",
+            "cart_title_mobile": "<strong>180-Day Money-Back Guarantee</strong>"
+          }
+        },
+        "announcement_8TPthC": {
+          "type": "announcement",
+          "settings": {
+            "title": "<strong>FREE SHIPPING</strong>",
+            "title_mobile": "<strong>FREE SHIPPING</strong>",
+            "cta_text": "Order now.",
+            "cta_url": "",
+            "cart_filled_cta_text": "Buy now",
+            "cart_filled_cta_url": "",
+            "cart_title": "Complete your purchase now!",
+            "cart_title_mobile": "Complete your purchase now!"
           }
         },
         "announcement_gMFVJg": {
           "type": "announcement",
           "disabled": true,
           "settings": {
-            "title": "<strong>Foot Pain? Join Our Live Q&A</strong>",
-            "title_mobile": "<strong>Foot Pain? Join Our Live Q&A</strong>",
+            "title": "<strong>Live Foot Pain Q&A</strong>",
+            "title_mobile": "<strong>Live Foot Pain Q&A</strong>",
             "cta_text": "Add to Calendar",
-            "cta_url": "https://cdn.shopify.com/s/files/1/0578/4066/4640/files/stride-soles-doctor-ama.ics?v=1771296531",
+            "cta_url": "https://events.zoom.us/ev/Av-NFJldyZ_dNHszXSQF_e5CezSqPLqE5yhrZVx4ZfWRn9APXLI_~AvIdG9C2goVtlwkQH2ysLDmVVnt9gbRI75lCNGNhgCG5breLh1lsCwGnqA",
             "cart_filled_cta_text": "Add to Calendar",
-            "cart_filled_cta_url": "https://cdn.shopify.com/s/files/1/0578/4066/4640/files/stride-soles-doctor-ama.ics?v=1771296531",
+            "cart_filled_cta_url": "https://events.zoom.us/ev/Ap5n99swXOubs-P6MFVphhlSOCPhSh7C-QhaG6RaeGdUCl_IWuDZ~Ak2mP6zQm_H6oJgxgnnZUwuVM5TspuPXpsQhGZMINk2Ti0hC63H8nqVTDA",
             "cart_title": "Complete your purchase now!",
             "cart_title_mobile": "Complete your purchase now!"
           }
@@ -44,6 +57,7 @@
       },
       "block_order": [
         "announcement_1",
+        "announcement_8TPthC",
         "announcement_gMFVJg"
       ],
       "settings": {
@@ -51,11 +65,11 @@
         "text_color": "#000000",
         "show_arrows": true,
         "arrow_color": "#202020",
-        "autoplay_speed": 5,
+        "autoplay_speed": 4,
         "ticker_speed": 17,
         "enable_ticker_animation": true,
-        "cart_title_override": "<strong>Spring Preview Sale: 50% Off! </strong>",
-        "cart_title_override_mobile": "<strong>Spring Preview Sale: 50% Off! </strong>"
+        "cart_title_override": "<strong>180-Day Money-Back Guarantee</strong>",
+        "cart_title_override_mobile": "<strong>180-Day Money-Back Guarantee</strong>"
       }
     },
     "header": {

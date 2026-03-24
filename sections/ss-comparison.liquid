@@ -1,0 +1,1352 @@
+{% comment %} ss-comparison.liquid {% endcomment %}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --color-background: {{ section.settings.color_scheme.settings.background.red }}, {{ section.settings.color_scheme.settings.background.green }}, {{ section.settings.color_scheme.settings.background.blue }};
+    --color-foreground: {{ section.settings.color_scheme.settings.text.red }}, {{ section.settings.color_scheme.settings.text.green }}, {{ section.settings.color_scheme.settings.text.blue }};
+    --color-foreground-muted: {{ section.settings.color_scheme.settings.text_muted.red }}, {{ section.settings.color_scheme.settings.text_muted.green }}, {{ section.settings.color_scheme.settings.text_muted.blue }};
+    --color-accent: {{ section.settings.color_scheme.settings.accent_color.red }}, {{ section.settings.color_scheme.settings.accent_color.green }}, {{ section.settings.color_scheme.settings.accent_color.blue }};
+    --color-note: 187, 118, 30;
+    background: rgb(var(--color-background));
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="comp-section page-width" id="shopify-section-{{ section.id }}">
+  <div class="comp-header" data-animate="fade-up">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="ss-eyebrow comp-eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading_line1 != blank or section.settings.heading_line2 != blank -%}
+      <h2 class="ss-heading comp-title">
+        {{ section.settings.heading_line1 }}
+        {%- if section.settings.heading_line1 != blank and section.settings.heading_line2 != blank -%}<br>{% endif %}
+        {{ section.settings.heading_line2 }}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="ss-body comp-subtitle">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="comp-table-wrap" data-animate="fade-up">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th class="th-label">
+            <span class="th-features-label">Features</span>
+          </th>
+          <th class="th-stride">
+            {%- if section.settings.col1_badge != blank -%}
+              <span class="best-value-badge">{{ section.settings.col1_badge }}</span>
+            {%- endif -%}
+            <span class="stride-logo">{{ section.settings.col1_name }}</span>
+            <span class="th-price">{{ section.settings.col1_price }}</span>
+          </th>
+          <th class="th-col2">
+            <span class="th-name">{{ section.settings.col2_name }}</span>
+            <span class="th-price">{{ section.settings.col2_price }}</span>
+          </th>
+          <th class="th-col3">
+            <span class="th-name">{{ section.settings.col3_name }}</span>
+            <span class="th-price">{{ section.settings.col3_price }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'row' -%}
+            {%- assign has_tooltip = false -%}
+            {%- if block.settings.tooltip_title != blank -%}
+              {%- assign has_tooltip = true -%}
+            {%- endif -%}
+            <tr {{ block.shopify_attributes }}>
+              {%- comment -%} Label cell {%- endcomment -%}
+              <td class="td-label">
+                <div class="label-inner">
+                  <span class="label-text">{{ block.settings.label }}</span>
+                  {%- if has_tooltip -%}
+                    <comp-popover class="popover-wrap">
+                      <button
+                        class="popover-trigger"
+                        aria-label="More info about {{ block.settings.label }}"
+                        aria-expanded="false"
+                      >
+                        <span class="tooltip-icon" aria-hidden="true">i</span>
+                      </button>
+                      <div class="popover-box" role="tooltip" aria-hidden="true">
+                        <button class="popover-close" aria-label="Close">
+                          <svg viewBox="0 0 24 24">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                          </svg>
+                        </button>
+                        <div class="popover-inner" style="text-align: {{ block.settings.tooltip_text_alignment }};">
+                          {%- if block.settings.tooltip_title != blank -%}
+                            <div class="popover-title">{{ block.settings.tooltip_title }}</div>
+                          {%- endif -%}
+                          {%- if block.settings.tooltip_intro != blank -%}
+                            <div class="popover-intro">{{ block.settings.tooltip_intro }}</div>
+                          {%- endif -%}
+
+                          {%- comment -%} Tooltip items {%- endcomment -%}
+                          {%- assign item_count = 0 -%}
+                          {%- for i in (1..4) -%}
+                            {%- assign heading_key = 'tooltip_item' | append: i | append: '_heading' -%}
+                            {%- assign body_key = 'tooltip_item' | append: i | append: '_body' -%}
+                            {%- assign image_key = 'tooltip_item' | append: i | append: '_image' -%}
+                            {%- assign item_heading = block.settings[heading_key] -%}
+                            {%- assign item_body = block.settings[body_key] -%}
+                            {%- assign item_image = block.settings[image_key] -%}
+                            {%- if item_heading != blank or item_body != blank -%}
+                              {%- assign item_count = item_count | plus: 1 -%}
+                              <div class="popover-item">
+                                {%- if item_heading != blank -%}
+                                  <div class="popover-item-heading">
+                                    <span class="popover-item-num">{{ item_count }}</span>
+                                    {{ item_heading }}
+                                  </div>
+                                {%- endif -%}
+                                {%- if item_body != blank -%}
+                                  <div class="popover-item-body">{{ item_body }}</div>
+                                {%- endif -%}
+                                {%- if item_image != blank -%}
+                                  <div class="popover-item-image">
+                                    {{
+                                      item_image
+                                      | image_url: width: 400
+                                      | image_tag: loading: 'lazy', widths: '200, 300, 400'
+                                    }}
+                                  </div>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+                          {%- endfor -%}
+
+                          {%- if block.settings.tooltip_note != blank -%}
+                            <div class="popover-note">{{ block.settings.tooltip_note }}</div>
+                          {%- endif -%}
+                        </div>
+                        <div class="popover-scroll-fade" aria-hidden="true"></div>
+                      </div>
+                    </comp-popover>
+                  {%- endif -%}
+                </div>
+              </td>
+
+              {%- comment -%} Col 1 (Stride) {%- endcomment -%}
+              <td class="td-stride">
+                {%- case block.settings.col1_value -%}
+                  {%- when 'check' -%}
+                    <div class="icon-check">
+                      <svg viewBox="0 0 24 24">
+                        <polyline points="20,6 9,17 4,12"/>
+                      </svg>
+                    </div>
+                  {%- when 'cross' -%}
+                    <div class="icon-cross">
+                      <svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </div>
+                  {%- when 'text' -%}
+                    <span class="val-green">{{ block.settings.col1_text }}</span>
+                {%- endcase -%}
+              </td>
+
+              {%- comment -%} Col 2 {%- endcomment -%}
+              <td>
+                {%- case block.settings.col2_value -%}
+                  {%- when 'check' -%}
+                    <div class="icon-check">
+                      <svg viewBox="0 0 24 24">
+                        <polyline points="20,6 9,17 4,12"/>
+                      </svg>
+                    </div>
+                  {%- when 'cross' -%}
+                    <div class="icon-cross">
+                      <svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </div>
+                  {%- when 'text' -%}
+                    <span class="val-gray">{{ block.settings.col2_text }}</span>
+                {%- endcase -%}
+              </td>
+
+              {%- comment -%} Col 3 {%- endcomment -%}
+              <td>
+                {%- case block.settings.col3_value -%}
+                  {%- when 'check' -%}
+                    <div class="icon-check">
+                      <svg viewBox="0 0 24 24">
+                        <polyline points="20,6 9,17 4,12"/>
+                      </svg>
+                    </div>
+                  {%- when 'cross' -%}
+                    <div class="icon-cross">
+                      <svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </div>
+                  {%- when 'text' -%}
+                    <span class="val-gray">{{ block.settings.col3_text }}</span>
+                {%- endcase -%}
+              </td>
+            </tr>
+          {%- endif -%}
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+
+  {%- if section.settings.button_label != blank -%}
+    <div class="comp-cta" data-animate="fade-up">
+      {%- render 'button',
+        tag: 'a',
+        variant: 'primary',
+        text: section.settings.button_label,
+        url: section.settings.button_url
+      -%}
+      {%- if section.settings.cta_note != blank -%}
+        <p class="comp-guarantee">{{ section.settings.cta_note }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} .comp-section {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  #shopify-section-{{ section.id }} .comp-section.page-width {
+    max-width: 900px;
+  }
+
+  /* Header */
+  #shopify-section-{{ section.id }} .comp-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  #shopify-section-{{ section.id }} .comp-eyebrow {
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .comp-subtitle {
+    max-width: 560px;
+  }
+
+  /* Table wrap */
+  #shopify-section-{{ section.id }} .comp-table-wrap {
+    border-radius: 16px;
+    box-shadow: 0 1px 16px rgba(0, 0, 0, 0.07);
+  }
+
+  /* Table */
+  #shopify-section-{{ section.id }} .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    table-layout: fixed;
+  }
+
+  #shopify-section-{{ section.id }} .comp-table thead tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  #shopify-section-{{ section.id }} .comp-table th {
+    padding: 20px 12px 16px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+    vertical-align: bottom;
+  }
+
+  #shopify-section-{{ section.id }} .th-label {
+    width: 28%;
+    text-align: left;
+    padding-left: 28px;
+  }
+
+  #shopify-section-{{ section.id }} .th-stride {
+    width: 24%;
+    background: rgba(var(--color-accent), 0.08);
+  }
+
+  #shopify-section-{{ section.id }} .th-col2,
+  #shopify-section-{{ section.id }} .th-col3 {
+    width: 24%;
+  }
+
+  #shopify-section-{{ section.id }} .th-features-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  #shopify-section-{{ section.id }} .th-price {
+    font-size: 22px;
+    font-weight: 700;
+    display: block;
+    margin-top: 4px;
+    color: rgb(var(--color-foreground));
+  }
+
+  #shopify-section-{{ section.id }} .th-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(var(--color-foreground), 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    line-height: 1.4;
+  }
+
+  #shopify-section-{{ section.id }} .best-value-badge {
+    display: inline-block;
+    background: rgb(var(--color-accent));
+    color: rgb(var(--color-foreground));
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .stride-logo {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: rgb(var(--color-foreground));
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Rows */
+  #shopify-section-{{ section.id }} .comp-table tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  #shopify-section-{{ section.id }} .comp-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  #shopify-section-{{ section.id }} .comp-table td {
+    padding: 18px 12px;
+    text-align: center;
+    font-size: 14px;
+    color: rgb(var(--color-foreground));
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+
+  #shopify-section-{{ section.id }} .td-label {
+    text-align: left;
+    padding-left: 28px;
+    padding-right: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .td-stride {
+    background: rgba(var(--color-accent), 0.08);
+  }
+
+  /* Label inner */
+  #shopify-section-{{ section.id }} .label-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .label-text {
+    flex: 1;
+    line-height: 1.35;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  /* Cell value styles (used by comp-cell snippet fallback) */
+  #shopify-section-{{ section.id }} .icon-check svg {
+    stroke: #059669;
+    fill: none;
+    stroke-width: 2.5;
+    width: 18px;
+    height: 18px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .icon-cross svg {
+    stroke: #E05252;
+    fill: none;
+    stroke-width: 2.5;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .val-green {
+    color: #059669;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  #shopify-section-{{ section.id }} .val-gray {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  /* ── Tooltip icon ──────────────────────────────────── */
+  #shopify-section-{{ section.id }} .popover-wrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* CSS bridge — fills the gap between trigger and popover box so
+     mouseleave doesn't fire when moving the cursor into the popover */
+  #shopify-section-{{ section.id }} .popover-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: 14px; /* matches the calc(100% + 10px) gap + a little extra */
+    pointer-events: auto;
+  }
+
+  /* When flipped, bridge goes below the trigger instead */
+  #shopify-section-{{ section.id }} .popover-wrap:has(.popover-box.is-flipped)::after {
+    bottom: auto;
+    top: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .popover-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #shopify-section-{{ section.id }} .tooltip-icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1.5px solid #C5C8CC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9BA0A6;
+    font-size: 8px;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* ── Popover box ───────────────────────────────────── */
+  #shopify-section-{{ section.id }} .popover-box {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 0;
+    width: 360px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 200;
+  }
+
+  #shopify-section-{{ section.id }} .popover-box.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Caret */
+  #shopify-section-{{ section.id }} .popover-box::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 14px;
+    border: 6px solid transparent;
+    border-top-color: #fff;
+    filter: drop-shadow(0 1px 0 rgba(0,0,0,0.06));
+  }
+
+  #shopify-section-{{ section.id }} .popover-inner {
+    max-height: 420px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Scroll gradient indicator */
+  #shopify-section-{{ section.id }} .popover-scroll-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 100%);
+    pointer-events: none;
+    border-radius: 0 0 12px 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .popover-box.has-overflow .popover-scroll-fade {
+    opacity: 1;
+  }
+
+  /* Popover title */
+  #shopify-section-{{ section.id }} .popover-title {
+    background: rgba(var(--color-accent), 0.25);
+    color: rgb(var(--color-foreground));
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 14px;
+    line-height: 1.3;
+  }
+
+  /* Popover intro */
+  #shopify-section-{{ section.id }} .popover-intro {
+    padding: 12px 14px 8px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: rgb(var(--color-foreground));
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  }
+
+  #shopify-section-{{ section.id }} .popover-intro p { margin: 0; }
+
+  /* Popover items */
+  #shopify-section-{{ section.id }} .popover-item {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  #shopify-section-{{ section.id }} .popover-item:last-of-type {
+    border-bottom: none;
+  }
+
+  #shopify-section-{{ section.id }} .popover-item-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(var(--color-foreground));
+    margin-bottom: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .popover-item-num {
+    font-size: 11px;
+    font-weight: 800;
+    color: rgb(var(--color-note));
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ section.id }} .popover-item-body {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  #shopify-section-{{ section.id }} .popover-item-body p { margin: 0; }
+
+  #shopify-section-{{ section.id }} .popover-item-image {
+    margin-top: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .popover-item-image img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
+  }
+
+  /* Popover note */
+  #shopify-section-{{ section.id }} .popover-note {
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgb(var(--color-foreground));
+    background: rgba(var(--color-accent), 0.08);
+    border-top: 1px solid rgba(var(--color-accent), 0.2);
+  }
+
+  #shopify-section-{{ section.id }} .popover-note p { margin: 0; }
+
+  #shopify-section-{{ section.id }} .popover-note strong {
+
+    color: rgb(var(--color-note));
+  }
+
+  /* Flip popover above/below handled by JS class */
+  #shopify-section-{{ section.id }} .popover-box.is-flipped {
+    bottom: auto;
+    top: calc(100% + 10px);
+  }
+
+  #shopify-section-{{ section.id }} .popover-box.is-flipped::after {
+    top: auto;
+    bottom: 100%;
+    border-top-color: transparent;
+    border-bottom-color: #fff;
+  }
+
+  /* CTA */
+  #shopify-section-{{ section.id }} .comp-cta {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .comp-guarantee {
+    font-size: 13px;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  /* ── Mobile table: fits on screen ─────────────────── */
+  @media (max-width: 640px) {
+    #shopify-section-{{ section.id }} .th-label  { width: 26%; padding-left: 10px; }
+    #shopify-section-{{ section.id }} .th-stride,
+    #shopify-section-{{ section.id }} .th-col2,
+    #shopify-section-{{ section.id }} .th-col3   { width: 24%; }
+    #shopify-section-{{ section.id }} .comp-table th { padding: 8px 4px 10px; }
+    #shopify-section-{{ section.id }} .comp-table td { padding: 12px 4px; font-size: 11px; }
+    #shopify-section-{{ section.id }} .th-price  { font-size: 14px; }
+    #shopify-section-{{ section.id }} .th-name   { font-size: 9px; letter-spacing: 0; }
+    #shopify-section-{{ section.id }} .stride-logo { font-size: 11px; letter-spacing: 0.1em; }
+    #shopify-section-{{ section.id }} .best-value-badge { font-size: 8px; padding: 2px 6px; }
+    #shopify-section-{{ section.id }} .td-label  { padding-left: 10px; padding-right: 2px; }
+    #shopify-section-{{ section.id }} .label-text { font-size: 11px; }
+    #shopify-section-{{ section.id }} .label-inner { gap: 3px; }
+    #shopify-section-{{ section.id }} .tooltip-icon { width: 12px; height: 12px; font-size: 7px; }
+    #shopify-section-{{ section.id }} .icon-check svg { width: 14px; height: 14px; }
+    #shopify-section-{{ section.id }} .icon-cross svg { width: 12px; height: 12px; }
+    #shopify-section-{{ section.id }} .val-green  { font-size: 11px; }
+    #shopify-section-{{ section.id }} .val-gray   { font-size: 10px; }
+  }
+
+  /* Close button — hidden on desktop */
+  #shopify-section-{{ section.id }} .popover-close {
+    display: none;
+  }
+
+  /* ── Mobile popover: fixed full-width overlay ──────── */
+  @media (max-width: 640px) {
+    #shopify-section-{{ section.id }} .popover-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.06);
+      border: none;
+      cursor: pointer;
+      z-index: 1;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #shopify-section-{{ section.id }} .popover-close svg {
+      width: 10px;
+      height: 10px;
+      stroke: rgb(var(--color-foreground));
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    #shopify-section-{{ section.id }} .popover-box {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: auto;
+      top: 50%;
+      transform: translateY(-44%);
+      width: auto;
+      max-width: none;
+      border-radius: 16px;
+      z-index: 9999;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    #shopify-section-{{ section.id }} .popover-box.is-open {
+      transform: translateY(-50%);
+    }
+
+    /* Hide desktop caret on mobile */
+    #shopify-section-{{ section.id }} .popover-box::after {
+      display: none;
+    }
+
+    /* Taller scroll area on mobile */
+    #shopify-section-{{ section.id }} .popover-inner {
+      max-height: 65vh;
+    }
+
+    /* Scroll gradient on mobile */
+    #shopify-section-{{ section.id }} .popover-scroll-fade {
+      height: 64px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.98) 100%);
+      border-radius: 0 0 16px 16px;
+    }
+
+    /* No flip needed on mobile */
+    #shopify-section-{{ section.id }} .popover-box.is-flipped {
+      bottom: auto;
+      top: 50%;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    if (customElements.get('comp-popover')) return;
+
+    // Shared backdrop element — one for the whole page
+    let backdrop = null;
+
+    function getBackdrop() {
+      if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.style.cssText =
+          'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9998;opacity:0;transition:opacity 0.2s ease;pointer-events:none;';
+        backdrop.addEventListener('click', () => {
+          document.querySelectorAll('comp-popover').forEach((el) => el._hide());
+        });
+        document.body.appendChild(backdrop);
+      }
+      return backdrop;
+    }
+
+    function showBackdrop() {
+      const bd = getBackdrop();
+      bd.style.pointerEvents = 'auto';
+      // Force reflow then fade in
+      bd.getBoundingClientRect();
+      bd.style.opacity = '1';
+    }
+
+    function hideBackdrop() {
+      if (!backdrop) return;
+      backdrop.style.opacity = '0';
+      backdrop.style.pointerEvents = 'none';
+    }
+
+    class CompPopover extends HTMLElement {
+      constructor() {
+        super();
+        this._open = false;
+        this._onDocClick = this._onDocClick.bind(this);
+      }
+
+      connectedCallback() {
+        this._trigger = this.querySelector('.popover-trigger');
+        this._box = this.querySelector('.popover-box');
+        this._inner = this.querySelector('.popover-inner');
+        this._closeBtn = this.querySelector('.popover-close');
+        this._leaveTimer = null;
+        this._onScroll = this._onScroll.bind(this);
+        this._hoverMq = window.matchMedia('(hover: hover)');
+        this._attachHover = this._attachHover.bind(this);
+        this._detachHover = this._detachHover.bind(this);
+        this._onMqChange = this._onMqChange.bind(this);
+
+        // Attach hover if supported now, and reinit if capability changes (e.g. resize/devtools)
+        if (this._hoverMq.matches) this._attachHover();
+        this._hoverMq.addEventListener('change', this._onMqChange);
+
+        // Click toggle works on all devices
+        this._trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this._open ? this._hide() : this._show();
+        });
+
+        // Close button (mobile)
+        if (this._closeBtn) {
+          this._closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this._hide();
+          });
+        }
+      }
+
+      _attachHover() {
+        this._boundEnter = () => {
+          clearTimeout(this._leaveTimer);
+          this._show();
+        };
+        this._boundLeave = () => {
+          this._leaveTimer = setTimeout(() => this._hide(), 120);
+        };
+        this.addEventListener('mouseenter', this._boundEnter);
+        this.addEventListener('mouseleave', this._boundLeave);
+      }
+
+      _detachHover() {
+        clearTimeout(this._leaveTimer);
+        if (this._boundEnter) this.removeEventListener('mouseenter', this._boundEnter);
+        if (this._boundLeave) this.removeEventListener('mouseleave', this._boundLeave);
+      }
+
+      _onMqChange(e) {
+        if (e.matches) {
+          this._attachHover();
+        } else {
+          this._detachHover();
+          // Close if open and hover was the trigger
+          if (this._open) this._hide();
+        }
+      }
+
+      disconnectedCallback() {
+        clearTimeout(this._leaveTimer);
+        this._detachHover();
+        this._hoverMq.removeEventListener('change', this._onMqChange);
+        this._inner.removeEventListener('scroll', this._onScroll);
+        document.removeEventListener('click', this._onDocClick);
+        hideBackdrop();
+        document.body.style.overflow = '';
+      }
+
+      _show() {
+        // Close any other open popovers
+        document.querySelectorAll('comp-popover').forEach((el) => {
+          if (el !== this) el._hide();
+        });
+
+        // Only run position logic on desktop
+        if (window.innerWidth > 640) {
+          this._positionBox();
+        }
+
+        this._box.classList.add('is-open');
+        this._trigger.setAttribute('aria-expanded', 'true');
+        this._box.setAttribute('aria-hidden', 'false');
+        this._open = true;
+
+        // Mobile: backdrop + scroll lock + overflow detection
+        if (window.innerWidth <= 640) {
+          showBackdrop();
+          document.body.style.overflow = 'hidden';
+          this._checkOverflow();
+          this._inner.addEventListener('scroll', this._onScroll, { passive: true });
+        }
+
+        // Flicker fix: ignore doc clicks fired within 300ms of opening
+        setTimeout(() => {
+          document.addEventListener('click', this._onDocClick);
+        }, 0);
+      }
+
+      _hide() {
+        this._box.classList.remove('is-open', 'has-overflow');
+        this._trigger.setAttribute('aria-expanded', 'false');
+        this._box.setAttribute('aria-hidden', 'true');
+        this._open = false;
+        this._inner.removeEventListener('scroll', this._onScroll);
+        hideBackdrop();
+        document.body.style.overflow = '';
+        document.removeEventListener('click', this._onDocClick);
+      }
+
+      _checkOverflow() {
+        const hasOverflow = this._inner.scrollHeight > this._inner.clientHeight + 4;
+        this._box.classList.toggle('has-overflow', hasOverflow);
+      }
+
+      _onScroll() {
+        const { scrollTop, scrollHeight, clientHeight } = this._inner;
+        const atBottom = scrollTop + clientHeight >= scrollHeight - 8;
+        this._box.classList.toggle('has-overflow', !atBottom);
+      }
+
+      _positionBox() {
+        // Reset state
+        this._box.classList.remove('is-flipped');
+        this._box.style.left = '';
+        this._box.style.right = '';
+
+        const triggerRect = this._trigger.getBoundingClientRect();
+        const spaceAbove = triggerRect.top;
+        const spaceBelow = window.innerHeight - triggerRect.bottom;
+        const gap = 10;
+        const safeMargin = 16;
+
+        // Flip below if there's more room below than above
+        if (spaceBelow > spaceAbove) {
+          this._box.classList.add('is-flipped');
+          this._box.querySelector('.popover-inner').style.maxHeight = spaceBelow - gap - safeMargin + 'px';
+        } else {
+          this._box.querySelector('.popover-inner').style.maxHeight = spaceAbove - gap - safeMargin + 'px';
+        }
+
+        // Fix horizontal clip
+        const boxRect = this._box.getBoundingClientRect();
+        if (boxRect.right > window.innerWidth - 8) {
+          this._box.style.left = 'auto';
+          this._box.style.right = '0';
+        }
+      }
+
+      _onDocClick(e) {
+        if (!this.contains(e.target) && e.target !== backdrop) {
+          this._hide();
+        }
+      }
+    }
+
+    customElements.define('comp-popover', CompPopover);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "SS Comparison",
+  "tag": "section",
+  "class": "ss-comparison-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why Stride"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_line1",
+      "label": "Heading line 1",
+      "default": "Clinical Grade Orthotics"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_line2",
+      "label": "Heading line 2",
+      "default": "<em>Without the Wait</em>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get podiatrist-level biomechanical analysis without appointments, kits, or weeks of waiting."
+    },
+    {
+      "type": "header",
+      "content": "Column 1 (Your brand)"
+    },
+    {
+      "type": "text",
+      "id": "col1_name",
+      "label": "Name",
+      "default": "STRIDE"
+    },
+    {
+      "type": "text",
+      "id": "col1_price",
+      "label": "Price",
+      "default": "$249"
+    },
+    {
+      "type": "text",
+      "id": "col1_badge",
+      "label": "Badge label",
+      "default": "Best Value",
+      "info": "Leave blank to hide badge"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "col2_name",
+      "label": "Name",
+      "default": "Podiatrist"
+    },
+    {
+      "type": "text",
+      "id": "col2_price",
+      "label": "Price",
+      "default": "$400–$1K"
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "text",
+      "id": "col3_name",
+      "label": "Name",
+      "default": "Foam Impression Kit"
+    },
+    {
+      "type": "text",
+      "id": "col3_price",
+      "label": "Price",
+      "default": "$250+"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Relieve My Foot Pain"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_note",
+      "label": "CTA note",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "label",
+          "label": "Row label",
+          "default": "Feature"
+        },
+        {
+          "type": "header",
+          "content": "Column 1 (Your brand)"
+        },
+        {
+          "type": "select",
+          "id": "col1_value",
+          "label": "Value type",
+          "options": [
+            { "value": "check", "label": "✓ Check" },
+            { "value": "cross", "label": "✗ Cross" },
+            { "value": "text", "label": "Custom text" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "text",
+          "id": "col1_text",
+          "label": "Custom text",
+          "info": "Used when value type is 'Custom text'"
+        },
+        {
+          "type": "header",
+          "content": "Column 2"
+        },
+        {
+          "type": "select",
+          "id": "col2_value",
+          "label": "Value type",
+          "options": [
+            { "value": "check", "label": "✓ Check" },
+            { "value": "cross", "label": "✗ Cross" },
+            { "value": "text", "label": "Custom text" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "text",
+          "id": "col2_text",
+          "label": "Custom text",
+          "info": "Used when value type is 'Custom text'"
+        },
+        {
+          "type": "header",
+          "content": "Column 3"
+        },
+        {
+          "type": "select",
+          "id": "col3_value",
+          "label": "Value type",
+          "options": [
+            { "value": "check", "label": "✓ Check" },
+            { "value": "cross", "label": "✗ Cross" },
+            { "value": "text", "label": "Custom text" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "text",
+          "id": "col3_text",
+          "label": "Custom text",
+          "info": "Used when value type is 'Custom text'"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "tooltip_title",
+          "label": "Title",
+          "info": "Leave blank to hide the tooltip icon for this row"
+        },
+        {
+          "type": "select",
+          "id": "tooltip_text_alignment",
+          "label": "Text alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip_intro",
+          "label": "Intro text"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip item 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "tooltip_item1_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip_item1_body",
+          "label": "Body"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item1_image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip item 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "tooltip_item2_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip_item2_body",
+          "label": "Body"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item2_image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip item 3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "tooltip_item3_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip_item3_body",
+          "label": "Body"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item3_image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip item 4"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "tooltip_item4_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip_item4_body",
+          "label": "Body"
+        },
+        {
+          "type": "image_picker",
+          "id": "tooltip_item4_image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip note"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip_note",
+          "label": "Note",
+          "info": "Displays in amber at the bottom of the tooltip"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Comparison",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "label": "Gait Analysis",
+            "col1_value": "check",
+            "col2_value": "check",
+            "col3_value": "cross",
+            "tooltip_title": "Biomechanical Gait Assessment"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Clinician Access",
+            "col1_value": "check",
+            "col2_value": "check",
+            "col3_value": "cross",
+            "tooltip_title": "Speak With a Clinician"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Full-Length Shell",
+            "col1_value": "check",
+            "col2_value": "cross",
+            "col3_value": "cross",
+            "tooltip_title": "Full Length Shell"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "3D Foot Scan",
+            "col1_value": "check",
+            "col2_value": "text",
+            "col2_text": "Select Clinics",
+            "col3_value": "cross",
+            "tooltip_title": "Digital 3D Foot Scan"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Time to Start",
+            "col1_value": "text",
+            "col1_text": "5 Minutes",
+            "col2_value": "text",
+            "col2_text": "Appointment Required",
+            "col3_value": "text",
+            "col3_text": "Kit Shipped (Return Required)",
+            "tooltip_title": "Fully Mobile Process"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Order to Delivery",
+            "col1_value": "text",
+            "col1_text": "10–15 Days",
+            "col2_value": "text",
+            "col2_text": "3–6 Weeks",
+            "col3_value": "text",
+            "col3_text": "3–5 Weeks"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

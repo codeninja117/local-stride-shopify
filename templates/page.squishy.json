@@ -1,0 +1,325 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "lp-hero",
+      "settings": {
+        "eyebrow": "I want to modify this page",
+        "title": "Your Feet Deserve Better Than Guesswork!",
+        "fallback_content_asset": "landingpage-Group 8.png",
+        "fallback_hero_asset": "landingpage-hero-feet.png",
+        "fallback_avatar_asset": "landingpage-avatar-zac.png",
+        "meta_name": "Dr. Zac Cartun, M.D.",
+        "meta_role": "Co-Founder & CMO, Stride Soles",
+        "text_color": "#202020",
+        "eyebrow_color": "#d2ab75"
+      }
+    },
+    "compare_core": {
+      "type": "lp-compare-core",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Fit",
+            "stride_type": "text",
+            "stride_value": "Matched to your exact foot.<br><strong>100,000-point 3D scan.</strong><br>Takes 2 minutes.",
+            "stride_sub": "",
+            "col_2_type": "text",
+            "col_2_value": "",
+            "col_2_sub": "Warped by your body weight<br>before the mold even sets.",
+            "col_3_type": "text",
+            "col_3_value": "",
+            "col_3_sub": ""
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Built For Your Body",
+            "stride_type": "text",
+            "stride_value": "Designed around how you move<br>(gait analysis)",
+            "stride_sub": "",
+            "col_2_type": "text",
+            "col_2_value": "Based on a single standing snapshot",
+            "col_2_sub": "",
+            "col_3_type": "text",
+            "col_3_value": "",
+            "col_3_sub": ""
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Cost",
+            "stride_type": "text",
+            "stride_value": "<strong>$249</strong> (HSA/FSA eligible)",
+            "stride_sub": "",
+            "col_2_type": "text",
+            "col_2_value": "<strong>$600-800</strong> at a podiatrist.",
+            "col_2_sub": "",
+            "col_3_type": "text",
+            "col_3_value": "",
+            "col_3_sub": ""
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Guarantee",
+            "stride_type": "text",
+            "stride_value": "<strong>180 days.</strong> Full refund",
+            "stride_sub": "",
+            "col_2_type": "text",
+            "col_2_value": "30 days.",
+            "col_2_sub": "",
+            "col_3_type": "text",
+            "col_3_value": "",
+            "col_3_sub": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4"
+      ],
+      "settings": {
+        "heading": "Read this BEFORE you buy your next pair of custom insoles!",
+        "feature_header": "",
+        "stride_title": "3D Scan",
+        "stride_subtitle": "",
+        "col_2_title": "Foam Impression Kit",
+        "col_2_subtitle": "",
+        "show_col_3": false,
+        "col_3_title": "Generic Insole",
+        "col_3_subtitle": "",
+        "tldr": "<p><strong>TLDR:</strong> The choice is clear. <strong>Stride Soles' 3D</strong> scanning technology, paired with gait analysis by a German podiatrist, builds a more precise orthotic that's far more likely to actually stop your foot pain.</p>",
+        "button_label": "Relieve My Foot Pain",
+        "button_url": "",
+        "button_note": "180 Day Return Policy",
+        "text_color": "#1f1f1f",
+        "stride_background": "#f0ca9f",
+        "stride_main_color": "#0c9f6e",
+        "stride_sub_color": "#159c77",
+        "padding_top": 8,
+        "padding_bottom": 24
+      }
+    },
+    "proof": {
+      "type": "lp-proof-list",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 1.png",
+            "special_type": "normal",
+            "badge": "Foam Box",
+            "title": "Foam crushes under your weight. The mold is wrong before it ships.",
+            "text": "Foam compresses unevenly under pressure. Matching your arches into the mold warps the soles. 3D scan captures 100,000+ data points with sub-millimeter precision. No compression, no distortion.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 2.png",
+            "special_type": "normal",
+            "badge": "No one checks this",
+            "title": "Foam can make your orthotic worse than wearing nothing.",
+            "text": "Foam impressions capture your foot in one position that does not reflect how it actually functions. That distortion gets built into the orthotic and can worsen pain over time.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 3.png",
+            "special_type": "normal",
+            "badge": "Standing still",
+            "title": "Foam doesn't know how you walk. That's where pain starts.",
+            "text": "Your gait has pronation, stride, and pressure shifts that foam misses. Stride includes video gait analysis reviewed by German podiatrists who design correction around motion.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 4.png",
+            "special_type": "normal",
+            "badge": "Your problem baked in",
+            "title": "Whatever is wrong with your feet gets baked into the foam.",
+            "text": "If your feet overpronate and your step rolls inward, that pattern is captured in the foam and repeated in the orthotic. A 3D scan identifies the issue first so the orthotic corrects it.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 16.png",
+            "special_type": "normal",
+            "badge": "Nobody checks this",
+            "title": "Once the foam leaves your hands, nobody checks it.",
+            "text": "Foam can shift, compress, or degrade during shipping. There is no way to verify that what arrives at the lab still matches your foot. Digital scans transmit instantly and keep full data integrity.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_6": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 21.png",
+            "special_type": "normal",
+            "badge": "Arch lost in foam",
+            "title": "Foam gets the most important measurement wrong most often.",
+            "text": "Arch height is the hardest dimension to capture accurately in foam. 3D scans measure the contour continuously across the full arch without compression error.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_7": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 22.png",
+            "special_type": "normal",
+            "badge": "Two different feet",
+            "title": "Your left foot and right foot are not the same. Foam doesn't care.",
+            "text": "Most people have one arch lower and one foot wider. Stride scans each foot independently and designs two separate devices, not one averaged shape.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_8": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 23.png",
+            "special_type": "normal",
+            "badge": "",
+            "title": "The foam process takes over a month. Your body can't wait.",
+            "text": "Foam usually takes 30+ days end-to-end. Stride can ship in 10-15 days, with faster delivery available for urgent cases.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_9": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Group 10.png",
+            "special_type": "normal",
+            "badge": "",
+            "title": "You're paying $800 for a process podiatrists are abandoning.",
+            "text": "A poll of podiatrists worldwide found that 3D scanning is now the most commonly used method. Foam came in last. Stride Soles gives you the same technology, gait analysis, and German pedorthist design for $249. HSA/FSA eligible.",
+            "button_label": "",
+            "button_url": ""
+          }
+        },
+        "item_10": {
+          "type": "item",
+          "settings": {
+            "fallback_asset": "landingpage-Rectangle 20.png",
+            "special_type": "normal",
+            "badge": "",
+            "title": "180 days. Full refund. Because we trust the data.",
+            "text": "Most foam companies offer a 30-day return policy. We give you six months. When your orthotic is built on 100,000+ data points and reviewed by a specialist, we're confident enough to let you decide on your own timeline.",
+            "button_label": "Take your free Quiz",
+            "button_url": "/pages/quiz?pairs=1"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5",
+        "item_6",
+        "item_7",
+        "item_8",
+        "item_9",
+        "item_10"
+      ],
+      "settings": {
+        "title": "",
+        "padding_top": 8,
+        "padding_bottom": 24
+      }
+    },
+    "cta": {
+      "type": "lp-cta-band",
+      "settings": {
+        "fallback_background_asset": "landingpage-image 1.png",
+        "eyebrow": "Custom orthotics from your phone",
+        "title": "Get Orthotics Built on Data, Not Guesswork. Only $249",
+        "button_label": "Take your free Quiz",
+        "button_url": "/pages/quiz?pairs=1",
+        "overlay_opacity": 45,
+        "text_color": "#ffffff"
+      }
+    },
+    "icon_strip": {
+      "type": "lp-icon-strip",
+      "blocks": {
+        "icon_1": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame.png",
+            "label": "180-Day Guarantee"
+          }
+        },
+        "icon_2": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame (1).png",
+            "label": "HSA/FSA Eligible"
+          }
+        },
+        "icon_3": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame (2).png",
+            "label": "No Office Visit"
+          }
+        },
+        "icon_4": {
+          "type": "item",
+          "settings": {
+            "fallback_icon_asset": "landingpage-Frame (3).png",
+            "label": "Free Shipping"
+          }
+        }
+      },
+      "block_order": [
+        "icon_1",
+        "icon_2",
+        "icon_3",
+        "icon_4"
+      ],
+      "settings": {
+        "title": "Get Orthotics Built on Data, Not Guesswork. Only $249",
+        "title_color": "#e9c999",
+        "padding_top": 20,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "compare_core",
+    "proof",
+    "cta",
+    "icon_strip"
+  ]
+}

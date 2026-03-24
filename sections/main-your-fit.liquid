@@ -1,4 +1,7 @@
 <style>
+  body {
+    background-color: #f2f2f2;
+  }
   .timeline-steps::before {
     content: '';
     position: absolute;
@@ -28,7 +31,6 @@
     animation: fadeInStep 0.6s ease 1.6s forwards;
   }
 
-  /* Line drawing animation */
   @keyframes drawLine {
     0% {
       height: 0;
@@ -52,165 +54,399 @@
       opacity: 1;
     }
   }
+
+  /* ─── Stride Profile ─────────────────────────────────────── */
+
+  .stride-profile {
+    max-width: 640px;
+    margin: 0 auto 3rem;
+    text-align: left;
+    padding-bottom: 80px;
+  }
+
+  .stride-profile__eyebrow {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: #9c876d;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .stride-profile__headline {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .stride-profile__subheadline {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .stride-profile__divider {
+    width: 2.5rem;
+    height: 2px;
+    background: #9c876d;
+    margin: 0 auto 2rem;
+  }
+
+  .stride-profile__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stride-profile__card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid #9c876d;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .stride-profile__card-icon {
+    font-size: 1.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f7f3ee;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .stride-profile__card-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9c876d;
+    margin-bottom: 0.25rem;
+  }
+
+  .stride-profile__card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.4rem;
+  }
+
+  .stride-profile__card-desc {
+    font-size: 0.875rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .stride-profile__glance {
+    background: #1a1a1a;
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stride-profile__glance-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9c876d;
+    margin-bottom: 0.75rem;
+  }
+
+  .stride-profile__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stride-profile__tag {
+    background: #2a2a2a;
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    color: #e0d8cf;
+  }
+
+  .stride-profile__tag strong {
+    color: #fff;
+  }
+
+  .stride-profile__cta-sub {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
+  .stride-profile__cta-group {
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 99999999;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 1rem;
+    background: #fff;
+    padding: 1.25rem 1.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0.5rem;
+    right: 0.5rem;
+
+    @media (min-width: 768px) {
+      left: 1rem;
+      right: 1rem;
+      width: 768px;
+    }
+  }
+
+  #stride-profile-cta-btn {
+    max-width: 100%;
+  }
 </style>
 
 <div class="page-width py-8">
   <quiz-results data-fallback-url="{{ section.settings.fallback_redirect_url | default: '/pages/quiz' }}">
     <div class="quiz-results__success">
       <div class="quiz-results__success-content text-center">
-        <!-- Doctor Image -->
-        <div class="before:bg-blue-fitness/50 relative mb-8 before:absolute before:top-1/2 before:left-1/2 before:-z-1 before:h-px before:w-full before:-translate-1/2 before:-translate-x-1/2">
-          <div class="bg-blue-fitness mx-auto h-28 w-28 overflow-hidden rounded-full">
-            {{ section.settings.avatar | image_url: width: 224 | image_tag: class: 'h-full w-full object-cover' }}
+        <!-- ─── Stride Profile Section ──────────────────────────── -->
+        <div id="stride-profile-section" class="stride-profile" style="display:none;">
+          <!-- Real content injected by JS -->
+          <div id="stride-profile-content">
+            <p class="stride-profile__eyebrow">Your Stride Profile</p>
+            <h2 class="stride-profile__headline" id="sp-headline"></h2>
+            <p class="stride-profile__subheadline" id="sp-subheadline"></p>
+            <div class="stride-profile__divider"></div>
+
+            <div class="stride-profile__cards" id="sp-cards"></div>
+
+            <div class="stride-profile__glance">
+              <p class="stride-profile__glance-label">Your Profile at a Glance</p>
+              <div class="stride-profile__tags" id="sp-tags"></div>
+            </div>
+
+            <div class="stride-profile__cta-group">
+              <p style="font-size:0.9rem;color:#555;margin-bottom:1rem;text-align:center;" id="sp-cta-text"></p>
+
+              <button
+                id="stride-profile-cta-btn"
+                type="button"
+                class="btn-primary text-xl font-semibold"
+              >
+                <div class="btn-primary__inner">
+                  <div class="btn-primary__text-wrapper">
+                    <div class="btn-primary__text">Get My Strides →</div>
+                    <div class="btn-primary__text">Get My Strides →</div>
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
-
-        {%- if section.settings.title != blank -%}
-          <h1 class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">{{ section.settings.title }}</h1>
-        {%- endif -%}
-
-        {%- if section.settings.subtitle != blank -%}
-          <p class="text-lg text-gray-600">This is what happens next:</p>
-        {%- endif -%}
-
-        <!-- CTA Button -->
-        <div class="mt-4 mb-8">
-          <button
-            id="quiz-results-add-to-cart-btn"
-            type="button"
-            class="btn-primary text-xl font-semibold"
-          >
-            <div class="btn-primary__inner">
-              <div class="btn-primary__text-wrapper">
-                <div class="btn-primary__text">Let’s Go →</div>
-                <div class="btn-primary__text">Let’s Go →</div>
-              </div>
-            </div>
-          </button>
-        </div>
-
-        <div class="quiz-results__steps mx-auto max-w-md text-left">
-          <ol class="timeline-steps relative mb-12 ml-8 text-gray-500">
-            {%- for block in section.blocks -%}
-              <li class="step-item step-{{ forloop.index }} ms-16 mb-16">
-                <span class="absolute -start-8 flex h-16 w-16 items-center justify-center rounded-lg bg-orange-100 ring-8 ring-white">
-                  {{ block.settings.icon | image_url: width: 16 | image_tag: class: 'h-full w-full object-cover' }}
-                </span>
-                <div class="step-item__content {% unless forloop.first %}opacity-30{% endunless %}">
-                  <h3 class="mb-2 text-xl font-semibold text-gray-900">{{ block.settings.title }}</h3>
-                  <p class="text-gray-500">{{ block.settings.subtitle }}</p>
-                </div>
-              </li>
-            {%- endfor -%}
-          </ol>
-        </div>
+        <!-- ─── End Stride Profile ──────────────────────────────── -->
       </div>
     </div>
 
     <!-- Blank fallback content (hidden by default) -->
     <div class="quiz-results__no-data" style="display: none;">
-      <!-- Completely blank - just takes up space to prevent flash -->
       <div class="min-h-screen"></div>
     </div>
   </quiz-results>
 </div>
 
 {% javascript %}
-  /*
-  TESTING URLS:
+  // ─── Stride Profile Lookup Table ─────────────────────────────
+  // Sourced from stride-profiles.json — edit that file to update card copy.
+  // Structure: cards.condition / cards.arch / cards.shoe keyed by normalized value.
+  // shoe_map / arch_map normalize raw quiz answers to lookup keys.
 
-  Example URL: one shoe type selected
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Running%20Shoes&Additional%20Info=nothing%20to%20say%20really
+  const STRIDE_PROFILES = {
+    cards: {
+      condition: {
+        'Plantar Fasciitis': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Plantar Fasciitis Needs Heel & Arch Relief',
+          desc: 'The plantar fascia runs along the bottom of your foot from heel to toe. Repeated stress causes micro-tears and inflammation — especially painful with the first steps of the day. Your orthotic is designed to cushion the heel and support the arch to reduce that tension.',
+        },
+        'Flat Feet': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Flat Feet Need Structural Support',
+          desc: 'Without a natural arch, flat feet allow the foot to overpronate — rolling inward with each step. This misalignment stresses joints from the ankle up through the knee. Your orthotic provides the arch structure your foot is missing.',
+        },
+        Bunions: {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Bunions Require Pressure Redistribution',
+          desc: 'A bunion forms when the big toe joint shifts out of alignment, creating a painful bony prominence. Pressure from footwear accelerates discomfort. Your orthotic redistributes load away from the big toe joint to reduce friction and pain.',
+        },
+        'Hammer Toes': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Hammer Toes Need Toe Box & Forefoot Relief',
+          desc: 'Hammer toes occur when the middle joint of a toe bends downward, causing friction and pain. Your orthotic helps by offloading forefoot pressure and reducing the compression that worsens the deformity over time.',
+        },
+        "Morton's Neuroma": {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: "Morton's Neuroma Requires Forefoot Offloading",
+          desc: "Morton's Neuroma is a thickening of tissue around a nerve between the toes, causing burning or tingling in the ball of the foot. A metatarsal pad built into your orthotic spreads the metatarsal heads to relieve nerve compression.",
+        },
+        Arthritis: {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Arthritis Needs Cushioning & Joint Protection',
+          desc: 'Arthritis in the foot causes joint inflammation, stiffness, and pain with movement. Your orthotic provides cushioning to absorb impact and reduce the load on affected joints, helping you stay on your feet longer with less pain.',
+        },
+        'Limb-Length Discrepancy': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Limb-Length Discrepancy Causes Full-Body Compensation',
+          desc: 'Even a small difference in leg length forces the spine, hips, and knees to compensate — leading to chronic pain over time. Your orthotic is designed to correct this imbalance and realign your body from the ground up.',
+        },
+        'Heel Spurs': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Heel Spurs Need Targeted Heel Cushioning',
+          desc: 'Heel spurs are calcium deposits that form on the underside of the heel bone, often alongside plantar fasciitis. Your orthotic includes a heel cup with extra cushioning to reduce direct pressure on the spur and surrounding tissue.',
+        },
+        Metatarsalgia: {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Metatarsalgia Requires Ball-of-Foot Relief',
+          desc: 'Metatarsalgia causes inflammation and pain in the ball of the foot — the area just behind your toes. A metatarsal pad in your orthotic offloads the metatarsal heads, shifting pressure away from the most painful area.',
+        },
+        'Achilles Tendinitis': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Achilles Tendinitis Needs Heel Lift & Tension Relief',
+          desc: 'The Achilles tendon connects your calf to your heel and absorbs enormous force with every step. Inflammation causes stiffness and pain, especially in the morning. Your orthotic includes a slight heel lift to reduce strain on the tendon.',
+        },
+        Sesamoiditis: {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Sesamoiditis Needs Big Toe Joint Offloading',
+          desc: 'The sesamoid bones sit beneath the big toe joint and act as a pulley for tendons. Inflammation causes sharp pain with push-off. Your orthotic offloads pressure from the sesamoids to allow healing and reduce pain during activity.',
+        },
+        'None/Other': {
+          label: 'CONDITION FOCUS',
+          emoji: '⚡',
+          title: 'Designed for Performance & Long-Term Foot Health',
+          desc: 'Even without a specific diagnosis, poor foot support leads to fatigue, misalignment, and long-term joint stress. Your orthotic is built to support your natural gait, reduce daily strain, and keep your feet performing at their best.',
+        },
+      },
+      arch: {
+        Flat: {
+          label: 'ARCH & FIT',
+          emoji: '🦶',
+          title: 'Flat Feet Collapse Without Firm Arch Support',
+          desc: 'Flat feet overpronate — the arch collapses inward with each step, creating a chain reaction of stress up through the ankle, knee, and hip. A firm medial arch support in your orthotic corrects this alignment and redistributes pressure evenly.',
+        },
+        Normal: {
+          label: 'ARCH & FIT',
+          emoji: '🦶',
+          title: 'Normal Arches Still Benefit From Targeted Support',
+          desc: 'A normal arch provides a good foundation, but without reinforcement it can fatigue under prolonged standing, running, or lateral movement. Your orthotic maintains your natural alignment and adds cushioning where you need it most.',
+        },
+        High: {
+          label: 'ARCH & FIT',
+          emoji: '🦶',
+          title: 'High Arches Create Pressure Points That Need Cushioning',
+          desc: "High arches don't absorb shock well — pressure concentrates at the heel and ball of the foot rather than distributing across the full foot. Your orthotic fills the arch gap and adds cushioning to diffuse that impact load.",
+        },
+      },
+      shoe: {
+        Boots: {
+          label: 'ACTIVITY MATCH',
+          emoji: '👢',
+          title: 'Boots Require a Slim Low-Profile Orthotic',
+          desc: 'Boots have a narrow profile and less removable insole depth than sneakers. Your orthotic is trimmed to fit within the tighter confines of a boot while still delivering full arch support and heel cushioning where you need it.',
+        },
+        Running: {
+          label: 'ACTIVITY MATCH',
+          emoji: '🏃',
+          title: 'Running Demands Maximum Shock Absorption',
+          desc: 'Every running stride generates up to 3x your body weight in impact force. Your orthotic is built to absorb that shock, support your arch through the full gait cycle, and reduce the repetitive stress that leads to injury over time.',
+        },
+        Sneakers: {
+          label: 'ACTIVITY MATCH',
+          emoji: '👟',
+          title: 'Sneakers Pair Perfectly With Full-Length Orthotics',
+          desc: "Most sneakers have removable insoles and a roomy toe box — ideal for a full-length orthotic. Your insole provides consistent support from heel to toe through every step, whether you're walking, standing, or on the move.",
+        },
+        Pickleball: {
+          label: 'ACTIVITY MATCH',
+          emoji: '🎾',
+          title: "Pickleball's Lateral Cuts Demand Stable Midfoot Support",
+          desc: 'Pickleball involves rapid side-to-side movement that stresses the midfoot and ankle. Your orthotic provides lateral stability and arch support to control pronation during quick direction changes and reduce injury risk.',
+        },
+        Cycling: {
+          label: 'ACTIVITY MATCH',
+          emoji: '🚴',
+          title: 'Cycling Transfers Power Better With Proper Arch Support',
+          desc: 'On a bike, your foot is the connection point between your body and the pedal. Without arch support, energy is lost and hot spots develop under the ball of the foot. Your orthotic improves power transfer and reduces forefoot pressure.',
+        },
+        Golf: {
+          label: 'ACTIVITY MATCH',
+          emoji: '⛳',
+          title: "Golf's Rotational Force Starts at Your Feet",
+          desc: 'A proper golf swing requires stable, grounded foot mechanics. Without support, the foot rolls during rotation — costing power and stressing the ankle and knee. Your orthotic stabilizes your base so your swing starts from a solid foundation.',
+        },
+        Basketball: {
+          label: 'ACTIVITY MATCH',
+          emoji: '🏀',
+          title: "Basketball's Impacts Require Full-Foot Protection",
+          desc: 'Basketball involves jumping, cutting, and landing — all high-impact movements concentrated in the foot. Your orthotic cushions heel strike, supports the arch during lateral cuts, and helps absorb the repeated impact of play.',
+        },
+      },
+    },
+    shoe_map: {
+      "Sneakers (Also known as 'Tennis Shoes')": 'Sneakers',
+      'Running Shoes': 'Running',
+      'Pickleball Shoes': 'Pickleball',
+      Boots: 'Boots',
+      'Dress Shoes': 'Sneakers',
+      'Golf Shoes': 'Golf',
+      'Cycling Shoes': 'Cycling',
+      'Soccer Cleats': 'Sneakers',
+      Heels: 'Sneakers',
+      'Ski Boots': 'Boots',
+      'Ice Skates': 'Sneakers',
+      'Ice Skates (Hockey)': 'Sneakers',
+      'Basketball Shoes': 'Basketball',
+    },
+    arch_map: {
+      'Flat Foot': 'Flat',
+      'Flat Feet': 'Flat',
+      'Normal Arch': 'Normal',
+      'High Arch': 'High',
+    },
+  };
 
-  Example URL: one shoe type selected, enter condition logic. condition shoe type is null
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Sesamoiditis&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Running%20Shoes&Additional%20Info=nothing%20to%20say%20really
-  
-  Example URL: multiple shoe types selected: Boots, Dress Shoes, Running Shoes
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Boots%2C%20Dress%20Shoes%2C%20Running%20Shoes&Additional%20Info=nothing%20to%20say%20really
-
-  Example URL: multiple shoe types selected: Boots, Dress Shoes, Running Shoes, Pickeball Shoes
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Boots%2C%20Dress%20Shoes%2C%20Running%20Shoes&Pickleball%20Shoes&Additional%20Info=nothing%20to%20say%20really
-
-
-  all shoe types selected for testing
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=All%20the%20time&Condition=Flat%20Feet&Pain%20Region%20(R)=Inside%20Ankle%2C%20Outer%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)%2C%20Outer%20Ankle%2C%20Big%20Toe&Size=Mens%2010.5&Shoe%20Type=Sneakers%20(Also%20known%20as%20%27Tennis%20Shoes%27)%2C%20Running%20Shoes%2C%20Pickleball%20Shoes%2C%20Boots%2C%20Dress%20Shoes%2C%20Golf%20Shoes%2C%20Cycling%20Shoes%2C%20Soccer%20Cleats%2C%20Heels%2C%20Ski%20Boots%2C%20Ice%20Skates%2C%20Ice%20Skates%20(Hockey)%2C%20Basketball%20Shoes&Additional%20Info=nothing%20of%20note
-
-
-  null shoe type selected: Heels
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Heels&Additional%20Info=nothing%20to%20say%20really
-
-  2 null shoe type selected: Heels, Golf Shoes
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Heels%2C%20Golf%20Shoes&Additional%20Info=nothing%20to%20say%20really
-
-  2 null shoe types, 1 valid shoe type selected: Heels, Golf Shoes, Running Shoes 
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Heels%2C%20Golf%20Shoes%2C%20Running%20Shoes&Additional%20Info=nothing%20to%20say%20really
-
-  null shoe type and valid shoe type selected: heels, running shoes
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40642850455616?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle%2C%20Back%20of%20Ankle%20(Achilles%20Tendon)&Pain%20Region%20(L)=Outer%20Ankle%2C%20Inside%20Ankle&Size=Mens%2010.5&Shoe%20Type=Heels%2C%20Running%20Shoes&Additional%20Info=nothing%20to%20say%20really
-
-
-  customer reported bug. skipped most form questions
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40606957371456?checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=_____&Pain%20Frequency=_____&Condition=Flat%20Feet&Pain%20Region%20(R)=_____&Pain%20Region%20(L)=_____&Size=Mens%2011&Shoe%20Type=Sneakers%20(Also%20known%20as%20%27Tennis%20Shoes%27)&Additional%20Info=asdf
-  
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40606957371456&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=_____&Arch=_____&Pain%20Frequency=_____&Condition=None&Pain%20Region%20(R)=_____&Pain%20Region%20(L)=_____&Size=Mens%201&Shoe%20Type=Boots&Additional%20Info=asdf
-  
-
-  quiz 2: skips all skippable questions
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40660476035136&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=_____&Arch=&Pain%20Frequency=_____&Condition=Hammer%20Toes&Pain%20Region%20(R)=_____&Pain%20Region%20(L)=_____&Size=_____%20_____&Shoe%20Type=Boots&Additional%20Info=1
-
-
-  quiz 2: mostly all questions answered
-  https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40618221404224&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=&Pain%20Frequency=After%20a%20long%20day&Condition=None&Pain%20Region%20(R)=Heel%2C%20Big%20Toe&Pain%20Region%20(L)=Toes%20(Metatarsal%20heads%20II-V)&Size=Mens%204.5&Shoe%20Type=Sneakers%20(Also%20known%20as%20%27Tennis%20Shoes%27)&Additional%20Info=notes!
-  
-
-  // https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40700984754240&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=General%20Wellness&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Bunions&Pain%20Region%20(R)=Outer%20Ankle&Pain%20Region%20(L)=Back%20of%20Ankle%20(Achilles%20Tendon)&Size=Mens%20123&Shoe%20Type=Dress%20Shoes&Additional%20Info=123
-
-  // https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40606957371456&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=General%20Wellness&Arch=Normal%20Arch&Pain%20Frequency=Once%20in%20a%20while&Condition=Hammer%20Toes%2C%20Limb-Length%20Discrepancy&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle&Pain%20Region%20(L)=_____&Size=Mens%2012&Shoe%20Type=Pickleball%20Shoes&Additional%20Info=1
-
-  // https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40606957404224&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Foot%20Pain&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Plantar%20Fasciitis&Pain%20Region%20(R)=Outer%20Ankle%2C%20Inside%20Ankle&Pain%20Region%20(L)=Outer%20Ankle&Size=Mens%2012&Shoe%20Type=Dress%20Shoes&Additional%20Info=1
-
-  // https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40606957436992&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=General%20Wellness&Arch=Flat%20Foot&Pain%20Frequency=All%20the%20time&Condition=Bunions%2C%20Hammer%20Toes%2C%20Morton%27s%20Neuroma&Pain%20Region%20(R)=Inside%20Ankle&Pain%20Region%20(L)=_____&Size=Mens%201&Shoe%20Type=Running%20Shoes&Additional%20Info=1
-
-  // https://www.stridesoles.com/pages/your-fit?quiz_complete=true&variant=40692485259328&checkout[email]=andrewhkim01%40gmail.com&checkout[shipping_address][first_name]=Andrew&Reason=Improving%20Posture&Arch=Flat%20Foot&Pain%20Frequency=After%20a%20long%20day&Condition=Hammer%20Toes&Pain%20Region%20(R)=Heel%2C%20Midfoot&Pain%20Region%20(L)=Midfoot%2C%20Heel&Size=Mens%201&Shoe%20Type=Pickleball%20Shoes&Additional%20Info=123
-
-  */
-
-  /**
-   * QuizResults Web Component
-   *
-   * Processes quiz completion data and adds personalized orthotics to cart.
-   *
-   * Features:
-   * - Two variant selection modes (toggle with this.config.remapVariant):
-   *   1. URL-based (remapVariant = false): Uses variant from URL parameter
-   *   2. Mapping-based (remapVariant = true): Uses shoeType/condition mappings
-   * - Stores quiz data in localStorage for persistence
-   * - Handles cart clearing and product addition
-   * - Supports both line item properties and order attributes
-   *
-   * @class QuizResults
-   * @extends {HTMLElement}
-   */
   class QuizResults extends HTMLElement {
     constructor() {
       super();
-      // Configuration
-      this.defaultVariantId = 40606957371456; // Fallback variant if nothing else is available
+      this.defaultVariantId = 40606957371456;
       this.config = {
         redirectMode: this.shouldRedirect(),
-        // VARIANT SELECTION MODE TOGGLE
-        // Set to false: use variant from URL parameter (default, modern approach)
-        // Set to true: use shoeType/condition mappings (legacy approach)
         remapVariant: true,
-
-        // localStorage keys
         quizDataKey: 'quiz_data',
         quizTimestampKey: 'quiz_data_timestamp',
         quizVariantKey: 'quiz_variant',
-        quizExpiryDays: null, // Set to number of days for expiry, null for no expiry
-
-        // Variant mappings for legacy mode (when remapVariant = true)
-        // Shoe type variant mapping (Name from quiz, variantID from shopify)
+        quizExpiryDays: null,
         shoeTypeVariants: {
           "Sneakers (Also known as 'Tennis Shoes')": this.defaultVariantId,
           'Running Shoes': this.defaultVariantId,
@@ -226,8 +462,6 @@
           'Ice Skates (Hockey)': this.defaultVariantId,
           'Basketball Shoes': this.defaultVariantId,
         },
-
-        // Condition variant mapping (Name from quiz, variantID from shopify)
         conditionVariants: {
           None: this.defaultVariantId,
           'Flat Feet': this.defaultVariantId,
@@ -246,149 +480,61 @@
     }
 
     shouldRedirect() {
-      // Don't redirect in theme customizer
-      if (window.Shopify && window.Shopify.designMode) {
-        return false;
-      }
-
-      // Don't redirect if in preview mode
-      if (window.location.search.includes('preview_theme_id')) {
-        return false;
-      }
-
-      // Don't redirect if parent window exists (iframe context)
-      if (window.parent !== window) {
-        return false;
-      }
-
-      // Default to redirect for normal storefront
+      if (window.Shopify && window.Shopify.designMode) return false;
+      if (window.location.search.includes('preview_theme_id')) return false;
+      if (window.parent !== window) return false;
       return true;
     }
 
     connectedCallback() {
-      // Log current mode for debugging
-      console.log('Quiz Results Mode:', {
-        redirectMode: this.config.redirectMode,
-        remapVariant: this.config.remapVariant,
-        designMode: window.Shopify?.designMode,
-        isPreview: window.location.search.includes('preview_theme_id'),
-      });
-
-      // Check if user came from quiz completion
       const params = new URLSearchParams(window.location.search);
       const hasQuizCompletion = params.get('quiz_complete') === 'true';
 
-      console.log('Quiz completion check:', {
-        hasQuizCompletion,
-        fullUrl: window.location.href,
-        searchParams: window.location.search,
-      });
-
       if (hasQuizCompletion) {
-        // Clear any existing quiz data before storing new data
-        console.log('Fresh quiz completion detected - clearing any existing quiz data');
         this.clearStoredQuizData();
 
-        // Get quiz data from URL parameters
         const urlQuizData = this.getLineItemProperties();
-        console.log('Raw quiz data extracted from URL:', urlQuizData);
-        console.log('Quiz data keys count:', Object.keys(urlQuizData).length);
-
-        // Check for variant parameter in URL and clean it immediately
         const urlVariant = params.get('variant');
-        if (urlVariant) {
-          // Clean the variant ID right away
-          const cleanVariant = this.cleanVariantId(urlVariant);
-          console.log('Clean variant found in URL:', cleanVariant);
-          this.storeVariant(cleanVariant);
-        }
+        if (urlVariant) this.storeVariant(this.cleanVariantId(urlVariant));
 
-        // Double-check we have actual quiz data
         if (Object.keys(urlQuizData).length === 0) {
-          console.warn('quiz_complete=true but no quiz data found in URL');
-          console.log('URL search params:', window.location.search);
-          console.log('All URL params:', [...params.entries()]);
           this.handleNoQuizData();
           return;
         }
 
-        // We have valid quiz completion - show content and process
         this.showContent();
-        console.log('Fresh quiz data from URL (before storage):', urlQuizData);
-
-        // Store the quiz data
         this.storeQuizData(urlQuizData);
-
-        // Verify storage worked
-        const verifyStorage = this.getStoredQuizData();
-        console.log('Verification - data after storage:', verifyStorage);
-
         this.displayResults(urlQuizData);
         this.setupCartButton(urlQuizData);
         return;
       }
 
-      // No quiz_complete parameter - redirect immediately (don't check localStorage)
-      console.log('No quiz_complete parameter found - redirecting');
       this.handleNoQuizData();
     }
 
     showContent() {
-      // Show the success content (already visible by default, but keeping for consistency)
       const successContent = this.querySelector('.quiz-results__success');
-      if (successContent) {
-        successContent.style.display = 'block';
-      }
-
-      // Ensure fallback content is hidden
+      if (successContent) successContent.style.display = 'block';
       const noDataContent = this.querySelector('.quiz-results__no-data');
-      if (noDataContent) {
-        noDataContent.style.display = 'none';
-      }
+      if (noDataContent) noDataContent.style.display = 'none';
     }
 
-    disconnectedCallback() {
-      // Clean up if needed
-    }
+    disconnectedCallback() {}
 
-    // localStorage methods
     storeQuizData(quizData) {
       try {
-        console.log('Attempting to store quiz data:', quizData);
-
-        // Validate input
-        if (!quizData || typeof quizData !== 'object') {
-          console.error('Invalid quiz data provided to storeQuizData:', quizData);
-          return;
-        }
-
-        // Store the quiz data
-        const dataString = JSON.stringify(quizData);
-        localStorage.setItem(this.config.quizDataKey, dataString);
-        console.log('Quiz data JSON string:', dataString);
-
-        // Store timestamp separately for expiry management
-        const timestamp = new Date().toISOString();
-        localStorage.setItem(this.config.quizTimestampKey, timestamp);
-
-        console.log('Quiz data stored in localStorage successfully:', quizData);
-        console.log('Quiz data timestamp:', timestamp);
-
-        // Verify it was stored
-        const retrieved = localStorage.getItem(this.config.quizDataKey);
-        console.log('Verification - retrieved from localStorage:', retrieved);
+        localStorage.setItem(this.config.quizDataKey, JSON.stringify(quizData));
+        localStorage.setItem(this.config.quizTimestampKey, new Date().toISOString());
       } catch (error) {
-        console.error('Failed to store quiz data in localStorage:', error);
-        console.error('Quiz data that failed to store:', quizData);
+        console.error('Failed to store quiz data:', error);
       }
     }
 
     storeVariant(variantId) {
       try {
         localStorage.setItem(this.config.quizVariantKey, variantId);
-        console.log('Quiz variant stored in localStorage:', variantId);
       } catch (error) {
-        console.error('Failed to store quiz variant in localStorage:', error);
+        console.error('Failed to store quiz variant:', error);
       }
     }
 
@@ -396,46 +542,32 @@
       try {
         return localStorage.getItem(this.config.quizVariantKey);
       } catch (error) {
-        console.error('Failed to retrieve quiz variant from localStorage:', error);
         return null;
       }
     }
 
     getStoredQuizData() {
       try {
-        // Check if data has expired
         if (this.isQuizDataExpired()) {
           this.clearStoredQuizData();
           return null;
         }
-
         const storedData = localStorage.getItem(this.config.quizDataKey);
         return storedData ? JSON.parse(storedData) : null;
       } catch (error) {
-        console.error('Failed to retrieve quiz data from localStorage:', error);
         return null;
       }
     }
 
     isQuizDataExpired() {
-      if (!this.config.quizExpiryDays) {
-        return false; // No expiry set
-      }
-
+      if (!this.config.quizExpiryDays) return false;
       try {
         const timestamp = localStorage.getItem(this.config.quizTimestampKey);
-        if (!timestamp) {
-          return true; // No timestamp means data is invalid
-        }
-
-        const storedDate = new Date(timestamp);
-        const now = new Date();
-        const daysDiff = (now - storedDate) / (1000 * 60 * 60 * 24);
-
+        if (!timestamp) return true;
+        const daysDiff = (new Date() - new Date(timestamp)) / (1000 * 60 * 60 * 24);
         return daysDiff > this.config.quizExpiryDays;
       } catch (error) {
-        console.error('Error checking quiz data expiry:', error);
-        return true; // Assume expired on error
+        return true;
       }
     }
 
@@ -444,27 +576,18 @@
         localStorage.removeItem(this.config.quizDataKey);
         localStorage.removeItem(this.config.quizTimestampKey);
         localStorage.removeItem(this.config.quizVariantKey);
-        console.log('Quiz data and variant cleared from localStorage');
       } catch (error) {
-        console.error('Failed to clear quiz data from localStorage:', error);
+        console.error('Failed to clear quiz data:', error);
       }
     }
 
-    // Method to manually set expiry (call this if you want to enable expiry later)
     setQuizDataExpiry(days) {
       this.config.quizExpiryDays = days;
-      console.log(`Quiz data expiry set to ${days} days`);
     }
 
-    // Method to get quiz data for external use (e.g., cart APIs)
     getQuizDataForCart() {
       const quizData = this.getStoredQuizData();
-      if (!quizData) {
-        console.warn('No quiz data available for cart');
-        return {};
-      }
-
-      // Parse shoe types to get the full list
+      if (!quizData) return {};
       const shoeTypes = this.parseShoeTypes(quizData);
       return {
         lineItemProperties: this.formatAsLineItemProperties(quizData, shoeTypes),
@@ -473,84 +596,85 @@
     }
 
     handleNoQuizData() {
-      if (!this.config.redirectMode) {
-        // In design mode - show current content without redirecting
-        console.log('Design mode: Not redirecting, showing current content');
-        return;
-      }
-
-      // Get fallback URL from section settings or default
+      if (!this.config.redirectMode) return;
       const fallbackUrl = this.getAttribute('data-fallback-url') || '/pages/quiz';
-
-      console.log(`No quiz data found. Showing blank screen and redirecting to: ${fallbackUrl}`);
-
-      // Hide success content and show blank fallback
       const successContent = this.querySelector('.quiz-results__success');
       const noDataContent = this.querySelector('.quiz-results__no-data');
-
       if (successContent) successContent.style.display = 'none';
       if (noDataContent) noDataContent.style.display = 'block';
-
-      // Redirect after a short delay to allow for smooth transition
       setTimeout(() => {
         window.location.href = fallbackUrl;
       }, 100);
     }
 
+    // ─── JSON lookup ────────────────
     displayResults(lineItemProperties) {
-      // Optional: You could display the quiz results somewhere on the page
-      // For now, we'll just log them for debugging
-      console.log('Quiz results:', lineItemProperties);
+      const profile = this.buildStrideProfile(lineItemProperties);
+      if (profile) {
+        const section = document.getElementById('stride-profile-section');
+        if (section) section.style.display = 'block';
+        this.renderStrideProfile(profile, lineItemProperties);
+      }
+    }
 
-      // If you want to show the quiz results on the page, you could add them here
-      // For example, adding a summary section or updating existing content
+    // ─── Build profile from lookup table ─────────────────────
+    buildStrideProfile(quizData) {
+      const db = STRIDE_PROFILES;
+
+      // Normalize condition — take first if multiple (e.g. "Hammer Toes, Bunions")
+      const rawCondition = quizData['Condition'] || '';
+      const condition = rawCondition.split(',')[0].trim() || 'None/Other';
+      const conditionCard = db.cards.condition[condition] || db.cards.condition['None/Other'];
+
+      // Normalize arch
+      const rawArch = quizData['Arch'] || '';
+      const archKey = db.arch_map[rawArch] || 'Normal';
+      const archCard = db.cards.arch[archKey] || db.cards.arch['Normal'];
+
+      // Normalize shoe
+      const rawShoe = quizData['Shoe Type'] || '';
+      const shoeKey = db.shoe_map[rawShoe] || 'Sneakers';
+      const shoeCard = db.cards.shoe[shoeKey] || db.cards.shoe['Sneakers'];
+
+      // Build headline from condition + shoe
+      const headline = `${condition} Support for ${rawShoe || 'Your Footwear'}`;
+      const subheadline = `Based on your arch type and activity, here's what your feet need.`;
+
+      return {
+        headline,
+        subheadline,
+        cta: 'Your insole match is ready and ships free.',
+        cards: [conditionCard, archCard, shoeCard],
+      };
     }
 
     setupCartButton(lineItemProperties) {
-      const button = this.querySelector('#quiz-results-add-to-cart-btn');
-      if (!button) return;
+      // Target the CTA button rendered inside the stride profile
+      // We defer lookup to after renderStrideProfile has run via a short timeout,
+      // since the button lives inside #stride-profile-content which is populated by displayResults
+      setTimeout(() => {
+        const button = document.getElementById('stride-profile-cta-btn');
+        if (!button) return;
 
-      // In theme customizer, make button non-functional
-      if (window.Shopify?.designMode) {
+        if (window.Shopify?.designMode) {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('This button adds personalized orthotics to cart in the live store.');
+          });
+          return;
+        }
+
         button.addEventListener('click', (e) => {
           e.preventDefault();
-          alert('This button adds personalized orthotics to cart in the live store.');
+          this.addToCart(lineItemProperties, button);
         });
-        return;
-      }
 
-      // Setup cart add functionality
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.addToCart(lineItemProperties, button);
-      });
-
-      console.log('Cart button setup with quiz data:', lineItemProperties);
+        console.log('Cart button setup with quiz data:', lineItemProperties);
+      }, 0);
     }
 
-    /**
-     * Add quiz-recommended product to cart
-     *
-     * Two modes of operation based on this.config.remapVariant:
-     *
-     * Mode 1 (remapVariant = false, default): URL-based variant selection
-     * - Uses the variant ID from the URL parameter
-     * - Simple and direct approach for modern quiz flows
-     * - Fallback: stored variant > default variant
-     *
-     * Mode 2 (remapVariant = true): Mapping-based variant selection
-     * - Uses shoeType/condition mappings to determine variant
-     * - Legacy approach for backwards compatibility
-     * - Priority: condition variant > shoe type variant > URL variant > stored variant > default
-     *
-     * @param {Object} lineItemProperties - Quiz data from URL parameters
-     * @param {HTMLElement} button - The "Add to Cart" button element
-     */
     async addToCart(lineItemProperties, button) {
-      // Get original button text for restoration on error
       const originalText = button.querySelector('.btn-primary__text')?.textContent || window.variantStrings.addToCart;
-
-      // Disable button and show loading state
       this.setButtonState(button, 'Adding...', true);
 
       try {
@@ -558,25 +682,22 @@
 
         // STEP 1: Determine variant based on remapVariant mode
         if (this.config.remapVariant) {
-          // LEGACY MODE: Use mapping-based variant selection
           console.log('=== ADD TO CART: Legacy Mapping Mode ===');
           console.log('🎯 Config check - remapVariant:', this.config.remapVariant);
           console.log('🎯 Config check - defaultVariantId:', this.config.defaultVariantId);
 
-          // Parse conditions and shoe types from quiz data
           const conditions = this.parseConditions(lineItemProperties);
           const shoeTypes = this.parseShoeTypes(lineItemProperties);
 
           console.log('📋 Parsed conditions:', conditions);
           console.log('📋 Parsed shoe types:', shoeTypes);
 
-          // Priority 1: Try to get variant from condition (if multiple conditions, use first one)
+          // Priority 1: condition variant
           if (conditions && conditions.length > 0) {
             const firstCondition = conditions[0];
             console.log('🔍 Checking condition:', firstCondition);
             const conditionVariant = this.getVariantForCondition(firstCondition);
             console.log('✅ Condition variant result:', conditionVariant);
-
             if (conditionVariant) {
               selectedVariantId = conditionVariant;
               console.log(`✅ Using condition-based variant for "${firstCondition}":`, selectedVariantId);
@@ -587,13 +708,12 @@
             console.log('⚠️ No conditions found in quiz data');
           }
 
-          // Priority 2: If no condition variant, try shoe type (if multiple types, use first one)
+          // Priority 2: shoe type variant
           if (!selectedVariantId && shoeTypes && shoeTypes.length > 0) {
             const firstShoeType = shoeTypes[0];
             console.log('🔍 Checking shoe type:', firstShoeType);
             const shoeTypeVariant = this.getVariantForShoeType(firstShoeType);
             console.log('✅ Shoe type variant result:', shoeTypeVariant);
-
             if (shoeTypeVariant) {
               selectedVariantId = shoeTypeVariant;
               console.log(`✅ Using shoe type-based variant for "${firstShoeType}":`, selectedVariantId);
@@ -604,48 +724,45 @@
             console.log('⚠️ No shoe types found or variant already selected');
           }
 
-          // Priority 3: Fallback to URL variant if available
+          // Priority 3: URL variant
           if (!selectedVariantId) {
             console.log('⚠️ No variant from mappings, checking URL...');
-            const params = new URLSearchParams(window.location.search);
-            const urlVariant = params.get('variant');
+            const parts = window.location.href.split('?');
+            const searchParams =
+              parts.length > 2
+                ? new URLSearchParams(parts.slice(1).join('&'))
+                : new URLSearchParams(window.location.search);
+            const urlVariant = searchParams.get('variant');
             console.log('🔍 URL variant found:', urlVariant);
-
             if (urlVariant) {
               selectedVariantId = this.cleanVariantId(urlVariant);
               console.log('✅ Using URL variant (cleaned):', selectedVariantId);
             }
           }
 
-          // Priority 4: Fallback to stored variant
+          // Priority 4: stored variant
           if (!selectedVariantId) {
             console.log('⚠️ No URL variant, checking localStorage...');
             const storedVariant = this.getStoredVariant();
             console.log('🔍 Stored variant found:', storedVariant);
-
             if (storedVariant) {
               selectedVariantId = this.cleanVariantId(storedVariant);
               console.log('✅ Using stored variant (cleaned):', selectedVariantId);
             }
           }
 
-          // Priority 5: Final fallback to default
+          // Priority 5: default fallback
           if (!selectedVariantId) {
             console.log('⚠️ No variant found anywhere, using default...');
-            selectedVariantId = this.config.defaultVariantId;
+            selectedVariantId = this.defaultVariantId;
             console.log('✅ Using default variant as final fallback:', selectedVariantId);
           }
 
           console.log('🎯 FINAL SELECTED VARIANT ID:', selectedVariantId);
         }
 
-        // STEP 2: Parse shoe types for formatting properties (not for variant selection in URL mode)
+        // STEP 2: Format quiz data for cart
         const shoeTypes = this.parseShoeTypes(lineItemProperties);
-        console.log('Shoe types (for properties):', shoeTypes);
-
-        // STEP 3: Format quiz data for cart
-        // Line item properties = attached to each product in cart
-        // Order attributes = attached to the entire order
         const lineItemPropertiesFormatted = this.formatAsLineItemProperties(lineItemProperties, shoeTypes);
         const orderAttributesFormatted = this.formatAsOrderAttributes(lineItemProperties, shoeTypes);
 
@@ -653,45 +770,30 @@
         console.log('Line item properties:', lineItemPropertiesFormatted);
         console.log('Order attributes:', orderAttributesFormatted);
 
-        // STEP 4: Clear the entire cart (items + order attributes)
+        // STEP 3: Clear the cart
         console.log('=== ADD TO CART: Clearing Cart ===');
         await this.clearCart();
 
-        // STEP 5: Prepare cart data with the selected variant
-        const cartItems = [
-          {
-            id: selectedVariantId,
-            quantity: 1,
-            properties: lineItemPropertiesFormatted,
-          },
-        ];
-
+        // STEP 4: Build and send cart request
         const cartData = {
-          items: cartItems,
+          items: [{ id: selectedVariantId, quantity: 1, properties: lineItemPropertiesFormatted }],
           attributes: orderAttributesFormatted,
         };
 
         console.log('=== ADD TO CART: Final Cart Data ===');
         console.log('Cart data to add:', cartData);
 
-        // Publish cart add start event (for analytics/tracking)
-        if (typeof publish === 'function') {
-          publish('cart:add:start', { items: cartData.items });
-        }
+        if (typeof publish === 'function') publish('cart:add:start', { items: cartData.items });
 
-        // STEP 6: Make the cart add request to Shopify
         const response = await fetch(`${window.shopUrl + window.routes.cart_add_url}.js`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(cartData),
         });
 
         console.log('=== ADD TO CART: Response ===');
         console.log('Response status:', response.status);
 
-        // Parse the response
         const responseText = await response.text();
         console.log('Response text (first 200 chars):', responseText.substring(0, 200));
 
@@ -700,56 +802,33 @@
           result = JSON.parse(responseText);
         } catch (parseError) {
           console.error('Failed to parse response as JSON:', parseError);
-          console.error('Full response text:', responseText);
           throw new Error(`Server returned invalid response. Status: ${response.status}`);
         }
 
-        // Handle error responses from Shopify
-        if (!response.ok) {
-          if (result.description) {
-            throw new Error(result.description);
-          } else if (result.message) {
-            throw new Error(result.message);
-          } else {
-            throw new Error(`Cart add failed: ${response.status}`);
-          }
-        }
+        if (!response.ok)
+          throw new Error(result.description || result.message || `Cart add failed: ${response.status}`);
 
         console.log('Successfully added to cart:', result);
 
-        // STEP 7: Show success state and redirect to cart
         this.setButtonState(button, 'Added! Redirecting...', true);
-
-        // Publish cart add success event (for analytics/tracking)
-        if (typeof publish === 'function') {
-          publish('cart:add:success', { items: result.items || result });
-        }
-
-        // Redirect to cart page after short delay
+        if (typeof publish === 'function') publish('cart:add:success', { items: result.items || result });
         setTimeout(() => {
           window.location.href = window.routes.cart_url;
         }, 500);
       } catch (error) {
         console.error('=== ADD TO CART: Error ===');
         console.error('Error adding to cart:', error);
+        if (typeof publish === 'function') publish('cart:add:error', { error: error.message });
 
-        // Publish cart add error event (for analytics/tracking)
-        if (typeof publish === 'function') {
-          publish('cart:add:error', { error: error.message });
-        }
-
-        // Handle specific error cases using Shopify localized strings
         if (error.message.includes('sold out') || error.message.includes('already sold out')) {
           this.setButtonState(button, window.variantStrings.soldOut, true);
         } else if (error.message.includes("can't add more")) {
           this.setButtonState(button, window.cartStrings.quantityError.replace('[quantity]', '1'), true);
-          // Re-enable button after 3 seconds for quantity errors
           setTimeout(() => {
             this.setButtonState(button, originalText, false);
           }, 3000);
         } else {
           this.setButtonState(button, 'Error - Try Again', false);
-          // Re-enable button after 2 seconds for generic errors
           setTimeout(() => {
             this.setButtonState(button, originalText, false);
           }, 2000);
@@ -757,71 +836,40 @@
       }
     }
 
-    /**
-     * Clear the entire Shopify cart including items and order attributes
-     *
-     * This is a two-step process:
-     * 1. Clear all cart items using cart/clear.js endpoint
-     * 2. Clear all order attributes by setting them to empty strings
-     *
-     * Note: We don't throw errors here because we want to proceed with adding
-     * the new quiz product even if clearing fails
-     */
     async clearCart() {
       try {
         console.log('Clearing entire cart...');
 
-        // STEP 1: Clear all cart items using cart clear endpoint
+        // Step 1: Clear all cart items
         const clearResponse = await fetch(`${window.shopUrl + window.routes.cart_clear_url}.js`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
         });
-
-        if (!clearResponse.ok) {
-          throw new Error(`Failed to clear cart items: ${clearResponse.status}`);
-        }
-
+        if (!clearResponse.ok) throw new Error(`Failed to clear cart items: ${clearResponse.status}`);
         const clearResult = await clearResponse.json();
         console.log('Cart items cleared successfully:', clearResult);
 
-        // STEP 2: Clear all order attributes specifically
-        // Get current cart to see what attributes exist
+        // Step 2: Clear order attributes
         const cartResponse = await fetch(`${window.shopUrl + window.routes.cart_url}.js`);
         const cart = await cartResponse.json();
-
         console.log('Current cart attributes after item clearing:', cart.attributes);
 
-        // If there are still attributes, clear them
         if (cart.attributes && Object.keys(cart.attributes).length > 0) {
           console.log('Clearing remaining cart attributes...');
-
-          // Create an object to clear all existing attributes by setting them to empty strings
           const attributesToClear = {};
           Object.keys(cart.attributes).forEach((key) => {
             attributesToClear[key] = '';
           });
-
           console.log('Attributes to clear:', attributesToClear);
 
-          // Update cart with cleared attributes
-          const clearAttributesResponse = await fetch(`${window.shopUrl + window.routes.cart_update_url}.js`, {
+          const clearAttrsResponse = await fetch(`${window.shopUrl + window.routes.cart_update_url}.js`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              attributes: attributesToClear,
-            }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ attributes: attributesToClear }),
           });
-
-          if (!clearAttributesResponse.ok) {
-            throw new Error(`Failed to clear cart attributes: ${clearAttributesResponse.status}`);
-          }
-
-          const clearAttributesResult = await clearAttributesResponse.json();
-          console.log('Cart attributes cleared successfully:', clearAttributesResult.attributes);
+          if (!clearAttrsResponse.ok) throw new Error(`Failed to clear cart attributes: ${clearAttrsResponse.status}`);
+          const clearAttrsResult = await clearAttrsResponse.json();
+          console.log('Cart attributes cleared successfully:', clearAttrsResult.attributes);
         } else {
           console.log('No cart attributes to clear');
         }
@@ -829,28 +877,17 @@
         console.log('Complete cart clearing finished successfully');
       } catch (error) {
         console.error('Error clearing cart:', error);
-        // Don't throw here - we still want to proceed with adding the new quiz data
-        // The worst case is that old items/attributes remain, which is better than failing completely
+        // Don't throw — still proceed with adding new item
       }
     }
 
-    /**
-     * Get variant ID for a specific condition (Legacy mapping mode)
-     *
-     * @param {string} condition - The condition name from quiz data
-     * @returns {number|null} Variant ID or null if not found
-     */
     getVariantForCondition(condition) {
       console.log('🔍 FULL CONDITION LOOKUP:');
       console.log('  Input condition:', JSON.stringify(condition));
       console.log('  Available mappings:', this.config.conditionVariants);
       console.log('  Direct lookup result:', this.config.conditionVariants[condition]);
-      console.log('  this.defaultVariantId:', this.defaultVariantId);
 
       const variantId = this.config.conditionVariants[condition];
-      console.log(`🔍 Looking up condition "${condition}":`, variantId);
-      console.log(`🔍 defaultVariantId for comparison:`, this.config.defaultVariantId);
-
       if (!variantId) {
         console.warn(`⚠️ No variant mapping found for condition: "${condition}"`);
         console.log('Available conditions:', Object.keys(this.config.conditionVariants));
@@ -858,35 +895,18 @@
       return variantId || null;
     }
 
-    /**
-     * Parse conditions from line item properties (Legacy mapping mode)
-     * Extracts and splits comma-separated condition values
-     *
-     * @param {Object} lineItemProperties - Quiz data object
-     * @returns {Array|null} Array of condition strings or null
-     */
     parseConditions(lineItemProperties) {
       const conditionValue = lineItemProperties['Condition'] || lineItemProperties['condition'];
-      if (!conditionValue) {
-        return null;
-      }
+      if (!conditionValue) return null;
       return conditionValue
         .split(',')
-        .map((condition) => condition.trim())
-        .filter((condition) => condition.length > 0);
+        .map((c) => c.trim())
+        .filter((c) => c.length > 0);
     }
 
-    /**
-     * Get variant ID for a specific shoe type (Legacy mapping mode)
-     *
-     * @param {string} shoeType - The shoe type name from quiz data
-     * @returns {number|null} Variant ID or null if not found
-     */
     getVariantForShoeType(shoeType) {
       const variantId = this.config.shoeTypeVariants[shoeType];
       console.log(`🔍 Looking up shoe type "${shoeType}":`, variantId);
-      console.log(`🔍 defaultVariantId for comparison:`, this.config.defaultVariantId);
-
       if (!variantId) {
         console.warn(`⚠️ No variant mapping found for shoe type: "${shoeType}"`);
         console.log('Available shoe types:', Object.keys(this.config.shoeTypeVariants));
@@ -894,180 +914,73 @@
       return variantId || null;
     }
 
-    /**
-     * Clean variant ID by removing query parameters and converting to integer
-     *
-     * @param {string|number} variantId - Raw variant ID (may contain query params)
-     * @returns {number} Clean variant ID as integer
-     */
     cleanVariantId(variantId) {
-      if (typeof variantId === 'string') {
-        // Remove any query parameters or fragments
-        const cleaned = variantId.split('?')[0].split('#')[0];
-        return parseInt(cleaned);
-      }
+      if (typeof variantId === 'string') return parseInt(variantId.split('?')[0].split('#')[0]);
       return variantId;
     }
 
-    /**
-     * Parse shoe types from line item properties
-     * Used for formatting properties and (optionally) for variant selection in legacy mode
-     *
-     * @param {Object} lineItemProperties - Quiz data object
-     * @returns {Array|null} Array of shoe type strings or null
-     */
     parseShoeTypes(lineItemProperties) {
       const shoeTypeValue = lineItemProperties['Shoe Type'] || lineItemProperties['shoe_type'];
-
-      if (!shoeTypeValue) {
-        return null;
-      }
-
-      // Split by comma and clean up each type
+      if (!shoeTypeValue) return null;
       return shoeTypeValue
         .split(',')
-        .map((type) => type.trim())
-        .filter((type) => type.length > 0);
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
     }
 
-    /**
-     * Format quiz data as LINE ITEM PROPERTIES
-     *
-     * Line item properties are attached to individual cart items/products
-     * They appear in order confirmation emails and admin orders
-     *
-     * @param {Object} lineItemProperties - Raw quiz data from URL
-     * @param {Array|null} shoeTypes - Parsed shoe types array
-     * @returns {Object} Formatted properties object
-     */
     formatAsLineItemProperties(lineItemProperties, shoeTypes = null) {
       const cartProperties = {};
-
-      // Convert quiz data to proper format for line item properties
       Object.keys(lineItemProperties).forEach((key) => {
-        // Skip variant_id as it's handled separately
         if (key === 'variant_id') return;
-
-        // Format key: capitalize first letter, replace underscores with spaces
         let formattedKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
-
-        // Special handling for shoe types
         if (key === 'Shoe Type') {
-          formattedKey = 'Shoe Type';
-          cartProperties[formattedKey] = shoeTypes ? shoeTypes.join(', ') : lineItemProperties[key];
+          cartProperties['Shoe Type'] = shoeTypes ? shoeTypes.join(', ') : lineItemProperties[key];
         } else {
           cartProperties[formattedKey] = lineItemProperties[key];
         }
       });
-
-      console.log('Line item properties formatted:', cartProperties);
       return cartProperties;
     }
 
-    /**
-     * Format quiz data as ORDER ATTRIBUTES
-     *
-     * Order attributes are attached to the entire order (not individual items)
-     * They appear in order confirmation emails, admin orders, and can be used
-     * for order processing/fulfillment logic
-     *
-     * @param {Object} lineItemProperties - Raw quiz data from URL
-     * @param {Array|null} shoeTypes - Parsed shoe types array
-     * @returns {Object} Formatted attributes object
-     */
     formatAsOrderAttributes(lineItemProperties, shoeTypes = null) {
       const orderAttributes = {};
-
-      // Convert quiz data to order attributes with clean, simple names
       Object.keys(lineItemProperties).forEach((key) => {
-        // Skip variant_id as it's handled separately
         if (key === 'variant_id') return;
-
-        let value;
-        let formattedKey;
-
+        let value, formattedKey;
         if (key === 'Shoe Type') {
-          // Special handling for shoe types - include all selected types in order attributes
           value = shoeTypes ? shoeTypes.join(', ') : lineItemProperties[key];
           formattedKey = 'Shoe Type';
         } else {
-          // Standard formatting - capitalize first letter, replace underscores with spaces
           formattedKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
           value = lineItemProperties[key];
         }
-
-        // Include ALL values in order attributes (don't filter out placeholders)
-        if (value && value.toString().trim() !== '') {
-          orderAttributes[formattedKey] = value;
-        }
+        if (value && value.toString().trim() !== '') orderAttributes[formattedKey] = value;
       });
-
-      console.log('Order attributes formatted:', orderAttributes);
       return orderAttributes;
     }
 
-    // Legacy method for backwards compatibility
-    formatPropertiesForCart(lineItemProperties) {
-      const shoeTypes = this.parseShoeTypes(lineItemProperties);
-      return this.formatAsLineItemProperties(lineItemProperties, shoeTypes);
-    }
-
-    /**
-     * Update button visual state (text, disabled state, opacity)
-     *
-     * @param {HTMLElement} button - Button element to update
-     * @param {string} text - Text to display in button
-     * @param {boolean} disabled - Whether button should be disabled
-     */
     setButtonState(button, text, disabled) {
       if (!button) return;
-
-      const textElements = button.querySelectorAll('.btn-primary__text');
-      textElements.forEach((el) => {
+      button.querySelectorAll('.btn-primary__text').forEach((el) => {
         el.textContent = text;
       });
-
       button.disabled = disabled;
-      if (disabled) {
-        button.style.opacity = '0.6';
-        button.style.cursor = 'not-allowed';
-      } else {
-        button.style.opacity = '1';
-        button.style.cursor = 'pointer';
-      }
+      button.style.opacity = disabled ? '0.6' : '1';
+      button.style.cursor = disabled ? 'not-allowed' : 'pointer';
     }
 
-    /**
-     * Parse quiz data from URL parameters
-     *
-     * Extracts all quiz answers from URL query parameters, excluding
-     * control parameters like 'variant', 'quiz_complete', UTM params, etc.
-     *
-     * Also handles malformed URLs with multiple '?' characters
-     *
-     * @returns {Object} Quiz data object with cleaned values
-     */
     getLineItemProperties() {
-      // Handle malformed URLs with multiple ? characters
       let searchString = window.location.search;
-
-      // If there are multiple ? characters, treat everything after the first one as query params
-      if (searchString.includes('?')) {
-        const parts = window.location.href.split('?');
-        if (parts.length > 2) {
-          // Reconstruct the search string by joining all parts after the first
-          searchString = '?' + parts.slice(1).join('&');
-          console.log('Fixed malformed URL search string:', searchString);
-        }
-      }
+      const parts = window.location.href.split('?');
+      if (parts.length > 2) searchString = '?' + parts.slice(1).join('&');
 
       const params = new URLSearchParams(searchString);
       const data = {};
 
-      // Exclude parameters that are not line item properties
       const excludedParams = [
-        'quiz_complete', // Control parameter - not a line item property
-        'variant', // Variant handled separately
+        'quiz_complete',
+        'token',
+        'variant',
         'storefront',
         'pairs',
         'checkout',
@@ -1085,7 +998,7 @@
         'gclid',
         'cart_link_id',
         'preview_theme_id',
-        'pb', // Shopify preview params
+        'pb',
       ];
 
       for (let [key, value] of params.entries()) {
@@ -1096,72 +1009,98 @@
           !key.startsWith('_')
         ) {
           const decodedValue = decodeURIComponent(value);
-
-          // Skip empty values and placeholder values (underscores)
           if (decodedValue && decodedValue.trim() !== '' && !/^_+(\s+_+)*$/.test(decodedValue.trim())) {
             data[key] = decodedValue;
           }
-          // If it's empty or a placeholder, we simply don't add it to data
         }
       }
 
-      console.log('Parsed quiz data:', data);
       return data;
+    }
+
+    // ─── Render ───────────────────────────────────────────────
+    renderStrideProfile(data, quizData) {
+      const headlineEl = document.getElementById('sp-headline');
+      const subheadlineEl = document.getElementById('sp-subheadline');
+      const ctaTextEl = document.getElementById('sp-cta-text');
+
+      if (headlineEl) headlineEl.textContent = data.headline || '';
+      if (subheadlineEl) subheadlineEl.textContent = data.subheadline || '';
+      if (ctaTextEl) ctaTextEl.textContent = data.cta || '';
+
+      // Render cards
+      const cardsEl = document.getElementById('sp-cards');
+      if (cardsEl && data.cards && data.cards.length) {
+        cardsEl.innerHTML = data.cards
+          .map(
+            (card) => `
+            <div class="stride-profile__card">
+              <div class="stride-profile__card-icon">${card.emoji || '👟'}</div>
+              <div class="stride-profile__card-body">
+                <p class="stride-profile__card-label">${this.escapeHtml(card.label || '')}</p>
+                <p class="stride-profile__card-title">${this.escapeHtml(card.title || '')}</p>
+                <p class="stride-profile__card-desc">${this.escapeHtml(card.desc || '')}</p>
+              </div>
+            </div>
+          `,
+          )
+          .join('');
+      }
+
+      // Render profile tags — injected from live quiz data
+      const tagsEl = document.getElementById('sp-tags');
+      if (tagsEl && quizData) {
+        const tags = [
+          quizData['Reason'] ? { label: 'Goal', value: quizData['Reason'] } : null,
+          quizData['Condition'] ? { label: 'Condition', value: quizData['Condition'] } : null,
+          quizData['Arch'] ? { label: 'Arch', value: quizData['Arch'] } : null,
+          quizData['Size'] ? { label: 'Size', value: quizData['Size'] } : null,
+          quizData['Pain Region (L)'] ? { label: 'Pain (L)', value: quizData['Pain Region (L)'] } : null,
+          quizData['Pain Region (R)'] ? { label: 'Pain (R)', value: quizData['Pain Region (R)'] } : null,
+          quizData['Pain Frequency'] ? { label: 'Frequency', value: quizData['Pain Frequency'] } : null,
+          quizData['Shoe Type'] ? { label: 'Shoe', value: quizData['Shoe Type'] } : null,
+        ].filter(Boolean);
+
+        tagsEl.innerHTML = tags
+          .map(
+            (t) =>
+              `<span class="stride-profile__tag"><strong>${this.escapeHtml(t.label)}:</strong> ${this.escapeHtml(t.value)}</span>`,
+          )
+          .join('');
+      }
+    }
+
+    escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
   }
 
-  // Make QuizResults globally accessible for external cart integration
   window.QuizResults = QuizResults;
   window.customElements.define('quiz-results', QuizResults);
 
-  // Helper functions for external use (e.g., cart drawer, other scripts)
-
-  /**
-   * Get stored quiz data from localStorage
-   * @returns {Object|null} Quiz data object or null if not found
-   */
   window.getQuizData = function () {
-    const quizElement = document.querySelector('quiz-results');
-    return quizElement ? quizElement.getStoredQuizData() : null;
+    const el = document.querySelector('quiz-results');
+    return el ? el.getStoredQuizData() : null;
   };
 
-  /**
-   * Get quiz data formatted for cart (both line item properties and order attributes)
-   * @returns {Object} Object with lineItemProperties and orderAttributes
-   */
   window.getQuizDataForCart = function () {
-    const quizElement = document.querySelector('quiz-results');
-    return quizElement ? quizElement.getQuizDataForCart() : {};
+    const el = document.querySelector('quiz-results');
+    return el ? el.getQuizDataForCart() : {};
   };
 
-  /**
-   * Get stored variant ID from localStorage
-   * @returns {string|null} Variant ID or null if not found
-   */
   window.getQuizVariant = function () {
-    const quizElement = document.querySelector('quiz-results');
-    return quizElement ? quizElement.getStoredVariant() : null;
+    const el = document.querySelector('quiz-results');
+    return el ? el.getStoredVariant() : null;
   };
 
-  /**
-   * Store variant ID in localStorage
-   * @param {string|number} variantId - Variant ID to store
-   */
   window.setQuizVariant = function (variantId) {
-    const quizElement = document.querySelector('quiz-results');
-    if (quizElement) {
-      quizElement.storeVariant(variantId);
-    }
+    const el = document.querySelector('quiz-results');
+    if (el) el.storeVariant(variantId);
   };
 
-  /**
-   * Clear all quiz data from localStorage
-   */
   window.clearQuizData = function () {
-    const quizElement = document.querySelector('quiz-results');
-    if (quizElement) {
-      quizElement.clearStoredQuizData();
-    }
+    const el = document.querySelector('quiz-results');
+    if (el) el.clearStoredQuizData();
   };
 {% endjavascript %}
 
@@ -1172,15 +1111,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Dev mode"
-    },
-    {
-      "type": "header",
       "content": "Your fit page"
-    },
-    {
-      "type": "paragraph",
-      "content": "To edit steps, see blocks"
     },
     {
       "type": "image_picker",

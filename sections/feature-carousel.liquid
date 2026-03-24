@@ -13,10 +13,19 @@
     margin-bottom: 36px;
   }
 
-  .feature-carousel__title {
-    font-size: clamp(32px, 5vw, 56px);
+  .feature-carousel__title ss {
     font-weight: 500;
     line-height: 1.1;
+    margin: 0;
+  }
+
+  .feature-carousel__desc {
+    margin: 16px 0 0;
+    color: currentColor;
+    opacity: 0.7;
+  }
+
+  .feature-carousel__desc p {
     margin: 0;
   }
 
@@ -521,7 +530,10 @@
 
 <div class="feature-carousel" data-carousel-wrapper>
   <header class="feature-carousel__header page-width">
-    <h2 class="feature-carousel__title">{{ section.settings.title }}</h2>
+    <h2 class="feature-carousel__title ss-heading">{{ section.settings.title }}</h2>
+    {%- if section.settings.description != blank -%}
+      <div class="feature-carousel__desc ss-body">{{ section.settings.description }}</div>
+    {%- endif -%}
   </header>
 
   <feature-carousel class="feature-carousel__container">
@@ -710,14 +722,12 @@
       this.showInitialState();
       this.handleResize();
 
-      // Set up Intersection Observer for central video autoplay
       if (this.centralVideo) {
         this.observeCentralVideo();
       }
     }
 
     bindEvents() {
-      // Feature button clicks
       this.featureButtons.forEach((btn, index) => {
         btn.addEventListener('click', () => {
           if (this.isDesktop) {
@@ -728,17 +738,14 @@
         });
       });
 
-      // Hotspot clicks (desktop only)
       this.hotspots.forEach((hotspot, index) => {
         hotspot.addEventListener('click', () => this.openFeature(index));
       });
 
-      // Close button
       if (this.closeButton) {
         this.closeButton.addEventListener('click', () => this.closeFeature());
       }
 
-      // Navigation buttons
       this.navButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
           const direction = btn.dataset.nav;
@@ -747,7 +754,6 @@
         });
       });
 
-      // Handle resize
       window.addEventListener('resize', () => this.handleResize());
     }
 
@@ -756,23 +762,18 @@
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting && this.currentIndex === null) {
-              // Only autoplay if we're in initial state
-              this.centralVideo.play().catch(() => {
-                // Autoplay failed (likely unmuted video) - that's okay
-              });
+              this.centralVideo.play().catch(() => {});
             }
           });
         },
         { threshold: 0.5 },
       );
-
       observer.observe(this.centralVideo);
     }
 
     handleResize() {
       const wasDesktop = this.isDesktop;
       this.isDesktop = window.innerWidth >= 990;
-
       if (wasDesktop !== this.isDesktop) {
         this.closeFeature();
       }
@@ -780,18 +781,13 @@
 
     scrollToFeature(index) {
       if (!this.featureList || this.isDesktop) return;
-
       const item = this.featureItems[index];
       if (item) {
         const itemLeft = item.offsetLeft;
         const itemWidth = item.offsetWidth;
         const listWidth = this.featureList.offsetWidth;
         const scrollLeft = itemLeft - listWidth / 2 + itemWidth / 2;
-
-        this.featureList.scrollTo({
-          left: scrollLeft,
-          behavior: 'smooth',
-        });
+        this.featureList.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       }
     }
 
@@ -799,12 +795,8 @@
       const initialImage = this.querySelector('[data-image="initial"]');
       if (initialImage) {
         initialImage.classList.add('is-active');
-
-        // Show hotspots on desktop only
         if (this.isDesktop) {
-          this.hotspots.forEach((hotspot) => {
-            hotspot.classList.add('is-visible');
-          });
+          this.hotspots.forEach((hotspot) => hotspot.classList.add('is-visible'));
         }
       }
     }
@@ -821,12 +813,8 @@
       if (this.isAnimating) return;
       if (this.currentIndex === index) return;
 
-      // Pause central video if playing
-      if (this.centralVideo) {
-        this.centralVideo.pause();
-      }
+      if (this.centralVideo) this.centralVideo.pause();
 
-      // Pause any currently playing feature video
       if (this.currentIndex !== null) {
         const currentVideo = this.querySelector(`[data-feature-video="${this.currentIndex}"]`);
         if (currentVideo) {
@@ -835,7 +823,6 @@
         }
       }
 
-      // CLEANUP: Remove all classes and inline styles from ALL images
       this.images.forEach((img) => {
         img.classList.remove('is-active', 'is-exiting-left', 'is-entering-right');
         img.style.opacity = '';
@@ -853,29 +840,21 @@
         this.transitionBetweenFeatures(previousIndex, index);
       }
 
-      // Load and play feature video if present
       const featureVideo = this.querySelector(`[data-feature-video="${index}"]`);
       if (featureVideo) {
-        featureVideo.load(); // Start loading
-        featureVideo.play().catch(() => {
-          // Autoplay failed - that's okay
-        });
+        featureVideo.load();
+        featureVideo.play().catch(() => {});
       }
 
       this.updateUIState();
 
-      // Mobile: scroll to active feature
       if (!this.isDesktop) {
-        setTimeout(() => {
-          this.scrollToFeature(index);
-        }, 100);
+        setTimeout(() => this.scrollToFeature(index), 100);
       }
     }
 
     transitionFromInitial(index) {
       this.isAnimating = true;
-
-      // Hide initial image/video
       const initialImage = this.querySelector('[data-image="initial"]');
       if (initialImage) {
         initialImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -883,59 +862,44 @@
         initialImage.style.transform = 'scale(0.9)';
         initialImage.classList.remove('is-active');
       }
-
-      // Hide hotspots
-      this.hotspots.forEach((hotspot) => {
-        hotspot.classList.remove('is-visible');
-      });
-
-      // Show new feature image/video
+      this.hotspots.forEach((hotspot) => hotspot.classList.remove('is-visible'));
       setTimeout(() => {
         const newImage = this.querySelector(`[data-image="${index}"]`);
         if (newImage) {
           newImage.style.transform = 'scale(0.9)';
           newImage.style.opacity = '0';
           newImage.classList.add('is-active');
-
           requestAnimationFrame(() => {
             newImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             newImage.style.opacity = '1';
             newImage.style.transform = 'scale(1)';
           });
         }
-
         this.isAnimating = false;
       }, 50);
     }
 
     transitionBetweenFeatures(fromIndex, toIndex) {
       this.isAnimating = true;
-
       const currentImage = this.querySelector(`[data-image="${fromIndex}"]`);
       const nextImage = this.querySelector(`[data-image="${toIndex}"]`);
-
-      // Exit current image: fade out + scale down + slide left
       if (currentImage) {
         currentImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         currentImage.style.opacity = '0';
         currentImage.style.transform = 'scale(0.9) translateX(-50px)';
         currentImage.classList.remove('is-active');
       }
-
-      // Enter next image: start from RIGHT, slide in + scale up
       if (nextImage) {
         nextImage.style.transform = 'scale(0.9) translateX(50px)';
         nextImage.style.opacity = '0';
         nextImage.style.transition = 'none';
         nextImage.classList.add('is-active');
-
         requestAnimationFrame(() => {
           nextImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
           nextImage.style.opacity = '1';
           nextImage.style.transform = 'scale(1) translateX(0)';
         });
       }
-
       setTimeout(() => {
         this.isAnimating = false;
       }, 500);
@@ -943,53 +907,35 @@
 
     closeFeature() {
       if (this.isAnimating || this.currentIndex === null) return;
-
       this.isAnimating = true;
-
-      // Pause current feature video
       const currentVideo = this.querySelector(`[data-feature-video="${this.currentIndex}"]`);
       if (currentVideo) {
         currentVideo.pause();
         currentVideo.currentTime = 0;
       }
-
       const currentImage = this.querySelector(`[data-image="${this.currentIndex}"]`);
-
-      // Current feature scales down and fades out
       if (currentImage) {
         currentImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         currentImage.style.opacity = '0';
         currentImage.style.transform = 'scale(0.9)';
         currentImage.classList.remove('is-active');
       }
-
-      // Initial image/video scales and fades in
       setTimeout(() => {
         const initialImage = this.querySelector('[data-image="initial"]');
         if (initialImage) {
           initialImage.style.transform = 'scale(1.1)';
           initialImage.style.opacity = '0';
           initialImage.classList.add('is-active');
-
           requestAnimationFrame(() => {
             initialImage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             initialImage.style.opacity = '1';
             initialImage.style.transform = 'scale(1)';
           });
         }
-
-        // Resume central video if it exists and was playing
-        if (this.centralVideo) {
-          this.centralVideo.play().catch(() => {});
-        }
-
-        // Show hotspots again (desktop only)
+        if (this.centralVideo) this.centralVideo.play().catch(() => {});
         if (this.isDesktop) {
-          this.hotspots.forEach((hotspot) => {
-            hotspot.classList.add('is-visible');
-          });
+          this.hotspots.forEach((hotspot) => hotspot.classList.add('is-visible'));
         }
-
         this.currentIndex = null;
         this.updateUIState();
         this.isAnimating = false;
@@ -997,66 +943,35 @@
     }
 
     navigatePrev() {
-      if (this.currentIndex > 0) {
-        this.openFeature(this.currentIndex - 1);
-      }
+      if (this.currentIndex > 0) this.openFeature(this.currentIndex - 1);
     }
 
     navigateNext() {
-      if (this.currentIndex < this.totalFeatures - 1) {
-        this.openFeature(this.currentIndex + 1);
-      }
+      if (this.currentIndex < this.totalFeatures - 1) this.openFeature(this.currentIndex + 1);
     }
 
     updateUIState() {
       const isInitialState = this.currentIndex === null;
-
-      // Toggle snap behavior on mobile
       if (!this.isDesktop && this.featureList) {
-        if (isInitialState) {
-          this.featureList.classList.remove('snap-active');
-        } else {
-          this.featureList.classList.add('snap-active');
-        }
+        this.featureList.classList.toggle('snap-active', !isInitialState);
       }
-
-      // Update feature items active state
       this.featureItems.forEach((item, index) => {
         const button = item.querySelector('[data-feature-button]');
-        if (index === this.currentIndex) {
-          item.classList.add('is-active');
-          if (button) button.setAttribute('aria-expanded', 'true');
-        } else {
-          item.classList.remove('is-active');
-          if (button) button.setAttribute('aria-expanded', 'false');
-        }
+        const isActive = index === this.currentIndex;
+        item.classList.toggle('is-active', isActive);
+        if (button) button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
       });
-
-      // Desktop: Add class to wrapper for styling inactive items
       if (this.carouselWrapper) {
         this.carouselWrapper.classList.toggle('has-active-feature', !isInitialState);
       }
-
-      // Toggle close button
-      if (this.closeButton) {
-        this.closeButton.classList.toggle('is-visible', !isInitialState);
-      }
-
-      // Toggle navigation - desktop
-      if (this.desktopNav) {
-        this.desktopNav.classList.toggle('is-visible', !isInitialState);
-      }
-
-      // Toggle navigation - mobile
+      if (this.closeButton) this.closeButton.classList.toggle('is-visible', !isInitialState);
+      if (this.desktopNav) this.desktopNav.classList.toggle('is-visible', !isInitialState);
       if (this.mobileNav) {
         const shouldShowNav = !isInitialState && (this.currentIndex > 0 || this.currentIndex < this.totalFeatures - 1);
         this.mobileNav.classList.toggle('is-visible', shouldShowNav);
       }
-
-      // Update nav button states
       const prevBtns = this.querySelectorAll('[data-nav="prev"]');
       const nextBtns = this.querySelectorAll('[data-nav="next"]');
-
       if (!isInitialState) {
         prevBtns.forEach((btn) => {
           btn.disabled = this.currentIndex === 0;
@@ -1082,10 +997,15 @@
       "content": "Content"
     },
     {
-      "type": "text",
+      "type": "inline_richtext",
       "id": "title",
       "label": "Title",
       "default": "Take a closer look."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
     },
     {
       "type": "header",
@@ -1108,14 +1028,8 @@
       "id": "central_media_type",
       "label": "Display",
       "options": [
-        {
-          "value": "image",
-          "label": "Image"
-        },
-        {
-          "value": "video",
-          "label": "Video"
-        }
+        { "value": "image", "label": "Image" },
+        { "value": "video", "label": "Video" }
       ],
       "default": "image"
     },
@@ -1201,14 +1115,8 @@
           "id": "media_type",
           "label": "Media type",
           "options": [
-            {
-              "value": "image",
-              "label": "Image"
-            },
-            {
-              "value": "video",
-              "label": "Video"
-            }
+            { "value": "image", "label": "Image" },
+            { "value": "video", "label": "Video" }
           ],
           "default": "image"
         },

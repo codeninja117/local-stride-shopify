@@ -1,0 +1,693 @@
+{% comment %} ss-how-it-works.liquid {% endcomment %}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --color-background: {{ section.settings.color_scheme.settings.background.red }}, {{ section.settings.color_scheme.settings.background.green }}, {{ section.settings.color_scheme.settings.background.blue }};
+    --color-foreground: {{ section.settings.color_scheme.settings.text.red }}, {{ section.settings.color_scheme.settings.text.green }}, {{ section.settings.color_scheme.settings.text.blue }};
+    --color-foreground-muted: {{ section.settings.color_scheme.settings.text_muted.red }}, {{ section.settings.color_scheme.settings.text_muted.green }}, {{ section.settings.color_scheme.settings.text_muted.blue }};
+    --color-accent: {{ section.settings.color_scheme.settings.accent_color.red }}, {{ section.settings.color_scheme.settings.accent_color.green }}, {{ section.settings.color_scheme.settings.accent_color.blue }};
+    background: rgb(var(--color-background));
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="hiw-section page-width" id="shopify-section-{{ section.id }}">
+  <div class="hiw-header" data-animate="fade-up">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="ss-eyebrow hiw-eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ss-heading hiw-title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <div class="ss-body hiw-subheading">{{ section.settings.subheading }}</div>
+    {%- endif -%}
+  </div>
+
+  <hiw-carousel class="hiw-carousel-root" data-animate="fade-up">
+    <div class="hiw-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'step' -%}
+          <div class="hiw-card" {{ block.shopify_attributes }} data-cascade="{{ forloop.index | times: 0.08 }}">
+            <div class="hiw-card-photo">
+              <div class="step-num">{{ forloop.index }}</div>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 900px) 33vw, 100vw'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'hiw-card-placeholder' }}
+              {%- endif -%}
+            </div>
+
+            {%- unless forloop.last -%}
+              <div class="hiw-step-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="9,18 15,12 9,6" />
+                </svg>
+              </div>
+            {%- endunless -%}
+
+            <div class="hiw-card-text">
+              {%- if block.settings.label != blank -%}
+                <div class="hiw-card-label">{{ block.settings.label }}</div>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <h3 class="hiw-card-heading">{{ block.settings.heading }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="hiw-card-body">{{ block.settings.body }}</p>
+              {%- endif -%}
+              {%- if block.settings.detail != blank -%}
+                <div class="hiw-card-detail">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12,6 12,12 16,14" />
+                  </svg>
+                  {{ block.settings.detail }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {% comment %}
+      Carousel controls injected by JS on mobile only
+    {% endcomment %}
+  </hiw-carousel>
+
+  {%- if section.settings.button_label != blank -%}
+    <div class="hiw-cta" data-animate="fade-up">
+      {%- render 'button',
+        tag: 'a',
+        variant: 'primary',
+        text: section.settings.button_label,
+        url: section.settings.button_url
+      -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} .hiw-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* Header */
+  #shopify-section-{{ section.id }} .hiw-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-eyebrow {
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-title {
+    font-weight: 300;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-title strong {
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-subheading {
+    max-width: 560px;
+  }
+
+  /* Carousel root */
+  #shopify-section-{{ section.id }} .hiw-carousel-root {
+    display: block;
+  }
+
+  /* Grid — desktop */
+  #shopify-section-{{ section.id }} .hiw-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* Card */
+  #shopify-section-{{ section.id }} .hiw-card {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-photo {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    background: rgba(var(--color-accent), 0.1);
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card:hover .hiw-card-photo img {
+    transform: scale(1.03);
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Step number badge */
+  #shopify-section-{{ section.id }} .step-num {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgb(var(--color-accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: rgb(var(--color-foreground));
+    z-index: 2;
+  }
+
+  /* Step connector arrow (desktop between cards) */
+  #shopify-section-{{ section.id }} .hiw-step-arrow {
+    position: absolute;
+    top: 140px;
+    right: -16px;
+    width: 32px;
+    height: 32px;
+    background: rgb(var(--color-background));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 0 0 2px rgba(var(--color-accent), 0.5);
+  }
+
+  #shopify-section-{{ section.id }} .hiw-step-arrow svg {
+    width: 14px;
+    height: 14px;
+    stroke: rgb(var(--color-accent));
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  /* Card text */
+  #shopify-section-{{ section.id }} .hiw-card-text {
+    padding: 28px 32px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgb(var(--color-accent));
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-heading {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: rgb(var(--color-foreground));
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-body {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: rgb(var(--color-foreground-muted));
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(var(--color-foreground-muted));
+    margin-top: 6px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(var(--color-accent), 0.35);
+  }
+
+  #shopify-section-{{ section.id }} .hiw-card-detail svg {
+    width: 14px;
+    height: 14px;
+    stroke: rgb(var(--color-accent));
+    fill: none;
+    stroke-width: 2;
+    flex-shrink: 0;
+  }
+
+  /* CTA */
+  #shopify-section-{{ section.id }} .hiw-cta {
+    text-align: center;
+  }
+
+  /* ── Mobile carousel ─────────────────────────────────── */
+  @media (max-width: 900px) {
+    #shopify-section-{{ section.id }} .hiw-grid {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 2px;
+      border-radius: 16px;
+      /* allow cards to sit flush edge-to-edge */
+      margin: 0 calc(-1 * var(--page-width-padding, 20px));
+      padding: 0 var(--page-width-padding, 20px);
+      border-radius: 0;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-card {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+      border-radius: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-card-photo {
+      height: 240px;
+    }
+
+    /* Hide desktop step connector arrows on mobile */
+    #shopify-section-{{ section.id }} .hiw-step-arrow {
+      display: none;
+    }
+
+    /* Nav arrows injected by JS */
+    #shopify-section-{{ section.id }} .hiw-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(var(--color-foreground), 1);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-nav-btn:hover {
+      background: rgba(var(--color-foreground), 0.12);
+      border-color: rgb(var(--color-foreground));
+    }
+
+    #shopify-section-{{ section.id }} .hiw-nav-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-nav-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: rgb(var(--color-foreground));
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    /* Dots injected by JS */
+    #shopify-section-{{ section.id }} .hiw-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(var(--color-foreground), 0.3);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #shopify-section-{{ section.id }} .hiw-dot.is-active {
+      background: rgb(var(--color-foreground));
+      transform: scale(1.4);
+    }
+  }
+
+  /* Hide nav/dots on desktop (in case JS ran before resize) */
+  @media (min-width: 901px) {
+    #shopify-section-{{ section.id }} .hiw-nav {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    if (customElements.get('hiw-carousel')) return;
+
+    class HiwCarousel extends HTMLElement {
+      constructor() {
+        super();
+        this._active = 0;
+        this._mobile = false;
+        this._onScroll = this._onScroll.bind(this);
+        this._onResize = this._onResize.bind(this);
+      }
+
+      connectedCallback() {
+        this._grid = this.querySelector('.hiw-grid');
+        this._cards = Array.from(this.querySelectorAll('.hiw-card'));
+        this._count = this._cards.length;
+
+        this._checkBreakpoint();
+        window.addEventListener('resize', this._onResize, { passive: true });
+      }
+
+      disconnectedCallback() {
+        window.removeEventListener('resize', this._onResize);
+        this._grid.removeEventListener('scroll', this._onScroll);
+      }
+
+      // ── Breakpoint ──────────────────────────────────────
+
+      _checkBreakpoint() {
+        const isMobile = window.innerWidth <= 900;
+        if (isMobile === this._mobile) return;
+        this._mobile = isMobile;
+        isMobile ? this._initMobile() : this._destroyMobile();
+      }
+
+      _onResize() {
+        this._checkBreakpoint();
+      }
+
+      // ── Mobile init / destroy ───────────────────────────
+
+      _initMobile() {
+        this._buildControls();
+        this._grid.addEventListener('scroll', this._onScroll, { passive: true });
+        this._updateControls();
+      }
+
+      _destroyMobile() {
+        this._nav?.remove();
+        this._nav = null;
+        this._dots = [];
+        this._grid.removeEventListener('scroll', this._onScroll);
+      }
+
+      // ── Build controls ──────────────────────────────────
+
+      _buildControls() {
+        const nav = document.createElement('div');
+        nav.className = 'hiw-nav';
+
+        // Prev button
+        this._prevBtn = this._makeArrowBtn('prev');
+        this._prevBtn.addEventListener('click', () => this._go(this._active - 1));
+
+        // Dots
+        const dotsWrap = document.createElement('div');
+        dotsWrap.className = 'hiw-dots';
+        this._dots = this._cards.map((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'hiw-dot';
+          dot.setAttribute('aria-label', `Go to step ${i + 1}`);
+          dot.addEventListener('click', () => this._go(i));
+          dotsWrap.appendChild(dot);
+          return dot;
+        });
+
+        // Next button
+        this._nextBtn = this._makeArrowBtn('next');
+        this._nextBtn.addEventListener('click', () => this._go(this._active + 1));
+
+        nav.appendChild(this._prevBtn);
+        nav.appendChild(dotsWrap);
+        nav.appendChild(this._nextBtn);
+
+        this._nav = nav;
+        this.appendChild(nav);
+      }
+
+      _makeArrowBtn(dir) {
+        const btn = document.createElement('button');
+        btn.className = 'hiw-nav-btn';
+        btn.setAttribute('aria-label', dir === 'prev' ? 'Previous step' : 'Next step');
+        btn.innerHTML =
+          dir === 'prev'
+            ? `<svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>`
+            : `<svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>`;
+        return btn;
+      }
+
+      // ── Navigation ──────────────────────────────────────
+
+      _go(index) {
+        const clamped = Math.max(0, Math.min(this._count - 1, index));
+        const card = this._cards[clamped];
+        // scrollIntoView with inline: 'start' respects snap alignment
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        // Optimistically update — scroll event will confirm
+        this._active = clamped;
+        this._updateControls();
+      }
+
+      // ── Scroll sync ─────────────────────────────────────
+
+      _onScroll() {
+        // Find the card whose left edge is closest to the grid's scroll position
+        const scrollLeft = this._grid.scrollLeft;
+        let closest = 0;
+        let minDist = Infinity;
+
+        this._cards.forEach((card, i) => {
+          const dist = Math.abs(card.offsetLeft - scrollLeft);
+          if (dist < minDist) {
+            minDist = dist;
+            closest = i;
+          }
+        });
+
+        if (closest !== this._active) {
+          this._active = closest;
+          this._updateControls();
+        }
+      }
+
+      // ── UI state ─────────────────────────────────────────
+
+      _updateControls() {
+        if (!this._nav) return;
+
+        this._prevBtn.disabled = this._active === 0;
+        this._nextBtn.disabled = this._active === this._count - 1;
+
+        this._dots.forEach((dot, i) => {
+          dot.classList.toggle('is-active', i === this._active);
+        });
+      }
+    }
+
+    customElements.define('hiw-carousel', HiwCarousel);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "SS How It Works",
+  "tag": "section",
+  "class": "ss-hiw-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Simple Process"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How it <strong>Works</strong>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get My Custom Orthotics"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "label",
+          "label": "Step label",
+          "default": "Step One"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Tell us about your pain and goals"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body",
+          "default": "Take a short quiz about where it hurts, your activity level, and what you want to fix. No clinic visit needed."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "detail",
+          "label": "Detail line",
+          "default": "Less than 2 minutes"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS How It Works",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "label": "Step One",
+            "heading": "Tell us about your pain and goals",
+            "body": "Take a short quiz about where it hurts, your activity level, and what you want to fix. No clinic visit needed.",
+            "detail": "Less than 2 minutes"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "label": "Step Two",
+            "heading": "Record your gait & scan your feet",
+            "body": "Using the Stride app on iPhone or Android, record your gait and 3D scan your feet in under 60 seconds. No equipment needed.",
+            "detail": "Works on iPhone & Android"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "label": "Step Three",
+            "heading": "Your orthotics arrive in 10–15 days",
+            "body": "Designed in Germany and 3D-printed to your exact foot shape. Slip them into any shoe and feel the difference from day one.",
+            "detail": "180-day satisfaction guarantee"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -38,6 +38,7 @@
         },
         "discount_HVxN73": {
           "type": "discount",
+          "disabled": true,
           "settings": {
             "title": "50% OFF 'SPRING PREVIEW' SALE",
             "subtitle": "Discount Auto-applied",

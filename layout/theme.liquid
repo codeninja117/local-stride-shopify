@@ -10,7 +10,7 @@
           const params = new URLSearchParams(window.location.search);
           return params.get(name);
         }
- 
+
         const msclkid = getParam('msclkid');
         if (msclkid) {
           // Save MSCLKID in a cookie (90-day expiration)
@@ -330,6 +330,15 @@
          display: none;
        }
 
+      body.template-page--landing-page .shopify-section-group-footer-group {
+         display: none;
+       }
+
+      body.template-page--landing-page {
+        --header-color: 0,0,0;
+        --header-background: 0,0,0;
+      }
+
        body.template-cart {
          --header-color: 0,0,0;
          --header-background: 32,32,32;
@@ -360,11 +369,10 @@
     {%- endif -%}
 
     {% render 'collection-schema' %}
-
   </head>
 
   <body
-    class="body template-{{ request.page_type }}{% if template.suffix %} template-{{ request.page_type }}--{{ template.suffix }}{% endif %} antialiased"
+    class="body template-{{ request.page_type }}{% if template.suffix %} template-{{ request.page_type }}--{{ template.suffix }}{% endif %} antialiased {% if page.metafields.custom.hide_header %}hide-header{% endif %}"
   >
     <a class="skip-to-content-link button sr-only" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}

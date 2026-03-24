@@ -742,7 +742,7 @@
                                 class="smart-menu__panel {% if forloop.first %}active{% endif %}"
                                 data-panel="{{ child_link.handle }}"
                               >
-                                <h3 class="smart-menu__panel-title">{{ child_link.title }}</h3>
+                                <p class="smart-menu__panel-title">{{ child_link.title }}</p>
                                 {%- if child_link.links != blank -%}
                                   <div class="smart-menu__grid">
                                     {%- for grandchild_link in child_link.links -%}

@@ -38,7 +38,9 @@
             }}
           </div>
           <div class="how-stride-works__step-content flex max-w-80 flex-col gap-2">
-            <h3 class="how-stride-works__step-title text-xl">{{ block.settings.title }}</h3>
+            {%- if block.settings.title != blank -%}
+  <h3 class="how-stride-works__step-title text-xl">{{ block.settings.title }}</h3>
+            {%- endif -%}
             <p class="how-stride-works__step-text">
               {{
                 block.settings.text
@@ -83,7 +85,11 @@
                   {%- endif -%}
                 </div>
                 <div class="how-stride-works__step-content flex max-w-80 flex-col gap-2">
-                  <h3 class="how-stride-works__step-title text-xl uppercase">{{ block.settings.title }}</h3>
+                  
+                  {%- if block.settings.title != blank -%}
+  <h3 class="how-stride-works__step-title text-xl uppercase">{{ block.settings.title }}</h3>
+                  {%- endif -%}
+
                   <p class="how-stride-works__step-text">
                     {{
                       block.settings.text

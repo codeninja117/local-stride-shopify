@@ -16,6 +16,10 @@
     "logo_width": 90,
     "favicon": "shopify://shop_images/favicon-stride.png",
     "font_size_display_l": 64,
+    "mobile_font_size_body_l": 20,
+    "mobile_font_size_body_m": 20,
+    "mobile_font_size_body_s": 18,
+    "mobile_font_size_body_xs": 18,
     "social_facebook_link": "https://www.facebook.com/gostridesoles/",
     "social_facebook_icon": "shopify://shop_images/footerFacebook.svg",
     "social_instagram_link": "https://www.instagram.com/stride__soles",
@@ -257,11 +261,6 @@
         "disabled": false,
         "settings": {}
       },
-      "15599951759576395258": {
-        "type": "shopify://apps/mida-replay-heatmaps/blocks/mida_recorder/e4c350c5-eabf-426d-8014-47ef50412bd0",
-        "disabled": false,
-        "settings": {}
-      },
       "5099416060181051451": {
         "type": "shopify://apps/interlinks-autolinks/blocks/app-embed/d91ba15e-f408-4d77-bec4-18d567dd889f",
         "disabled": false,
@@ -285,6 +284,21 @@
       "15914998778720525373": {
         "type": "shopify://apps/crisp-live-chat-chatbot/blocks/app-embed/5c3cfd5f-01d4-496a-891b-f98ecf27ff08",
         "disabled": true,
+        "settings": {}
+      },
+      "17676059084223943535": {
+        "type": "shopify://apps/triplewhale/blocks/triple_pixel_snippet/483d496b-3f1a-4609-aea7-8eee3b6b7a2a",
+        "disabled": false,
+        "settings": {}
+      },
+      "15599951759576395258": {
+        "type": "shopify://apps/mida-replay-heatmaps/blocks/mida_recorder/e4c350c5-eabf-426d-8014-47ef50412bd0",
+        "disabled": false,
+        "settings": {}
+      },
+      "3138269044488530766": {
+        "type": "shopify://apps/uppromote-affiliate/blocks/core-script/64c32457-930d-4cb9-9641-e24c0d9cf1f4",
+        "disabled": false,
         "settings": {}
       }
     },

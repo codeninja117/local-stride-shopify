@@ -1,0 +1,511 @@
+{% comment %} ss-video.liquid {% endcomment %}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --color-background: {{ section.settings.color_scheme.settings.background.red }}, {{ section.settings.color_scheme.settings.background.green }}, {{ section.settings.color_scheme.settings.background.blue }};
+    --color-foreground: {{ section.settings.color_scheme.settings.text.red }}, {{ section.settings.color_scheme.settings.text.green }}, {{ section.settings.color_scheme.settings.text.blue }};
+    --color-accent: {{ section.settings.color_scheme.settings.accent_color.red }}, {{ section.settings.color_scheme.settings.accent_color.green }}, {{ section.settings.color_scheme.settings.accent_color.blue }};
+    background: rgb(var(--color-background));
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign video_id = section.settings.video.id
+  assign poster = section.settings.video.preview_image | default: section.settings.cover_image
+
+  if section.settings.video != null
+    assign ratio_diff = section.settings.video.aspect_ratio | minus: poster.aspect_ratio | abs
+    if ratio_diff < 0.01 and ratio_diff > 0
+      assign fix_ratio = true
+    endif
+  endif
+-%}
+
+<div
+  class="ss-video-section page-width"
+  id="shopify-section-{{ section.id }}"
+  style="max-width: {{ section.settings.container_width }}px;"
+>
+  {%- comment -%} Header {%- endcomment -%}
+  <div class="ss-video__header" data-animate="fade-up" style="text-align: {{ section.settings.text_alignment }};">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="ss-eyebrow ss-video__eyebrow" style="justify-content: {{ section.settings.text_alignment }};">
+        {{ section.settings.eyebrow }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading_line1 != blank or section.settings.heading_line2 != blank -%}
+      <h2 class="ss-heading ss-video__title">
+        {{ section.settings.heading_line1 }}
+        {%- if section.settings.heading_line1 != blank and section.settings.heading_line2 != blank -%}<br>{%- endif -%}
+        {{ section.settings.heading_line2 }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <div class="ss-body ss-video__sub">{{ section.settings.subheading }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.byline != blank -%}
+      <p class="ss-video__byline">{{ section.settings.byline }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Video {%- endcomment -%}
+  {%- if section.settings.video != null or section.settings.video_url != null -%}
+    <div class="ss-video__media-wrap" data-animate="fade-up">
+      <deferred-media
+        class="ss-video__media{% if fix_ratio %} media-fit-cover{% endif %}"
+        data-media-id="{{ video_id }}"
+        {% if poster != null %}
+          style="--ratio-percent: {{ 1 | divided_by: poster.aspect_ratio | times: 100 }}%;"
+        {% endif %}
+      >
+        <button
+          id="Deferred-Poster-Modal-{{ video_id }}"
+          class="ss-video__poster"
+          type="button"
+          aria-label="{{ 'sections.video.play_button_label' | t | default: 'Play video' }}"
+        >
+          {%- if poster != null -%}
+            {{
+              poster
+              | image_url: width: 3840
+              | image_tag:
+                class: 'ss-video__poster-img',
+                sizes: '100vw',
+                widths: '375, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+                alt: poster.alt
+            }}
+          {%- else -%}
+            <div class="ss-video__poster-placeholder"></div>
+          {%- endif -%}
+
+          <span class="ss-video__play-btn" aria-hidden="true">
+            <span class="ss-video__play-btn-inner">
+              <svg viewBox="0 0 24 24" class="ss-video__play-icon">
+                <polygon points="5,3 19,12 5,21"/>
+              </svg>
+            </span>
+          </span>
+        </button>
+
+        <template>
+          {%- if section.settings.video == null and section.settings.video_url != null -%}
+            {%- liquid
+              assign loop = ''
+              if section.settings.enable_video_looping
+                assign loop = '&loop=1&playlist=' | append: video_id
+              endif
+            -%}
+            {%- if section.settings.video_url.type == 'youtube' -%}
+              <iframe
+                src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+                class="js-youtube"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                title="{{ section.settings.description | escape }}"
+              ></iframe>
+            {%- else -%}
+              <iframe
+                src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
+                class="js-vimeo"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                title="{{ section.settings.description | escape }}"
+              ></iframe>
+            {%- endif -%}
+          {%- else -%}
+            {{
+              section.settings.video
+              | video_tag:
+                image_size: '1100x',
+                autoplay: true,
+                loop: section.settings.enable_video_looping,
+                controls: true,
+                muted: false,
+                class: 'ss-video__player'
+            }}
+          {%- endif -%}
+        </template>
+      </deferred-media>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.button_label != blank -%}
+    <div class="ss-video__cta" data-animate="fade-up" style="text-align: {{ section.settings.text_alignment }};">
+      {%- render 'button',
+        tag: 'a',
+        variant: 'primary',
+        text: section.settings.button_label,
+        url: section.settings.button_url
+      -%}
+      {%- if section.settings.cta_note != blank -%}
+        <p class="ss-video__cta-note">{{ section.settings.cta_note }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} .ss-video-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* ── Header ─────────────────────────────────────────── */
+  #shopify-section-{{ section.id }} .ss-video__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__eyebrow {
+    display: flex;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__title {
+    color: rgb(var(--color-foreground));
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__sub {
+    color: rgba(var(--color-foreground), 0.75);
+    max-width: 680px;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__sub p { margin: 0; }
+
+  /* Align sub/byline with text-alignment */
+  #shopify-section-{{ section.id }} .ss-video__header[style*="center"] .ss-video__sub,
+  #shopify-section-{{ section.id }} .ss-video__header[style*="center"] .ss-video__byline {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__byline {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(var(--color-foreground), 0.55);
+    margin: 0;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+
+  /* ── Video ───────────────────────────────────────────── */
+  #shopify-section-{{ section.id }} .ss-video__media-wrap {
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__media {
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #111;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__media::before {
+    content: '';
+    display: block;
+    padding-top: var(--ratio-percent, 56.25%);
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__poster-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__poster:hover .ss-video__poster-img {
+    transform: scale(1.02);
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__poster-placeholder {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--color-foreground), 0.06);
+  }
+
+  /* Play button */
+  #shopify-section-{{ section.id }} .ss-video__play-btn {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__poster:hover .ss-video__play-btn {
+    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.26);
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__play-btn-inner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__play-icon {
+    width: 16px;
+    height: 16px;
+    fill: #111;
+    margin-left: 3px;
+  }
+
+  /* Deferred media loaded state */
+  #shopify-section-{{ section.id }} .ss-video__media iframe,
+  #shopify-section-{{ section.id }} .ss-video__player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    border-radius: 16px;
+  }
+
+  /* ── CTA ─────────────────────────────────────────────── */
+  #shopify-section-{{ section.id }} .ss-video__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__cta[style*="left"] {
+    align-items: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__cta[style*="right"] {
+    align-items: flex-end;
+  }
+
+  #shopify-section-{{ section.id }} .ss-video__cta-note {
+    font-size: 13px;
+    color: rgba(var(--color-foreground), 0.6);
+    margin: 0;
+  }
+
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .ss-video-section {
+      gap: 28px;
+    }
+
+    #shopify-section-{{ section.id }} .ss-video__play-btn {
+      width: 48px;
+      height: 48px;
+      bottom: 16px;
+      right: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .ss-video__play-btn-inner {
+      width: 36px;
+      height: 36px;
+    }
+
+    #shopify-section-{{ section.id }} .ss-video__play-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "SS Video",
+  "tag": "section",
+  "class": "ss-video-section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_line1",
+      "label": "Heading line 1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_line2",
+      "label": "Heading line 2"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "byline",
+      "label": "Byline",
+      "info": "Small line below subheading, e.g. author credit"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (Shopify-hosted)"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video URL (YouTube / Vimeo)",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover / poster image",
+      "info": "Used as thumbnail before video loads"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Loop video",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_note",
+      "label": "CTA note",
+      "info": "Small text below the button, e.g. '180 Day Return Policy'"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container width",
+      "min": 480,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1000
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Video",
+      "settings": {
+        "eyebrow": "— From the Co-Founder",
+        "heading_line1": "Why we called 200 clinics before",
+        "heading_line2": "building a single orthotic",
+        "byline": "Dr. Zac Cartun, MD · Co-Founder, Stride Soles · UMass Chan Medical School",
+        "text_alignment": "center",
+        "container_width": 1000
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,553 @@
+{% comment %}
+  Section: Stride Soles Timeline
+  Usage: Add to any page via the theme editor. Each timeline entry is a block.
+{% endcomment %}
+
+<section
+  id="section-{{ section.id }}"
+  class="ss-timeline-section"
+  style="padding: {{ section.settings.padding_top }}px {{ section.settings.padding_side }}px {{ section.settings.padding_bottom }}px;"
+>
+  <div class="ss-timeline-inner">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="ss-section-header section-header text-center ">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="text-h1 section-heading capitalize">
+            {{
+              section.settings.heading
+              | replace: '<em>', '<span class="">'
+              | replace: '</em>', '</span>'
+              | replace: '|', '</span><br><span>'
+            }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="text-body-l mt-2">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="ss-timeline">
+      {% for block in section.blocks %}
+        <div
+          class="ss-timeline-item{% if block.settings.featured %} ss-featured{% endif %} ss-animate"
+          data-delay="{{ forloop.index0 | times: 60 }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="ss-tl-year">{{ block.settings.year }}</div>
+
+          <div class="ss-tl-node">
+            <div class="ss-tl-dot"></div>
+            <div class="ss-tl-line"></div>
+          </div>
+
+          <div class="ss-tl-content">
+            {% if block.settings.pill != blank %}
+              <div class="ss-tl-pill">{{ block.settings.pill }}</div>
+            {% endif %}
+
+            {% if block.settings.title != blank %}
+              <h3 class="ss-tl-title">{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.subtitle != blank %}
+              <p class="ss-tl-subtitle">{{ block.settings.subtitle }}</p>
+            {% endif %}
+
+            {% if block.settings.body != blank %}
+              <div class="ss-tl-body">{{ block.settings.body }}</div>
+            {% endif %}
+
+            {% if block.settings.show_cta %}
+              <div class="ss-tl-cta">
+                <div class="ss-btn-wrap">
+                  <a href="{{ block.settings.cta_url | default: section.settings.cta_url }}" class="ss-btn-inner">
+                    {{ block.settings.cta_label | default: section.settings.cta_label | default: 'Take the Quiz' }}
+                  </a>
+                </div>
+                {% if section.settings.return_note != blank %}
+                  <span class="ss-return-note">{{ section.settings.return_note }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  #section-{{ section.id }} {
+    --human: #EACBA4;
+    --black: #000000;
+    --white: #FFFFFF;
+    --secondary: #9D9FA9;
+    --blue-80: #3E444A;
+    --blue-100: #191B1E;
+    --blue-10: #F5F6F9;
+    --blue-20: #D3D7DB;
+    --blue-40: #A7AFB8;
+    --blue-60: #67717B;
+    --blue-90: #292D31;
+    --border-grey: #EAEBEA;
+    background: {{ section.settings.bg_color }};
+  }
+
+  #section-{{ section.id }} .ss-timeline-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  #section-{{ section.id }} .ss-section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  #section-{{ section.id }} .ss-section-heading {
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--black);
+    margin: 0 0 8px;
+  }
+  #section-{{ section.id }} .ss-section-sub {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--blue-80);
+    margin: 0;
+  }
+
+  /* Timeline layout */
+  #section-{{ section.id }} .ss-timeline {
+    display: flex;
+    flex-direction: column;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  #section-{{ section.id }} .ss-timeline-item {
+    display: grid;
+    grid-template-columns: 100px 52px 1fr;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  #section-{{ section.id }} .ss-timeline-item.ss-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Year column */
+  #section-{{ section.id }} .ss-tl-year {
+    padding-top: 20px;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--secondary);
+    letter-spacing: 0.04em;
+  }
+
+  /* Node column */
+  #section-{{ section.id }} .ss-tl-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 22px;
+  }
+  #section-{{ section.id }} .ss-tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--human);
+    background: var(--white);
+    flex-shrink: 0;
+    z-index: 2;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #section-{{ section.id }} .ss-tl-line {
+    width: 1px;
+    flex: 1;
+    min-height: 32px;
+    background: var(--border-grey);
+    margin-top: 6px;
+  }
+  #section-{{ section.id }} .ss-timeline-item:last-child .ss-tl-line {
+    background: transparent;
+  }
+  #section-{{ section.id }} .ss-timeline-item:hover .ss-tl-dot {
+    background: var(--human);
+    transform: scale(1.5);
+  }
+
+  /* Content column */
+  #section-{{ section.id }} .ss-tl-content {
+    padding: 10px 0 36px 24px;
+  }
+  #section-{{ section.id }} .ss-tl-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 18px;
+    border: 1px solid var(--blue-60);
+    border-radius: 100px;
+    background: var(--blue-10);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--blue-60);
+    margin-bottom: 12px;
+  }
+  #section-{{ section.id }} .ss-tl-title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--black);
+    margin: 0 0 8px;
+  }
+  #section-{{ section.id }} .ss-tl-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--blue-100);
+    margin: 0 0 10px;
+  }
+  #section-{{ section.id }} .ss-tl-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--blue-80);
+    max-width: 540px;
+    margin: 0;
+  }
+  #section-{{ section.id }} .ss-tl-body p { margin: 0; }
+  #section-{{ section.id }} .ss-tl-body p + p { margin-top: 0.75em; }
+
+  /* Featured card */
+  #section-{{ section.id }} .ss-featured .ss-tl-content {
+    background: var(--blue-80);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0px 4px 48px 0px rgba(0,0,0,0.08);
+  }
+  #section-{{ section.id }} .ss-featured .ss-tl-pill {
+    background: rgba(234,203,164,0.12);
+    border-color: rgba(234,203,164,0.4);
+    color: var(--human);
+  }
+  #section-{{ section.id }} .ss-featured .ss-tl-title { color: var(--white); }
+  #section-{{ section.id }} .ss-featured .ss-tl-subtitle { color: var(--blue-20); }
+  #section-{{ section.id }} .ss-featured .ss-tl-body { color: var(--blue-10); }
+  #section-{{ section.id }} .ss-featured .ss-tl-dot {
+    background: var(--human);
+    border-color: var(--human);
+    width: 14px;
+    height: 14px;
+  }
+
+  /* CTA inside timeline item */
+  #section-{{ section.id }} .ss-tl-cta {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  #section-{{ section.id }} .ss-btn-wrap {
+    display: inline-block;
+    padding: 8px;
+    border: 1px dashed var(--human);
+    border-radius: 999px;
+  }
+  #section-{{ section.id }} .ss-btn-inner {
+    display: block;
+    background: var(--human);
+    color: var(--black);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 16px 40px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  #section-{{ section.id }} .ss-return-note {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--blue-20);
+    display: block;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    #section-{{ section.id }} {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+    #section-{{ section.id }} .ss-section-heading { font-size: 28px; }
+    #section-{{ section.id }} .ss-timeline-item { grid-template-columns: 60px 36px 1fr; }
+    #section-{{ section.id }} .ss-tl-title { font-size: 22px; }
+    #section-{{ section.id }} .ss-tl-subtitle { font-size: 16px; }
+    #section-{{ section.id }} .ss-featured .ss-tl-content { padding: 20px; }
+    #section-{{ section.id }} .ss-btn-inner { font-size: 16px; padding: 14px 28px; }
+  }
+</style>
+
+<script>
+  (function () {
+    var items = document.querySelectorAll('#section-{{ section.id }} .ss-animate');
+    if (!items.length) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            var delay = parseInt(el.dataset.delay) || 0;
+            setTimeout(function () {
+              el.classList.add('ss-visible');
+            }, delay);
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    items.forEach(function (item) {
+      observer.observe(item);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Timeline",
+  "tag": "section",
+  "class": "ss-timeline-section-wrapper",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The science behind every stride"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From a German workshop in 1982 to your front door today"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Default CTA URL"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_label",
+      "label": "Default CTA label",
+      "default": "Take the Quiz"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "return_note",
+      "label": "Return policy note",
+      "default": "180 Day Return Policy"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (px)",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (px)",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_side",
+      "label": "Padding sides (px)",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "timeline_entry",
+      "name": "Timeline entry",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "year",
+          "label": "Year / date label",
+          "default": "1982"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "pill",
+          "label": "Category pill",
+          "default": "The Beginning"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "A master orthopaedic shoemaker qualifies"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "subtitle",
+          "label": "Subtitle / kicker",
+          "default": "The hands-on expertise that started it all"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body copy"
+        },
+        {
+          "type": "checkbox",
+          "id": "featured",
+          "label": "Featured (dark card style)",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_cta",
+          "label": "Show CTA button",
+          "default": false
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL (overrides section default)"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "cta_label",
+          "label": "CTA label (overrides section default)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Timeline",
+      "blocks": [
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "1982",
+            "pill": "The Beginning",
+            "title": "A master orthopaedic shoemaker qualifies",
+            "subtitle": "The hands-on expertise that started it all",
+            "body": "<p>Dietmar Walter earns his certified master orthopaedic shoemaker qualification in Germany, building the hands-on clinical knowledge that would eventually power Stride Soles' entire prescription system.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "Early 1990s",
+            "pill": "The Insight",
+            "title": "The plaster cast era had to end",
+            "subtitle": "The spark that changed orthotics forever",
+            "body": "<p>Dietmar Walter recognises that neither blueprint-based production nor plaster cast methods can scale in a modern economy. The idea for fully digital insole design takes shape — the same idea at the core of Stride Soles today.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "1995",
+            "pill": "Founding Milestone",
+            "title": "pedcad founded — and wins Germany's Innovation Award",
+            "subtitle": "The CAD/CAM system that powers every Stride Soles insole",
+            "body": "<p>pedcad GmbH is established and immediately earns the Innovation Award of German Industry for its pioneering CAD/CAM system for designing and producing orthotics. That same technology sits at the heart of every pair of Stride Soles produced today.</p>",
+            "featured": true
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2000",
+            "pill": "Optical Innovation",
+            "title": "Light-stripe projection enters foot scanning",
+            "subtitle": "The precursor to Stride's mobile 3D scanner",
+            "body": "<p>In partnership with the Institute for Laser Technology in Ulm, pedcad integrates optical measurement into orthopaedic shoemaking, winning the Seifriz Award for science-craft collaboration. This directly informs the 3D mobile scanning used in Stride Soles assessments today.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2005",
+            "pill": "Clinical Depth",
+            "title": "Podiatry credentials added to engineering expertise",
+            "subtitle": "Technology meets genuine clinical understanding",
+            "body": "<p>Dietmar Walter qualifies as a state-certified podiatrist, ensuring every digital system pedcad builds — and every Stride Soles prescription — is grounded in real clinical knowledge, not just manufacturing.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2014",
+            "pill": "Quality Standard",
+            "title": "ISO 9001 certification",
+            "subtitle": "Consistent quality on every single pair",
+            "body": "<p>pedcad achieves ISO 9001:2008 certification, formalising the quality management standards that underpin every insole shipped under the Stride Soles name. The same certified process, every time.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2016–2020",
+            "pill": "Digital Platform",
+            "title": "InsoleDesigner software matures",
+            "subtitle": "From scan to finished insole — seamlessly",
+            "body": "<p>Major updates to pedcad's InsoleDesigner construction platform and order management software create the seamless digital pipeline that makes Stride Soles' 15–20 day delivery possible at scale.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "Early 2020s",
+            "pill": "Mobile Scanning",
+            "title": "3D foot scanning moves to your phone",
+            "subtitle": "Clinic-level precision from your living room",
+            "body": "<p>ped3D mobile launches, using the depth sensor in modern smartphones to capture precise 3D foot geometry anywhere. This is the Face ID-style scanning technology behind Stride Soles' at-home assessment — removing the clinic visit entirely.</p>"
+          }
+        },
+        {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "Today",
+            "pill": "Stride Soles",
+            "title": "30 years of science, delivered to your door for $249",
+            "subtitle": "The best orthotics in the world — in only a few minutes",
+            "body": "<p>Stride Soles brings together pedcad's three decades of certified podiatric technology, German-designed prescription protocols, and mobile 3D scanning into one seamless experience. Scan your feet, receive clinician-designed custom orthotics in 15–20 days.</p>",
+            "featured": true,
+            "show_cta": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

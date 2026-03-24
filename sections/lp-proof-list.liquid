@@ -1,0 +1,410 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .lp-proof-list {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top }}px 16px {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__items {
+    display: grid;
+    gap: 18px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__media {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ddd;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__image {
+    width: 100%;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-card {
+    border: 1px solid #d9d9de;
+    border-radius: 12px;
+    background: #f5f5f6;
+    padding: 24px 20px 18px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-title {
+    margin: 0;
+    font-size: clamp(20px, 2.8vw, 42px);
+    line-height: 1.12;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-sub {
+    margin: 6px 0 20px;
+    font-size: 13px;
+    line-height: 1.2;
+    color: rgba(0, 0, 0, 0.35);
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-row {
+    margin-bottom: 18px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-label {
+    margin: 0 0 8px;
+    font-size: 19px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-track {
+    position: relative;
+    height: 34px;
+    border-radius: 999px;
+    background: #e1e1e2;
+    overflow: visible;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-fill--foam {
+    width: 83.333%;
+    background: #f25555;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-fill--stride {
+    width: 33.333%;
+    background: #e1bc8e;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-chip {
+    position: absolute;
+    right: 0;
+    top: -42px;
+    border-radius: 50px;
+    background: rgba(234, 203, 164, 0.2);
+    padding: 8px 15px;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 700;
+    color: #d8b381;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-scale {
+    margin-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.35);
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-scale span {
+    position: relative;
+    padding-top: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__timeline-scale span::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__guarantee-card {
+    position: relative;
+    aspect-ratio: 653 / 438;
+    border-radius: 8px;
+    background: #efdcc3;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__guarantee-shoe {
+    position: absolute;
+    left: 33%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 30%;
+    max-width: none;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__guarantee-badge {
+    position: absolute;
+    right: 24%;
+    top: 10%;
+    width: 22%;
+    max-width: none;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__guarantee-label {
+    position: absolute;
+    left: 3%;
+    bottom: 6%;
+    margin: 0;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 8px 12px;
+    font-size: clamp(10px, 1.6vw, 16px);
+    line-height: 1.1;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__content {
+    display: grid;
+    gap: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__title-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__index {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #171717;
+    color: #fff;
+    font-size: 11px;
+    line-height: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__title {
+    margin: 0;
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__item-title {
+    margin: 0;
+    font-size: clamp(24px, 2.1vw, 48px);
+    line-height: 1.28;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__text {
+    margin: 0 0 0 30px;
+    font-size: 18px;
+    line-height: 1.55;
+    opacity: 0.92;
+  }
+
+  #shopify-section-{{ section.id }} .lp-proof-list__button-wrap {
+    margin: 8px 0 0 30px;
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .lp-proof-list__item {
+      grid-template-columns: minmax(260px, 430px) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__title {
+      font-size: 36px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__item-title {
+      font-size: 24px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .lp-proof-list {
+      padding-inline: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__items {
+      gap: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__item {
+      gap: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__timeline-title {
+      font-size: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__timeline-label {
+      font-size: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__timeline-track {
+      height: 26px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__timeline-chip {
+      top: -34px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__timeline-scale {
+      font-size: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__item-title {
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__index {
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      line-height: 18px;
+      margin-top: 1px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__text {
+      margin-left: 28px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__button-wrap {
+      margin-left: 28px;
+      margin-top: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-card {
+      aspect-ratio: 653 / 438;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-shoe {
+      left: 32%;
+      width: 34%;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-badge {
+      right: 20%;
+      top: 10%;
+      width: 24%;
+    }
+
+    #shopify-section-{{ section.id }} .lp-proof-list__guarantee-label {
+      left: 3%;
+      bottom: 6%;
+      padding: 6px 10px;
+      font-size: clamp(10px, 2.8vw, 14px);
+    }
+  }
+{%- endstyle -%}
+
+<section class="lp-proof-list">
+  {%- if section.settings.title != blank -%}
+    <h2 class="lp-proof-list__title">{{ section.settings.title }}</h2>
+  {%- endif -%}
+
+  <div class="lp-proof-list__items">
+    {%- for block in section.blocks -%}
+      <article class="lp-proof-list__item" {{ block.shopify_attributes }}>
+        <div class="lp-proof-list__media">
+          {%- if forloop.index == 8 -%}
+            <img
+              class="lp-proof-list__image"
+              src="{{ 'landingpage-Rectangle 23.png' | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="604"
+              height="402"
+            >
+          {%- elsif forloop.index == 10 -%}
+            <img
+              class="lp-proof-list__image"
+              src="{{ 'landingpage-Rectangle 20.png' | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="604"
+              height="402"
+            >
+          {%- elsif block.settings.fallback_asset != blank -%}
+            <img
+              class="lp-proof-list__image"
+              src="{{ block.settings.fallback_asset | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy"
+              width="604"
+              height="402"
+            >
+          {%- elsif block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: class: 'lp-proof-list__image', loading: 'lazy', alt: block.settings.title }}
+          {%- endif -%}
+        </div>
+
+        <div class="lp-proof-list__content">
+          <div class="lp-proof-list__title-row">
+            <span class="lp-proof-list__index">{{ forloop.index }}</span>
+            <h3 class="lp-proof-list__item-title">{{ block.settings.title }}</h3>
+          </div>
+          {%- if block.settings.text != blank -%}<p class="lp-proof-list__text">{{ block.settings.text }}</p>{%- endif -%}
+          {%- if block.settings.button_label != blank -%}
+            <div class="lp-proof-list__button-wrap">
+              {% render 'button', tag: 'a', variant: 'primary', text: block.settings.button_label, url: block.settings.button_url %}
+            </div>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LP proof list",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "title", "label": "Section title" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 20 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "fallback_asset", "label": "Fallback asset path" },
+        { "type": "select", "id": "special_type", "label": "Special layout", "default": "normal", "options": [
+          { "value": "normal", "label": "Normal image card" },
+          { "value": "timeline", "label": "Timeline card" },
+          { "value": "guarantee", "label": "Guarantee card" }
+        ] },
+        { "type": "text", "id": "badge", "label": "Badge text" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Foam crushes under your weight." },
+        { "type": "textarea", "id": "text", "label": "Body" },
+        { "type": "text", "id": "button_label", "label": "Button label" },
+        { "type": "url", "id": "button_url", "label": "Button URL" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "LP proof list",
+      "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }]
+    }
+  ]
+}
+{% endschema %}

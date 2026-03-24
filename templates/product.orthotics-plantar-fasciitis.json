@@ -112,7 +112,7 @@
             "block_title_2": "180-Day Money-Back Guarantee",
             "block_text_2": "<p>Your satisfaction is our number one priority. If we are not helping you reach your goals, simply contact us and we will work with you to create a new custom orthotic. We will continue working with you for up to 6 months until you are satisfied. If we still don’t meet your needs, just let us know and we will refund your order.</p>",
             "block_title_3": "Free Shipping",
-            "block_text_3": "<p>All orders in the USA include free shipping. Additional rates apply for nternational and expedited orders</p><h2></h2>"
+            "block_text_3": "<p>All orders in the USA include free shipping. Additional rates apply for International and expedited orders</p><h2></h2>"
           }
         }
       },
@@ -198,7 +198,7 @@
           "type": "feature",
           "settings": {
             "video": "shopify://files/videos/grooveshapedrecess.mp4",
-            "media_type": "image",
+            "media_type": "video",
             "video_loop": true,
             "video_muted": true,
             "video_controls": false,
@@ -219,8 +219,9 @@
       "name": "Feature carousel (apple)",
       "settings": {
         "title": "Made For Plantar Fasciitis",
+        "description": "<p>Every inch of the orthotic has been designed to optimize for heel pain relief</p>",
         "central_image": "shopify://shop_images/Untitled_1800_x_1500_px_1400_x_1000_px_1400_x_700_px.png",
-        "central_video": "shopify://files/videos/Untitled design (1).mp4",
+        "central_video": "shopify://files/videos/grooveshapedrecess.mp4",
         "central_media_type": "image",
         "central_video_loop": true,
         "central_video_controls": false,
@@ -229,54 +230,254 @@
         "padding_bottom": 80
       }
     },
-    "how_stride_works_RbwijA": {
-      "type": "how-stride-works",
+    "ss_how_it_works_dWkjBw": {
+      "type": "ss-how-it-works",
       "blocks": {
-        "step_wFyFtA": {
-          "type": "Step",
+        "step_aYyfMj": {
+          "type": "step",
           "settings": {
-            "image": "shopify://shop_images/HowItWorks-Stride_1.png",
-            "title": "",
-            "text": "Take a short quiz about your heel pain and goals."
+            "image": "shopify://shop_images/ss-h-1.jpg",
+            "label": "Step One",
+            "heading": "Tell us about your pain and goals",
+            "body": "Take a short quiz about where it hurts, your activity level, and what you want to fix. No clinic visit needed.",
+            "detail": "Less than 2 minutes"
           }
         },
-        "step_UFQ9Gp": {
-          "type": "Step",
+        "step_xQUtgm": {
+          "type": "step",
           "settings": {
-            "image": "shopify://shop_images/HowItWorks-Stride_3.png",
-            "title": "",
-            "text": "Record your gait & scan your feet with the Stride (iPhone or Android) app."
+            "image": "shopify://shop_images/ss-h-2.jpg",
+            "label": "Step Two",
+            "heading": "Record your gait & scan your feet",
+            "body": "Using the Stride app on iPhone or Android, record your gait and 3D scan your feet in under 60 seconds. No equipment needed.",
+            "detail": "Works on iPhone & Android"
           }
         },
-        "step_g6eKiX": {
-          "type": "Step",
+        "step_wLg6ny": {
+          "type": "step",
           "settings": {
-            "image": "shopify://shop_images/Frame_2147223815.png",
-            "title": "",
-            "text": "Give us 2-3 weeks for your custom orthotics to arrive!"
+            "image": "shopify://shop_images/ss-h-3.jpg",
+            "label": "Step Three",
+            "heading": "Your orthotics arrive in 10–15 days",
+            "body": "Designed in Germany and 3D-printed to your exact foot shape. Slip them into any shoe and feel the difference from day one.",
+            "detail": "180-day satisfaction guarantee"
           }
         }
       },
       "block_order": [
-        "step_wFyFtA",
-        "step_UFQ9Gp",
-        "step_g6eKiX"
+        "step_aYyfMj",
+        "step_xQUtgm",
+        "step_wLg6ny"
       ],
-      "custom_css": [],
+      "name": "SS How It Works",
       "settings": {
-        "title": "How It Works",
-        "subtitle": "<strong>Streamlined Orthotic Ordering</strong>",
-        "button_primary_label": "Learn More",
-        "button_primary_link": "shopify://pages/how-it-works",
-        "button_secondary_label": "Watch video",
-        "video": "shopify://files/videos/Stride_30sec_Final_2 (1).mp4",
-        "button_disclaimer": "Free Shipping",
-        "button_disclaimer_2": "180-Day Money-Back Guarantee",
+        "eyebrow": "Simple Process",
+        "heading": "How it <strong>Works</strong>",
+        "subheading": "",
+        "button_label": "Get My Custom Orthotics",
+        "button_url": "",
         "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "background_color": "#f5f6f9",
-        "text_color": "#000000",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "ss_comparison_BazUAk": {
+      "type": "ss-comparison",
+      "blocks": {
+        "row_PFdmgt": {
+          "type": "row",
+          "settings": {
+            "label": "Gait Analysis",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "check",
+            "col2_text": "",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Biomechanical Gait Assessment",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_YCrF4d": {
+          "type": "row",
+          "settings": {
+            "label": "Clinician Access",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "check",
+            "col2_text": "",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Speak With a Clinician",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_489xbK": {
+          "type": "row",
+          "settings": {
+            "label": "Full-Length Shell",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "cross",
+            "col2_text": "",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Full Length Shell",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_xgfaap": {
+          "type": "row",
+          "settings": {
+            "label": "3D Foot Scan",
+            "col1_value": "check",
+            "col1_text": "",
+            "col2_value": "text",
+            "col2_text": "Select Clinics",
+            "col3_value": "cross",
+            "col3_text": "",
+            "tooltip_title": "Digital 3D Foot Scan",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_kw3Xqf": {
+          "type": "row",
+          "settings": {
+            "label": "Time to Start",
+            "col1_value": "text",
+            "col1_text": "5 Minutes",
+            "col2_value": "text",
+            "col2_text": "Appointment Required",
+            "col3_value": "text",
+            "col3_text": "Kit Shipped (Return Required)",
+            "tooltip_title": "Fully Mobile Process",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        },
+        "row_za4bdD": {
+          "type": "row",
+          "settings": {
+            "label": "Order to Delivery",
+            "col1_value": "text",
+            "col1_text": "10–15 Days",
+            "col2_value": "text",
+            "col2_text": "3–6 Weeks",
+            "col3_value": "text",
+            "col3_text": "3–5 Weeks",
+            "tooltip_title": "",
+            "tooltip_text_alignment": "left",
+            "tooltip_intro": "",
+            "tooltip_item1_heading": "",
+            "tooltip_item1_body": "",
+            "tooltip_item2_heading": "",
+            "tooltip_item2_body": "",
+            "tooltip_item3_heading": "",
+            "tooltip_item3_body": "",
+            "tooltip_item4_heading": "",
+            "tooltip_item4_body": "",
+            "tooltip_note": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_PFdmgt",
+        "row_YCrF4d",
+        "row_489xbK",
+        "row_xgfaap",
+        "row_kw3Xqf",
+        "row_za4bdD"
+      ],
+      "name": "SS Comparison",
+      "settings": {
+        "eyebrow": "Why Stride",
+        "heading_line1": "Clinical Grade Orthotics",
+        "heading_line2": "<em>Without the Wait</em>",
+        "subheading": "Get podiatrist-level biomechanical analysis without appointments, kits, or weeks of waiting.",
+        "col1_name": "STRIDE",
+        "col1_price": "$249",
+        "col1_badge": "Best Value",
+        "col2_name": "Podiatrist",
+        "col2_price": "$400–$1K",
+        "col3_name": "Foam Impression Kit",
+        "col3_price": "$250+",
+        "button_label": "Relieve My Foot Pain",
+        "button_url": "",
+        "cta_note": "180 Day Return Policy",
+        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "content_blocks_3GUCFU": {
+      "type": "content-blocks",
+      "blocks": {
+        "richtext_LHErz4": {
+          "type": "richtext",
+          "settings": {
+            "text_alignment": "left",
+            "content": "<h2>What is the Plantar Fascia?</h2><p>The plantar fascia is a collagen-rich tissue that stretches lengthwise on the bottom of the foot, connecting the calcaneus (the heel bone) to the metatarsal heads (the base of the toes).</p><p>Some of its core functions include the following:</p><ul><li> <strong>Arch Support –</strong> The plantar fascia is like the bowstring attached to the two ends of a bow, pulling it taut. With both ends of the plantar fascia attached to the heels and toes, respectively, the tension it creates between these points helps keep the arch shape, preventing it from collapsing.</li><li><strong>Absorbing Impact Shock –</strong> As you walk or run, the foot hits the ground, sending shock waves up the leg. The arch, supported by the plantar fascia, absorbs the shock, spreading it evenly across the foot. This ensures that no single part of the foot takes on excess strain.</li><li><strong>Gait Cycle Assistance and Movement Efficiency –</strong> The plantar fascia contracts and relaxes at different phases of the gait cycle. In the mid-stance phase, it stretches, storing elastic energy. This supports the arch as it absorbs the impact shock. In the push-off phase, it contracts, raising the arch, an action that converts the stored elastic energy into forward propulsion. </li><li><strong>Maintaining Foot Shape –  </strong>The plantar fascia helps keep the bones of the foot in shape while in motion or at rest. It also helps them perform their supportive functions efficiently.</li></ul><p>Because the plantar fascia is constantly exposed to these actions described above, it can easily experience microtears, inflammation, and degeneration, resulting in plantar fasciitis</p><h2>What Causes Plantar Fasciitis?</h2><p>Plantar fasciitis is generally caused by overuse or repetitive stress on the plantar fascia. There are, however, different factors that can be the underlying causes or triggers. Let's look at the most common of these.</p><ul><li><strong>Repetitive Activities Leading to Overuse</strong> – This is the leading cause of plantar fasciitis. Activities like long-distance running, sports that require a lot of running and jumping (basketball, volleyball etc.), and a sudden increase in activity or intensity without previous conditioning, all fall into this category. When the plantar fascia is not given enough time to recover, more microtears will occur, and the condition will worsen.</li><li><strong> Improper Footwear</strong> – Footwear without proper arch support, shock absorption, and cushioning can increase the stress on the plantar fascia. Examples include shoes with worn-out soles, flat soles, or high heels because they can alter the foot's mechanics, putting more pressure on the plantar fascia and increasing the risk of plantar fasciitis.</li><li><strong>Pre-existing Foot Conditions</strong> – Any pre-existing foot conditions that affect the foot's mechanics can easily lead to plantar fasciitis. Some examples of such pre-existing conditions include <a href=\"https://www.stridesoles.com/blogs/articles/flat-feet-your-complete-guide\" title=\"flat feet\">flat feet</a>, overpronation, high arch, or leg length discrepancy. These conditions all affect the way the body's weight is distributed, significantly increasing the stress on parts of the plantar fascia.</li><li><strong>Tight Calf Muscles or Achilles Tendon</strong> – Tight calf muscles or Achilles tendon reduce flexibility, restricting ankle dorsiflexion (your ability to point your foot upward). This lack of flexibility will put more stress on the plantar fascia by making it overstretch during movement.</li></ul><h2>Symptoms of Plantar Fasciitis</h2><p>Some of the common symptoms that can be indicative of plantar fasciitis include:</p><ul><li><strong>Sharp Heel Pain in the Morning</strong> – The reason pain is concentrated to first thing in the morning is that during the period of rest, the plantar fascia tightens quite a bit. So, when you try to walk after resting, it is suddenly stretched, resulting in the sharp, stabbing pain you feel. This pain will usually ease off after a few minutes as the tissue gets more flexible.</li><li><strong>Heel Pain that Gets Worse with Time </strong>– At first, the heel pain may be mild. However, if it is left untreated, it will gradually worsen and may then become chronic, making it more difficult to treat.</li><li><strong>Pain that Gets Worse After Activity –</strong> Unlike some other types of pain that worsen with increased activity, this type will usually worsen after the activity. This is because the tissue becomes flexible during the activity but begins to stiffen after the activity, resulting in a delayed pain response.</li><li><strong>Tightness and Stiffness in the Foot –</strong> You may feel stiffness or tightness in the bottom of the foot, especially around the arch. It can also feel like something is pulling on the tissue, or you are experiencing some cramping when you walk barefoot or do some stretching.</li><li><strong>Mild Swelling and Warmth –</strong> If the condition has become acute, there may be some swelling around the heel area. It may also feel warm to touch. This swelling is often mild, so if the swelling is severe, it may be pointing to a different condition.</li></ul><p>Given all of the above, to know if you have plantar fasciitis, ask yourself the following questions:</p><ul><li>Do I feel a sharp, stabbing heel pain with my first steps of the day?</li><li>Do I feel the pain easing off after I have walked around for a few minutes?</li><li>Does this pain return or worsen after I have spent a long time on my feet or sitting?</li><li>Do I find it difficult to walk barefoot on hard floors and surfaces?</li><li>Does the pain get worse after an intense activity and not during the activity?</li></ul><p>Answering yes to 3 or more of the above is a strong indication that you may have plantar fasciitis. However, since some other conditions, like heel spurs, fat pad atrophy, and Achilles tendinopathy, can have similar symptoms, you may need to visit your podiatrist for confirmation.</p><p>You can also do this simple self-test to confirm that the pain is related to the plantar fascia. While seated, try to pull your toes upward. This will stretch the plantar fascia. If you feel pain when you pull your toes, then there’s an issue with the plantar fascia.</p><h2>Why Custom Orthotics Work for Plantar Fasciitis</h2><p>Plantar fasciitis occurs when the plantar fascia, the thick band of tissue running along the bottom of your foot, becomes inflamed or develops micro-tears from repeated stress. The result is that sharp, stabbing heel pain you feel with your first steps in the morning or after long periods on your feet. It's one of the most common causes of heel pain, affecting roughly 2 million Americans each year.</p><p>Over-the-counter insoles can provide temporary cushioning, but they aren't built to address the biomechanical issues that cause plantar fasciitis in the first place. Generic arch supports use a one-size-fits-all shape that doesn't match your foot's unique structure, which means pressure continues to build on the fascia in the same places that are already damaged. Relief fades quickly because the underlying problem hasn't changed.</p><p>Custom orthotics work differently. By mapping the exact contours of your foot through a 3D scan and analyzing your gait pattern, a custom orthotic can redistribute pressure away from the inflamed fascia, stabilize your heel, and control the pronation that puts excess strain on the tissue. This combination of targeted offloading and structural correction is why podiatrists consider custom orthotics a first-line treatment for plantar fasciitis. With the right support, the fascia can begin to heal rather than re-aggravating with every step.</p><p>For a closer look at what to expect during recovery, read our <a href=\"http://stridesoles.com/blogs/articles/plantar-fasciitis-what-it-is-why-it-happens-and-how-orthotics-actually-help\" title=\"http://stridesoles.com/blogs/articles/plantar-fasciitis-what-it-is-why-it-happens-and-how-orthotics-actually-help\">plantar fasciitis guide</a>.</p><h2>How to Prevent Plantar Fasciitis</h2><p>The following tips can help prevent plantar fasciitis:</p><h3>Wear the Right Footwear</h3><p>This is the first thing to look at. The right footwear should have the following features:</p><ul><li> Arch Support – This ensures that the plantar fascia is not overworked trying to keep the arch up.</li><li>Shock Absorption – The shoe’s ability to absorb some of the impact shock reduces the amount of shock transferred to the arch, further easing the workload on the plantar fascia.</li><li>Firm Heel Counter – This is important to help keep the heel in place. Once heel stability is achieved, proper alignment and balance is easier to achieve, reducing the strain on other parts of the foot.</li><li>Slight Heel Elevation – The ideal shoe should not be flat or high-heeled. They should offer a slight heel elevation to reduce strain on the calf muscles and the Achilles tendon.</li><li>Right Fit – Ensure that your shoes fit properly. They should have enough toe box space, and wiggle room for both circulation and comfort.</li></ul><h3>Use Orthotic Insoles</h3><p>Orthotic insoles can be a great help in preventing the occurrence of plantar fasciitis. This is because the right insole will:</p><ul><li>Provide adequate arch support</li><li>Provide shock absorption</li><li> Make the foot comfortable</li><li>Help with weight distribution, foot alignment, and balance</li></ul><p>To enjoy the full benefits that an orthotic insole can provide, you must get the right fit and right design. </p><h3>Perform Regular Calf and Feet Stretches</h3><p>Regular calf and foot stretches can help reduce stiffness in the calf muscles and Achilles tendon. Doing these stretches 2 to 3 times every day will increase both their flexibility and strength.</p><p>Some examples of simple stretches include:</p><ul><li><strong>Foot stretch</strong> - Using your hand to pull the toes towards you while you are seated.</li><li><strong>Calf stretch</strong> - With both arms on the wall and the feet slightly apart, move one leg back and place the heel of that foot on the floor. This will stretch the calf muscles. Repeat with the second leg.</li></ul><p>According to Dr. Emily Chen, a physical therapist, the key is consistency. According to her, \"daily stretching not only prevents plantar fasciitis but also improves overall foot resilience, reducing injury risk.\"</p><h2>Plantar Fasciitis FAQ</h2><h4><strong>What Causes Plantar Fasciitis?</strong></h4><p>Plantar fasciitis is often caused by overuse, repetitive stress, obesity, poor footwear, tight calf muscles, and spending so much time standing or walking on hard surfaces.</p><h4><strong>What are the Main Symptoms of Plantar Fasciitis?</strong></h4><p>Sharp, stabbing heel pain, especially with the first steps in the morning or after resting the foot for a while. The pain will often reduce as you keep walking but returns when you rest.</p><h4><strong>Can Plantar Fasciitis Heal on its Own?</strong></h4><p>Mild cases can get better if you give the feet rest, allowing it time to heal itself and implement the simple self-care procedures discussed in this article. If, however, it is left unattended to, it will get worse and may then require more severe intervention.</p><h4><strong>What are the Best Self-Care Methods for Plantar Fasciitis?</strong></h4><p>Rest, ice therapy, use of orthotics, supportive shoes, foot and calf stretches, and pain medication.</p><h4><strong>Can Plantar Fasciitis be Prevented?</strong></h4><p>Yes! With the right lifestyle choices like proper weight management, use of orthotic insoles, giving he feet enough rest to avoid overuse, using supportive footwear, and doing regular foot and calf stretches.</p><h4><strong>How Do I Know If I have Plantar Fasciitis?</strong></h4><p>If you have sharp heel pain with the first steps in the morning, which gets better after you’ve walked for a while, or you feel pain when you pull your toes up toward you while seated, or notice that the heel pain returns after you have engaged in activities for a while, then you may have plantar fasciitis. You will, however, need a podiatrist to confirm the diagnosis.</p><h4><strong>Can I Still Run with Plantar Fasciitis?</strong></h4><p>Running with plantar fasciitis can worsen the condition and make recovery more difficult. You should give it a rest or switch to less high-impact activities like swimming.</p><h4><strong>When Should I Visit a Doctor?</strong></h4><p>You should see your doctor or podiatrist if the pain has not reduced despite the home treatments. If it's getting worse, then see a doctor.</p><h4><strong>Does Surgery Offer a Lasting Solution?</strong></h4><p>When successful, surgery can provide a lasting solution to plantar fasciitis. It is, however, to be considered only as a last resort because it comes with a number of risks. You should only consider this option if other less risky treatment options have failed.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "richtext_LHErz4"
+      ],
+      "name": "Content blocks",
+      "settings": {
+        "page_width": "page-width--lg",
+        "color_scheme": "",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "review_carousel_new_DNR6gF": {
@@ -354,7 +555,7 @@
       "settings": {
         "title": "What Our <em><strong>Customers Say</strong></em>",
         "subtitle": "",
-        "trustpilot_summary": "shopify://shop_images/Untitled_design_16.png",
+        "trustpilot_summary": "shopify://shop_images/Untitled_design_33.png",
         "trust_pilot_url": "",
         "frontrowmd_snippet": "",
         "slides_per_view": 3.6,
@@ -362,8 +563,8 @@
         "button_label": "Take The Quiz",
         "disclaimer": "180 Day Return Policy",
         "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "review_carousel": {
@@ -642,94 +843,6 @@
         "padding_bottom": 100
       }
     },
-    "compare_stride_TdjTEP": {
-      "type": "compare-stride",
-      "blocks": {
-        "header_HfN7tz": {
-          "type": "header",
-          "settings": {
-            "feature_1": "Talk To A Clinician",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "3D Imaging",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$137",
-            "shipping_time": "Delivery Time"
-          }
-        },
-        "others_6qCGf8": {
-          "type": "others",
-          "settings": {
-            "color_scheme": "scheme-1",
-            "title": "Upstep",
-            "feature_1": "3D Foot Imaging",
-            "feature_1_checkbox": false,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": false,
-            "feature_3": "Award Winning",
-            "feature_3_checkbox": false,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$250+",
-            "shipping_time": "30-40 Days"
-          }
-        },
-        "stride_6FrQAc": {
-          "type": "stride",
-          "settings": {
-            "color_scheme": "scheme-5",
-            "logo": "shopify://shop_images/Stride_Logo_1.svg",
-            "title": "Stride",
-            "feature_1": "3D Foot Imaging",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "Award Winning",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": true,
-            "price": "$249",
-            "shipping_time": "10-15 Days"
-          }
-        },
-        "others_gzWikK": {
-          "type": "others",
-          "settings": {
-            "color_scheme": "scheme-1",
-            "title": "Podiatrist",
-            "feature_1": "3D Foot Imaging",
-            "feature_1_checkbox": true,
-            "feature_2": "Gait Analysis",
-            "feature_2_checkbox": true,
-            "feature_3": "Award Winning <em>(Sometimes)</em>",
-            "feature_3_checkbox": true,
-            "feature_4": "Instant Ordering",
-            "feature_4_checkbox": false,
-            "price": "$300-1000",
-            "shipping_time": "20-60 Days"
-          }
-        }
-      },
-      "block_order": [
-        "header_HfN7tz",
-        "others_6qCGf8",
-        "stride_6FrQAc",
-        "others_gzWikK"
-      ],
-      "settings": {
-        "title": "Stride's Superior Solution Offer<em>s</em>|<strong>The Best Of Both Worlds</strong>",
-        "button_url": "/pages/quiz?pairs=1",
-        "button_label": "Take The Quiz",
-        "disclaimer": "180 Day Return Policy",
-        "color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "mobile_color_scheme": "scheme-b351691f-8980-4a06-abc7-a960c375cd38",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
     "image_text_review": {
       "type": "image-text-review",
       "settings": {
@@ -738,6 +851,7 @@
         "title": "Professional <strong>Trust</strong>",
         "review_title": "Dr. Dietmar Walter",
         "review_subtitle": "Head of Podiatry, Stride Soles",
+        "review_richtext": "",
         "review_text": "Each orthotic is custom designed in Germany by Dr. Dietmar Walter and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
         "supporting_image_height": 200,
         "button_url": "",
@@ -745,7 +859,7 @@
         "disclaimer": "",
         "image": "shopify://shop_images/dietmar2.jpg",
         "image_height": 440,
-        "color_scheme": "",
+        "color_scheme": "scheme-e6b0860f-fb86-4188-90a7-33e919db9b84",
         "padding_top": 120,
         "padding_bottom": 120
       }
@@ -771,7 +885,7 @@
           "type": "accordion",
           "settings": {
             "title": "What if I don't like my orthotics?",
-            "answer": "<p>We offer a 100% satisfaction guarantee, meaning we will redesign your pair free of charge or offer you a full refund. </p><p>Adjusting to custom orthotics is a process. While most people feel immediate relief, the ligaments, bones, and muscles in your feet may need some time to adapt to the corrective design. We ask that you give your feet at least 21 days to adjust to the insoles, starting with 1-2 hours of wear for the first few days until you feel comfortable.</p>"
+            "answer": "<p>If your orthotics aren't right, we'll remake them until they are -- at no extra cost. Still not satisfied? Return them within 180 days for a refund.</p><p>Less than 1% of customers ever ask for a refund.</p>"
           }
         },
         "faq_4": {
@@ -900,16 +1014,6 @@
         "include_margins": true
       }
     },
-    "education_articles_MECcyM": {
-      "type": "education-articles",
-      "name": "Education articles",
-      "settings": {
-        "title": "Plantar Fasciitis <strong>Education</strong>",
-        "background_color": "#ffffff",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
     "custom_liquid_X8bdVd": {
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
@@ -926,9 +1030,11 @@
         "loox_reviews_loox_dynamic_section_ym4fHw": {
           "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
           "settings": {
+            "reviews_to_display": "",
+            "default_tab": "automatic",
             "only_photos": false,
             "aggregated": true,
-            "limit": 16,
+            "limit": 6,
             "hide_thumbnails": true,
             "maxwidth": 1080,
             "is_sample": false
@@ -941,25 +1047,36 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "education_articles_MECcyM": {
+      "type": "education-articles",
+      "name": "Education articles",
+      "settings": {
+        "title": "Plantar Fasciitis <strong>Education</strong>",
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "main",
     "feature_carousel_kU3gzm",
-    "how_stride_works_RbwijA",
+    "ss_how_it_works_dWkjBw",
+    "ss_comparison_BazUAk",
+    "content_blocks_3GUCFU",
     "review_carousel_new_DNR6gF",
     "review_carousel",
     "feature_text_overlay",
     "image_text_row_features",
     "feature_multicolumn_row_EBehmk",
     "image_text_overlay",
-    "compare_stride_TdjTEP",
     "image_text_review",
     "faq",
     "call_to_action",
     "17426185867dd1a699",
-    "education_articles_MECcyM",
     "custom_liquid_X8bdVd",
-    "1756322077a22acaae"
+    "1756322077a22acaae",
+    "education_articles_MECcyM"
   ]
 }

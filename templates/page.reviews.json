@@ -19,33 +19,15 @@
             "title_font_size": "text-display-l",
             "inline_title": false
           }
-        },
-        "text_qKTX6c": {
-          "type": "text",
-          "settings": {
-            "text": "Your at-home podiatry clinic for custom orthotics. Take our 30-sec assessment to get started"
-          }
-        },
-        "buttons_UY4Dtm": {
-          "type": "buttons",
-          "settings": {
-            "button_label": "Take The Quiz",
-            "button_url": "shopify://pages/quiz",
-            "overwrite_button_bg_to_color_human": false,
-            "button_label_2": "",
-            "button_url_2": ""
-          }
         }
       },
       "block_order": [
-        "title_kmynAk",
-        "text_qKTX6c",
-        "buttons_UY4Dtm"
+        "title_kmynAk"
       ],
       "settings": {
         "media_selector": "image",
         "image": "shopify://shop_images/StrideSoles_May2025-7.jpg",
-        "layout": "overlay",
+        "align_content": "left",
         "enable_gradient_overlay": true,
         "overlay_opacity": 0,
         "min_height": 30,
@@ -64,21 +46,17 @@
         "padding_bottom": 36
       }
     },
-    "1746692041fe12aad5": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
-    },
     "17604685078bcbbb26": {
       "type": "apps",
       "blocks": {
         "loox_reviews_loox_agg_section_KnxVgw": {
           "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
           "settings": {
+            "reviews_to_display": "",
+            "default_tab": "automatic",
             "only_photos": false,
             "hide_thumbnails": false,
-            "product_handle": "",
+            "product_handle": "custom-orthotics",
             "aggregated": true,
             "data-limit": 20,
             "maxwidth": 1080,
@@ -89,6 +67,12 @@
       "block_order": [
         "loox_reviews_loox_agg_section_KnxVgw"
       ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1746692041fe12aad5": {
+      "type": "apps",
       "settings": {
         "include_margins": true
       }

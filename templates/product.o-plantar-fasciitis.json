@@ -689,7 +689,7 @@
             "feature_4": "Instant Ordering",
             "feature_4_checkbox": true,
             "price": "$249",
-            "shipping_time": "15-20 Days"
+            "shipping_time": "10-15 Days"
           }
         },
         "others_gzWikK": {
@@ -735,6 +735,7 @@
         "title": "Professional <strong>Trust</strong>",
         "review_title": "Dr. Dietmar Walter",
         "review_subtitle": "Head of Podiatry, Stride Soles",
+        "review_richtext": "",
         "review_text": "Each orthotic is custom designed in Germany by Dr. Dietmar Walter and his team of master pedorthists. Dr. Walter is world renowned for his craftsmanship, having won multiple prestigious awards including the Adalbert Seifriz Award for the combination of skilled craft and science in orthosis design.",
         "supporting_image_height": 200,
         "button_url": "",
@@ -810,7 +811,7 @@
           "type": "accordion",
           "settings": {
             "title": "How long does it take to receive my orthotics?",
-            "answer": "<p>After your scan and intake, our podiatrists begin designing your insoles right away. Orders are delivered within 15-20 days.</p>"
+            "answer": "<p>Stride Soles custom orthotics will arrive in 10-15 days. This includes production and shipping.</p><p>Need your orthotics sooner? We also offer Express (7-10 days) and Skip the Line (3-5 days) upgrades at checkout.</p>"
           }
         }
       },
@@ -913,6 +914,8 @@
         "loox_reviews_loox_dynamic_section_ym4fHw": {
           "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
           "settings": {
+            "reviews_to_display": "",
+            "default_tab": "automatic",
             "only_photos": false,
             "aggregated": true,
             "limit": 16,

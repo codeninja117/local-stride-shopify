@@ -14,7 +14,7 @@
       "settings": {
         "reverse_columns": false,
         "disable_container": true,
-        "image": "shopify://shop_images/innovation_hero.jpg",
+        "image": "shopify://shop_images/2025_09_24-pedcad-Walter_SandroBrezger4098_2032babb-f5d8-4e4a-8204-4c0b54d465c2.jpg",
         "media_width": 50,
         "title": "The Craftsmanship | <strong>Behind Your Orthotics</strong>",
         "title_font_size": "text-display-m",
@@ -119,6 +119,7 @@
     },
     "banner_with_caption_XwYwPn": {
       "type": "banner-with-caption",
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/innnovation_banner.png",
         "caption": "Orthotics getting finished at the factory.",
@@ -161,7 +162,15 @@
         "text_BMPJWC": {
           "type": "text",
           "settings": {
-            "text": "At the helm of our medical team is Dr. Dietmar Walter, Our Head of Podiatry, Master Podiatrist, and world renowned Innovator in the podiatry space. Dietmar is a leader in orthotics design and has won numerous awards including the prestigious Innovation German Industry Award.",
+            "text": "At the helm of our medical team is Dr. Dietmar Walter, Our Head of Podiatry, Master Podiatrist, and world renowned Innovator in the podiatry space. Dietmar Walter has been a certified master orthopaedic shoemaker since 1982 and a state-certified podiatrist since 2005.",
+            "font_size": "text-body-l",
+            "text_color": "primary"
+          }
+        },
+        "text_JFpaHa": {
+          "type": "text",
+          "settings": {
+            "text": "<em><strong>\"Honoring craftsmanship and applying progress\". </strong></em>",
             "font_size": "text-body-l",
             "text_color": "primary"
           }
@@ -178,7 +187,7 @@
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/innovation_doc_awards.png",
-            "image_width": 250
+            "image_width": 300
           }
         },
         "buttons_byY4yz": {
@@ -200,6 +209,7 @@
         "text_crDaK3",
         "spacer_846FYi",
         "text_BMPJWC",
+        "text_JFpaHa",
         "spacer_gybQVq",
         "image_Bb6kgT",
         "buttons_byY4yz",
@@ -210,7 +220,10 @@
         "vertical_alignment": "items-center",
         "container_size": "normal",
         "title": "",
-        "image": "shopify://shop_images/innovation_dr.png",
+        "button_label": "",
+        "button_url": "",
+        "image": "shopify://shop_images/dietmar2.jpg",
+        "image_caption": "",
         "aspect_ratio": "150%",
         "mobile_aspect_ratio": "125%",
         "object_fit": "object-cover",
@@ -284,7 +297,10 @@
         "vertical_alignment": "items-center",
         "container_size": "normal",
         "title": "",
+        "button_label": "",
+        "button_url": "",
         "image": "shopify://shop_images/innovaiton_otherdoc.png",
+        "image_caption": "",
         "aspect_ratio": "150%",
         "mobile_aspect_ratio": "100%",
         "object_fit": "object-cover",
@@ -339,7 +355,10 @@
         "vertical_alignment": "items-center",
         "container_size": "normal",
         "title": "",
+        "button_label": "",
+        "button_url": "",
         "image": "shopify://shop_images/ZachAttack-68.jpg",
+        "image_caption": "",
         "aspect_ratio": "150%",
         "mobile_aspect_ratio": "100%",
         "object_fit": "object-cover",
@@ -347,6 +366,175 @@
         "color_scheme": "scheme-e76f7d37-521d-41f8-9da6-4c04e5612c74",
         "padding_top": 60,
         "padding_bottom": 60
+      }
+    },
+    "timeline_iDYqkt": {
+      "type": "timeline",
+      "blocks": {
+        "timeline_entry_T83rTz": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "1982",
+            "pill": "The Beginning",
+            "title": "A master orthopaedic shoemaker qualifies",
+            "subtitle": "The hands-on expertise that started it all",
+            "body": "<p>Dietmar Walter earns his certified master orthopaedic shoemaker qualification in Germany, building the hands-on clinical knowledge that would eventually power Stride Soles' entire prescription system.</p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_UYrhw9": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "Early 1990s",
+            "pill": "The Insight",
+            "title": "The plaster cast era had to end",
+            "subtitle": "The spark that changed orthotics forever",
+            "body": "<p>Dietmar Walter recognises that neither blueprint-based production nor plaster cast methods can scale in a modern economy. The idea for fully digital insole design takes shape — the same idea at the core of Stride Soles today.</p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_NdhjNE": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "1982",
+            "pill": "The Beginning",
+            "title": "A master orthopaedic shoemaker qualifies",
+            "subtitle": "The hands-on expertise that started it all",
+            "body": "",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_aeMPgf": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "1995",
+            "pill": "Founding Milestone",
+            "title": "pedcad founded — and wins Germany's Innovation Award",
+            "subtitle": "The CAD/CAM system that powers every Stride Soles insole",
+            "body": "<p>pedcad GmbH is established and immediately earns the Innovation Award of German Industry for its pioneering CAD/CAM system for designing and producing orthotics. That same technology sits at the heart of every pair of Stride Soles produced today.</p>",
+            "featured": true,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_L3KD9m": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2000",
+            "pill": "Optical Innovation",
+            "title": "Light-stripe projection enters foot scanning",
+            "subtitle": "The precursor to Stride's mobile 3D scanner",
+            "body": "<p>In partnership with the Institute for Laser Technology in Ulm, pedcad integrates optical measurement into orthopaedic shoemaking, winning the Seifriz Award for science-craft collaboration. This directly informs the 3D mobile scanning used in Stride Soles assessments today.</p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_Y84xmx": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2005",
+            "pill": "Clinical Depth",
+            "title": "Podiatry credentials added to engineering expertise",
+            "subtitle": "Technology meets genuine clinical understanding",
+            "body": "<p>Dietmar Walter qualifies as a state-certified podiatrist, ensuring every digital system pedcad builds — and every Stride Soles prescription — is grounded in real clinical knowledge, not just manufacturing.</p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_qn4QLg": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2014",
+            "pill": "Quality Standard",
+            "title": "ISO 9001 certification",
+            "subtitle": "Consistent quality on every single pair",
+            "body": "<p>pedcad achieves ISO 9001:2008 certification, formalising the quality management standards that underpin every insole shipped under the Stride Soles name. The same certified process, every time.</p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_g8i4w8": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "2016–2020",
+            "pill": "Digital Platform",
+            "title": "InsoleDesigner software matures",
+            "subtitle": "From scan to finished insole — seamlessly",
+            "body": "<p>Major updates to pedcad's InsoleDesigner construction platform and order management software create the seamless digital pipeline that makes Stride Soles' 15–20 day delivery possible at scale.</p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_aDjK7m": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "Early 2020s",
+            "pill": "Mobile Scanning",
+            "title": "3D foot scanning moves to your phone",
+            "subtitle": "Clinic-level precision from your living room",
+            "body": "<p>PedCad partners with Dr. Zac Cartun, MD and Greg Gerla, two US based entreprenours. Together they launch Stride mobile, using the depth sensor in modern smartphones to capture precise 3D foot geometry anywhere. </p>",
+            "featured": false,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        },
+        "timeline_entry_EFQki7": {
+          "type": "timeline_entry",
+          "settings": {
+            "year": "Today",
+            "pill": "Stride Soles",
+            "title": "30 years of science, delivered to your door for $249",
+            "subtitle": "The best orthotics in the world — in only a few minutes",
+            "body": "<p>Stride Soles brings together pedcad's three decades of certified podiatric technology, German-designed prescription protocols, and mobile 3D scanning into one seamless experience. Scan your feet, receive clinician-designed custom orthotics in 15–20 days.</p>",
+            "featured": true,
+            "show_cta": false,
+            "cta_url": "",
+            "cta_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "timeline_entry_T83rTz",
+        "timeline_entry_UYrhw9",
+        "timeline_entry_NdhjNE",
+        "timeline_entry_aeMPgf",
+        "timeline_entry_L3KD9m",
+        "timeline_entry_Y84xmx",
+        "timeline_entry_qn4QLg",
+        "timeline_entry_g8i4w8",
+        "timeline_entry_aDjK7m",
+        "timeline_entry_EFQki7"
+      ],
+      "name": "Timeline",
+      "settings": {
+        "heading": "The science<strong> behind every stride</strong>",
+        "subheading": "From a German workshop in 1982 to your front door today",
+        "cta_url": "",
+        "cta_label": "Take the Quiz",
+        "return_note": "180 Day Return Policy",
+        "bg_color": "#eeeeee",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_side": 80
       }
     },
     "call_to_action_fNnHFU": {
@@ -362,13 +550,17 @@
         "title_8e79ae": {
           "type": "title",
           "settings": {
+            "text_alignment": "center",
             "title": "6 free months to fall in love with your custom insoles - worry-free!",
-            "title_font_size": "text-h2"
+            "title_font_size": "text-h2",
+            "base_font_weight": "font-semibold",
+            "reduce_margin_bottom": false
           }
         },
         "text_xHCMwp": {
           "type": "text",
           "settings": {
+            "text_alignment": "center",
             "text": "Not fitting well? Need adjustments? No problem! We’ll adjust your custom insoles to fit like a dream so you can get back to enjoying life pain-free."
           }
         },
@@ -415,6 +607,7 @@
     "image_text_row_tGaEzW",
     "image_text_row_AygAmq",
     "image_text_row_R6XeGG",
+    "timeline_iDYqkt",
     "call_to_action_fNnHFU"
   ]
 }

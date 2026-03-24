@@ -1,3 +1,7 @@
+.hide-header .shopify-section-group-header-group.section-header {
+  display: none;
+}
+
 body.template-article header {
   background-color: rgba(255, 255, 255, 1);
 }
@@ -376,4 +380,524 @@ body.template-article main {
     margin: 2em 0;
     font-size: 14px;
   }
+}
+
+modal-dialog {
+  z-index: 1001;
+}
+
+/* ============================================================
+   ss-global.css
+   Global Stride Soles utility classes.
+   Add this file to assets/ and include in theme.liquid:
+   {{ 'ss-global.css' | asset_url | stylesheet_tag }}
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   Eyebrow
+   ---------------------------------------------------------- */
+.ss-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(var(--color-accent));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ss-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: rgb(var(--color-accent));
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------
+   Heading
+   ---------------------------------------------------------- */
+.ss-heading {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: rgb(var(--color-foreground));
+  letter-spacing: -0.01em;
+}
+
+.ss-heading em {
+  font-style: italic;
+  color: rgb(var(--color-accent));
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .ss-heading {
+    font-size: 38px;
+  }
+}
+
+/* ----------------------------------------------------------
+   Body
+   ---------------------------------------------------------- */
+.ss-body {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(var(--color-foreground), 0.8);
+}
+
+.ss-body p {
+  margin: 0;
+}
+
+.ss-body strong {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+@media (max-width: 900px) {
+  .ss-body {
+    font-size: 16px;
+  }
+}
+/* ============================================
+   BLOG ARTICLE DESIGN IMPROVEMENTS
+   (scoped to article pages only)
+   ============================================ */
+
+body.template-article {
+  --rte-callout-bg: #f5f6f9;
+  --rte-callout-border: #000000;
+  --rte-card-bg: #ffffff;
+  --rte-card-border: #e8e9ec;
+}
+
+/* H2 */
+body.template-article .rte h2 {
+  margin-top: 0.75em !important;
+  padding-left: 14px !important;
+  border-left: 4px solid #000000 !important;
+  font-size: 28px !important;
+  line-height: 38px !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+body.template-article .rte h2 + p,
+body.template-article .rte h2 + figure,
+body.template-article .rte h2 + div { margin-top: 0.25em !important; }
+
+/* H3 */
+body.template-article .rte h3 {
+  padding-left: 12px !important;
+  border-left: 2px solid #000000 !important;
+  margin-top: 1em !important;
+  font-size: 20px !important;
+}
+
+/* BOLD CALLOUT PARAGRAPHS */
+body.template-article .rte p:has(> strong:only-child),
+body.template-article .rte p:has(> b:only-child),
+body.template-article .rte p:has(> strong:only-child > a) {
+  background-color: #f5f6f9;
+  border-left: 3px solid #000000;
+  padding: 14px 16px;
+  border-radius: 0 6px 6px 0;
+  margin-top: 1.75em;
+  margin-bottom: 0.25em;
+}
+
+/* ORDERED LISTS -- CARD + NUMBERED CIRCLES */
+body.template-article .rte ol {
+  background-color: #ffffff;
+  border: 1px solid #e8e9ec;
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  list-style: none;
+  counter-reset: ol-counter;
+}
+
+body.template-article .rte ol li {
+  counter-increment: ol-counter;
+  position: relative;
+  padding-left: 44px;
+  margin-bottom: 16px;
+  line-height: 32px;
+}
+
+body.template-article .rte ol li:last-child { margin-bottom: 0; }
+
+body.template-article .rte ol li::before {
+  content: counter(ol-counter);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 28px;
+  height: 28px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* UNORDERED LISTS -- CARD + LEFT BORDER */
+body.template-article .rte ul {
+  list-style: none;
+  padding: 24px 28px 0 28px;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  background-color: #ffffff;
+  border: 1px solid #e8e9ec;
+  border-radius: 8px;
+}
+
+body.template-article .rte ul li {
+  display: list-item;
+  position: relative;
+  padding-left: 14px !important;
+  margin-bottom: 6px !important;
+  line-height: 32px;
+  border-left: 2px solid #d1d5db;
+  transition: border-color 0.15s ease;
+}
+
+body.template-article .rte ul li:hover {
+  border-left-color: #000000;
+}
+
+body.template-article .rte ul li:last-child { margin-bottom: 0 !important; }
+
+body.template-article .rte ul li::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* SPACING FIXES */
+body.template-article .rte ul + p,
+body.template-article .rte ol + p { margin-top: 1.75em; }
+
+body.template-article .rte ul ul,
+body.template-article .rte ol ol {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 8px 0 0 1.5em;
+  margin: 0;
+}
+
+/* HIDE EMPTY EDITOR ARTIFACTS */
+body.template-article .rte div:empty,
+body.template-article .rte div:has(> br:only-child),
+body.template-article .rte p:empty,
+body.template-article .rte p:has(> br:only-child),
+body.template-article .rte p:has(> span:empty),
+body.template-article .rte p:has(> span:only-child:empty) { display: none !important; }
+
+body.template-article .rte li:empty,
+body.template-article .rte li:has(> p:only-child:empty),
+body.template-article .rte li:has(> p:only-child > span:only-child:empty),
+body.template-article .rte li:has(> p:only-child > br:only-child) { display: none !important; }
+
+/* BLOCKQUOTE -- minimal */
+body.template-article .rte blockquote {
+  border-left: 3px solid #d1d5db;
+  background: none;
+  border-radius: 0;
+  padding: 4px 0 4px 20px;
+  margin: 1.75em 0;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+  position: static;
+}
+
+body.template-article .rte blockquote::before { display: none; }
+
+/* SOURCES BLOCK */
+body.template-article .rte p:has(> a[href*="pubmed"]),
+body.template-article .rte p:has(> a[href*="ncbi"]),
+body.template-article .rte p:has(> a[href*="mayoclinic"]),
+body.template-article .rte p:has(> a[href*="clevelandclinic"]),
+body.template-article .rte p:has(> a[href*="pmc"]) {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  border-left: 2px solid #e8e9ec;
+  background: none;
+}
+
+/* IMAGES */
+body.template-article .rte img {
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+}
+
+/* IMAGE CAPTIONS */
+.image-caption {
+  display: block;
+  font-size: 13px;
+  color: #6b7280;
+  font-style: italic;
+  text-align: center;
+  border-top: 1px solid #e8e9ec;
+  padding-top: 6px;
+  margin-top: 6px;
+  margin-bottom: 0.5em;
+}
+
+body.template-article .rte figure {
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+}
+
+body.template-article .rte figure img {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+body.template-article .rte figure + figure {
+  margin-top: 4px !important;
+}
+
+body.template-article .rte table + p,
+body.template-article .rte table + figure,
+body.template-article .rte table + div {
+  margin-top: 0.5em !important;
+}
+
+/* COMPARISON TABLE */
+.comparison-table {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e8e9ec;
+  font-size: 15px;
+}
+
+.comparison-table__cell {
+  padding: 14px 18px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #e8e9ec;
+}
+
+.comparison-table__cell--feature {
+  text-align: left;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.comparison-table thead tr th {
+  background-color: #f5f6f9;
+  color: #000000;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px 18px;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid #e8e9ec;
+  vertical-align: bottom;
+}
+
+.comparison-table thead tr th:first-child { text-align: left; }
+
+.comparison-table__product-image {
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto 8px auto;
+}
+
+.comparison-table__product-title {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.comparison-table__row--section-header .comparison-table__cell {
+  background-color: #f5f6f9;
+  font-weight: 700;
+  color: #000000;
+  border-top: 2px solid #e8e9ec;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.comparison-table__row--section-header .comparison-table__cell--feature {
+  text-align: left;
+  color: #000000;
+}
+
+.comparison-table__row:not(.comparison-table__row--section-header):nth-child(even) .comparison-table__cell {
+  background-color: #fafafa;
+}
+
+.comparison-table__row:not(.comparison-table__row--section-header):nth-child(odd) .comparison-table__cell {
+  background-color: #ffffff;
+}
+
+.comparison-table__cell--winner {
+  background-color: #fdf3e7 !important;
+  font-weight: 600;
+}
+
+.comparison-table tbody tr:last-child .comparison-table__cell { border-bottom: none; }
+
+.comparison-table__expand-btn {
+  margin-top: 12px;
+  padding: 10px 24px;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+
+/* PROS CONS */
+.pros-cons__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 1.5em 0;
+}
+
+.pros-cons__section {
+  border-radius: 8px;
+  padding: 20px 24px;
+}
+
+.pros-cons__pros {
+  background-color: #f0faf0 !important;
+  border: 1px solid #c3e6c3;
+}
+
+.pros-cons__cons {
+  background-color: #fdf5f5 !important;
+  border: 1px solid #f0c0c0;
+}
+
+.pros-cons__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  border-left: none !important;
+  padding-left: 0 !important;
+  background: none !important;
+}
+
+.pros-cons__title--pros { color: #1a7a1a; }
+.pros-cons__title--cons { color: #b91c1c; }
+
+.pros-cons__list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.pros-cons__item {
+  position: relative !important;
+  padding-left: 20px !important;
+  margin-bottom: 8px !important;
+  line-height: 1.6 !important;
+  font-size: 14px;
+  display: list-item !important;
+  border-left: none !important;
+}
+
+.pros-cons__item:last-child { margin-bottom: 0 !important; }
+
+.pros-cons__item::before {
+  position: absolute !important;
+  left: 0 !important;
+  top: 1px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  width: auto !important;
+  height: auto !important;
+  background: none !important;
+  border-radius: 0 !important;
+  display: block !important;
+  content: '' !important;
+}
+
+.pros-cons__pros .pros-cons__item::before {
+  content: '✓' !important;
+  color: #1a7a1a !important;
+}
+
+.pros-cons__cons .pros-cons__item::before {
+  content: '✗' !important;
+  color: #b91c1c !important;
+}
+
+/* SPEC TABLES (non-comparison) */
+body.template-article .rte table:not(.comparison-table) {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  border: 1px solid #e8e9ec !important;
+  font-size: 14px !important;
+  display: table !important;
+  margin: 1em 0 !important;
+}
+
+body.template-article .rte table:not(.comparison-table) td {
+  padding: 10px 16px !important;
+  border: none !important;
+  border-bottom: 1px solid #e8e9ec !important;
+  line-height: 1.5 !important;
+  vertical-align: middle !important;
+}
+
+body.template-article .rte table:not(.comparison-table) tr:nth-child(even) td {
+  background-color: #fafafa !important;
+}
+
+body.template-article .rte table:not(.comparison-table) tr:nth-child(odd) td {
+  background-color: #ffffff !important;
+}
+
+body.template-article .rte table:not(.comparison-table) tr:last-child td {
+  border-bottom: none !important;
+}
+
+body.template-article .rte table:not(.comparison-table) td:first-child {
+  color: #6b7280 !important;
+  font-weight: 400 !important;
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+  white-space: nowrap !important;
+}
+
+body.template-article .rte table:not(.comparison-table) td:last-child {
+  color: #000000 !important;
+  font-weight: 600 !important;
+  text-align: left !important;
 }

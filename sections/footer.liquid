@@ -33,7 +33,7 @@
       {% render 'svg-logomark' %}
     </a>
     <div class="footer__header">
-      <h2 class="display inline-flex flex-col text-[26px] leading-tight md:text-5xl md:leading-tight">
+      <p class="display inline-flex flex-col text-[26px] leading-tight md:text-5xl md:leading-tight">
         {% assign title_parts = section.settings.title | newline_to_br | split: '<br />' %}
         {% for part in title_parts %}
           <span>{{ part }}</span>
@@ -41,7 +41,7 @@
         <a href="mailto:{{ section.settings.email_address }}" class="text-human underline underline-offset-10">
           {{ section.settings.email_address }}
         </a>
-      </h2>
+      </p>
     </div>
 
     <div class="footer__content flex flex-col flex-wrap gap-8 md:gap-16 lg:flex-row">

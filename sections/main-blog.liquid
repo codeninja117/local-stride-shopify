@@ -136,7 +136,10 @@
 
   {% if is_main_blog_page %}
     <div class="featured-section page-width mb-16 grid max-w-screen-2xl grid-cols-1 gap-6 md:grid-cols-12 md:gap-20">
-      {% assign featured_article = section.settings.featured_article %}
+      {%- assign featured_article = section.settings.featured_article -%}
+      {%- if featured_article == blank -%}
+        {%- assign featured_article = blog.articles.first -%}
+      {%- endif -%}
       <div class="featured-article md:col-span-6">
         <h2 class="sr-only mb-4 text-[62px]"><span class="text-[#9D9FA9]">Latest</span> Post</h2>
 

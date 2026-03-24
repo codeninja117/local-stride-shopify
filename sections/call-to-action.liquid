@@ -142,9 +142,9 @@
               >
                 <div class="flex flex-col items-center gap-3">
                   {%- if block.settings.title != blank -%}
-                    <h2 class="leading-tight capitalize md:text-[62px] {{ block.settings.title_font_size }} font-semibold">
+                    <p class="leading-tight capitalize md:text-[62px] {{ block.settings.title_font_size }} font-semibold">
                       {{ block.settings.title }}
-                    </h2>
+                    </p>
                   {%- endif -%}
                   <div class="rte">{{ block.settings.richtext }}</div>
 
